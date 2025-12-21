@@ -1,0 +1,274 @@
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-header.bg-light {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card-header.bg-primary {
+  background-color: #0d6efd !important;
+}
+
+.order-items-bootstrap .border-bottom:last-child {
+  border-bottom: none !important;
+}
+
+.order-summary-bootstrap .text-primary {
+  color: #0d6efd !important;
+}
+
+.order-summary-bootstrap .text-success {
+  color: #198754 !important;
+}
+
+.form-check-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-outline-primary {
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.checkout-header {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 991.98px) {
+  .container-fluid {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .col-lg-6 {
+    margin-bottom: 1rem;
+  }
+
+  .text-end {
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .col-md-4.text-end {
+    text-align: center !important;
+    margin-top: 1rem;
+  }
+
+  .btn-outline-primary.btn-sm {
+    width: 100%;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .fs-4 {
+    font-size: 1.5rem !important;
+  }
+
+  .fs-5 {
+    font-size: 1.25rem !important;
+  }
+}
+
+.checkout-summary-bar {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.summary-total {
+  font-size: 1.125rem;
+  color: #111827;
+}
+
+.summary-toggle {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.order-details {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.order-items-list {
+  margin-bottom: 1.5rem;
+}
+
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.order-item-row:last-child {
+  border-bottom: none;
+}
+
+.order-item-thumb {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.375rem;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.order-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #111827;
+  font-size: 0.875rem;
+}
+
+.item-qty {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.875rem;
+}
+
+.order-breakdown {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.breakdown-row.total {
+  font-size: 1rem;
+  font-weight: 600;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  color: #111827;
+}
+
+.checkout-main {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.order-summary-section {
+  order: 1;
+}
+
+.checkout-form-section {
+  order: 2;
+}
+
+.cart-page .row.mb-4 {
+  display: none !important;
+}
+
+.cart-page .page-header {
+  display: none !important;
+}
+
+.sticky-top {
+  top: 20px !important;
+  max-height: calc(100vh - 40px) !important;
+  overflow-y: auto !important;
+}
+
+.card.sticky-top {
+  z-index: 10 !important;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+}
+
+.btn-info.btn-sm {
+  display: inline-block !important;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-info.btn-sm:hover {
+  background-color: #31708f;
+  transform: scale(1.05);
+}

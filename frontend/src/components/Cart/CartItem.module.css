@@ -1,0 +1,264 @@
+.body {
+  width: 100%;
+}
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  margin-bottom: 1rem;
+}
+
+.productImage {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.productImage img {
+  width: 100%;
+  height: 80px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.productInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.productName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.productCategory {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.productPrice {
+  font-size: 1rem;
+  color: #2563eb;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.stockInfo {
+  margin-top: 0.25rem;
+}
+
+.stockStatus {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.inStock {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.outOfStock {
+  background-color: #fecaca;
+  color: #dc2626;
+}
+
+.itemControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantityBtn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: #374151;
+}
+
+.quantityBtn:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.quantityBtn:active:not(:disabled) {
+  background-color: #e5e7eb;
+}
+
+.quantityBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.quantity {
+  font-size: 1rem;
+  font-weight: 500;
+  min-width: 30px;
+  text-align: center;
+  color: #374151;
+}
+
+.removeBtn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #fca5a5;
+  background-color: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+.removeBtn:hover:not(:disabled) {
+  background-color: #dc2626;
+  color: white;
+}
+
+.removeBtn:active:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.removeBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.itemTotal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.125rem;
+}
+
+.totalLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.totalAmount {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .cartItem {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .itemImage {
+    width: 60px;
+    height: 60px;
+    align-self: flex-start;
+  }
+
+  .itemInfo {
+    order: 1;
+  }
+
+  .itemControls {
+    order: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .itemTotal {
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .cartItem {
+    padding: 0.75rem;
+  }
+
+  .quantityButton {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .removeButton {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Selection checkbox styles */
+.selectionCheckbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #007bff;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.checkbox:hover {
+  transform: scale(1.1);
+}

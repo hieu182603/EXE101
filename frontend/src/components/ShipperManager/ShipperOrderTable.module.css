@@ -1,0 +1,411 @@
+.tableContainer {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 97%;
+  margin-left: 16px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  background: #374151;
+  color: white;
+}
+
+.headerCell {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.025em;
+}
+
+/* Điều chỉnh tiêu đề status để thẳng hàng với trạng thái */
+.headerCell:nth-child(5) {
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tableBody {
+  background: white;
+}
+
+.tableRow {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+.tableRow:hover {
+  background-color: #f9fafb;
+}
+
+.tableCell {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  color: #374151;
+  text-align: left;
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+.customerInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.customerName {
+  font-weight: 500;
+  color: #111827;
+}
+
+.orderId {
+  font-weight: 500;
+  color: #111827;
+}
+
+.orderDate {
+  color: #6b7280;
+}
+
+.totalAmount {
+  font-weight: 500;
+  color: #111827;
+}
+
+.status {
+  padding: 0.25rem 0;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 90px;
+  text-align: center;
+  width: 90px;
+}
+
+.statusSelect {
+  padding: 0.25rem 0;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  min-width: 90px;
+  width: 90px;
+  text-align: center;
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.statusProcessing {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+
+.statusShipping {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+
+.statusDelivered {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.statusCancelled {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.statusDefault {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.statusPending {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.statusAssigned {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.statusConfirmed {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.statusShipping {
+  background-color: #8b5cf6;
+  color: white;
+}
+
+.statusDelivered {
+  background-color: #059669;
+  color: white;
+}
+
+.statusCancelled {
+  background-color: #ef4444;
+  color: white;
+}
+
+.statusDefault {
+  background-color: #6b7280;
+  color: white;
+}
+
+.statusProcessing.statusSelect {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+.statusShipping.statusSelect {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+.statusDelivered.statusSelect {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+.statusCancelled.statusSelect {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+.statusDefault.statusSelect {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.shippingAddress {
+  max-width: 200px;
+}
+
+.addressText {
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.actionButton {
+  padding: 0.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewButton {
+  color: #2563eb;
+}
+
+.viewButton:hover {
+  color: #1d4ed8;
+  background-color: #bfdbfe;
+}
+
+.confirmButton {
+  background-color: #059669;
+  color: white;
+  padding: 6px 12px !important;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  transition: background-color 0.2s;
+}
+
+.confirmButton:hover {
+  background-color: #047857;
+}
+
+.buttonText {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.editButton {
+  color: #d97706;
+}
+
+.editButton:hover {
+  color: #b45309;
+  background-color: #fffbeb;
+}
+
+.deleteButton {
+  color: #dc2626;
+}
+
+.deleteButton:hover {
+  color: #b91c1c;
+  background-color: #fef2f2;
+}
+
+.rejectButton {
+  color: #dc2626;
+}
+
+.rejectButton:hover {
+  color: #b91c1c;
+  background-color: #fef2f2;
+}
+
+.emptyState {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.emptyStateCell {
+  padding: 0 !important;
+  text-align: center;
+  border: none;
+}
+
+.emptyIcon {
+  margin: 0 auto 1rem;
+  width: 3rem;
+  height: 3rem;
+  color: #9ca3af;
+}
+
+.emptyTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.emptyDescription {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.pagination {
+  background: #f9fafb;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e5e7eb;
+}
+
+.paginationInfo {
+  font-size: 1rem;
+  color: #374151;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.paginationButton {
+  padding: 0.5rem;
+  color: #9ca3af;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginationButton:hover:not(:disabled) {
+  color: #6b7280;
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.currentPage {
+  padding: 0.25rem 0.75rem;
+  background: #dc2626;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .headerCell,
+  .tableCell {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .avatar {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
+
+  .customerInfo {
+    gap: 0.5rem;
+  }
+
+  .actions {
+    gap: 0.25rem;
+  }
+
+  .actionButton {
+    padding: 0.375rem;
+  }
+
+  .shippingAddress {
+    max-width: 150px;
+  }
+
+  .status,
+  .statusSelect {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    min-width: 90px;
+  }
+}

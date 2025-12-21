@@ -1,0 +1,26 @@
+/* Ghi đè kiểu CSS cho tiêu đề input của form Add Account */
+.modal-content h3,
+.modal-content h4,
+.modal-content label,
+.formGroup label,
+[class*="label"] {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+
+.modal-title,
+.modalTitle {
+  text-align: left !important;
+}
+
+/* Chắc chắn rằng trường input là căn giữa */
+input,
+select {
+  width: 100%;
+}
+
+/* Đảm bảo các error message cũng căn trái */
+.error-text,
+.errorText {
+  text-align: left !important;
+}

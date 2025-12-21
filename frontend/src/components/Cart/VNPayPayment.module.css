@@ -1,0 +1,655 @@
+/* VNPay Payment Styles */
+.vnpayContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.vnpayHeader {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.vnpayLogo {
+  height: 40px;
+  width: auto;
+}
+
+.vnpayHeader h1 {
+  margin: 0;
+  color: #1e3c72;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.securityBadge {
+  background: #28a745;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.paymentContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.orderSummary {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.orderSummary h2 {
+  margin: 0 0 20px 0;
+  color: #1e3c72;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.orderInfo {
+  margin-bottom: 20px;
+}
+
+.orderRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.orderRow span:first-child {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.orderRow span:last-child {
+  color: #212529;
+  font-weight: 600;
+  text-align: right;
+  max-width: 60%;
+}
+
+.totalAmount {
+  border-top: 2px solid #1e3c72;
+  border-bottom: none;
+  padding-top: 16px;
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.totalAmount span {
+  color: #1e3c72;
+}
+
+.countdownTimer {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.countdownTimer p {
+  margin: 0;
+  color: #856404;
+  font-weight: 600;
+}
+
+.paymentForm {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.paymentForm h2 {
+  margin: 0 0 20px 0;
+  color: #1e3c72;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.bankSelection {
+  margin-bottom: 30px;
+}
+
+.bankSelection label {
+  display: block;
+  margin-bottom: 12px;
+  color: #212529;
+  font-weight: 600;
+}
+
+.bankOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.bankOption {
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.bankOption:hover {
+  border-color: #1e3c72;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.1);
+}
+
+.bankOption.selected {
+  border-color: #1e3c72;
+  background: #f8f9ff;
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.2);
+}
+
+.bankOption.selected .bankLogo {
+  background: #dbeafe;
+  border: 2px solid #1e3c72;
+}
+
+.bankLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 8px;
+  border-radius: 6px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.bankLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.bankLogo span {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.bankName {
+  font-weight: 600;
+  color: #212529;
+  font-size: 14px;
+}
+
+.cardInfo h3 {
+  margin: 0 0 20px 0;
+  color: #1e3c72;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  color: #212529;
+  font-weight: 600;
+}
+
+.cardInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  background: white;
+}
+
+.cardInput:focus {
+  outline: none;
+  border-color: #1e3c72;
+  box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.securityNote {
+  background: #e7f3ff;
+  border: 1px solid #b8daff;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+}
+
+.securityNote p {
+  margin: 0 0 8px 0;
+  color: #0c5460;
+  font-size: 14px;
+}
+
+.securityNote p:last-child {
+  margin-bottom: 0;
+}
+
+.paymentActions {
+  display: flex;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.payButton {
+  flex: 1;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.payButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+}
+
+.payButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancelButton:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.3);
+}
+
+.errorMessage {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  color: #721c24;
+  font-weight: 500;
+}
+
+/* Processing State */
+.processingContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 60px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #e9ecef;
+  border-top: 6px solid #1e3c72;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.processingContainer h2 {
+  color: #1e3c72;
+  margin-bottom: 10px;
+}
+
+.processingContainer p {
+  color: #6c757d;
+  margin: 0;
+}
+
+/* OTP State */
+.otpContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.otpInfo h2 {
+  color: #1e3c72;
+  margin-bottom: 16px;
+}
+
+.otpInfo p {
+  color: #6c757d;
+  margin-bottom: 8px;
+}
+
+.phoneNumber {
+  color: #1e3c72;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.otpInputContainer {
+  margin-bottom: 20px;
+}
+
+.otpInputContainer label {
+  display: block;
+  margin-bottom: 12px;
+  color: #212529;
+  font-weight: 600;
+}
+
+.otpInput {
+  width: 100%;
+  max-width: 200px;
+  padding: 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 4px;
+  font-weight: 600;
+}
+
+.otpInput:focus {
+  outline: none;
+  border-color: #1e3c72;
+  box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+.otpActions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Success State */
+.successContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 60px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.successIcon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.successContainer h2 {
+  color: #28a745;
+  margin-bottom: 16px;
+}
+
+.successContainer p {
+  color: #6c757d;
+  margin-bottom: 30px;
+}
+
+.transactionDetails {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: left;
+}
+
+.transactionDetails p {
+  margin: 0 0 12px 0;
+  color: #212529;
+}
+
+.transactionDetails p:last-child {
+  margin-bottom: 0;
+}
+
+/* Error State */
+.errorContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 60px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.errorIcon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.errorContainer h2 {
+  color: #dc3545;
+  margin-bottom: 16px;
+}
+
+.errorContainer p {
+  color: #6c757d;
+  margin-bottom: 30px;
+}
+
+.errorActions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.retryButton {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vnpayContainer {
+    padding: 10px;
+  }
+
+  .paymentContent {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .vnpayHeader {
+    padding: 16px;
+  }
+
+  .vnpayHeader h1 {
+    font-size: 20px;
+  }
+
+  .orderSummary,
+  .paymentForm {
+    padding: 20px;
+  }
+
+  .bankOptions {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .bankOption {
+    padding: 8px;
+  }
+
+  .bankLogo {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+  }
+
+  .bankLogo img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .bankLogo span {
+    font-size: 16px;
+  }
+
+  .bankName {
+    font-size: 12px;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .paymentActions {
+    flex-direction: column;
+  }
+
+  .otpActions,
+  .errorActions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .submitButton,
+  .retryButton,
+  .cancelButton {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .processingContainer,
+  .otpContainer,
+  .successContainer,
+  .errorContainer {
+    padding: 30px 20px;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .vnpayHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .securityBadge {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .orderRow span:last-child {
+    max-width: 50%;
+    font-size: 14px;
+  }
+
+  .cardInput {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .otpInput {
+    font-size: 18px;
+    padding: 12px;
+    letter-spacing: 2px;
+  }
+}

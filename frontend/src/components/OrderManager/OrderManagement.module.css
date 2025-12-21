@@ -1,0 +1,636 @@
+.container {
+  padding: 1.5rem;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+.header {
+  background: #991b1b;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.headerContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.headerInfo {
+  text-align: left;
+  margin-top: 0.625rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  text-align: left;
+  margin-bottom: 0.25rem;
+}
+
+.description {
+  color: #fecaca;
+  margin-top: 0.25rem;
+  text-align: left;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filterBar {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.filterBar input,
+.filterBar select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 1rem;
+  background: #f9fafb;
+}
+
+.tableWrapper {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 0 0 8px 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+.tableHeader th {
+  background: #1e293b;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 14px 12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.tableRow {
+  background: #fff;
+  transition: background 0.2s;
+}
+.tableRow:hover {
+  background: #f3f4f6;
+}
+.tableCell {
+  padding: 12px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 1rem;
+  color: #222;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: #f3f4f6;
+  color: #222;
+}
+.badgeActive {
+  background: #dcfce7;
+  color: #22c55e;
+}
+.badgeSuspended {
+  background: #fef2f2;
+  color: #ef4444;
+}
+.badgeProcessing {
+  background: #fbbf24;
+  color: #fff;
+}
+.badgeShipping {
+  background: #3b82f6;
+  color: #fff;
+}
+.badgeDelivered {
+  background: #22c55e;
+  color: #fff;
+}
+.badgeCancelled {
+  background: #ef4444;
+  color: #fff;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.importButton,
+.exportButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.importButton:hover,
+.exportButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.addButton {
+  background: #dc2626;
+  color: white;
+}
+
+.addButton:hover {
+  background: #b91c1c;
+}
+
+.hiddenInput {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0 !important;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.loadingText {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+.errorContent {
+  text-align: center;
+}
+
+.errorText {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #dc2626;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 42rem;
+  margin: 1rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.closeButton {
+  color: #9ca3af;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #6b7280;
+}
+
+.deleteModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.deleteModalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 28rem;
+  margin: 1rem;
+}
+
+.deleteModalBody {
+  text-align: center;
+}
+
+.deleteIcon {
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: #fee2e2;
+}
+
+.deleteTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.deleteMessage {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.deleteActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.cancelButton {
+  padding: 0.5rem 1rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cancelButton:hover {
+  background: #e5e7eb;
+}
+
+.confirmDeleteButton {
+  padding: 0.5rem 1rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.confirmDeleteButton:hover {
+  background: #b91c1c;
+}
+
+/* Form Styles */
+.form {
+  margin-top: 1rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.input,
+.select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #dc2626;
+  border-color: #dc2626;
+}
+
+.input:disabled,
+.select:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.errorInput {
+  border-color: #dc2626;
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: #dc2626;
+  margin-top: 0.25rem;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.formButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cancelFormButton {
+  color: #6b7280;
+  background: #f3f4f6;
+}
+
+.cancelFormButton:hover {
+  background: #e5e7eb;
+}
+
+.saveButton {
+  background: #dc2626;
+  color: white;
+}
+
+.saveButton:hover {
+  background: #b91c1c;
+}
+
+/* Order Detail Styles */
+.orderDetail {
+  margin-top: 1rem;
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.orderHeaderInfo {
+  flex: 1;
+}
+
+.orderHeaderName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.orderDetailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.detailField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detailLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.detailValue {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Order Products Styles */
+.orderProducts {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.orderProducts h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.productsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.productItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f9fafb;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+/* Status Classes for Order Detail */
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.statusPending {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+
+.statusAssigned {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+
+.statusConfirmed {
+  background-color: #e0f2fe;
+  color: #0ea5e9;
+}
+
+.statusProcessing {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+
+.statusShipping {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+
+.statusDelivered {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.statusCancelled {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.statusDefault {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    padding: 1rem;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    justify-content: center;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .orderDetailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalContent {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  z-index: 9999;
+  font-family: system-ui, -apple-system, sans-serif;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  max-width: 18.75rem;
+  font-size: 0.875rem;
+}
+
+.notificationSuccess {
+  background: #10b981;
+  color: white;
+}
+
+.notificationError {
+  background: #ef4444;
+  color: white;
+}
+
+.notificationInfo {
+  background: #3b82f6;
+  color: white;
+}

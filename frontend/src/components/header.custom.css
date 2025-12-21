@@ -1,0 +1,16 @@
+.header-cart-link, .header-login-link {
+  color: #fff !important;
+  transition: color 0.2s;
+}
+.header-cart-icon, .header-cart-text, .header-login-icon, .header-login-text {
+  color: #fff !important;
+  transition: color 0.2s;
+}
+.header-cart-link:hover .header-cart-icon,
+.header-cart-link:hover .header-cart-text {
+  color: #D10024 !important;
+}
+.header-login-link:hover .header-login-icon,
+.header-login-link:hover .header-login-text {
+  color: #D10024 !important;
+} 
