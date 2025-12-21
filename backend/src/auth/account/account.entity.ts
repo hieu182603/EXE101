@@ -22,6 +22,9 @@ export class Account extends NamedEntity {
   @Column({nullable: true})
   phone: string;
 
+  @Column({ nullable: true })
+  email: string;
+
   @Column({ nullable: false, default: false })
   isRegistered: boolean;
 

@@ -52,6 +52,9 @@ export class AccountService {
       })
     )
       throw new PhoneAlreadyExistedException(HttpMessages._PHONE_EXISTED);
+    if (request.email) {
+      account.email = request.email;
+    }
     account.password = await bcrypt.hash(request.password, SALT_ROUNDS);
     account.name = request.name;
     account.role = role;
@@ -62,7 +65,8 @@ export class AccountService {
     username: string,
     password: string,
     phone: string,
-    roleSlug: string
+    roleSlug: string,
+    email?: string
   ) {
     const role = await Role.findOne({
       where: {
@@ -75,6 +79,9 @@ export class AccountService {
     newAccount.password = password;
     newAccount.role = role;
     newAccount.phone = phone;
+    if (email) {
+      newAccount.email = email;
+    }
     newAccount.isRegistered = true;
     await newAccount.save();
     const newRefreshToken = await this.jwtService.generateRefreshToken(
@@ -209,6 +216,7 @@ export class AccountService {
     const account = await this.findAccountByUsername(username);
     if (request.username) account.username = request.username;
     if (request.phone) account.phone = request.phone;
+    if (request.email) account.email = request.email;
     if (request.name) account.name = request.name;
     if (request.roleSlug) {
       const role = await Role.findOne({

@@ -15,5 +15,5 @@
     },
     "strictPropertyInitialization": false
   },
-  "include": ["src", ".env"]
+  "include": ["src", ".env", "data/seed-data-script.ts"]
 }

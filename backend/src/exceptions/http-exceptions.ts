@@ -25,10 +25,6 @@ export class EntityNotFoundException extends HttpException {
 
 export class AccountNotFoundException extends HttpException {
   constructor() {
-    console.log(
-      "Throwing AccountNotFoundException with message:",
-      HttpMessages._WRONG_CREDENTIALS
-    );
     super(401, HttpMessages._WRONG_CREDENTIALS);
   }
 }

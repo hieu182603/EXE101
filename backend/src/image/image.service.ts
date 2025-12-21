@@ -1,5 +1,5 @@
 import { EntityNotFoundException, NoFileUploadedException } from "@/exceptions/http-exceptions";
-import { MinioClient } from "@/utils/minio/minio";
+import { CloudinaryClient } from "@/utils/cloudinary/cloudinary";
 import { Service } from "typedi";
 import { Image } from "./image.entity";
 import { Product } from "@/product/product.entity";
@@ -12,7 +12,7 @@ export class ImageService {
 
   async uploadImage(file: Express.Multer.File) {
     if (!file) throw new NoFileUploadedException;
-      const uploadedFile = await MinioClient.getInstance().upload(file);
+      const uploadedFile = await CloudinaryClient.getInstance().upload(file);
       const newImage = new Image();
       newImage.originalName = file.originalname;
       newImage.name = uploadedFile ? uploadedFile.fileName : '';

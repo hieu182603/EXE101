@@ -37,22 +37,26 @@ export class AccountController {
   @Post("/register")
   async register(@Body() body: CreateAccountDto) {
     const account = await this.accountService.register(body);
-    await this.otpService.sendOtp(account.phone);
+    // Gửi OTP qua email nếu có, nếu không thì qua phone
+    const identifier = account.email || account.phone;
+    await this.otpService.sendOtp(identifier, account.name);
     return {
       account: account,
-      message: "Check OTP message to complete registration",
+      message: "Check OTP email to complete registration",
     };
   }
 
   @Post("/verify-register")
   async verifyRegister(@Body() body: VerifyRegisterDto, @Res() res: Response) {
-    const result = await this.otpService.verifyOtp(body.phone, body.otp);
+    const identifier = body.email || body.phone;
+    const result = await this.otpService.verifyOtp(identifier, body.otp);
     if (!result) throw new ValidationException("OTP is wrong or is expired");
     const tokens = await this.accountService.finalizeRegistration(
       body.username,
       body.password,
       body.phone,
-      body.roleSlug
+      body.roleSlug,
+      body.email
     );
     res.cookie("refreshToken", tokens.newRefreshToken, {
       httpOnly: true,
@@ -83,8 +87,8 @@ export class AccountController {
   }
 
   @Post("/resend-otp")
-  async resendOtp(@BodyParam("phone") phone: string) {
-    await this.otpService.sendOtp(phone);
+  async resendOtp(@BodyParam("identifier") identifier: string) {
+    await this.otpService.sendOtp(identifier);
     return "OTP resent";
   }
 
@@ -115,8 +119,9 @@ export class AccountController {
       oldPassword
     );
     if (!checkOldPassword) return "Wrong old password";
-    await this.otpService.sendOtp(account.phone);
-    return "Check OTP message to complete password change";
+    const identifier = account.email || account.phone;
+    await this.otpService.sendOtp(identifier, account.name);
+    return "Check OTP email to complete password change";
   }
 
   @Post("/verify-change-password")
@@ -126,7 +131,8 @@ export class AccountController {
     @BodyParam("newPassword") newPassword: string
   ) {
     const account = await this.accountService.findAccountByUsername(username);
-    const result = await this.otpService.verifyOtp(account.phone, otp);
+    const identifier = account.email || account.phone;
+    const result = await this.otpService.verifyOtp(identifier, otp);
     if (!result) return "OTP is wrong or is expired";
     const token = await this.accountService.changePassword(
       account,
@@ -138,14 +144,16 @@ export class AccountController {
   @Post("/forgot-password")
   async forgotPassword(@BodyParam("username") username: string) {
     const account = await this.accountService.findAccountByUsername(username);
-    await this.otpService.sendOtp(account.phone);
-    return "Check OTP message to reset password";
+    const identifier = account.email || account.phone;
+    await this.otpService.sendOtp(identifier, account.name);
+    return "Check OTP email to reset password";
   }
 
   @Post("/send-otp")
   async sendOtp(@BodyParam("username") username: string) {
     const account = await this.accountService.findAccountByUsername(username);
-    return await this.otpService.sendOtp(account.phone);
+    const identifier = account.email || account.phone;
+    return await this.otpService.sendOtp(identifier, account.name);
   }
 
   @Post("/verify-otp")
@@ -154,7 +162,8 @@ export class AccountController {
     @BodyParam("otp") otp: string
   ) {
     const account = await this.accountService.findAccountByUsername(username);
-    const verify = await this.otpService.verifyOtp(account.phone, otp);
+    const identifier = account.email || account.phone;
+    const verify = await this.otpService.verifyOtp(identifier, otp);
     if (!verify) throw new ValidationException("OTP is wrong or is expired");
     return verify;
   }

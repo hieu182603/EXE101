@@ -14,13 +14,13 @@ export class OtpController {
     }
 
     @Post("/send")
-    async sendOtp(@BodyParam("phone") phone: string) {
-        return await this.otpService.sendOtp(phone);
+    async sendOtp(@BodyParam("identifier") identifier: string, @BodyParam("username") username?: string) {
+        return await this.otpService.sendOtp(identifier, username);
     }
 
     @Post("/verify")
-    async verifyOtp(@BodyParam("phone") phone: string, @BodyParam("otp") otp: string) {
-        const verify = await this.otpService.verifyOtp(phone, otp);
+    async verifyOtp(@BodyParam("identifier") identifier: string, @BodyParam("otp") otp: string) {
+        const verify = await this.otpService.verifyOtp(identifier, otp);
         if(!verify) throw new ValidationException("OTP is wrong or is expired");
         return verify;
     }

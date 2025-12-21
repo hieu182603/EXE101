@@ -20,6 +20,10 @@ export class CreateAccountDto {
     phone: string;
 
     @IsString()
+    @IsOptional()
+    email?: string;
+
+    @IsString()
     name: string;
 
     @IsString()
@@ -48,6 +52,10 @@ export class VerifyRegisterDto {
     phone: string;
 
     @IsString()
+    @IsOptional()
+    email?: string;
+
+    @IsString()
     roleSlug: string;
 
     @IsString()
@@ -66,6 +74,10 @@ export class UpdateAccountDto {
     @IsString()
     @IsOptional()
     phone?: string;
+
+    @IsString()
+    @IsOptional()
+    email?: string;
 
     @IsString()
     @IsOptional()

@@ -3,8 +3,11 @@ import { Column, Entity } from "typeorm";
 
 @Entity("otps")
 export class Otp extends BaseEntity{
-    @Column()
+    @Column({ nullable: true })
     phone: string;
+
+    @Column({ nullable: true })
+    email: string;
 
     @Column()
     code: string;

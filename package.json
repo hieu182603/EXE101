@@ -11,11 +11,12 @@
     "backend"
   ],
   "scripts": {
-    "concurrent": "concurrently --shell=powershell \"yarn workspace frontend dev\" \"yarn workspace backend dev\""
+    "concurrent": "cross-env NODE_OPTIONS=--no-deprecation concurrently --shell=powershell \"yarn workspace frontend dev\" \"yarn workspace backend dev\""
   },
   "devDependencies": {
     "@types/jquery": "^3.5.32",
-    "concurrently": "^8.0.0"
+    "concurrently": "^8.0.0",
+    "cross-env": "^7.0.3"
   },
   "dependencies": {
     "@types/xlsx": "^0.0.35",
