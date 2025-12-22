@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Lock, ArrowLeft } from "lucide-react";
+import { Mail, Lock, ArrowLeft } from "lucide-react";
 import FormCard from "./FormCard";
 import OTPPopup from "./OTPPopup";
 import styles from "./ForgotPassword.module.css";
@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     newPassword: "",
     confirmPassword: "",
   });
@@ -24,9 +24,10 @@ const ForgotPassword = () => {
 
   const validateField = (name, value) => {
     switch (name) {
-      case "username":
-        if (!value.trim()) return "Username is required";
-        if (value.length < 3) return "Username must be at least 3 characters";
+      case "email":
+        if (!value.trim()) return "Email is required";
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return "Please enter a valid email address";
         return undefined;
 
       case "newPassword":
@@ -65,20 +66,20 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     if (step === 1) {
-      const usernameError = validateField("username", formData.username);
-      if (usernameError) {
-        setErrors({ username: usernameError });
+      const emailError = validateField("email", formData.email);
+      if (emailError) {
+        setErrors({ email: emailError });
         return;
       }
 
       setIsSubmitting(true);
       try {
         const response = await authService.requestPasswordReset(
-          formData.username
+          formData.email
         );
 
         if (response && response.success) {
-          setPendingReset(formData.username);
+          setPendingReset(formData.email);
           setShowOTPPopup(true);
           setErrors({});
         } else if (
@@ -86,7 +87,7 @@ const ForgotPassword = () => {
           typeof response.message === "string" &&
           response.message.toLowerCase().includes("otp")
         ) {
-          setPendingReset(formData.username);
+          setPendingReset(formData.email);
           setShowOTPPopup(true);
           setErrors({});
         } else {
@@ -94,7 +95,7 @@ const ForgotPassword = () => {
         }
       } catch (error) {
         setErrors({
-          username:
+          email:
             error.response?.data?.message ||
             "Failed to send OTP. Please try again.",
         });
@@ -128,17 +129,17 @@ const ForgotPassword = () => {
       setIsSubmitting(true);
       try {
         const response = await authService.verifyResetOTP({
-          username: pendingReset,
+          email: pendingReset,
           otp: verifiedOTP,
           newPassword: formData.newPassword,
         });
 
         if (response && response.success) {
-          // Store the username for login page
+          // Store the email for login page
           sessionStorage.setItem(
             "lastResetUser",
             JSON.stringify({
-              username: formData.username,
+              email: formData.email,
               timestamp: Date.now(),
             })
           );
@@ -166,14 +167,13 @@ const ForgotPassword = () => {
     }
     setOtpError("");
     try {
-      // Call OTP verification API
+      // Call OTP verification API - use email as identifier
       const response = await verifyOtpForCustomer(pendingReset, otp);
       const isVerified =
         response &&
         (response.success === true || response.code === 200) &&
         response.data &&
-        response.data.verified &&
-        response.data.verified.data === true;
+        response.data.verified;
       if (isVerified) {
         // OTP is valid, proceed
         setVerifiedOTP(otp);
@@ -199,12 +199,12 @@ const ForgotPassword = () => {
 
     try {
       const response = await authService.resendOTP({
-        username: pendingReset,
-        isForLogin: true,
+        identifier: pendingReset,
+        isForLogin: false,
       });
 
       if (response && response.success) {
-        setErrors({ general: "New OTP sent to your phone" });
+        setErrors({ general: "New OTP sent to your email" });
       } else {
         throw new Error("Failed to resend OTP");
       }
@@ -228,7 +228,7 @@ const ForgotPassword = () => {
         <div className={styles.authHeader}>
           <h1 className={styles.authTitle}>Reset Password</h1>
           <p className={styles.authSubtitle}>
-            {step === 1 && "Enter your username to reset password"}
+            {step === 1 && "Enter your email to reset password"}
             {step === 2 && "Enter OTP code and your new password"}
           </p>
         </div>
@@ -247,22 +247,22 @@ const ForgotPassword = () => {
             <div className={styles.formGroup}>
               <div className={styles.inputWrapper}>
                 <div className={styles.inputIcon}>
-                  <User size={20} />
+                  <Mail size={20} />
                 </div>
                 <input
-                  type="text"
-                  name="username"
-                  placeholder="Enter your username"
-                  value={formData.username}
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
                   onChange={handleInputChange}
                   className={`${styles.input} ${
-                    errors.username ? styles.error : ""
+                    errors.email ? styles.error : ""
                   }`}
-                  autoComplete="username"
+                  autoComplete="email"
                 />
               </div>
-              {errors.username && (
-                <span className={styles.errorMessage}>{errors.username}</span>
+              {errors.email && (
+                <span className={styles.errorMessage}>{errors.email}</span>
               )}
             </div>
           )}

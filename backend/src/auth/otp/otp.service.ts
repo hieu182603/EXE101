@@ -15,9 +15,14 @@ export class OtpService {
    * Gửi OTP qua email (ưu tiên) hoặc phone (fallback)
    * @param identifier - Email hoặc phone
    * @param username - Username để hiển thị trong email (optional)
+   * @param purpose - Mục đích sử dụng OTP (optional)
    * @returns Promise<Otp>
    */
-  async sendOtp(identifier: string, username?: string): Promise<Otp> {
+  async sendOtp(
+    identifier: string, 
+    username?: string,
+    purpose: "registration" | "password-change" | "forgot-password" | "verification" = "verification"
+  ): Promise<Otp> {
     const otp = new Otp();
     otp.code = Math.floor(Math.random() * 1000000)
       .toString()
@@ -28,8 +33,14 @@ export class OtpService {
     
     if (isEmail) {
       otp.email = identifier;
-      // Gửi OTP qua email
-      await this.emailService.sendOtpEmail(identifier, otp.code, username);
+      // Gửi OTP qua email - throw error nếu fail để caller biết
+      try {
+        await this.emailService.sendOtpEmail(identifier, otp.code, username, purpose);
+      } catch (error) {
+        // Nếu gửi email fail, không lưu OTP và throw error
+        console.error(`Failed to send OTP email to ${identifier}:`, error);
+        throw error;
+      }
     } else {
       // Fallback: sử dụng phone (tìm account để lấy email nếu có)
       otp.phone = identifier;
@@ -37,13 +48,27 @@ export class OtpService {
         const account = await this.accountService.findAccountByPhone(identifier);
         if (account.email) {
           otp.email = account.email;
-          await this.emailService.sendOtpEmail(account.email, otp.code, account.name || username);
+          try {
+            await this.emailService.sendOtpEmail(account.email, otp.code, account.name || username, purpose);
+          } catch (error) {
+            // Nếu gửi email fail, không lưu OTP và throw error
+            console.error(`Failed to send OTP email to ${account.email}:`, error);
+            throw error;
+          }
         } else {
-          console.warn(`Account with phone ${identifier} does not have email. OTP saved but not sent.`);
+          // Account tồn tại nhưng không có email - chỉ lưu OTP với phone
+          console.warn(`Account with phone ${identifier} does not have email. OTP saved with phone only.`);
         }
       } catch (error) {
-        // Account không tồn tại hoặc không có email, chỉ lưu OTP
-        console.warn(`Could not send email OTP for ${identifier}:`, error);
+        // Account không tồn tại (có thể là trường hợp đăng ký mới)
+        // Trong trường hợp này, chỉ lưu OTP với phone, không gửi email
+        if (error instanceof AccountNotFoundException) {
+          console.log(`Account with phone ${identifier} not found. This might be a new registration. OTP saved with phone only.`);
+        } else {
+          // Nếu là lỗi khác, throw lại
+          console.error(`Error finding account for phone ${identifier}:`, error);
+          throw error;
+        }
       }
     }
 

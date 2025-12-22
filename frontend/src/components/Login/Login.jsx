@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, User, Lock, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
 import FormCard from "./FormCard";
 import styles from "./Login.module.css";
 import { authService } from "../../services/authService";
@@ -11,7 +11,7 @@ const Login = ({ onNavigate }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
@@ -63,14 +63,13 @@ const Login = ({ onNavigate }) => {
 
   const validateField = (name, value) => {
     switch (name) {
-      case "username":
+      case "email":
         if (!value.trim()) {
-          return "Username is required";
+          return "Email is required";
         }
-
-        // Simple username validation
-        if (value.length < 3) {
-          return "Username must be at least 3 characters";
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          return "Please enter a valid email address";
         }
         return "";
 
@@ -117,14 +116,14 @@ const Login = ({ onNavigate }) => {
     console.group("🔍 [DEBUG] Login Form Submission");
 
 
-    const usernameError = validateField("username", formData.username);
+    const emailError = validateField("email", formData.email);
     const passwordError = validateField("password", formData.password);
 
 
 
-    if (usernameError || passwordError) {
+    if (emailError || passwordError) {
       setErrors({
-        username: usernameError,
+        email: emailError,
         password: passwordError,
       });
       // console.log removed
@@ -134,13 +133,13 @@ const Login = ({ onNavigate }) => {
 
     setIsSubmitting(true);
     try {
-      // Simple username processing - just trim whitespace
-      const processedUsername = formData.username.trim();
+      // Process email - trim whitespace
+      const processedEmail = formData.email.trim();
 
       // console.log removed
 
       const loginData = {
-        username: processedUsername,
+        email: processedEmail,
         password: formData.password,
       };
 
@@ -167,7 +166,7 @@ const Login = ({ onNavigate }) => {
         sessionStorage.setItem(
           "loginSuccess",
           JSON.stringify({
-            username: processedUsername,
+            email: processedEmail,
             timestamp: Date.now(),
           })
         );
@@ -175,7 +174,7 @@ const Login = ({ onNavigate }) => {
         // console.log removed
 
         // Successful login - authenticate user directly
-        login({ username: processedUsername }, responseToken);
+        login({ email: processedEmail }, responseToken);
         
         // Add small delay to ensure token is stored and available for API interceptor
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -234,7 +233,7 @@ const Login = ({ onNavigate }) => {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
-        originalUsername: formData.username,
+        originalEmail: formData.email,
         config: error.config,
       });
 
@@ -242,11 +241,11 @@ const Login = ({ onNavigate }) => {
 
       if (error.response?.status === 401) {
         errorMessage =
-          "Invalid username or password. Please check and try again.";
+          "Invalid email or password. Please check and try again.";
       } else if (error.response?.status === 400) {
         errorMessage = error.response.data?.message || "Invalid input format";
       } else if (error.response?.status === 404) {
-        errorMessage = "Account not found. Please check your username.";
+        errorMessage = "Account not found. Please check your email.";
       } else if (error.response?.status === 429) {
         errorMessage = "Too many attempts. Please try again later.";
       } else if (!navigator.onLine) {
@@ -334,22 +333,22 @@ const Login = ({ onNavigate }) => {
         <div className={styles.formGroup}>
           <div className={styles.inputWrapper}>
             <div className={styles.inputIcon}>
-              <User size={20} />
+              <Mail size={20} />
             </div>
             <input
-              type="text"
-              name="username"
-              placeholder="Enter your username"
-              value={formData.username}
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
               onChange={handleInputChange}
               className={`${styles.input} ${
-                errors.username ? styles.error : ""
+                errors.email ? styles.error : ""
               }`}
-              autoComplete="username"
+              autoComplete="email"
             />
           </div>
-          {errors.username && (
-            <span className={styles.errorMessage}>{errors.username}</span>
+          {errors.email && (
+            <span className={styles.errorMessage}>{errors.email}</span>
           )}
         </div>
 

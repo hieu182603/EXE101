@@ -12,7 +12,7 @@ declare global {
 // TYPE DEFINITIONS
 // ================================
 export interface LoginCredentials {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -23,16 +23,15 @@ export interface VerifyLoginData {
 
 interface RegisterData {
     username: string;
-    phone: string;
+    email: string;
     password: string;
     roleSlug?: string;
-    name: string;
 }
 
 interface VerifyRegisterData {
     username: string;
     password: string;
-    phone: string;
+    email: string;
     roleSlug: string;
     otp: string;
 }
@@ -144,25 +143,21 @@ export const authService = {
     
     /**
      * Bước 1: Đăng ký tài khoản - Gửi thông tin và nhận OTP
-     * @param userData { username, phone, password }
+     * @param userData { username, email, password }
      * @returns {Promise<ApiResponse>} Thông báo OTP hoặc lỗi
      */
     async register(userData: RegisterData): Promise<ApiResponse> {
         // Validate required fields
-        if (!userData.phone || !userData.password || !userData.username) {
-            throw new Error('Username, phone number and password are required');
+        if (!userData.email || !userData.password || !userData.username) {
+            throw new Error('Username, email and password are required');
         }
-
-        // Format phone number
-        const formattedPhone = formatPhoneNumber2(userData.phone);
 
         // Prepare request data
         const cleanedData = {
             username: userData.username.trim(),
-            phone: formattedPhone,
+            email: userData.email.trim(),
             password: userData.password,
-            name: userData.name,
-            roleSlug: 'customer-hmfuCdU' 
+            roleSlug: userData.roleSlug || 'customer' 
         };
 
         // Make API call
@@ -181,8 +176,8 @@ export const authService = {
             const formattedData = {
                 username: verifyData.username,
                 password: verifyData.password,
-                phone: formatPhoneNumber2(verifyData.phone),
-                roleSlug: 'customer-hmfuCdU', 
+                email: verifyData.email,
+                roleSlug: verifyData.roleSlug || 'customer', 
                 otp: verifyData.otp
             };
 
@@ -261,24 +256,23 @@ export const authService = {
 
     /**
      * Gửi lại OTP (có thể dùng cho cả đăng ký và login)
-     * @param phone số điện thoại (cho registration)
+     * @param identifier email hoặc phone (cho registration)
      * @param username tên đăng nhập (cho login) 
      * @param isForLogin boolean - true nếu dùng cho login, false nếu dùng cho register
      * @returns Promise<ApiResponse>
      */
-    async resendOTP({ phone, username, isForLogin = false }: { phone?: string, username?: string, isForLogin?: boolean }): Promise<ApiResponse> {
+    async resendOTP({ identifier, username, isForLogin = false }: { identifier?: string, username?: string, isForLogin?: boolean }): Promise<ApiResponse> {
         try {
             let requestData;
             
             if (isForLogin && username) {
                 // Login flow - use username directly
                 requestData = { username: username.trim() };
-            } else if (!isForLogin && phone) {
-                // Registration flow - format phone number
-                const formattedPhone = formatPhoneNumber(phone);
-                requestData = { username: formattedPhone };
+            } else if (!isForLogin && identifier) {
+                // Registration flow - use identifier (email or phone)
+                requestData = { identifier: identifier.trim() };
             } else {
-                throw new Error('Invalid parameters: provide username for login or phone for registration');
+                throw new Error('Invalid parameters: provide username for login or identifier (email/phone) for registration');
             }
             
             const response = await api.post('/account/resend-otp', requestData);
@@ -307,12 +301,12 @@ export const authService = {
      */
     async login(credentials: LoginCredentials): Promise<string> {
         try {
-            if (!credentials.username || !credentials.password) {
-                throw new Error('Username and password are required');
+            if (!credentials.email || !credentials.password) {
+                throw new Error('Email and password are required');
             }
             
             const cleanedCredentials = {
-                username: credentials.username.trim(),
+                email: credentials.email.trim(),
                 password: credentials.password
             };
             
@@ -357,9 +351,9 @@ export const authService = {
      * @param username tên đăng nhập
      * @returns Promise<{ success: boolean, message: string }>
      */
-    async requestPasswordReset(username: string) {
+    async requestPasswordReset(email: string) {
         try {
-            const response = await api.post('/account/forgot-password', { username: username });
+            const response = await api.post('/account/forgot-password', { email: email });
             return {
                 success: true,
                 message: typeof response.data === 'string' ? response.data : 'OTP đã được gửi'
@@ -380,10 +374,10 @@ export const authService = {
      * @param newPassword mật khẩu mới
      * @returns Promise<{ success: boolean, message: string }>
      */
-    async verifyResetOTP({ username, otp, newPassword }: { username: string, otp: string, newPassword: string }) {
+    async verifyResetOTP({ email, otp, newPassword }: { email: string, otp: string, newPassword: string }) {
         try {
             const response = await api.post('/account/verify-change-password', {
-                username: username,
+                email: email,
                 otp,
                 newPassword
             });
@@ -555,9 +549,10 @@ export const sendOtpForCustomer = async (username: string): Promise<ApiResponse>
 /**
  * Verify OTP for customer phone change
  */
-export const verifyOtpForCustomer = async (username: string, otp: string): Promise<ApiResponse> => {
+export const verifyOtpForCustomer = async (identifier: string, otp: string): Promise<ApiResponse> => {
   try {
-    const response = await api.post('/account/verify-otp', { username, otp });
+    // Use /otp/verify endpoint which accepts identifier (email or phone)
+    const response = await api.post('/otp/verify', { identifier, otp });
     return {
       success: true,
       message: 'OTP verified successfully',

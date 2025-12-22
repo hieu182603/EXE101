@@ -133,6 +133,11 @@
 
 .passwordStrength {
   margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  animation: slideDown 0.3s ease;
+  margin-right: 10px;
 }
 
 .strengthBars {
@@ -144,9 +149,14 @@
 .strengthBar {
   height: 4px;
   flex: 1;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 2px;
   transition: all 0.3s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.passwordRequirements {
+  margin-top: 0.5rem;
 }
 
 .bg-red-500 {

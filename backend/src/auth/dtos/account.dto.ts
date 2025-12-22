@@ -1,9 +1,14 @@
-import { IsObject, IsOptional, IsString } from "class-validator";
+import { IsObject, IsOptional, IsString, IsNotEmpty } from "class-validator";
 import { Role } from "../role/role.entity";
 
 export class CredentialsDto {
     @IsString()
-    username: string;
+    @IsOptional()
+    username?: string;
+
+    @IsString()
+    @IsOptional()
+    email?: string;
 
     @IsString()
     password: string;
@@ -11,22 +16,27 @@ export class CredentialsDto {
 
 export class CreateAccountDto {
     @IsString()
+    @IsNotEmpty()
     username: string;
 
     @IsString()
+    @IsNotEmpty()
     password: string;
 
     @IsString()
-    phone: string;
+    @IsNotEmpty()
+    email: string;
 
     @IsString()
     @IsOptional()
-    email?: string;
+    phone?: string;
 
     @IsString()
-    name: string;
+    @IsOptional()
+    name?: string;
 
     @IsString()
+    @IsNotEmpty()
     roleSlug: string;
 }
 
@@ -49,11 +59,11 @@ export class VerifyRegisterDto {
     password: string;
 
     @IsString()
-    phone: string;
+    email: string;
 
     @IsString()
     @IsOptional()
-    email?: string;
+    phone?: string;
 
     @IsString()
     roleSlug: string;

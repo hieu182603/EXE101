@@ -8,6 +8,7 @@ import {
   PhoneAlreadyExistedException,
   TokenNotFoundException,
   UsernameAlreadyExistedException,
+  ValidationException,
 } from "@/exceptions/http-exceptions";
 import * as bcrypt from "bcrypt";
 import {
@@ -42,52 +43,90 @@ export class AccountService {
       })
     )
       throw new UsernameAlreadyExistedException(HttpMessages._USERNAME_EXISTED);
-    const phone = "0" + request.phone.slice(-9);
-    account.phone = phone;
+    
+    // Email is required for registration
+    if (!request.email) {
+      throw new ValidationException("Email is required for registration");
+    }
+    
+    // Check if email already exists
     if (
       await Account.findOne({
         where: {
-          phone,
+          email: request.email,
         },
       })
     )
-      throw new PhoneAlreadyExistedException(HttpMessages._PHONE_EXISTED);
-    if (request.email) {
-      account.email = request.email;
-    }
+      throw new ValidationException("Email already registered");
+    
+    account.email = request.email;
     account.password = await bcrypt.hash(request.password, SALT_ROUNDS);
-    account.name = request.name;
     account.role = role;
+    account.isRegistered = false; // Set explicitly to false for new registrations
+    
+    // Phone and name are optional
+    if (request.phone) {
+      const phone = "0" + request.phone.slice(-9);
+      account.phone = phone;
+      if (
+        await Account.findOne({
+          where: {
+            phone,
+          },
+        })
+      )
+        throw new PhoneAlreadyExistedException(HttpMessages._PHONE_EXISTED);
+    }
+    
+    if (request.name) {
+      account.name = request.name;
+    }
+    
+    // Save account to database so OTP service can find it
+    try {
+      await account.save();
+    } catch (error) {
+      console.error("Error saving account:", error);
+      throw new ValidationException("Failed to save account. Please try again.");
+    }
+    
     return account;
   }
 
   async finalizeRegistration(
     username: string,
     password: string,
-    phone: string,
+    email: string,
     roleSlug: string,
-    email?: string
+    phone?: string
   ) {
-    const role = await Role.findOne({
-      where: {
-        slug: roleSlug,
-      },
+    // Find existing account by email or username
+    const existingAccount = await Account.findOne({
+      where: [
+        { email: email },
+        { username: username }
+      ],
+      relations: ["role"],
     });
-    if (!role) throw new EntityNotFoundException("Role");
-    const newAccount = new Account();
-    newAccount.username = username;
-    newAccount.password = password;
-    newAccount.role = role;
-    newAccount.phone = phone;
-    if (email) {
-      newAccount.email = email;
+    
+    if (!existingAccount) {
+      throw new AccountNotFoundException();
     }
-    newAccount.isRegistered = true;
-    await newAccount.save();
+    
+    // Update account to mark as registered
+    existingAccount.isRegistered = true;
+    // Password was already hashed in register(), but if it's plain text here, hash it
+    if (password && !password.startsWith("$2")) {
+      existingAccount.password = await bcrypt.hash(password, SALT_ROUNDS);
+    }
+    if (phone && !existingAccount.phone) {
+      existingAccount.phone = phone;
+    }
+    await existingAccount.save();
     const newRefreshToken = await this.jwtService.generateRefreshToken(
-      newAccount
+      existingAccount
     );
-    const accessToken = this.jwtService.generateAccessToken(newAccount);
+    const accessToken = this.jwtService.generateAccessToken(existingAccount);
     return { newRefreshToken, accessToken };
   }
 
@@ -104,7 +143,20 @@ export class AccountService {
   async login(
     credentials: CredentialsDto
   ): Promise<{ newRefreshToken: string; accessToken: string }> {
-    const account = await this.findAccountByUsername(credentials.username);
+    // Support login by email or username
+    let account: Account | null = null;
+    if (credentials.email) {
+      account = await Account.findOne({
+        where: { email: credentials.email },
+        relations: ["role"],
+      });
+    } else if (credentials.username) {
+      account = await this.findAccountByUsername(credentials.username);
+    }
+    
+    if (!account) {
+      throw new AccountNotFoundException();
+    }
     if (!(await bcrypt.compare(credentials.password, account.password)))
       throw new AccountNotFoundException();
 

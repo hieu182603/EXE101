@@ -35,20 +35,29 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
     const parsed = instanceToPlain(error);
     const validatorErrors = [];
 
-    if (parsed.errors?.length > 0) {
+    // Handle validation errors from class-validator
+    if (parsed.errors && Array.isArray(parsed.errors) && parsed.errors.length > 0) {
       for (const i of parsed.errors) {
         const keys = Object.keys(i.constraints || {});
         if (keys.length > 0) {
           validatorErrors.push(i.constraints[keys[0]]);
         }
       }
-      message = [...validatorErrors];
+      if (validatorErrors.length > 0) {
+        message = validatorErrors;
+      }
+    }
+
+    // Log full error details for debugging
+    if (status === 400) {
+      console.log("📋 Full error details:", JSON.stringify(parsed, null, 2));
     }
 
     const response = {
       success: false,
       statusCode: status,
       message: Array.isArray(message) ? message[0] : message,
+      errors: Array.isArray(message) ? message : undefined,
     };
 
     res.status(status).json(response);

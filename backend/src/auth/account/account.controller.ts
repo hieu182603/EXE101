@@ -24,7 +24,7 @@ import { Response } from "express";
 import { OtpService } from "../otp/otp.service";
 import { Account } from "./account.entity";
 import { CheckAbility } from "@/middlewares/rbac/permission.decorator";
-import { ValidationException } from "@/exceptions/http-exceptions";
+import { ValidationException, AccountNotFoundException } from "@/exceptions/http-exceptions";
 
 @Service()
 @Controller("/account")
@@ -36,27 +36,47 @@ export class AccountController {
 
   @Post("/register")
   async register(@Body() body: CreateAccountDto) {
-    const account = await this.accountService.register(body);
-    // Gửi OTP qua email nếu có, nếu không thì qua phone
-    const identifier = account.email || account.phone;
-    await this.otpService.sendOtp(identifier, account.name);
-    return {
-      account: account,
-      message: "Check OTP email to complete registration",
-    };
+    try {
+      console.log("📥 Registration request received:", {
+        username: body.username,
+        email: body.email,
+        roleSlug: body.roleSlug,
+        hasPassword: !!body.password,
+      });
+      
+      const account = await this.accountService.register(body);
+      // Gửi OTP qua email (email is required)
+      if (!account.email) {
+        throw new ValidationException("Email is required for registration");
+      }
+      await this.otpService.sendOtp(account.email, account.name, "registration");
+      return {
+        account: account,
+        message: "Check OTP email to complete registration",
+      };
+    } catch (error: any) {
+      console.error("❌ Registration error:", error);
+      console.error("Error details:", {
+        message: error?.message,
+        httpCode: error?.httpCode,
+        status: error?.status,
+        errors: error?.errors,
+      });
+      throw error;
+    }
   }
 
   @Post("/verify-register")
   async verifyRegister(@Body() body: VerifyRegisterDto, @Res() res: Response) {
-    const identifier = body.email || body.phone;
+    const identifier = body.email;
     const result = await this.otpService.verifyOtp(identifier, body.otp);
     if (!result) throw new ValidationException("OTP is wrong or is expired");
     const tokens = await this.accountService.finalizeRegistration(
       body.username,
       body.password,
-      body.phone,
+      body.email,
       body.roleSlug,
-      body.email
+      body.phone
     );
     res.cookie("refreshToken", tokens.newRefreshToken, {
       httpOnly: true,
@@ -120,17 +140,21 @@ export class AccountController {
     );
     if (!checkOldPassword) return "Wrong old password";
     const identifier = account.email || account.phone;
-    await this.otpService.sendOtp(identifier, account.name);
+    await this.otpService.sendOtp(identifier, account.name, "password-change");
     return "Check OTP email to complete password change";
   }
 
   @Post("/verify-change-password")
   async verifyChangePassword(
-    @BodyParam("username") username: string,
+    @BodyParam("email") email: string,
     @BodyParam("otp") otp: string,
     @BodyParam("newPassword") newPassword: string
   ) {
-    const account = await this.accountService.findAccountByUsername(username);
+    const account = await Account.findOne({
+      where: { email },
+      relations: ["role"],
+    });
+    if (!account) throw new AccountNotFoundException();
     const identifier = account.email || account.phone;
     const result = await this.otpService.verifyOtp(identifier, otp);
     if (!result) return "OTP is wrong or is expired";
@@ -142,10 +166,14 @@ export class AccountController {
   }
 
   @Post("/forgot-password")
-  async forgotPassword(@BodyParam("username") username: string) {
-    const account = await this.accountService.findAccountByUsername(username);
+  async forgotPassword(@BodyParam("email") email: string) {
+    const account = await Account.findOne({
+      where: { email },
+      relations: ["role"],
+    });
+    if (!account) throw new AccountNotFoundException();
     const identifier = account.email || account.phone;
-    await this.otpService.sendOtp(identifier, account.name);
+    await this.otpService.sendOtp(identifier, account.name, "forgot-password");
     return "Check OTP email to reset password";
   }
 
@@ -182,8 +210,8 @@ export class AccountController {
     const account = await this.accountService.createAccount(
       body.username,
       body.password,
-      body.name,
-      body.phone,
+      body.name || "",
+      body.phone || "",
       body.roleSlug
     );
     return account;
