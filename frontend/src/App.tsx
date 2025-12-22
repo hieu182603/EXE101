@@ -1,81 +1,45 @@
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from '@contexts/AuthContext';
+import { CartProvider } from '@contexts/CartContext';
+import AdminLayout from '@layouts/AdminLayout';
+import MainLayout from '@layouts/MainLayout';
+import SuspenseWrapper from '@components/ui/SuspenseWrapper';
+
+// Lazy-loaded routes for code splitting
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import ContactUs from "./components/About/ContactUs.jsx";
-import Aboutus from "./components/About/Aboutus.jsx";
-import Login from "./components/Login/Login.jsx";
-import SignUp from "./components/Login/SignUp.jsx";
-import ForgotPassword from "./components/Login/ForgotPassword.jsx";
-import HomePage from "./Page/HomePage";
-import CartPage from "./Page/CartPage.jsx";
-import CheckoutPage from "./Page/CheckoutPage.jsx";
-import AllProductsPage from "./Page/AllProductsPage";
-import VNPayPaymentPage from "./Page/VNPayPaymentPage.jsx";
-import OrderHistoryPage from "./Page/OrderHistoryPage.jsx";
-import { CartProvider } from "./contexts/CartContext";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
-import Navigation from "./components/Navigation";
-import Header from "./components/header";
-import { Fragment, useEffect } from "react";
-import type { ReactNode } from "react";
-import CustomerManagement from "./components/CustomerManager/CustomerManagement.jsx";
-import ShipperManagement from "./components/ShipperManager/ShipperManagement.jsx";
-import { AdminApp } from "./components/admin";
-import RequestForQuotaPage from "./Page/RequestForQuotaPage";
-import UserDetailsPage from "./Page/UserDetailsPage.jsx";
+  // Store Pages
+  LazyHomePage,
+  LazyCatalogPage,
+  LazyProductDetail,
+  LazyCartPage,
+  LazyCheckoutPage,
+  LazyWaitingPayment,
+  LazyProfilePage,
+  LazyOrderHistory,
+  LazyQuoteRequest,
+  LazyPolicyPage,
+  LazyTrackingPage,
+  // Auth Pages
+  LazyLoginPage,
+  LazyRegisterPage,
+  LazyForgotPassword,
+  // Admin Pages
+  LazyAdminDashboard,
+  LazyProductManagement,
+  LazyOrderManagement,
+  LazyCustomerManagement,
+  LazyShipperManagement,
+  LazyFeedbackManagement,
+  LazyAccountManagement,
+} from '@utils/lazyRoutes';
 
-function AuthBgWrapper({ children }: { children: ReactNode }) {
-  return <div className="auth-bg-custom">{children}</div>;
-}
-
-// Component để kiểm tra role và chuyển hướng phù hợp khi reload trang
-function RoleBasedRedirect() {
-  const { user, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const checkRoleAndRedirect = async () => {
-      // Chỉ kiểm tra khi đã đăng nhập và đang ở trang chủ
-      if (isAuthenticated() && user && location.pathname === "/") {
-        const roleName = user
-          ? typeof user.role === "object"
-            ? user.role.name
-            : user.role
-          : null;
-        const isAdminOrStaffOrShipper =
-          roleName === "admin" ||
-          roleName === "manager" ||
-          roleName === "staff" ||
-          roleName === "shipper";
-
-              if (isAdminOrStaffOrShipper) {
-        navigate("/admin", { replace: true });
-      }
-      }
-    };
-
-    // Thêm delay nhỏ để đảm bảo auth state đã được load
-    const timer = setTimeout(checkRoleAndRedirect, 100);
-    return () => clearTimeout(timer);
-  }, [user, isAuthenticated, navigate, location.pathname]);
-
-  return null;
-}
-
-// Protected Route Component for admin access
-function ProtectedRoute({
-  children,
-  requireAdmin = false,
-}: {
-  children: ReactNode;
+// Protected Route Component
+function ProtectedRoute({ 
+  children, 
+  requireAdmin = false 
+}: { 
+  children: React.ReactNode; 
   requireAdmin?: boolean;
 }) {
   const { user, isAuthenticated } = useAuth();
@@ -84,168 +48,61 @@ function ProtectedRoute({
     return <Navigate to="/login" replace />;
   }
 
-  // For admin routes, we'll let the component handle the redirect
-  // since the user data might not be fully loaded yet
-  if (requireAdmin && !user) {
-    return <Navigate to="/" replace />;
+  if (requireAdmin && user) {
+    const roleName = typeof user.role === 'object' ? user.role.name : user.role;
+    const isAdmin = roleName === 'admin' || roleName === 'manager' || roleName === 'staff';
+    
+    if (!isAdmin) {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;
 }
 
-// Component để handle navigation events từ AuthContext
-function AuthNavigationHandler() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleAuthLogout = (event: CustomEvent) => {
-      const redirectTo = event.detail?.redirectTo || "/login";
-      navigate(redirectTo, { replace: true });
-    };
-
-    window.addEventListener("auth:logout", handleAuthLogout as EventListener);
-
-    return () => {
-      window.removeEventListener(
-        "auth:logout",
-        handleAuthLogout as EventListener
-      );
-    };
-  }, [navigate]);
-
-  return null;
-}
-
-// Tách logic route để dùng useLocation
-function AppContent() {
-  const location = useLocation();
-  const hideHeaderAndNavRoutes = [
-    "/login",
-    "/signup",
-    "/forgot-password",
-    "/about",
-    "/contact",
-    "/cart",
-    "/checkout",
-    "/vnpay-payment",
-    "/manage-customers",
-    "/manage-shippers",
-    "/admin",
-    "/order-history",
-  ];
-  const shouldHide = hideHeaderAndNavRoutes.includes(location.pathname);
-
+const App: React.FC = () => {
   return (
-    <Fragment>
-      <AuthNavigationHandler />
-      <RoleBasedRedirect />
-      {!shouldHide && <Header />}
-      {!shouldHide && <Navigation />}
-
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/all-products" element={<AllProductsPage />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/about" element={<Aboutus />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/vnpay-payment" element={<VNPayPaymentPage />} />
-        <Route
-          path="/login"
-          element={
-            <AuthBgWrapper>
-              <Login />
-            </AuthBgWrapper>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <AuthBgWrapper>
-              <SignUp />
-            </AuthBgWrapper>
-          }
-        />
-        <Route
-          path="/forgot-password"
-          element={
-            <AuthBgWrapper>
-              <ForgotPassword />
-            </AuthBgWrapper>
-          }
-        />
-
-        <Route path="/request-for-quota" element={<RequestForQuotaPage />} />
-        <Route path="/user/details" element={<UserDetailsPage />} />
-
-        <Route
-          path="/manage-customers"
-          element={
-            <ProtectedRoute requireAdmin={true}>
-              <CustomerManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/manage-shippers"
-          element={
-            <ProtectedRoute requireAdmin={true}>
-              <ShipperManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/order-history" element={<OrderHistoryPage />} />
-        <Route
-          path="/login"
-          element={
-            <AuthBgWrapper>
-              <Login />
-            </AuthBgWrapper>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <AuthBgWrapper>
-              <SignUp />
-            </AuthBgWrapper>
-          }
-        />
-        <Route
-          path="/forgot-password"
-          element={
-            <AuthBgWrapper>
-              <ForgotPassword />
-            </AuthBgWrapper>
-          }
-        />
-
-        {/* Admin Dashboard Route */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute requireAdmin={true}>
-              <AdminApp />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Redirect any unknown paths to home page */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Fragment>
-  );
-}
-
-const App = () => {
-  return (
-    <Router>
+    <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <AppContent />
+          <Routes>
+            {/* User Store Routes */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<SuspenseWrapper><LazyHomePage /></SuspenseWrapper>} />
+              <Route path="/catalog" element={<SuspenseWrapper><LazyCatalogPage /></SuspenseWrapper>} />
+              <Route path="/product/:id" element={<SuspenseWrapper><LazyProductDetail /></SuspenseWrapper>} />
+              <Route path="/cart" element={<SuspenseWrapper><LazyCartPage /></SuspenseWrapper>} />
+              <Route path="/checkout" element={<SuspenseWrapper><LazyCheckoutPage /></SuspenseWrapper>} />
+              <Route path="/waiting-payment" element={<SuspenseWrapper><LazyWaitingPayment /></SuspenseWrapper>} />
+              <Route path="/profile" element={<ProtectedRoute><SuspenseWrapper><LazyProfilePage /></SuspenseWrapper></ProtectedRoute>} />
+              <Route path="/history" element={<ProtectedRoute><SuspenseWrapper><LazyOrderHistory /></SuspenseWrapper></ProtectedRoute>} />
+              <Route path="/tracking/:id" element={<ProtectedRoute><SuspenseWrapper><LazyTrackingPage /></SuspenseWrapper></ProtectedRoute>} />
+              <Route path="/quote" element={<SuspenseWrapper><LazyQuoteRequest /></SuspenseWrapper>} />
+              <Route path="/policy" element={<SuspenseWrapper><LazyPolicyPage /></SuspenseWrapper>} />
+            </Route>
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><AdminLayout /></ProtectedRoute>}>
+              <Route index element={<SuspenseWrapper><LazyAdminDashboard /></SuspenseWrapper>} />
+              <Route path="products" element={<SuspenseWrapper><LazyProductManagement /></SuspenseWrapper>} />
+              <Route path="orders" element={<SuspenseWrapper><LazyOrderManagement /></SuspenseWrapper>} />
+              <Route path="customers" element={<SuspenseWrapper><LazyCustomerManagement /></SuspenseWrapper>} />
+              <Route path="shippers" element={<SuspenseWrapper><LazyShipperManagement /></SuspenseWrapper>} />
+              <Route path="feedback" element={<SuspenseWrapper><LazyFeedbackManagement /></SuspenseWrapper>} />
+              <Route path="accounts" element={<SuspenseWrapper><LazyAccountManagement /></SuspenseWrapper>} />
+            </Route>
+
+            {/* Auth Routes */}
+            <Route path="/login" element={<SuspenseWrapper><LazyLoginPage /></SuspenseWrapper>} />
+            <Route path="/register" element={<SuspenseWrapper><LazyRegisterPage /></SuspenseWrapper>} />
+            <Route path="/forgot-password" element={<SuspenseWrapper><LazyForgotPassword /></SuspenseWrapper>} />
+
+            {/* Default */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </CartProvider>
       </AuthProvider>
-    </Router>
+    </BrowserRouter>
   );
 };
 

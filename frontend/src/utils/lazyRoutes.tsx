@@ -6,32 +6,35 @@ import { lazy } from 'react';
  * Usage in App.tsx:
  * ```tsx
  * import { LazyHomePage, LazyCartPage } from '@utils/lazyRoutes';
+ * import SuspenseWrapper from '@components/ui/SuspenseWrapper';
  * 
- * <Route path="/" element={<LazyHomePage />} />
+ * <Route path="/" element={<SuspenseWrapper><LazyHomePage /></SuspenseWrapper>} />
  * ```
  */
 
 // Store Pages - Lazy loaded
-export const LazyHomePage = lazy(() => import('@pages/HomePage'));
-export const LazyAllProductsPage = lazy(() => import('@pages/AllProductsPage'));
-export const LazyCartPage = lazy(() => import('@pages/CartPage'));
-export const LazyCheckoutPage = lazy(() => import('@pages/CheckoutPage'));
-export const LazyVNPayPaymentPage = lazy(() => import('@pages/VNPayPaymentPage'));
-export const LazyOrderHistoryPage = lazy(() => import('@pages/OrderHistoryPage'));
-export const LazyRequestForQuotaPage = lazy(() => import('@pages/RequestForQuotaPage'));
-export const LazyUserDetailsPage = lazy(() => import('@pages/UserDetailsPage'));
+export const LazyHomePage = lazy(() => import('@pages/store/Home'));
+export const LazyCatalogPage = lazy(() => import('@pages/store/Catalog'));
+export const LazyProductDetail = lazy(() => import('@pages/store/ProductDetail'));
+export const LazyCartPage = lazy(() => import('@pages/store/Cart'));
+export const LazyCheckoutPage = lazy(() => import('@pages/store/Checkout'));
+export const LazyWaitingPayment = lazy(() => import('@pages/store/WaitingPayment'));
+export const LazyProfilePage = lazy(() => import('@pages/store/Profile'));
+export const LazyOrderHistory = lazy(() => import('@pages/store/OrderHistory'));
+export const LazyQuoteRequest = lazy(() => import('@pages/store/QuoteRequest'));
+export const LazyPolicyPage = lazy(() => import('@pages/store/Policy'));
+export const LazyTrackingPage = lazy(() => import('@pages/store/Tracking'));
 
 // Auth Pages - Lazy loaded
-export const LazyLogin = lazy(() => import('@components/Login/Login'));
-export const LazySignUp = lazy(() => import('@components/Login/SignUp'));
-export const LazyForgotPassword = lazy(() => import('@components/Login/ForgotPassword'));
-
-// About Pages - Lazy loaded
-export const LazyContactUs = lazy(() => import('@components/About/ContactUs'));
-export const LazyAboutus = lazy(() => import('@components/About/Aboutus'));
+export const LazyLoginPage = lazy(() => import('@pages/auth/Login'));
+export const LazyRegisterPage = lazy(() => import('@pages/auth/Register'));
+export const LazyForgotPassword = lazy(() => import('@pages/auth/ForgotPassword'));
 
 // Admin Pages - Lazy loaded (heavy components)
-export const LazyAdminApp = lazy(() => import('@components/admin').then(module => ({ default: module.AdminApp })));
-export const LazyCustomerManagement = lazy(() => import('@components/CustomerManager/CustomerManagement'));
-export const LazyShipperManagement = lazy(() => import('@components/ShipperManager/ShipperManagement'));
-
+export const LazyAdminDashboard = lazy(() => import('@pages/admin/Dashboard'));
+export const LazyProductManagement = lazy(() => import('@pages/admin/Products'));
+export const LazyOrderManagement = lazy(() => import('@pages/admin/Orders'));
+export const LazyCustomerManagement = lazy(() => import('@pages/admin/Customers'));
+export const LazyShipperManagement = lazy(() => import('@pages/admin/Shippers'));
+export const LazyFeedbackManagement = lazy(() => import('@pages/admin/Feedback'));
+export const LazyAccountManagement = lazy(() => import('@pages/admin/Accounts'));

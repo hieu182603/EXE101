@@ -1,20 +1,108 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="\img\tab_logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Technical Store</title>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStore - Premium Tech Solutions</title>
+  <link rel="icon" type="image/png" href="/img/tab_logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Semantic Colors mapped to CSS Variables
+            primary: 'var(--color-primary)',
+            'primary-dark': '#991B1B', 
+            
+            // Dynamic Backgrounds (Changes based on mode)
+            'background-dark': 'var(--bg-main)', // Main background
+            'surface-dark': 'var(--bg-surface)', // Card background
+            'surface-accent': 'var(--bg-accent)', // Hover/Active states
+            'border-dark': 'var(--border-color)', // Border color
+            
+            // Text colors that adapt
+            'text-main': 'var(--text-main)',
+            'text-muted': 'var(--text-muted)',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body: ['Noto Sans', 'sans-serif'],
+          },
+          animation: {
+            'gradient': 'gradient 8s linear infinite',
+            'bounce-slow': 'bounce 3s infinite',
+          },
+          keyframes: {
+            gradient: {
+              '0%, 100%': { 'background-position': 'left center' },
+              '50%': { 'background-position': 'right center' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* CSS Variables for Theming */
+    :root {
+      /* Light Mode Defaults */
+      --color-primary: #DC2626;
+      --bg-main: #F3F4F6;       /* Light Gray */
+      --bg-surface: #FFFFFF;    /* White */
+      --bg-accent: #E5E7EB;     /* Gray 200 */
+      --border-color: #E5E7EB;  /* Gray 200 */
+      --text-main: #09090B;     /* Almost Black */
+      --text-muted: #71717A;    /* Zinc 500 */
+    }
+
+    /* Dark Mode Overrides */
+    .dark {
+      --color-primary: #DC2626;
+      --bg-main: #000000;       /* Pure Black */
+      --bg-surface: #121212;    /* Dark Gray */
+      --bg-accent: #27272A;     /* Zinc 800 */
+      --border-color: #27272A;  /* Zinc 800 */
+      --text-main: #FFFFFF;     /* White */
+      --text-muted: #A1A1AA;    /* Zinc 400 */
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* REMOVE ALL DEFAULT FOCUS OUTLINES */
+    *, *::before, *::after {
+      outline: none !important;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 </html>

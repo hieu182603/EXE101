@@ -1,32 +1,39 @@
+
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  SHIPPING = 'SHIPPING',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED'
+}
+
 export interface Product {
   id: string;
   name: string;
-  slug: string;
-  description: string | null;
-  isActive: boolean;
+  sku: string;
+  category: string;
   price: number;
+  originalPrice?: number;
   stock: number;
-  categoryId: string;
-  category?: {
-    id: string;
-    name: string;
-    slug: string;
-  };
-  createdAt: string;
-  updatedAt: string;
+  status: 'instock' | 'lowstock' | 'outstock';
+  image: string;
+  rating?: number;
+  reviews?: number;
 }
 
-export interface Category {
+export interface Order {
   id: string;
-  name: string;
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
+  customerName: string;
+  customerEmail: string;
+  date: string;
+  total: number;
+  status: OrderStatus;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message: string;
-  error?: string;
-} 
+export interface User {
+  name: string;
+  email: string;
+  role: string;
+  avatar: string;
+  level?: string;
+}
