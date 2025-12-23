@@ -1,11 +1,13 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '@components/ui/Button';
+import Button from '../../components/ui/Button';
 
 const CartPage: React.FC = () => {
-  // TODO: Load from CartContext or cartService.getCartItems()
-  const [items, setItems] = useState<Array<{ id: string; name: string; price: number; oldPrice?: number; color?: string; qty: number }>>([]);
+  const [items, setItems] = useState([
+    { id: '1', name: 'Tai nghe Gaming HyperX Cloud II - 7.1', price: 2490000, oldPrice: 2990000, color: 'Đỏ đen', qty: 1 },
+    { id: '2', name: 'Logitech G Pro X Wireless Lightspeed', price: 3290000, color: 'Đen', qty: 1 },
+  ]);
 
   const updateQty = (id: string, delta: number) => {
     setItems(items.map(item => 

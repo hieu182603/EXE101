@@ -1,10 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Badge from '@components/ui/Badge';
-import { useCart } from '@contexts/CartContext';
-import { authService } from '@services/authService';
-import { orderService } from '@services/orderService';
+import Badge from '../../components/ui/Badge';
 
 // Mock data structure matching Profile
 interface Address {
@@ -18,50 +15,26 @@ interface Address {
 
 const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { items, totalAmount, selectedItems, getSelectedSubtotal } = useCart();
-  const [loading, setLoading] = useState(true);
-  const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
-  
-  // Load user addresses from profile
-  useEffect(() => {
-    const loadUserAddresses = async () => {
-      try {
-        setLoading(true);
-        const userProfile = await authService.getUserProfile();
-        const userData = userProfile.data || userProfile;
-        
-        // For now, create a default address from user profile
-        // Backend may not have separate address management
-        if (userData) {
-          const defaultAddress: Address = {
-            id: 'default',
-            label: 'Địa chỉ mặc định',
-            recipientName: userData.name || userData.username || 'User',
-            phone: userData.phone || '',
-            detail: '', // User needs to fill this
-            isDefault: true
-          };
-          setSavedAddresses([defaultAddress]);
-        }
-      } catch (error) {
-        console.error('Error loading user addresses:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    loadUserAddresses();
-  }, []);
-
-  // Get selected cart items for checkout
-  const checkoutItems = items.filter(item => {
-    const itemId = item.product?.id || item.id;
-    return selectedItems.has(itemId);
-  });
-  
-  const subtotal = getSelectedSubtotal();
-  const shippingFee = 0; // Free shipping
-  const total = subtotal + shippingFee;
+  // Mock Addresses fetched from user profile
+  const savedAddresses: Address[] = [
+    {
+      id: '1',
+      label: 'Nhà riêng',
+      recipientName: 'Alex User',
+      phone: '0901234567',
+      detail: '123 Đường Công Nghệ, Q.1, TP.HCM',
+      isDefault: true
+    },
+    {
+      id: '2',
+      label: 'Công ty',
+      recipientName: 'Alex Work',
+      phone: '0909888777',
+      detail: 'Tòa nhà Tech, 456 Lê Duẩn, Q.1, TP.HCM',
+      isDefault: false
+    }
+  ];
 
   const [selectedAddressId, setSelectedAddressId] = useState<string | 'new'>(savedAddresses.find(a => a.isDefault)?.id || 'new');
   const [paymentMethod, setPaymentMethod] = useState('vnpay');
@@ -206,92 +179,12 @@ const CheckoutPage: React.FC = () => {
         <div className="lg:col-span-4">
           <div className="bg-surface-dark border border-border-dark rounded-3xl p-8 sticky top-24">
             <h3 className="text-xl font-bold text-white mb-6 border-b border-border-dark pb-4">Tóm tắt đơn hàng</h3>
-            
-            {/* Cart Items */}
-            <div className="space-y-3 mb-6 max-h-[300px] overflow-y-auto">
-              {checkoutItems.length > 0 ? (
-                checkoutItems.map((item) => {
-                  const itemId = item.product?.id || item.id;
-                  const productName = item.product?.name || 'Product';
-                  const productPrice = item.product?.price || 0;
-                  const quantity = item.quantity;
-                  
-                  return (
-                    <div key={itemId} className="flex gap-3 pb-3 border-b border-border-dark last:border-0">
-                      <div className="size-12 rounded-lg bg-background-dark border border-border-dark flex items-center justify-center shrink-0 overflow-hidden">
-                        <img 
-                          src={item.product?.images?.[0]?.url || item.product?.url || 'https://picsum.photos/200/200'} 
-                          alt={productName}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-white truncate">{productName}</p>
-                        <p className="text-xs text-slate-400">Số lượng: {quantity}</p>
-                        <p className="text-sm font-bold text-primary">{(productPrice * quantity).toLocaleString('vi-VN')}₫</p>
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="text-center py-8 text-slate-500">
-                  <span className="material-symbols-outlined text-3xl mb-2 block">shopping_cart</span>
-                  <p className="text-sm">Giỏ hàng trống</p>
-                </div>
-              )}
-            </div>
-            
             <div className="space-y-4 mb-6">
-              <div className="flex justify-between text-slate-400"><span>Tạm tính</span><span className="text-white font-bold">{subtotal.toLocaleString('vi-VN')}₫</span></div>
+              <div className="flex justify-between text-slate-400"><span>Tạm tính</span><span className="text-white font-bold">6.490.000₫</span></div>
               <div className="flex justify-between text-slate-400"><span>Vận chuyển</span><span className="text-emerald-500 font-bold">Miễn phí</span></div>
-              <div className="flex justify-between text-lg font-black text-white pt-4 border-t border-border-dark"><span>Tổng tiền</span><span className="text-primary">{total.toLocaleString('vi-VN')}₫</span></div>
+              <div className="flex justify-between text-lg font-black text-white pt-4 border-t border-border-dark"><span>Tổng tiền</span><span className="text-primary">6.490.000₫</span></div>
             </div>
-            <button 
-              onClick={async () => {
-                if (!formData.name || !formData.phone || !formData.address) {
-                  alert('Vui lòng điền đầy đủ thông tin địa chỉ');
-                  return;
-                }
-                
-                if (checkoutItems.length === 0) {
-                  alert('Giỏ hàng trống');
-                  return;
-                }
-
-                try {
-                  // Create order
-                  const orderData = {
-                    shippingAddress: formData.address,
-                    note: formData.note || '',
-                    paymentMethod: paymentMethod === 'cod' ? 'Cash on delivery' : 'Online payment',
-                    requireInvoice: false,
-                    isGuest: false,
-                    guestCartItems: checkoutItems.map(item => ({
-                      productId: item.product?.id || item.id,
-                      quantity: item.quantity,
-                      price: item.product?.price || 0,
-                      name: item.product?.name || 'Product'
-                    }))
-                  };
-
-                  const response = await orderService.createOrder(orderData);
-                  
-                  if (response.success || response.data) {
-                    const orderId = response.data?.id || response.data?.order?.id;
-                    navigate(`/waiting-payment?orderId=${orderId}`);
-                  } else {
-                    alert('Đặt hàng thất bại. Vui lòng thử lại.');
-                  }
-                } catch (error) {
-                  console.error('Error creating order:', error);
-                  alert('Đặt hàng thất bại. Vui lòng thử lại.');
-                }
-              }}
-              disabled={checkoutItems.length === 0 || loading}
-              className="w-full py-4 bg-primary text-black font-black rounded-2xl shadow-lg hover:shadow-primary/30 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {checkoutItems.length === 0 ? 'Giỏ hàng trống' : 'ĐẶT HÀNG NGAY'}
-            </button>
+            <button onClick={() => navigate('/waiting-payment')} className="w-full py-4 bg-primary text-black font-black rounded-2xl shadow-lg hover:shadow-primary/30 transition-all active:scale-95">ĐẶT HÀNG NGAY</button>
             <p className="text-[10px] text-slate-500 text-center mt-4">Bằng việc đặt hàng, bạn đồng ý với Điều khoản của TechStore.</p>
           </div>
         </div>

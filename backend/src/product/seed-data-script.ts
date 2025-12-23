@@ -1,6 +1,6 @@
 import { Product } from "../src/product/product.entity";
 import { Category } from "../src/product/categories/category.entity";
-import { Role } from "@/auth/role/role.entity";
+import { Role } from "@/role/role.entity";
 import { Account } from "@/auth/account/account.entity";
 import { Cart } from "@/Cart/cart.entity";
 import { CartItem } from "@/Cart/cartItem.entity";

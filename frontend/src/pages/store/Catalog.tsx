@@ -1,9 +1,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import ProductCard from '@components/store/ProductCard';
-import { productService } from '@services/productService';
-import type { Product } from '@types/product';
+import ProductCard from '../../components/store/ProductCard';
 
 interface ProductData {
   id: string;
@@ -21,40 +19,22 @@ const ITEMS_PER_PAGE = 6;
 
 const CatalogPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [allProducts, setAllProducts] = useState<ProductData[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  // Load products on mount
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setLoading(true);
-        const products = await productService.getAllProducts();
-        
-        // Transform Product[] to ProductData[]
-        const transformedProducts: ProductData[] = products.map((p: Product) => ({
-          id: p.id,
-          name: p.name,
-          brand: p.category?.name || 'Unknown', // Use category as brand for now
-          category: p.category?.name || 'Unknown',
-          price: p.price,
-          oldPrice: undefined, // Backend may not have originalPrice field
-          tag: p.stock === 0 ? 'Hết hàng' : undefined,
-          rating: 5, // Default rating, backend may not have this field
-          inStock: p.stock > 0
-        }));
-        
-        setAllProducts(transformedProducts);
-      } catch (error) {
-        console.error('Error loading products:', error);
-        setAllProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProducts();
-  }, []);
+  // Mock product data with full attributes for filtering
+  const allProducts: ProductData[] = [
+    { id: '1', name: 'Laptop Gaming ASUS ROG Strix G15', brand: 'ASUS', category: 'Laptops', price: 23800000, oldPrice: 28000000, rating: 5, inStock: true },
+    { id: '2', name: 'Dell UltraSharp U2723QE 4K HDR', brand: 'Dell', category: 'Màn hình', price: 14500000, tag: 'New', rating: 4, inStock: true },
+    { id: '3', name: 'MacBook Pro 14 M3 Pro 18GB/512GB', brand: 'Apple', category: 'Laptops', price: 48990000, oldPrice: 52000000, rating: 5, inStock: true },
+    { id: '4', name: 'Razer Viper Ultimate Gaming Mouse', brand: 'Razer', category: 'Phụ kiện', price: 2990000, rating: 5, inStock: false },
+    { id: '5', name: 'Sony WH-1000XM5 Noise Cancelling', brand: 'Sony', category: 'Phụ kiện', price: 8490000, rating: 4, inStock: true },
+    { id: '6', name: 'ASUS TUF Gaming RTX 4070 Ti', brand: 'ASUS', category: 'Linh kiện', price: 24500000, tag: 'Hot', rating: 5, inStock: true },
+    { id: '7', name: 'Logitech G Pro X Superlight', brand: 'Logitech', category: 'Phụ kiện', price: 3190000, rating: 5, inStock: true },
+    { id: '8', name: 'Dell Alienware m16 R2', brand: 'Dell', category: 'Laptops', price: 42000000, rating: 4, inStock: true },
+    { id: '9', name: 'Keychron Q1 Pro', brand: 'Keychron', category: 'Phụ kiện', price: 4500000, rating: 5, inStock: true },
+    { id: '10', name: 'LG Gram 17 (2023)', brand: 'LG', category: 'Laptops', price: 35000000, rating: 4, inStock: true },
+    { id: '11', name: 'Samsung Odyssey G9', brand: 'Samsung', category: 'Màn hình', price: 29000000, rating: 5, inStock: true },
+    { id: '12', name: 'Corsair K70 RGB Pro', brand: 'Corsair', category: 'Phụ kiện', price: 3900000, rating: 4, inStock: true },
+  ];
 
   // Filter States initialized from URL if present
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -449,13 +429,7 @@ const CatalogPage: React.FC = () => {
             </div>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-96 bg-surface-dark border border-border-dark rounded-2xl animate-pulse" />
-              ))}
-            </div>
-          ) : currentProducts.length > 0 ? (
+          {currentProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
               {currentProducts.map((p) => {
                 // Determine the tag to display

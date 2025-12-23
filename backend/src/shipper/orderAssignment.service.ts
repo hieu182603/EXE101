@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { Account } from "@/auth/account/account.entity";
 import { Order } from "@/order/order.entity";
-import { Role } from "@/auth/role/role.entity";
+import { Role } from "@/role/role.entity";
 import { OrderStatus } from "@/order/dtos/update-order.dto";
 import { DbConnection } from "@/database/dbConnection";
 import { EntityManager } from "typeorm";

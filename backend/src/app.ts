@@ -1,18 +1,25 @@
 import express from "express";
 import { Container } from "typedi";
-import {
-  useExpressServer,
-  getMetadataArgsStorage,
-  useContainer,
-} from "routing-controllers";
-import { routingControllersToSpec } from "routing-controllers-openapi";
-import { validationMetadatasToSchemas } from "class-validator-jsonschema";
 import swaggerUi from "swagger-ui-express";
 import { DbConnection } from "@/database/dbConnection";
-import { ResponseInterceptor } from "./utils/interceptor/interceptor";
 import cors from "cors";
-import { InvoiceController } from "./payment/invoice.controller";
 import { CronJobService } from "./shipper/cronJob.service";
+import { errorHandler } from "./middlewares/error-handler.middleware";
+
+// Import routers
+import authRouter from "./auth/auth.router";
+import jwtRouter from "./jwt/jwt.router";
+import otpRouter from "./otp/otp.router";
+import roleRouter from "./role/role.router";
+import paymentRouter from "./payment/payment.router";
+import productRouter from "./product/product.router";
+import orderRouter from "./order/order.router";
+import cartRouter from "./Cart/cart.router";
+import customerRouter from "./customer/customer.router";
+import feedbackRouter from "./feedback/feedback.router";
+import imageRouter from "./image/image.router";
+import rfqRouter from "./rfq/rfq.router";
+import shipperRouter from "./shipper/shipper.router";
 
 export default class App {
   public app: express.Application;
@@ -103,49 +110,55 @@ export default class App {
   }
 
   private initializeRoutes() {
-    useContainer(Container);
-    useExpressServer(this.app, {
-      routePrefix: "/api",
-      controllers: [__dirname + "/**/*.controller.{ts,js}"],
-      interceptors: [ResponseInterceptor],
-      middlewares: [__dirname + "/middlewares/**/*.middleware.{ts,js}"],
-      defaultErrorHandler: false,
-    });
+    // Mount all routers
+    this.app.use("/api", authRouter);
+    this.app.use("/api", jwtRouter);
+    this.app.use("/api", otpRouter);
+    this.app.use("/api", roleRouter);
+    this.app.use("/api", paymentRouter);
+    this.app.use("/api", productRouter);
+    this.app.use("/api", orderRouter);
+    this.app.use("/api", cartRouter);
+    this.app.use("/api", customerRouter);
+    this.app.use("/api", feedbackRouter);
+    this.app.use("/api", imageRouter);
+    this.app.use("/api", rfqRouter);
+    this.app.use("/api", shipperRouter);
+
+    // Error handler middleware (must be last)
+    this.app.use(errorHandler);
   }
 
   private initializeSwagger() {
-    const { defaultMetadataStorage } = require("class-transformer/cjs/storage");
-
-    const schemas = validationMetadatasToSchemas({
-      classTransformerMetadataStorage: defaultMetadataStorage,
-      refPointerPrefix: "#/components/schemas/",
-    });
-
-    const storage = getMetadataArgsStorage();
-    const spec = routingControllersToSpec(
-      storage,
-      { routePrefix: "/api" },
-      {
-        components: {
-          securitySchemes: {
-            ApiKeyAuth: {
-              type: "apiKey",
-              name: "Authorization",
-              in: "header",
-              description: "API key for authorization",
-            },
+    // Basic Swagger setup - can be enhanced later with manual spec definition
+    const swaggerSpec = {
+      openapi: "3.0.0",
+      info: {
+        title: "Backend API",
+        version: "1.0.0",
+        description: "API documentation for the backend application",
+      },
+      servers: [
+        {
+          url: `http://localhost:${this.port}/api`,
+          description: "Development server",
+        },
+      ],
+      components: {
+        securitySchemes: {
+          ApiKeyAuth: {
+            type: "apiKey",
+            name: "Authorization",
+            in: "header",
+            description: "API key for authorization (Bearer token)",
           },
-          schemas,
         },
-        security: [{ ApiKeyAuth: [] }],
-        info: {
-          title: "A sample API",
-          version: "1.0.0",
-          description: "Generated with routing-controllers-openapi",
-        },
-      }
-    );
-    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(spec));
+      },
+      security: [{ ApiKeyAuth: [] }],
+      paths: {},
+    };
+
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   }
 
   private initializeCronJobs() {

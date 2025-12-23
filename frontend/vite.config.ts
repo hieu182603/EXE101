@@ -28,13 +28,6 @@ export default defineConfig(({ mode }) => {
     define: {
       'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'http://localhost:3000/api'),
     },
-    css: {
-      preprocessorOptions: {
-        css: {
-          charset: false,
-        },
-      },
-    },
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router-dom', 'axios', 'recharts'],
     },

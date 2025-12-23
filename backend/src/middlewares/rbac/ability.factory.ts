@@ -26,7 +26,7 @@ import { Order } from "@/order/order.entity";
 import { Invoice } from "@/payment/invoice.entity";
 import { Feedback } from "@/feedback/feedback.entity";
 import { Image } from "@/image/image.entity";
-import { Role } from "@/auth/role/role.entity";
+import { Role } from "@/role/role.entity";
 
 export type Actions =
   | "manage"

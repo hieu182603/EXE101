@@ -50,6 +50,7 @@
     "routing-controllers-openapi": "^5.0.0",
     "swagger-ui-express": "^5.0.1",
     "typedi": "^0.10.0",
-    "typeorm": "^0.3.24"
+    "typeorm": "^0.3.24",
+    "zod": "^4.2.1"
   }
 }

@@ -21,7 +21,7 @@ import {
 } from "../dtos/account.dto";
 import { Admin, Auth } from "@/middlewares/auth.middleware";
 import { Response } from "express";
-import { OtpService } from "../otp/otp.service";
+import { OtpService } from "@/otp/otp.service";
 import { Account } from "./account.entity";
 import { CheckAbility } from "@/middlewares/rbac/permission.decorator";
 import { ValidationException, AccountNotFoundException } from "@/exceptions/http-exceptions";

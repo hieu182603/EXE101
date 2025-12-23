@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { Account } from "./account.entity";
-import { Role } from "@/auth/role/role.entity";
+import { Role } from "@/role/role.entity";
 import {
   AccountNotFoundException,
   EntityNotFoundException,
@@ -16,8 +16,8 @@ import {
   CredentialsDto,
   UpdateAccountDto,
 } from "../dtos/account.dto";
-import { JwtService } from "../jwt/jwt.service";
-import { RefreshToken } from "../jwt/refreshToken.entity";
+import { JwtService } from "@/jwt/jwt.service";
+import { RefreshToken } from "@/jwt/refreshToken.entity";
 import { MoreThan } from "typeorm";
 import { HttpMessages } from "@/exceptions/http-messages.constant";
 
@@ -160,6 +160,11 @@ export class AccountService {
     if (!(await bcrypt.compare(credentials.password, account.password)))
       throw new AccountNotFoundException();
 
+    // Check if account is registered
+    if (!account.isRegistered) {
+      throw new AccountNotFoundException();
+    }
+    
     const token = await RefreshToken.findOne({
       where: {
         account,

@@ -1,5 +1,5 @@
 import { IsObject, IsOptional, IsString, IsNotEmpty } from "class-validator";
-import { Role } from "../role/role.entity";
+import { Role } from "@/role/role.entity";
 
 export class CredentialsDto {
     @IsString()

@@ -1,4 +1,4 @@
-import { seedAllData } from "../data/seed-data-script";
+import { seedAllData } from "./data/seed-data-script";
 import { DbConnection } from "./database/dbConnection";
 
 async function main() {
@@ -31,6 +31,7 @@ async function main() {
 }
 
 main();
+
 
 
 

@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from "typeorm";
 import { NamedEntity } from "@/common/NamedEntity";
-import { Role } from "@/auth/role/role.entity";
-import { RefreshToken } from "../jwt/refreshToken.entity";
+import { Role } from "@/role/role.entity";
+import { RefreshToken } from "@/jwt/refreshToken.entity";
 import { Exclude } from "class-transformer";
 import { Order } from "@/order/order.entity";
 import { Marketing } from "@/marketing/marketing.entity";

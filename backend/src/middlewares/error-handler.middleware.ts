@@ -1,65 +1,70 @@
+import { Request, Response, NextFunction } from "express";
+import { HttpException } from "@/exceptions/http-exceptions";
 import { HttpMessages } from "@/exceptions/http-messages.constant";
-import { instanceToPlain } from "class-transformer";
 import { JsonWebTokenError } from "jsonwebtoken";
-import {
-  Middleware,
-  ExpressErrorMiddlewareInterface,
-} from "routing-controllers";
-import { Service } from "typedi";
-import { HttpError } from "routing-controllers";
+import { instanceToPlain } from "class-transformer";
 
-@Service()
-@Middleware({ type: "after" })
-export class ErrorHandler implements ExpressErrorMiddlewareInterface {
-  error(error: any, req: any, res: any, next: (err?: any) => any): void {
-    if (res.headersSent) return next(error);
-    console.log("");
-    console.log("🔴 ERROR HANDLER TRIGGERED");
-    console.log("Error object:", error);
-    console.log("Error message:", error.message);
-
-    let status: number = error.httpCode || error.status || 500;
-    let message: string | string[] = error.message || "Something went wrong";
-
-    // Handle routing-controllers HttpError instances
-    if (error instanceof HttpError) {
-      status = error.httpCode;
-      message = error.message;
-    }
-
-    if (error instanceof JsonWebTokenError) {
-      status = 401;
-      message = HttpMessages._UNAUTHORIZED;
-    }
-
-    const parsed = instanceToPlain(error);
-    const validatorErrors = [];
-
-    // Handle validation errors from class-validator
-    if (parsed.errors && Array.isArray(parsed.errors) && parsed.errors.length > 0) {
-      for (const i of parsed.errors) {
-        const keys = Object.keys(i.constraints || {});
-        if (keys.length > 0) {
-          validatorErrors.push(i.constraints[keys[0]]);
-        }
-      }
-      if (validatorErrors.length > 0) {
-        message = validatorErrors;
-      }
-    }
-
-    // Log full error details for debugging
-    if (status === 400) {
-      console.log("📋 Full error details:", JSON.stringify(parsed, null, 2));
-    }
-
-    const response = {
-      success: false,
-      statusCode: status,
-      message: Array.isArray(message) ? message[0] : message,
-      errors: Array.isArray(message) ? message : undefined,
-    };
-
-    res.status(status).json(response);
+/**
+ * Express error handler middleware
+ * Handles all errors and returns consistent error responses
+ */
+export const errorHandler = (
+  error: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  if (res.headersSent) {
+    return next(error);
   }
-}
+
+  console.log("");
+  console.log("🔴 ERROR HANDLER TRIGGERED");
+  console.log("Error object:", error);
+  console.log("Error message:", error.message);
+
+  let status: number = error.httpCode || error.status || 500;
+  let message: string | string[] = error.message || "Something went wrong";
+
+  // Handle HttpException instances
+  if (error instanceof HttpException) {
+    status = error.httpCode;
+    message = error.message;
+  }
+
+  // Handle JWT errors
+  if (error instanceof JsonWebTokenError) {
+    status = 401;
+    message = HttpMessages._UNAUTHORIZED;
+  }
+
+  const parsed = instanceToPlain(error);
+  const validatorErrors: string[] = [];
+
+  // Handle validation errors from class-validator
+  if (parsed.errors && Array.isArray(parsed.errors) && parsed.errors.length > 0) {
+    for (const i of parsed.errors) {
+      const keys = Object.keys(i.constraints || {});
+      if (keys.length > 0) {
+        validatorErrors.push(i.constraints[keys[0]]);
+      }
+    }
+    if (validatorErrors.length > 0) {
+      message = validatorErrors;
+    }
+  }
+
+  // Log full error details for debugging
+  if (status === 400) {
+    console.log("📋 Full error details:", JSON.stringify(parsed, null, 2));
+  }
+
+  const response = {
+    success: false,
+    statusCode: status,
+    message: Array.isArray(message) ? message[0] : message,
+    errors: Array.isArray(message) ? message : undefined,
+  };
+
+  res.status(status).json(response);
+};

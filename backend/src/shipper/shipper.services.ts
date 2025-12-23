@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { Account } from "@/auth/account/account.entity";
-import { Role } from "@/auth/role/role.entity";
+import { Role } from "@/role/role.entity";
 import { CreateShipperDto, UpdateShipperDto } from "./dtos/shipper.dtos";
 import { EntityNotFoundException, BadRequestException } from "@/exceptions/http-exceptions";
 import * as bcrypt from 'bcrypt';

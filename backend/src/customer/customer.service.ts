@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { Account } from "@/auth/account/account.entity";
-import { Role } from "@/auth/role/role.entity";
+import { Role } from "@/role/role.entity";
 import { CreateCustomerDto, UpdateCustomerDto } from "./dtos/customer.dtos";
 import { EntityNotFoundException, BadRequestException } from "@/exceptions/http-exceptions";
 import * as bcrypt from 'bcrypt';
@@ -9,7 +9,7 @@ import { Cart } from "@/Cart/cart.entity";
 import { Feedback } from "@/feedback/feedback.entity";
 import { SMSNotification } from "@/notification/smsNotification.entity";
 import { Marketing } from "@/marketing/marketing.entity";
-import { RefreshToken } from "@/auth/jwt/refreshToken.entity";
+import { RefreshToken } from "@/jwt/refreshToken.entity";
 
 const SALT_ROUNDS = 8;
 

@@ -6,7 +6,7 @@ import { UpdateOrderDto, OrderStatus } from "./dtos/update-order.dto";
 import { Auth } from "@/middlewares/auth.middleware";
 import { AccountDetailsDto } from "@/auth/dtos/account.dto";
 import { HttpException } from "@/exceptions/http-exceptions";
-import { JwtService } from "@/auth/jwt/jwt.service";
+import { JwtService } from "@/jwt/jwt.service";
 
 @Service()
 @Controller("/orders")

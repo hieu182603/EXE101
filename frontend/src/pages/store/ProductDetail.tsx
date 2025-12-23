@@ -1,12 +1,8 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Button from '@components/ui/Button';
-import ProductCard from '@components/store/ProductCard';
-import { productService } from '@services/productService';
-import { feedbackService } from '@services/feedbackService';
-import type { Product } from '@types/product';
-import type { Feedback } from '@services/feedbackService';
+import Button from '../../components/ui/Button';
+import ProductCard from '../../components/store/ProductCard';
 
 interface Review {
   id: number;
@@ -21,80 +17,21 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams();
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState('specs');
+  const [mainImage, setMainImage] = useState(`https://picsum.photos/800/800?random=${id}`);
   const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
   const [isZooming, setIsZooming] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
 
-  // Product data
-  const [product, setProduct] = useState<Product | null>(null);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  
-  // Reviews
-  const [reviews, setReviews] = useState<Review[]>([]);
+  // Review State
+  const [reviews, setReviews] = useState<Review[]>([
+    { id: 1, user: 'Minh Quân', rating: 5, comment: 'Sản phẩm quá đẹp, đóng gói cẩn thận. Giao hàng nhanh trong 2h.', date: '2 ngày trước', avatar: 'https://picsum.photos/100/100?random=rv1' },
+    { id: 2, user: 'Thanh Hà', rating: 4, comment: 'Hiệu năng tốt, nhưng quạt tản nhiệt hơi ồn khi render nặng.', date: '5 ngày trước', avatar: 'https://picsum.photos/100/100?random=rv2' },
+    { id: 3, user: 'Hoàng Nam', rating: 5, comment: 'Đáng tiền, shop tư vấn nhiệt tình. Sẽ ủng hộ lần sau.', date: '1 tuần trước', avatar: 'https://picsum.photos/100/100?random=rv3' },
+  ]);
   const [userRating, setUserRating] = useState(5);
   const [userComment, setUserComment] = useState('');
-
-  // Load product data
-  useEffect(() => {
-    const loadProductData = async () => {
-      if (!id) return;
-      
-      try {
-        setLoading(true);
-        
-        // Load product details
-        const productData = await productService.getProductById(id);
-        if (productData) {
-          setProduct(productData);
-          
-          // Set main image from product images
-          if (productData.images && productData.images.length > 0) {
-            // mainImage will be set below
-          }
-          
-          // Load related products by category
-          if (productData.categoryId) {
-            const related = await productService.getProductsByCategory(productData.categoryId);
-            // Filter out current product and limit to 4
-            const filtered = related
-              .filter(p => p.id !== id)
-              .slice(0, 4);
-            setRelatedProducts(filtered);
-          }
-        }
-        
-        // Load reviews/feedbacks
-        const feedbacks = await feedbackService.getFeedbacksByProduct(id);
-        // Transform Feedback[] to Review[]
-        const transformedReviews: Review[] = feedbacks.map((fb: Feedback, index: number) => ({
-          id: parseInt(fb.id) || index,
-          user: fb.account?.name || fb.account?.username || 'Anonymous',
-          rating: 5, // Backend may not have rating field
-          comment: fb.content,
-          date: fb.createdAt ? new Date(fb.createdAt).toLocaleDateString('vi-VN') : 'N/A',
-          avatar: `https://picsum.photos/200/200?random=user${index}`
-        }));
-        setReviews(transformedReviews);
-      } catch (error) {
-        console.error('Error loading product data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProductData();
-  }, [id]);
-
-  // Set main image when product loads
-  const [mainImage, setMainImage] = useState(`https://picsum.photos/800/800?random=${id}`);
-  useEffect(() => {
-    if (product?.images && product.images.length > 0) {
-      setMainImage(product.images[0].url);
-    }
-  }, [product]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current) return;
@@ -128,55 +65,28 @@ const ProductDetail: React.FC = () => {
     setUserRating(5);
   };
 
-  // Generate thumbnails from product images
-  const thumbnails = product?.images && product.images.length > 0
-    ? product.images.map(img => img.url)
-    : [`https://picsum.photos/800/800?random=${id}`];
+  const thumbnails = [
+    `https://picsum.photos/800/800?random=${id}`,
+    `https://picsum.photos/800/800?random=${Number(id) + 101}`,
+    `https://picsum.photos/800/800?random=${Number(id) + 102}`,
+    `https://picsum.photos/800/800?random=${Number(id) + 103}`,
+  ];
 
-  // Mock specs - backend may not have this structured data
-  const specs = product ? [
-    { label: 'Tên sản phẩm', value: product.name },
-    { label: 'Danh mục', value: product.category?.name || 'N/A' },
-    { label: 'Giá', value: `${product.price.toLocaleString('vi-VN')}₫` },
-    { label: 'Tồn kho', value: `${product.stock} sản phẩm` },
-    { label: 'Mô tả', value: product.description || 'N/A' },
-  ] : [];
+  const specs = [
+    { label: 'Vi xử lý', value: 'Intel Core i9-13900K (24 nhân, 32 luồng)' },
+    { label: 'Card đồ họa', value: 'NVIDIA GeForce RTX 4090 24GB GDDR6X' },
+    { label: 'Bộ nhớ RAM', value: '64GB (2x32GB) DDR5 6000MHz' },
+    { label: 'Lưu trữ', value: '2TB SSD M.2 NVMe PCIe Gen4' },
+    { label: 'Kết nối', value: 'Wi-Fi 6E, Bluetooth 5.3, 2.5G LAN' },
+    { label: 'Cổng giao tiếp', value: 'Thunderbolt 4, USB 3.2 Gen2, HDMI 2.1' },
+  ];
 
-  // Transform related products for ProductCard
-  const relatedProductsDisplay = relatedProducts.map(p => ({
-    id: p.id,
-    name: p.name,
-    price: `${p.price.toLocaleString('vi-VN')}₫`,
-    tag: p.stock === 0 ? 'Hết hàng' : undefined
-  }));
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-12 max-w-[1440px]">
-        <div className="flex items-center justify-center min-h-[600px]">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-slate-400">Đang tải thông tin sản phẩm...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="container mx-auto px-4 py-12 max-w-[1440px]">
-        <div className="text-center py-20">
-          <span className="material-symbols-outlined text-6xl text-slate-600 mb-4 block">inventory_2</span>
-          <h2 className="text-2xl font-bold text-white mb-2">Không tìm thấy sản phẩm</h2>
-          <p className="text-slate-400 mb-6">Sản phẩm bạn đang tìm không tồn tại hoặc đã bị xóa.</p>
-          <Link to="/catalog">
-            <Button>Quay lại cửa hàng</Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  const relatedProducts = [
+    { name: 'Chuột ROG Gladius III', price: '1.890.000₫', id: '10' },
+    { name: 'Bàn phím ROG Strix Scope', price: '3.450.000₫', id: '11' },
+    { name: 'Tai nghe ROG Delta S', price: '4.200.000₫', id: '12' },
+    { name: 'Lót chuột ROG Balteus', price: '1.150.000₫', id: '13' },
+  ];
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-[1440px]">
@@ -228,23 +138,19 @@ const ProductDetail: React.FC = () => {
               <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-primary/20 inline-block">Flagship</span>
               <span className="bg-emerald-500/10 text-emerald-500 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-emerald-500/20 inline-block">Sẵn hàng</span>
             </div>
-            <h1 className="text-4xl font-black text-white tracking-tight leading-tight mb-2">{product.name}</h1>
+            <h1 className="text-4xl font-black text-white tracking-tight leading-tight mb-2">PC Gaming ROG Super Tech Edition #{id}</h1>
             <div className="flex items-center gap-4">
               <div className="flex text-yellow-400">
                 {[1, 2, 3, 4, 5].map(s => <span key={s} className="material-symbols-outlined text-[18px] fill">star</span>)}
               </div>
-              <span className="text-sm text-slate-500 font-medium">{reviews.length} đánh giá</span>
+              <span className="text-sm text-slate-500 font-medium">{reviews.length} đánh giá | 1.2k đã bán</span>
             </div>
           </div>
 
           <div className="flex items-baseline gap-4 border-y border-border-dark py-6">
-            <span className="text-4xl font-black text-primary">{product.price.toLocaleString('vi-VN')}₫</span>
-            {product.stock === 0 && (
-              <span className="ml-2 text-red-500 font-bold text-sm">Hết hàng</span>
-            )}
-            {product.stock > 0 && product.stock < 10 && (
-              <span className="ml-2 text-yellow-500 font-bold text-sm">Còn {product.stock} sản phẩm</span>
-            )}
+            <span className="text-4xl font-black text-primary">52.490.000₫</span>
+            <span className="text-lg text-slate-500 line-through">65.000.000₫</span>
+            <span className="ml-2 text-emerald-500 font-bold text-sm">Tiết kiệm 12.5tr</span>
           </div>
 
           <div className="space-y-4">
@@ -438,25 +344,17 @@ const ProductDetail: React.FC = () => {
           <span className="material-symbols-outlined text-primary">dynamic_feed</span>
           Sản phẩm liên quan
         </h3>
-        {relatedProductsDisplay.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {relatedProductsDisplay.map((p, i) => (
-              <ProductCard 
-                key={p.id}
-                id={p.id}
-                name={p.name}
-                price={p.price}
-                tag={p.tag}
-                imageIndex={parseInt(p.id) + 100}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12 text-slate-500">
-            <span className="material-symbols-outlined text-4xl mb-2 block">inventory_2</span>
-            <p>Chưa có sản phẩm liên quan</p>
-          </div>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {relatedProducts.map((p, i) => (
+            <ProductCard 
+              key={p.id}
+              id={p.id}
+              name={p.name}
+              price={p.price}
+              imageIndex={i + 40}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

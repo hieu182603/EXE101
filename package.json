@@ -6,10 +6,17 @@
   "author": "Group 4",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
+  "workspaces": {
+    "packages": [
+      "frontend",
+      "backend"
+    ],
+    "nohoist": [
+      "**/vite",
+      "**/vite/**",
+      "**/@vitejs/**"
+    ]
+  },
   "scripts": {
     "concurrent": "cross-env NODE_OPTIONS=--no-deprecation concurrently --shell=powershell \"yarn workspace frontend dev\" \"yarn workspace backend dev\""
   },
