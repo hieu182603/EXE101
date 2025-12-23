@@ -239,7 +239,7 @@ Nếu bạn không yêu cầu mã này, vui lòng bỏ qua email này hoặc li�
       };
 
       const info = await this.transporter.sendMail(mailOptions);
-      console.log(`✅ Email sent successfully to ${email}, messageId: ${info.messageId}`);
+      // Email sent successfully - avoid logging sensitive information like messageId in production
       return true;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Unknown error";

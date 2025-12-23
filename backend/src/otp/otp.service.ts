@@ -114,7 +114,6 @@ export class OtpService {
     // Verify OTP
     otp.verified = true;
     await otp.save();
-    console.log(`OTP verified successfully for ${identifier}`);
     return true;
   }
 

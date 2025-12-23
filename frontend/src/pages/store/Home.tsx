@@ -23,6 +23,7 @@ const HomePage: React.FC = () => {
   const [flashSaleProducts, setFlashSaleProducts] = useState<ProductDisplay[]>([]);
   const [newProducts, setNewProducts] = useState<ProductDisplay[]>([]);
   const [laptopProducts, setLaptopProducts] = useState<ProductDisplay[]>([]);
+  const [totalProducts, setTotalProducts] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   // Transform Product to ProductDisplay format
@@ -66,6 +67,10 @@ const HomePage: React.FC = () => {
         // Load laptop products
         const laptops = await productService.getProductsByType('laptop', 5);
         setLaptopProducts(laptops.map(transformProduct));
+
+        // Load total product count for CTA button
+        const allProducts = await productService.getAllProducts();
+        setTotalProducts(allProducts.length);
       } catch (error) {
         console.error('Error loading products:', error);
       } finally {
@@ -398,8 +403,14 @@ const HomePage: React.FC = () => {
           
           <div className="mt-12 text-center">
              <Link to="/catalog">
-               <Button variant="outline" size="lg" className="w-full sm:w-auto px-16 border-border-dark text-slate-400 hover:text-white hover:border-white hover:bg-white/5">
-                 Xem thêm 152 sản phẩm khác
+               <Button
+                 variant="outline"
+                 size="lg"
+                 className="w-full sm:w-auto px-16 border-border-dark text-slate-400 hover:text-white hover:border-white hover:bg-white/5"
+               >
+                 {totalProducts > 0
+                   ? `Xem thêm ${Math.max(totalProducts - laptopProducts.length, 0)} sản phẩm khác`
+                   : 'Xem thêm sản phẩm khác'}
                </Button>
              </Link>
           </div>

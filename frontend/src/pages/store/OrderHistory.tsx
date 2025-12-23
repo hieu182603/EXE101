@@ -140,7 +140,8 @@ const OrderHistory: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-[1000px]">
+    <div className="min-h-screen bg-background-dark py-12">
+      <div className="container mx-auto px-4 max-w-[1000px]">
       <h1 className="text-3xl font-black text-text-main mb-8 tracking-tight">Lịch sử đơn hàng</h1>
       
       {loading ? (
@@ -330,6 +331,7 @@ const OrderHistory: React.FC = () => {
           </div>
         )}
       </Modal>
+      </div>
     </div>
   );
 };

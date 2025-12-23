@@ -23,7 +23,6 @@ export const Auth = (req: RequestWithUser, res: Response, next: NextFunction): a
   
   // Extract token from "Bearer [token]" format
   const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
-  console.log(token);
   
   try {
     const payload = jwtService.verifyAccessToken(token) as AccountDetailsDto | null;

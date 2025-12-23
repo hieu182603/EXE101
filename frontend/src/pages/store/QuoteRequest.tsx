@@ -178,7 +178,7 @@ const QuoteRequest: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto max-w-[1440px] px-4 py-8 flex-1">
+      <div className="container mx-auto max-w-[1440px] px-4 py-10 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
           
           {/* LEFT: Product Selector (Catalog) */}
