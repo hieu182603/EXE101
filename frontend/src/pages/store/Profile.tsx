@@ -280,9 +280,9 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
 
-        <div className="pt-16 px-8 pb-8">
+        <div className="pt-20 px-8 pb-12 space-y-12">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="w-full md:w-auto">
               {isEditing ? (
                 <div className="mb-2">
@@ -321,7 +321,7 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Left Column: Personal Info & Membership */}
             <div className="space-y-10">
               

@@ -5,7 +5,7 @@ import { Input, Textarea } from '@components/ui/Input';
 import Badge from '@components/ui/Badge';
 import { productService } from '@services/productService';
 import { rfqService } from '@services/rfqService';
-import type { Product } from '@types/product';
+import type { Product } from '../../types/product';
 
 // --- Types & Mock Data ---
 type Category = 'CPU' | 'Mainboard' | 'RAM' | 'VGA' | 'SSD' | 'HDD' | 'PSU' | 'Case' | 'Cooling' | 'Monitor' | 'Gear';
@@ -150,7 +150,7 @@ const QuoteRequest: React.FC = () => {
       };
 
       // Get compatible builds
-      const buildsResult = await rfqService.getBuilds(buildFilter);
+      await rfqService.getBuilds(buildFilter);
       
       // For now, just show success message
       // In the future, you might want to show the compatible builds or send email
@@ -166,9 +166,9 @@ const QuoteRequest: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background-dark">
+    <div className="flex flex-col bg-background-dark">
       {/* Header Banner */}
-      <div className="bg-surface-dark border-b border-border-dark py-10 px-4">
+      <div className="bg-surface-dark border-b border-border-dark py-10 px-4 rounded-b-[32px] shadow-lg shadow-black/40 mb-10">
         <div className="container mx-auto max-w-[1440px]">
            <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">Xây Dựng Cấu Hình & Báo Giá</h1>
            <p className="text-slate-400 max-w-2xl">
@@ -178,7 +178,7 @@ const QuoteRequest: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto max-w-[1440px] px-4 py-10 flex-1">
+      <div className="container mx-auto max-w-[1440px] px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
           
           {/* LEFT: Product Selector (Catalog) */}
