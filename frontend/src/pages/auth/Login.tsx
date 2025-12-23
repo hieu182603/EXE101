@@ -2,30 +2,52 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthInput from '@components/ui/AuthInput';
+import { authService } from '@services/authService';
+import { useToast } from '@contexts/ToastContext';
 
 interface AuthPageProps {
   initialSignUp?: boolean;
 }
 
 // --- Component OTP Modal ---
-const OTPModal = ({ isOpen, onClose, onVerify }: { isOpen: boolean; onClose: () => void; onVerify: () => void }) => {
-  const [otp, setOtp] = useState(['', '', '', '']);
+const OTPModal = ({ 
+  isOpen, 
+  onClose, 
+  onVerify, 
+  email,
+  onResend 
+}: { 
+  isOpen: boolean; 
+  onClose: () => void; 
+  onVerify: (otp: string) => Promise<void>;
+  email?: string;
+  onResend?: () => Promise<void>;
+}) => {
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isResending, setIsResending] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
     if (isOpen) {
+      // Reset OTP when modal opens
+      setOtp(['', '', '', '', '', '']);
+      setError(null);
       setTimeout(() => inputRefs.current[0]?.focus(), 100);
     }
   }, [isOpen]);
 
   const handleChange = (index: number, value: string) => {
-    if (isNaN(Number(value))) return;
+    // Only allow digits
+    if (value && isNaN(Number(value))) return;
     const newOtp = [...otp];
-    newOtp[index] = value;
+    newOtp[index] = value.slice(-1); // Only take last character
     setOtp(newOtp);
+    setError(null);
 
     // Auto focus next input
-    if (value && index < 3) {
+    if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -33,6 +55,42 @@ const OTPModal = ({ isOpen, onClose, onVerify }: { isOpen: boolean; onClose: () 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleVerify = async () => {
+    const otpCode = otp.join('');
+    if (otpCode.length !== 6) {
+      setError('Vui lòng nhập đủ 6 số');
+      return;
+    }
+    
+    setIsVerifying(true);
+    setError(null);
+    try {
+      await onVerify(otpCode);
+    } catch (err: any) {
+      setError(err.message || 'Mã OTP không đúng hoặc đã hết hạn');
+      // Clear OTP on error
+      setOtp(['', '', '', '', '', '']);
+      setTimeout(() => inputRefs.current[0]?.focus(), 100);
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleResend = async () => {
+    if (!onResend) return;
+    setIsResending(true);
+    setError(null);
+    try {
+      await onResend();
+      setOtp(['', '', '', '', '', '']);
+      setTimeout(() => inputRefs.current[0]?.focus(), 100);
+    } catch (err: any) {
+      setError(err.message || 'Không thể gửi lại OTP');
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -46,14 +104,17 @@ const OTPModal = ({ isOpen, onClose, onVerify }: { isOpen: boolean; onClose: () 
            <span className="material-symbols-outlined text-3xl">lock_open</span>
         </div>
         <h2 className="text-2xl font-black text-white mb-2">Xác thực OTP</h2>
-        <p className="text-slate-400 text-xs mb-8">Mã xác thực 4 số đã được gửi đến email của bạn.</p>
+        <p className="text-slate-400 text-xs mb-8">
+          Mã xác thực 6 số đã được gửi đến email{email ? ` ${email}` : ''} của bạn.
+        </p>
 
-        <div className="flex justify-center gap-4 mb-8">
+        <div className="flex justify-center gap-3 mb-4">
           {otp.map((digit, index) => (
             <input
               key={index}
               ref={(el) => { inputRefs.current[index] = el; }}
               type="text"
+              inputMode="numeric"
               maxLength={1}
               value={digit}
               onChange={(e) => handleChange(index, e.target.value)}
@@ -63,17 +124,30 @@ const OTPModal = ({ isOpen, onClose, onVerify }: { isOpen: boolean; onClose: () 
           ))}
         </div>
 
+        {error && (
+          <p className="text-red-400 text-xs mb-4">{error}</p>
+        )}
+
         <button 
-          onClick={onVerify}
-          disabled={otp.some(d => !d)}
+          onClick={handleVerify}
+          disabled={otp.some(d => !d) || isVerifying}
           className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Xác nhận
+          {isVerifying ? 'Đang xác thực...' : 'Xác nhận'}
         </button>
 
-        <p className="mt-6 text-[10px] text-slate-500">
-          Không nhận được mã? <button className="text-purple-400 font-bold hover:underline">Gửi lại</button>
-        </p>
+        {onResend && (
+          <p className="mt-6 text-[10px] text-slate-500">
+            Không nhận được mã?{' '}
+            <button 
+              onClick={handleResend}
+              disabled={isResending}
+              className="text-purple-400 font-bold hover:underline disabled:opacity-50"
+            >
+              {isResending ? 'Đang gửi...' : 'Gửi lại'}
+            </button>
+          </p>
+        )}
       </div>
     </div>
   );
@@ -83,12 +157,26 @@ const OTPModal = ({ isOpen, onClose, onVerify }: { isOpen: boolean; onClose: () 
 // --- Main Auth Page Component ---
 export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => {
   const navigate = useNavigate();
+  const toast = useToast();
   const [isSignUp, setIsSignUp] = useState(initialSignUp);
   const [isAnimating, setIsAnimating] = useState(false);
   
-  // State for Password Validation
+  // State for Sign Up Form
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showOTP, setShowOTP] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [registrationData, setRegistrationData] = useState<{
+    username: string;
+    email: string;
+    password: string;
+  } | null>(null);
+
+  // State for Sign In Form
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   // Validation Logic
   const hasLength = password.length >= 8;
@@ -111,20 +199,150 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
     setTimeout(() => setIsAnimating(false), 600);
   };
 
-  const handleSignInSubmit = (e: React.FormEvent) => {
+  const handleSignInSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/');
+    try {
+      setIsSubmitting(true);
+      const result = await authService.login({
+        email: loginEmail,
+        password: loginPassword
+      });
+      // Login successful - navigate to home
+      toast.showSuccess('Đăng nhập thành công!');
+      navigate('/');
+    } catch (error: any) {
+      toast.showError(error.message || 'Đăng nhập thất bại');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleSignUpSubmit = (e: React.FormEvent) => {
+  const handleSignUpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Show OTP Modal instead of direct navigate
-    setShowOTP(true);
+    
+    // Validation
+    if (!username || !email || !password || !confirmPassword) {
+      toast.showWarning('Vui lòng điền đầy đủ thông tin');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.showError('Mật khẩu xác nhận không khớp');
+      return;
+    }
+
+    if (!hasLength || !hasLower || !hasUpper || !hasNumber) {
+      toast.showError('Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      // Validate username format (only letters, numbers, underscores, hyphens)
+      const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+      if (!usernameRegex.test(username.trim())) {
+        toast.showError('Username chỉ được chứa chữ cái, số, dấu gạch dưới và dấu gạch ngang');
+        return;
+      }
+
+      if (username.trim().length < 3 || username.trim().length > 30) {
+        toast.showError('Username phải có từ 3 đến 30 ký tự');
+        return;
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email.trim())) {
+        toast.showError('Email không hợp lệ');
+        return;
+      }
+
+      // Call register API to send OTP
+      await authService.register({
+        username: username.trim(),
+        email: email.trim(),
+        password: password,
+        roleSlug: 'customer'
+      });
+      
+      // Save registration data for OTP verification
+      setRegistrationData({
+        username: username.trim(),
+        email: email.trim(),
+        password: password
+      });
+      
+      // Show success message
+      toast.showSuccess('OTP đã được gửi đến email của bạn');
+      
+      // Show OTP Modal
+      setShowOTP(true);
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      
+      // Extract detailed error message
+      let errorMessage = 'Đăng ký thất bại. Vui lòng thử lại.';
+      
+      if (error.response?.data) {
+        const data = error.response.data;
+        if (data.message) {
+          errorMessage = data.message;
+        } else if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+          errorMessage = data.errors[0];
+        } else if (typeof data === 'string') {
+          errorMessage = data;
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      toast.showError(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleVerifyOTP = () => {
-    setShowOTP(false);
-    navigate('/');
+  const handleVerifyOTP = async (otp: string) => {
+    if (!registrationData) {
+      throw new Error('Thông tin đăng ký không hợp lệ');
+    }
+
+    try {
+      setIsSubmitting(true);
+      // Verify OTP and complete registration
+      await authService.verifyRegister({
+        username: registrationData.username,
+        email: registrationData.email,
+        password: registrationData.password,
+        roleSlug: 'customer',
+        otp: otp
+      });
+      
+      // Registration successful
+      setShowOTP(false);
+      toast.showSuccess('Đăng ký thành công!');
+      navigate('/');
+    } catch (error: any) {
+      throw error; // Let OTP modal handle the error display
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    if (!registrationData) return;
+    
+    try {
+      await authService.resendOTP({
+        identifier: registrationData.email,
+        isForLogin: false
+      });
+      toast.showSuccess('OTP đã được gửi lại');
+    } catch (error: any) {
+      toast.showError(error.message || 'Không thể gửi lại OTP');
+      throw error;
+    }
   };
 
   return (
@@ -149,7 +367,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
       <div className={`relative bg-[#1a1a2e] rounded-[24px] shadow-2xl shadow-black/50 overflow-hidden w-full max-w-[850px] min-h-[520px] z-10 border border-white/5`}>
         
         {/* --- OTP MODAL OVERLAY --- */}
-        <OTPModal isOpen={showOTP} onClose={() => setShowOTP(false)} onVerify={handleVerifyOTP} />
+        <OTPModal 
+          isOpen={showOTP} 
+          onClose={() => setShowOTP(false)} 
+          onVerify={handleVerifyOTP}
+          email={registrationData?.email}
+          onResend={handleResendOTP}
+        />
 
         {/* --- SIGN UP FORM CONTAINER --- */}
         <div className={`absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 ${isSignUp ? 'translate-x-[100%] opacity-100 z-50' : 'opacity-0 z-10'}`}>
@@ -158,8 +382,19 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
             <p className="text-slate-400 text-[11px] mb-6">Join us to explore premium PC components</p>
 
             <div className="w-full space-y-2">
-              <AuthInput icon="person" placeholder="Full Name" />
-              <AuthInput icon="mail" placeholder="Email Address" type="email" />
+              <AuthInput 
+                icon="person" 
+                placeholder="Username" 
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <AuthInput 
+                icon="mail" 
+                placeholder="Email Address" 
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
               
               <AuthInput 
                 icon="lock" 
@@ -200,11 +435,21 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
                   </div>
               </div>
               
-              <AuthInput icon="lock_reset" placeholder="Confirm Password" showEye={true} />
+              <AuthInput 
+                icon="lock_reset" 
+                placeholder="Confirm Password" 
+                showEye={true}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
             </div>
 
-            <button className="w-full mt-5 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95">
-              Create Account
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full mt-5 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Đang xử lý...' : 'Create Account'}
             </button>
 
             <div className="mt-5 pt-5 border-t border-white/5 w-full">
@@ -228,8 +473,20 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
             <p className="text-slate-400 text-xs mb-8">Sign in to access your tech dashboard</p>
 
             <div className="w-full space-y-3">
-              <AuthInput icon="mail" placeholder="Email Address" type="email" />
-              <AuthInput icon="lock" placeholder="Password" showEye={true} />
+              <AuthInput 
+                icon="mail" 
+                placeholder="Email Address" 
+                type="email"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
+              <AuthInput 
+                icon="lock" 
+                placeholder="Password" 
+                showEye={true}
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
             </div>
 
             <div className="w-full flex justify-between items-center mt-3 mb-6">
@@ -240,8 +497,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
                <Link to="/forgot-password" className="text-[11px] font-bold text-purple-400 hover:text-purple-300 transition-colors">Forgot Password?</Link>
             </div>
 
-            <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95">
-              Sign In
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Đang đăng nhập...' : 'Sign In'}
             </button>
 
             <div className="mt-6 pt-6 border-t border-white/5 w-full">

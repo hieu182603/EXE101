@@ -84,109 +84,90 @@ export class EmailService {
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Mã OTP xác thực - Technical Store</title>
+  <meta charset="UTF-8" />
+  <title>Mã OTP - Technical Store</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-  <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #0a0a0a;">
+
+<body style="margin:0;padding:0;background:#f5f6fa;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="padding:32px 0;">
     <tr>
-      <td align="center" style="padding: 40px 20px;">
-        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 217, 255, 0.1);">
-          
-          <!-- Header với gradient -->
+      <td align="center">
+
+        <!-- Container -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+               style="max-width:620px;background:#ffffff;border-radius:16px;overflow:hidden;
+               box-shadow:0 10px 30px rgba(0,0,0,0.12);">
+
+          <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%); padding: 30px 20px; text-align: center;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">
+            <td style="padding:24px;background:linear-gradient(135deg,#ff2e2e,#b80000);">
+              <div style="color:#ffffff;font-size:22px;font-weight:800;">
                 Technical Store
-              </h1>
+              </div>
             </td>
           </tr>
 
           <!-- Content -->
           <tr>
-            <td style="padding: 40px 30px; background-color: #1a1a2e;">
-              
-              <!-- Greeting -->
-              <h2 style="margin: 0 0 10px 0; color: #ffffff; font-size: 24px; font-weight: 600;">
-                Xin chào${username ? ` ${username}` : ""}! 👋
-              </h2>
-              
-              <p style="margin: 0 0 30px 0; color: #b0b0b0; font-size: 16px; line-height: 1.6;">
-                Cảm ơn bạn đã ${purposeTexts[purpose]} tại Technical Store. Để hoàn tất quá trình này, vui lòng sử dụng mã OTP bên dưới.
-              </p>
+            <td style="padding:28px 26px 20px 26px;color:#111827;">
 
-              <!-- OTP Code Box -->
-              <table role="presentation" style="width: 100%; margin: 30px 0;">
+              <div style="font-size:18px;font-weight:700;margin-bottom:8px;">
+                Xin chào${username ? ` ${username}` : ""}!
+              </div>
+
+              <div style="font-size:14px;color:#374151;line-height:1.6;margin-bottom:22px;">
+                Bạn vừa yêu cầu <strong style="color:#b80000;">${purposeTexts[purpose]}</strong>.
+                Vui lòng sử dụng mã OTP bên dưới.
+              </div>
+
+              <!-- OTP -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td align="center" style="padding: 0;">
-                    <div style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%); border: 2px solid rgba(0, 217, 255, 0.3); border-radius: 16px; padding: 30px 20px; box-shadow: 0 4px 20px rgba(0, 217, 255, 0.15);">
-                      <p style="margin: 0 0 15px 0; color: #888; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
-                        Mã xác thực của bạn
-                      </p>
-                      <div style="display: inline-block; background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 42px; font-weight: 700; letter-spacing: 12px; font-family: 'Courier New', monospace; text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);">
-                        ${otpCode}
-                      </div>
+                  <td align="center">
+                    <div style="
+                      display:inline-block;
+                      padding:16px 22px;
+                      border-radius:14px;
+                      background:#fff5f5;
+                      border:1px solid #fecaca;
+                      font-family:'Courier New',monospace;
+                      font-size:40px;
+                      font-weight:800;
+                      letter-spacing:10px;
+                      color:#b80000;">
+                      ${otpCode}
                     </div>
                   </td>
                 </tr>
               </table>
 
-              <!-- Instructions -->
-              <div style="background-color: rgba(0, 217, 255, 0.1); border-left: 4px solid #00d9ff; padding: 20px; border-radius: 8px; margin: 30px 0;">
-                <p style="margin: 0 0 10px 0; color: #00d9ff; font-size: 14px; font-weight: 600;">
-                  ⏱️ Thời gian hiệu lực
-                </p>
-                <p style="margin: 0; color: #b0b0b0; font-size: 14px; line-height: 1.6;">
-                  Mã OTP này có hiệu lực trong <strong style="color: #ffffff;">3 phút</strong>. Vui lòng không chia sẻ mã này với bất kỳ ai.
-                </p>
+              <div style="margin-top:16px;font-size:13px;color:#6b7280;text-align:center;">
+                Mã có hiệu lực trong <strong>3 phút</strong>.
               </div>
 
-              <!-- Security Notice -->
-              <div style="margin: 30px 0; padding: 20px; background-color: rgba(255, 193, 7, 0.1); border-left: 4px solid #ffc107; border-radius: 8px;">
-                <p style="margin: 0; color: #ffc107; font-size: 14px; font-weight: 600;">
-                  🔒 Lưu ý bảo mật
-                </p>
-                <p style="margin: 10px 0 0 0; color: #b0b0b0; font-size: 13px; line-height: 1.6;">
-                  Nếu bạn không yêu cầu mã này, vui lòng bỏ qua email này hoặc liên hệ với chúng tôi ngay lập tức. Technical Store sẽ không bao giờ yêu cầu bạn cung cấp mật khẩu hoặc mã OTP qua email.
-                </p>
+              <!-- Security -->
+              <div style="
+                margin-top:20px;
+                padding:14px;
+                background:#fff1f2;
+                border-left:4px solid #ff2e2e;
+                border-radius:8px;
+                font-size:13px;
+                color:#374151;
+                line-height:1.6;">
+                <strong style="color:#b80000;">Lưu ý:</strong>
+                Không chia sẻ mã này cho bất kỳ ai. Technical Store không bao giờ yêu cầu mật khẩu hoặc OTP qua email.
               </div>
-
-              <!-- CTA Button (optional) -->
-              <table role="presentation" style="width: 100%; margin: 30px 0;">
-                <tr>
-                  <td align="center">
-                    <p style="margin: 0 0 15px 0; color: #b0b0b0; font-size: 14px;">
-                      Nhập mã này vào form xác thực để tiếp tục
-                    </p>
-                  </td>
-                </tr>
-              </table>
 
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style="padding: 30px; background-color: #0a0a0a; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-              <table role="presentation" style="width: 100%; border-collapse: collapse;">
-                <tr>
-                  <td align="center" style="padding-bottom: 20px;">
-                    <p style="margin: 0; color: #666; font-size: 12px; line-height: 1.6;">
-                      © ${new Date().getFullYear()} <strong style="color: #00d9ff;">Technical Store</strong>. All rights reserved.
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
-                    <p style="margin: 0; color: #555; font-size: 11px; line-height: 1.6;">
-                      Email này được gửi tự động, vui lòng không trả lời trực tiếp.<br>
-                      Nếu bạn có thắc mắc, vui lòng liên hệ bộ phận hỗ trợ khách hàng.
-                    </p>
-                  </td>
-                </tr>
-              </table>
+            <td style="padding:16px 26px;border-top:1px solid #f1f5f9;">
+              <div style="font-size:12px;color:#9ca3af;">
+                © ${new Date().getFullYear()} Technical Store
+              </div>
             </td>
           </tr>
 
@@ -196,6 +177,7 @@ export class EmailService {
   </table>
 </body>
 </html>
+
     `;
   }
 

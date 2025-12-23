@@ -91,28 +91,43 @@ export class OtpService {
     
     const otp = await Otp.findOne({ where: whereCondition });
     if (!otp) {
+      console.log(`OTP not found for ${identifier} with code ${code}`);
       return false;
     }
     
-    const now = new Date(Date.now() - 14 * 60 * 60 * 1000);
-    if (now.getTime() - otp.createdAt.getTime() > 3 * 60 * 1000) {
-      console.log("otp expired");
+    // Check if OTP is already verified
+    if (otp.verified) {
+      console.log(`OTP already verified for ${identifier}`);
       return false;
     }
+    
+    // Check expiration: OTP expires after 3 minutes
+    const now = new Date();
+    const otpAge = now.getTime() - otp.createdAt.getTime();
+    const expirationTime = 3 * 60 * 1000; // 3 minutes in milliseconds
+    
+    if (otpAge > expirationTime) {
+      console.log(`OTP expired for ${identifier}. Age: ${Math.floor(otpAge / 1000)}s`);
+      return false;
+    }
+    
+    // Verify OTP
     otp.verified = true;
     await otp.save();
+    console.log(`OTP verified successfully for ${identifier}`);
     return true;
   }
 
   async getActiveOtp(): Promise<Otp[]> {
     const otp = await Otp.find();
-    const now = new Date(Date.now() - 14 * 60 * 60 * 1000);
+    const now = new Date();
+    const expirationTime = 3 * 60 * 1000; // 3 minutes in milliseconds
     const expired = otp.filter(
-      (otp) => now.getTime() - otp.createdAt.getTime() > 3 * 60 * 1000
+      (otp) => now.getTime() - otp.createdAt.getTime() > expirationTime
     );
     await Otp.remove(expired);
     return otp.filter(
-      (otp) => now.getTime() - otp.createdAt.getTime() <= 3 * 60 * 1000
+      (otp) => now.getTime() - otp.createdAt.getTime() <= expirationTime
     );
   }
 

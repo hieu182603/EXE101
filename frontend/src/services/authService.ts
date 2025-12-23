@@ -25,7 +25,7 @@ interface RegisterData {
     username: string;
     email: string;
     password: string;
-    roleSlug?: string;
+  roleSlug?: string;
 }
 
 interface VerifyRegisterData {
@@ -160,10 +160,20 @@ export const authService = {
             roleSlug: userData.roleSlug || 'customer' 
         };
 
-        // Make API call
-        const response = await api.post<ApiResponse>('/account/register', cleanedData);
-        
-        return response.data;
+        try {
+            // Make API call
+            const response = await api.post<ApiResponse>('/account/register', cleanedData);
+            return response.data;
+        } catch (error: any) {
+            // Extract detailed error message from response
+            const errorMessage = error.response?.data?.message || 
+                                error.response?.data?.errors?.[0] ||
+                                error.message || 
+                                'Đăng ký thất bại. Vui lòng thử lại.';
+            const enhancedError = new Error(errorMessage);
+            (enhancedError as any).response = error.response;
+            throw enhancedError;
+        }
     },
 
     /**
@@ -311,8 +321,32 @@ export const authService = {
             };
             
             const response = await api.post('/account/login', cleanedCredentials);
+            const accessToken = response.data as string;
+
+            // Persist token
+            localStorage.setItem('authToken', accessToken);
+
+            // Small delay to ensure interceptor sees token
+            await new Promise((resolve) => setTimeout(resolve, 100));
+
+            // Fetch and store user profile
+            try {
+                const userProfile = await authService.getUserProfile();
+                const userData = userProfile?.data || userProfile;
+                if (userData) {
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    // Notify AuthContext
+                    window.dispatchEvent(
+                        new CustomEvent('auth:login', {
+                            detail: { user: userData, token: accessToken },
+                        })
+                    );
+                }
+            } catch (profileError) {
+                // If profile fetch fails, still keep token
+            }
             
-            return response.data;
+            return accessToken;
         } catch (error: unknown) {
             if (isErrorWithMessage(error) && 'response' in error) {
                 return handleAuthError(error as AuthError);

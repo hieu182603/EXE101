@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { HttpException } from "@/exceptions/http-exceptions";
+import { HttpException, BaseException, ValidationException } from "@/exceptions/http-exceptions";
 import { HttpMessages } from "@/exceptions/http-messages.constant";
 import { JsonWebTokenError } from "jsonwebtoken";
 import { instanceToPlain } from "class-transformer";
@@ -22,12 +22,18 @@ export const errorHandler = (
   console.log("🔴 ERROR HANDLER TRIGGERED");
   console.log("Error object:", error);
   console.log("Error message:", error.message);
+  console.log("Error type:", error.constructor?.name);
 
   let status: number = error.httpCode || error.status || 500;
   let message: string | string[] = error.message || "Something went wrong";
 
+  // Handle BaseException instances (includes ValidationException)
+  if (error instanceof BaseException) {
+    status = error.status;
+    message = error.userMessage || error.message;
+  }
   // Handle HttpException instances
-  if (error instanceof HttpException) {
+  else if (error instanceof HttpException) {
     status = error.httpCode;
     message = error.message;
   }

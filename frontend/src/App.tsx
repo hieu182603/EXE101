@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@contexts/AuthContext';
 import { CartProvider } from '@contexts/CartContext';
+import { ToastProvider } from '@contexts/ToastContext';
 import AdminLayout from '@layouts/AdminLayout';
 import MainLayout from '@layouts/MainLayout';
 import SuspenseWrapper from '@components/ui/SuspenseWrapper';
@@ -63,9 +64,10 @@ function ProtectedRoute({
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <CartProvider>
-          <Routes>
+      <ToastProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Routes>
             {/* User Store Routes */}
             <Route element={<MainLayout />}>
               <Route path="/" element={<SuspenseWrapper><LazyHomePage /></SuspenseWrapper>} />
@@ -100,8 +102,9 @@ const App: React.FC = () => {
             {/* Default */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </CartProvider>
-      </AuthProvider>
+          </CartProvider>
+        </AuthProvider>
+      </ToastProvider>
     </BrowserRouter>
   );
 };
