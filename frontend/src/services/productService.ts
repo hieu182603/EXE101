@@ -5,9 +5,8 @@ class ProductService {
   async getAllProducts(): Promise<Product[]> {
     try {
       const response = await api.get<ApiResponse<Product[]>>("/products");
-      if (response.data && response.data.data && response.data.data.products) {
-        return response.data.data.products;
-      }
+      if (response.data?.data?.products) return response.data.data.products;
+      if (response.data?.products) return response.data.products;
       return [];
     } catch (error) {
       console.error("Error fetching all products:", error);
@@ -20,9 +19,8 @@ class ProductService {
       const response = await api.get<ApiResponse<Product[]>>(
         `/products/category/${categoryId}`
       );
-      if (response.data && response.data.products) {
-        return response.data.products;
-      }
+      if (response.data?.products) return response.data.products;
+      if (response.data?.data?.products) return response.data.data.products;
       return [];
     } catch (error) {
       console.error("Error fetching products by category:", error);
@@ -30,19 +28,13 @@ class ProductService {
     }
   }
 
-  async getProductsByCategoryName(categoryName: string): Promise<Product[]> {
+  async getProductsByCategoryName(categoryName: string, limit?: number): Promise<Product[]> {
     try {
       const response = await api.get<ApiResponse<Product[]>>(
-        `/products/category-name/${categoryName}`
+        `/products/category-name/${categoryName}${limit ? `?limit=${limit}` : ""}`
       );
-      // Correct mapping for your API response:
-      if (response.data && response.data.data && response.data.data.products) {
-        return response.data.data.products;
-      }
-      // Fallback for other possible structures
-      if (response.data && response.data.products) {
-        return response.data.products;
-      }
+      if (response.data?.data?.products) return response.data.data.products;
+      if (response.data?.products) return response.data.products;
       return [];
     } catch (error) {
       console.error("Error fetching products by category name:", error);
@@ -82,9 +74,8 @@ class ProductService {
   async getProductById(id: string): Promise<Product | null> {
     try {
       const response = await api.get<ApiResponse<Product>>(`/products/${id}`);
-      if (response.data && response.data.data && response.data.data.product) {
-        return response.data.data.product;
-      }
+      if (response.data?.data?.product) return response.data.data.product;
+      if (response.data?.product) return response.data.product;
       return null;
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -122,9 +113,8 @@ class ProductService {
           accessories: Product[];
         }>
       >(`/products/new?limit=${limit}`);
-      if (response.data && response.data.data && response.data.data.products) {
-        return response.data.data.products;
-      }
+      if (response.data?.data?.products) return response.data.data.products;
+      if (response.data?.products) return response.data.products as any;
       return { laptops: [], pcs: [], accessories: [] };
     } catch (error) {
       console.error("Error fetching new products:", error);
@@ -137,9 +127,8 @@ class ProductService {
       const response = await api.get<ApiResponse<Product[]>>(
         `/products/top-selling?limit=${limit}`
       );
-      if (response.data && response.data.data && response.data.data.products) {
-        return response.data.data.products;
-      }
+      if (response.data?.data?.products) return response.data.data.products;
+      if (response.data?.products) return response.data.products;
       return [];
     } catch (error) {
       console.error("Error fetching top selling products:", error);
@@ -185,9 +174,8 @@ class ProductService {
       const response = await api.get<ApiResponse<Product[]>>(
         `/products/type/${type}?limit=${limit}`
       );
-      if (response.data && response.data.products) {
-        return response.data.products;
-      }
+      if (response.data?.data?.products) return response.data.data.products;
+      if (response.data?.products) return response.data.products;
       return [];
     } catch (error) {
       console.error(`Error fetching products by type ${type}:`, error);

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ProductCard from '@components/store/ProductCard';
 import Button from '@components/ui/Button';
 import { productService } from '@services/productService';
-import type { Product } from '@types/product';
+import type { Product } from '@/types/product';
 
 interface ProductDisplay {
   id: string;
@@ -55,7 +55,7 @@ const HomePage: React.FC = () => {
         setFlashSaleProducts(topSelling.map(transformProduct));
         
         // Load new products
-        const newProductsData = await productService.getNewProducts(5);
+        const newProductsData = await productService.getNewProducts(12);
         // Combine laptops, pcs, accessories
         const allNew = [
           ...(newProductsData.laptops || []),
@@ -64,9 +64,31 @@ const HomePage: React.FC = () => {
         ].slice(0, 5);
         setNewProducts(allNew.map(transformProduct));
         
-        // Load laptop products
-        const laptops = await productService.getProductsByType('laptop', 5);
-        setLaptopProducts(laptops.map(transformProduct));
+        // Load laptop products with fallbacks by category name
+        const laptopCategoryNames = [
+          'Laptop',
+          'Laptop Gaming',
+          'Laptop Gaming & Đồ họa',
+          'laptop',
+        ];
+
+        let laptops: Product[] = [];
+        for (const name of laptopCategoryNames) {
+          const res = await productService.getProductsByCategoryName(name, 12);
+          if (res.length > 0) {
+            laptops = res;
+            break;
+          }
+        }
+        // Fallback: reuse newProducts laptops if category lookup empty
+        if (laptops.length === 0) {
+          laptops = newProductsData.laptops || [];
+        }
+        // Final fallback: use top selling
+        if (laptops.length === 0) {
+          laptops = await productService.getTopSellingProducts(12);
+        }
+        setLaptopProducts(laptops.slice(0, 10).map(transformProduct));
 
         // Load total product count for CTA button
         const allProducts = await productService.getAllProducts();

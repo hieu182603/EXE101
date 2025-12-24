@@ -1238,7 +1238,7 @@ export class ProductService {
   // Thêm method để lấy sản phẩm theo tên category
   async getProductsByCategoryName(
     categoryName: string,
-    limit: number = 8
+    limit: number = 1000
   ): Promise<Product[]> {
     const category = await this.getCategoryByName(categoryName);
 

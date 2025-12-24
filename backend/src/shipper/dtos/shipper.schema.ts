@@ -54,3 +54,4 @@ export const UpdateShipperSchema = z.object({
 export type CreateShipperDto = z.infer<typeof CreateShipperSchema>;
 export type UpdateShipperDto = z.infer<typeof UpdateShipperSchema>;
 
+

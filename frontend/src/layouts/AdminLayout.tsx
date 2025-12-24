@@ -93,13 +93,7 @@ const AdminLayout: React.FC = () => {
   };
 
   // Enhanced Mock Notifications
-  const mockNotifications = [
-    { id: 1, type: 'order', title: 'Đơn hàng mới #ORD-8392', desc: 'Khách hàng Nguyễn Văn A vừa đặt hàng', time: '5 phút trước', unread: true },
-    { id: 2, type: 'stock', title: 'Cảnh báo tồn kho', desc: 'RTX 4090 Gaming OC chỉ còn 2 sản phẩm', time: '1 giờ trước', unread: true },
-    { id: 3, type: 'review', title: 'Đánh giá mới 5 sao', desc: 'Trần Thị B đã đánh giá Laptop ASUS...', time: '3 giờ trước', unread: false },
-    { id: 4, type: 'system', title: 'Shipper đã nhận đơn', desc: 'Shipper Nguyễn Văn A đang giao #ORD-8390', time: '5 giờ trước', unread: false },
-    { id: 5, type: 'order', title: 'Yêu cầu hủy đơn #ORD-8111', desc: 'Lý do: Đặt nhầm sản phẩm', time: '1 ngày trước', unread: false },
-  ];
+  const mockNotifications: Array<{ id: number; type: string; title: string; desc: string; time: string; unread: boolean }> = [];
 
   const filteredNotifications = useMemo(() => {
     if (notificationTab === 'unread') {

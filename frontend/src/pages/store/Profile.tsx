@@ -94,24 +94,7 @@ const ProfilePage: React.FC = () => {
   }, []);
 
   // Danh sách địa chỉ (Address Book)
-  const [addresses, setAddresses] = useState<Address[]>([
-    {
-      id: '1',
-      label: 'Nhà riêng',
-      recipientName: 'Alex User',
-      phone: '0901234567',
-      detail: '123 Đường Công Nghệ, Q.1, TP.HCM',
-      isDefault: true
-    },
-    {
-      id: '2',
-      label: 'Công ty',
-      recipientName: 'Alex Work',
-      phone: '0909888777',
-      detail: 'Tòa nhà Tech, 456 Lê Duẩn, Q.1, TP.HCM',
-      isDefault: false
-    }
-  ]);
+  const [addresses, setAddresses] = useState<Address[]>([]);
 
   // Form state cho địa chỉ mới/sửa
   const [addressForm, setAddressForm] = useState<Partial<Address>>({});

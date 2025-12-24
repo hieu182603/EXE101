@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@components/ui/Modal';
 import Button from '@components/ui/Button';
-import Badge from '@components/ui/Badge';
 import { orderService } from '@services/orderService';
-import { OrderStatus } from '@types/order';
+import type { Order as BackendOrder, OrderDetail as BackendOrderDetail, OrderStatus } from '../../types/order';
 
 interface OrderItem {
   id: string;
@@ -35,17 +34,17 @@ const OrderHistory: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   // Map backend order status to display variant
-  const getStatusVariant = (status: string): 'primary' | 'success' | 'warning' | 'danger' | 'info' => {
+  const getStatusVariant = (status: OrderStatus | string): 'primary' | 'success' | 'warning' | 'danger' | 'info' => {
     switch (status) {
-      case OrderStatus.PENDING:
-      case OrderStatus.ASSIGNED:
+      case 'PENDING':
+      case 'ASSIGNED':
         return 'info';
-      case OrderStatus.CONFIRMED:
-      case OrderStatus.SHIPPING:
+      case 'CONFIRMED':
+      case 'SHIPPING':
         return 'warning';
-      case OrderStatus.DELIVERED:
+      case 'DELIVERED':
         return 'success';
-      case OrderStatus.CANCELLED:
+      case 'CANCELLED':
         return 'danger';
       default:
         return 'info';
@@ -53,19 +52,19 @@ const OrderHistory: React.FC = () => {
   };
 
   // Map backend order status to Vietnamese display
-  const getStatusDisplay = (status: string): string => {
+  const getStatusDisplay = (status: OrderStatus | string): string => {
     switch (status) {
-      case OrderStatus.PENDING:
+      case 'PENDING':
         return 'CHỜ XỬ LÝ';
-      case OrderStatus.ASSIGNED:
+      case 'ASSIGNED':
         return 'ĐÃ PHÂN CÔNG';
-      case OrderStatus.CONFIRMED:
+      case 'CONFIRMED':
         return 'ĐÃ XÁC NHẬN';
-      case OrderStatus.SHIPPING:
+      case 'SHIPPING':
         return 'ĐANG GIAO';
-      case OrderStatus.DELIVERED:
+      case 'DELIVERED':
         return 'HOÀN THÀNH';
-      case OrderStatus.CANCELLED:
+      case 'CANCELLED':
         return 'ĐÃ HỦY';
       default:
         return status;
@@ -78,18 +77,26 @@ const OrderHistory: React.FC = () => {
       try {
         setLoading(true);
         const response = await orderService.getOrders({ page: 1, limit: 1000 });
-        
+
         // Transform backend orders to display format
-        const ordersData = response.data?.data || response.data?.orders || [];
-        const transformedOrders: Order[] = ordersData.map((order: any) => {
+        const ordersData = (response.data?.data || response.data?.orders || []) as BackendOrder[];
+        const transformedOrders: Order[] = ordersData.map((order) => {
+          const paymentSource = order as unknown as { paymentMethod?: string };
+          const paymentMethod = typeof paymentSource.paymentMethod === 'string' ? paymentSource.paymentMethod : 'Cash on delivery';
+
           // Transform orderDetails to items
-          const items: OrderItem[] = (order.orderDetails || []).map((detail: any) => ({
-            id: detail.product?.id || detail.id,
-            name: detail.product?.name || 'Unknown',
-            price: detail.price || 0,
-            qty: detail.quantity || 0,
-            image: detail.product?.url || detail.product?.images?.[0]?.url || 'https://picsum.photos/200/200'
-          }));
+          const items: OrderItem[] = (order.orderDetails || []).map((detail: BackendOrderDetail) => {
+            const extendedProduct = detail.product as BackendOrderDetail['product'] & { images?: { url?: string }[] };
+            const fallbackImage = extendedProduct?.images?.[0]?.url;
+
+            return {
+              id: detail.product?.id || detail.id,
+              name: detail.product?.name || 'Unknown',
+              price: detail.price || 0,
+              qty: detail.quantity || 0,
+              image: detail.product?.url || fallbackImage || 'https://picsum.photos/200/200'
+            };
+          });
 
           return {
             id: order.id,
@@ -99,7 +106,7 @@ const OrderHistory: React.FC = () => {
             variant: getStatusVariant(order.status),
             items,
             shippingAddress: order.shippingAddress || 'N/A',
-            paymentMethod: order.paymentMethod || 'Cash on delivery',
+            paymentMethod,
             shippingFee: 0, // Backend may not have this field
             discount: 0 // Backend may not have this field
           };

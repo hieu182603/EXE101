@@ -6,7 +6,7 @@ import Modal from '@components/ui/Modal';
 import Pagination from '@components/ui/Pagination';
 import ProductForm from '@components/admin/products/ProductForm';
 import { productService } from '@services/productService';
-import type { Product } from '@types/product';
+import type { Product } from '@/types/product';
 
 interface Product {
   id: string;

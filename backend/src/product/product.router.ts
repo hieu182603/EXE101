@@ -75,7 +75,15 @@ router.get("/products/category/:categoryId", async (req, res, next) => {
 
 router.get("/products/category-name/:categoryName", async (req, res, next) => {
   try {
-    const result = await productController.getProductsByCategoryName(req.params.categoryName);
+    const rawLimit = req.query.limit;
+    const limit =
+      typeof rawLimit === "string" && !isNaN(Number(rawLimit))
+        ? Number(rawLimit)
+        : undefined;
+    const result = await productController.getProductsByCategoryName(
+      req.params.categoryName,
+      limit
+    );
     res.json(result);
   } catch (error: any) {
     next(error);

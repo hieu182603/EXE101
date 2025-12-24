@@ -50,3 +50,4 @@ export const UpdateCustomerSchema = z.object({
 export type CreateCustomerDto = z.infer<typeof CreateCustomerSchema>;
 export type UpdateCustomerDto = z.infer<typeof UpdateCustomerSchema>;
 
+

@@ -8,3 +8,4 @@ export class Role extends NamedEntity{
     accounts: Account[];
 }
 
+

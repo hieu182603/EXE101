@@ -59,7 +59,10 @@ const QuoteRequest: React.FC = () => {
         if (!categoryInfo) return;
 
         // Load products by category name
-        const productsData = await productService.getProductsByCategoryName(categoryInfo.categoryName);
+        const productsData = await productService.getProductsByCategoryName(
+          categoryInfo.categoryName,
+          500
+        );
         
         // Transform Product[] to ProductPart[]
         const transformedProducts: ProductPart[] = productsData.map((p: Product) => ({

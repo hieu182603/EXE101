@@ -16,3 +16,4 @@ export class Otp extends BaseEntity{
     verified: boolean = false;
 }
 
+

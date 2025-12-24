@@ -10,7 +10,7 @@ import Badge from '@components/ui/Badge';
 import { AdminOutletContext } from '@layouts/AdminLayout';
 import { productService } from '@services/productService';
 import { orderService } from '@services/orderService';
-import type { Product } from '@types/product';
+import type { Product } from '@/types/product';
 
 const AdminDashboard: React.FC = () => {
   const { getDateRangeLabel } = useOutletContext<AdminOutletContext>();
@@ -18,7 +18,7 @@ const AdminDashboard: React.FC = () => {
 
   const [revenueData, setRevenueData] = useState<Array<{ name: string; revenue: number; profit: number; orders: number }>>([]);
   const [categoryData, setCategoryData] = useState<Array<{ name: string; value: number; color: string }>>([]);
-  const [topProducts, setTopProducts] = useState<Array<{ id: number; name: string; price: number; sold: number; revenue: number; image: string }>>([]);
+  const [topProducts, setTopProducts] = useState<Array<{ id: number | string; name: string; price: number; sold: number; revenue: number; image: string; category?: string }>>([]);
   const [recentOrders, setRecentOrders] = useState<Array<{ id: string; user: string; total: number; status: string; date: string }>>([]);
 
   // Load dashboard data
@@ -30,17 +30,18 @@ const AdminDashboard: React.FC = () => {
         // Load top products
         const topProductsData = await productService.getTopSellingProducts(4);
         const transformedTopProducts = topProductsData.map((p: Product, index: number) => ({
-          id: parseInt(p.id) || index,
+          id: p.id || index,
           name: p.name,
           price: p.price,
-          sold: 0, // Backend may not have sold count
-          revenue: p.price * 10, // Mock revenue
-          image: p.images?.[0]?.url || p.url || 'https://picsum.photos/200/200'
+          sold: (p as any).soldCount || 0,
+          revenue: ((p as any).soldCount || 0) * p.price,
+          image: p.images?.[0]?.url || p.url || '',
+          category: p.category?.name
         }));
         setTopProducts(transformedTopProducts);
         
         // Load recent orders
-        const ordersResponse = await orderService.getAllOrdersForAdmin({ limit: 5 });
+        const ordersResponse = await orderService.getAllOrdersForAdmin({ limit: 50 });
         const ordersData = ordersResponse.data?.data || ordersResponse.data?.orders || [];
         const transformedOrders = ordersData.map((order: any) => ({
           id: order.id,
@@ -51,25 +52,37 @@ const AdminDashboard: React.FC = () => {
         }));
         setRecentOrders(transformedOrders);
         
-        // Calculate revenue from orders (mock for now)
-        const totalRevenue = ordersData.reduce((sum: number, order: any) => sum + (order.totalAmount || 0), 0);
-        const totalOrders = ordersData.length;
+        // Calculate revenue from orders based on orderDate (group by day)
+        const groupedByDay = ordersData.reduce((acc: Record<string, { revenue: number; orders: number }>, order: any) => {
+          const dateStr = order.orderDate ? new Date(order.orderDate).toLocaleDateString('vi-VN') : 'N/A';
+          if (!acc[dateStr]) acc[dateStr] = { revenue: 0, orders: 0 };
+          acc[dateStr].revenue += order.totalAmount || 0;
+          acc[dateStr].orders += 1;
+          return acc;
+        }, {});
+        const revenueEntries = Object.entries(groupedByDay)
+          .slice(0, 6)
+          .map(([name, val]) => ({
+            name,
+            revenue: val.revenue,
+            profit: val.revenue * 0.15,
+            orders: val.orders
+          }));
+        setRevenueData(revenueEntries);
         
-        // Mock revenue data (backend may not have this structured)
-        setRevenueData([
-          { name: 'T2', revenue: totalRevenue * 0.15, profit: totalRevenue * 0.1, orders: Math.floor(totalOrders * 0.15) },
-          { name: 'T3', revenue: totalRevenue * 0.2, profit: totalRevenue * 0.15, orders: Math.floor(totalOrders * 0.2) },
-          { name: 'T4', revenue: totalRevenue * 0.18, profit: totalRevenue * 0.12, orders: Math.floor(totalOrders * 0.18) },
-          { name: 'T5', revenue: totalRevenue * 0.22, profit: totalRevenue * 0.16, orders: Math.floor(totalOrders * 0.22) },
-          { name: 'T6', revenue: totalRevenue * 0.25, profit: totalRevenue * 0.18, orders: Math.floor(totalOrders * 0.25) }
-        ]);
-        
-        // Mock category data (backend may not have this)
-        setCategoryData([
-          { name: 'Laptop', value: 35, color: '#ef4444' },
-          { name: 'PC', value: 25, color: '#3b82f6' },
-          { name: 'Accessories', value: 40, color: '#10b981' }
-        ]);
+        // Category distribution derived from top products
+        const categoryCounts = transformedTopProducts.reduce((acc: Record<string, number>, p) => {
+          if (!p.category) return acc;
+          acc[p.category] = (acc[p.category] || 0) + 1;
+          return acc;
+        }, {});
+        const colors = ['#ef4444', '#3b82f6', '#10b981', '#f97316', '#a855f7'];
+        const categories = Object.entries(categoryCounts).map(([name, value], idx) => ({
+          name,
+          value,
+          color: colors[idx % colors.length]
+        }));
+        setCategoryData(categories);
       } catch (error) {
         console.error('Error loading dashboard data:', error);
       } finally {

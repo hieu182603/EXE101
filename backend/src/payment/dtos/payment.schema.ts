@@ -22,3 +22,4 @@ export const UpdatePaymentStatusSchema = z.object({
 export type CreatePaymentDto = z.infer<typeof CreatePaymentSchema>;
 export type UpdatePaymentStatusDto = z.infer<typeof UpdatePaymentStatusSchema>;
 
+

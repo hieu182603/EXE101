@@ -1,8 +1,10 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../../components/ui/Button';
 import ProductCard from '../../components/store/ProductCard';
+import { productService } from '../../services/productService';
+import type { Product } from '@/types/product';
 
 interface Review {
   id: number;
@@ -17,21 +19,40 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams();
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState('specs');
-  const [mainImage, setMainImage] = useState(`https://picsum.photos/800/800?random=${id}`);
+  const [mainImage, setMainImage] = useState<string | null>(null);
   const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
   const [isZooming, setIsZooming] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const imageRef = useRef<HTMLDivElement>(null);
 
   // Review State
-  const [reviews, setReviews] = useState<Review[]>([
-    { id: 1, user: 'Minh Quân', rating: 5, comment: 'Sản phẩm quá đẹp, đóng gói cẩn thận. Giao hàng nhanh trong 2h.', date: '2 ngày trước', avatar: 'https://picsum.photos/100/100?random=rv1' },
-    { id: 2, user: 'Thanh Hà', rating: 4, comment: 'Hiệu năng tốt, nhưng quạt tản nhiệt hơi ồn khi render nặng.', date: '5 ngày trước', avatar: 'https://picsum.photos/100/100?random=rv2' },
-    { id: 3, user: 'Hoàng Nam', rating: 5, comment: 'Đáng tiền, shop tư vấn nhiệt tình. Sẽ ủng hộ lần sau.', date: '1 tuần trước', avatar: 'https://picsum.photos/100/100?random=rv3' },
-  ]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [userRating, setUserRating] = useState(5);
   const [userComment, setUserComment] = useState('');
+
+  // Load product + related
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!id) return;
+      try {
+        const p = await productService.getProductById(id);
+        if (p) {
+          setProduct(p);
+          setMainImage(p.images?.[0]?.url || null);
+          if (p.category?.slug) {
+            const rel = await productService.getProductsByCategoryName(p.category.slug, 4);
+            setRelatedProducts(rel.filter(rp => rp.id !== p.id));
+          }
+        }
+      } catch (error) {
+        console.error('Error loading product', error);
+      }
+    };
+    loadProduct();
+  }, [id]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current) return;
@@ -65,28 +86,11 @@ const ProductDetail: React.FC = () => {
     setUserRating(5);
   };
 
-  const thumbnails = [
-    `https://picsum.photos/800/800?random=${id}`,
-    `https://picsum.photos/800/800?random=${Number(id) + 101}`,
-    `https://picsum.photos/800/800?random=${Number(id) + 102}`,
-    `https://picsum.photos/800/800?random=${Number(id) + 103}`,
-  ];
+  const thumbnails = (product?.images || []).map((img) => img.url);
 
-  const specs = [
-    { label: 'Vi xử lý', value: 'Intel Core i9-13900K (24 nhân, 32 luồng)' },
-    { label: 'Card đồ họa', value: 'NVIDIA GeForce RTX 4090 24GB GDDR6X' },
-    { label: 'Bộ nhớ RAM', value: '64GB (2x32GB) DDR5 6000MHz' },
-    { label: 'Lưu trữ', value: '2TB SSD M.2 NVMe PCIe Gen4' },
-    { label: 'Kết nối', value: 'Wi-Fi 6E, Bluetooth 5.3, 2.5G LAN' },
-    { label: 'Cổng giao tiếp', value: 'Thunderbolt 4, USB 3.2 Gen2, HDMI 2.1' },
-  ];
-
-  const relatedProducts = [
-    { name: 'Chuột ROG Gladius III', price: '1.890.000₫', id: '10' },
-    { name: 'Bàn phím ROG Strix Scope', price: '3.450.000₫', id: '11' },
-    { name: 'Tai nghe ROG Delta S', price: '4.200.000₫', id: '12' },
-    { name: 'Lót chuột ROG Balteus', price: '1.150.000₫', id: '13' },
-  ];
+  const specs = product?.description
+    ? [{ label: 'Mô tả', value: product.description }]
+    : [];
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-[1440px]">
@@ -100,16 +104,20 @@ const ProductDetail: React.FC = () => {
             onMouseEnter={() => setIsZooming(true)}
             onMouseLeave={() => setIsZooming(false)}
           >
-             <img 
-                src={mainImage} 
-                className="w-full h-full object-contain transition-transform duration-300 ease-out pointer-events-none" 
-                style={{ 
-                  transform: isZooming ? 'scale(2.5)' : 'scale(1)',
-                  transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
-                }}
-                alt="Product" 
-             />
-             {!isZooming && (
+             {mainImage ? (
+              <img 
+                  src={mainImage} 
+                  className="w-full h-full object-contain transition-transform duration-300 ease-out pointer-events-none" 
+                  style={{ 
+                    transform: isZooming ? 'scale(2.5)' : 'scale(1)',
+                    transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
+                  }}
+                  alt="Product" 
+               />
+             ) : (
+              <div className="text-slate-500">Đang tải ảnh...</div>
+             )}
+             {!isZooming && mainImage && (
                <div className="absolute bottom-6 right-6 bg-black/40 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 flex items-center gap-2 pointer-events-none">
                  <span className="material-symbols-outlined text-primary text-sm">zoom_in</span>
                  <span className="text-[10px] font-bold text-white uppercase tracking-wider">Hover to zoom</span>
@@ -138,7 +146,7 @@ const ProductDetail: React.FC = () => {
               <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-primary/20 inline-block">Flagship</span>
               <span className="bg-emerald-500/10 text-emerald-500 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-emerald-500/20 inline-block">Sẵn hàng</span>
             </div>
-            <h1 className="text-4xl font-black text-white tracking-tight leading-tight mb-2">PC Gaming ROG Super Tech Edition #{id}</h1>
+            <h1 className="text-4xl font-black text-white tracking-tight leading-tight mb-2">{product?.name || 'Đang tải sản phẩm'}</h1>
             <div className="flex items-center gap-4">
               <div className="flex text-yellow-400">
                 {[1, 2, 3, 4, 5].map(s => <span key={s} className="material-symbols-outlined text-[18px] fill">star</span>)}
@@ -148,9 +156,7 @@ const ProductDetail: React.FC = () => {
           </div>
 
           <div className="flex items-baseline gap-4 border-y border-border-dark py-6">
-            <span className="text-4xl font-black text-primary">52.490.000₫</span>
-            <span className="text-lg text-slate-500 line-through">65.000.000₫</span>
-            <span className="ml-2 text-emerald-500 font-bold text-sm">Tiết kiệm 12.5tr</span>
+            <span className="text-4xl font-black text-primary">{product ? `${product.price.toLocaleString('vi-VN')}₫` : '...'}</span>
           </div>
 
           <div className="space-y-4">
@@ -345,15 +351,18 @@ const ProductDetail: React.FC = () => {
           Sản phẩm liên quan
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {relatedProducts.map((p, i) => (
+              {relatedProducts.map((p, i) => (
             <ProductCard 
-              key={p.id}
-              id={p.id}
-              name={p.name}
-              price={p.price}
-              imageIndex={i + 40}
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  price={`${p.price.toLocaleString('vi-VN')}₫`}
+                  imageIndex={i + 40}
             />
           ))}
+              {relatedProducts.length === 0 && (
+                <div className="text-slate-500 text-sm col-span-full">Chưa có sản phẩm liên quan.</div>
+              )}
         </div>
       </div>
     </div>

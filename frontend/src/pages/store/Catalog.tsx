@@ -2,6 +2,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import ProductCard from '../../components/store/ProductCard';
+import { productService } from '@services/productService';
+import type { Product } from '@/types/product';
 
 interface ProductData {
   id: string;
@@ -15,33 +17,51 @@ interface ProductData {
   inStock: boolean;
 }
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 12;
 
 const CatalogPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [allProducts, setAllProducts] = useState<ProductData[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  // Mock product data with full attributes for filtering
-  const allProducts: ProductData[] = [
-    { id: '1', name: 'Laptop Gaming ASUS ROG Strix G15', brand: 'ASUS', category: 'Laptops', price: 23800000, oldPrice: 28000000, rating: 5, inStock: true },
-    { id: '2', name: 'Dell UltraSharp U2723QE 4K HDR', brand: 'Dell', category: 'Màn hình', price: 14500000, tag: 'New', rating: 4, inStock: true },
-    { id: '3', name: 'MacBook Pro 14 M3 Pro 18GB/512GB', brand: 'Apple', category: 'Laptops', price: 48990000, oldPrice: 52000000, rating: 5, inStock: true },
-    { id: '4', name: 'Razer Viper Ultimate Gaming Mouse', brand: 'Razer', category: 'Phụ kiện', price: 2990000, rating: 5, inStock: false },
-    { id: '5', name: 'Sony WH-1000XM5 Noise Cancelling', brand: 'Sony', category: 'Phụ kiện', price: 8490000, rating: 4, inStock: true },
-    { id: '6', name: 'ASUS TUF Gaming RTX 4070 Ti', brand: 'ASUS', category: 'Linh kiện', price: 24500000, tag: 'Hot', rating: 5, inStock: true },
-    { id: '7', name: 'Logitech G Pro X Superlight', brand: 'Logitech', category: 'Phụ kiện', price: 3190000, rating: 5, inStock: true },
-    { id: '8', name: 'Dell Alienware m16 R2', brand: 'Dell', category: 'Laptops', price: 42000000, rating: 4, inStock: true },
-    { id: '9', name: 'Keychron Q1 Pro', brand: 'Keychron', category: 'Phụ kiện', price: 4500000, rating: 5, inStock: true },
-    { id: '10', name: 'LG Gram 17 (2023)', brand: 'LG', category: 'Laptops', price: 35000000, rating: 4, inStock: true },
-    { id: '11', name: 'Samsung Odyssey G9', brand: 'Samsung', category: 'Màn hình', price: 29000000, rating: 5, inStock: true },
-    { id: '12', name: 'Corsair K70 RGB Pro', brand: 'Corsair', category: 'Phụ kiện', price: 3900000, rating: 4, inStock: true },
-  ];
+  // Load real products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const products: Product[] = await productService.getAllProducts();
+
+        // Normalize data for UI
+        const mapped: ProductData[] = products.map((p, idx) => ({
+          id: p.id,
+          name: p.name,
+          brand: (p as any).brand || p.category?.name || 'Khác',
+          category: p.category?.name || 'Khác',
+          price: p.price || 0,
+          oldPrice: (p as any).oldPrice,
+          tag: undefined,
+          rating: 5,
+          inStock: (p.stock ?? 0) > 0,
+        }));
+
+        setAllProducts(mapped);
+      } catch (error) {
+        console.error('Error loading products:', error);
+        setAllProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   // Filter States initialized from URL if present
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   
   const [minRating, setMinRating] = useState<number | null>(null);
-  const [availability, setAvailability] = useState<'all' | 'inStock' | 'outOfStock'>('all');
+  const [availability, setAvailability] = useState<'all' | 'inStock' | 'outOfStock' | 'sale'>('all');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000000]);
   const [sortBy, setSortBy] = useState('newest');
   
@@ -82,8 +102,29 @@ const CatalogPage: React.FC = () => {
     setCurrentPage(1);
   }, [selectedCategories, selectedBrands, minRating, availability, priceRange, sortBy, isFlashSaleMode]);
 
-  const categories = ['Laptops', 'Màn hình', 'Phụ kiện', 'Linh kiện'];
-  const brands = ['ASUS', 'Dell', 'Apple', 'Razer', 'Sony', 'Logitech', 'Keychron', 'Samsung', 'LG', 'Corsair'];
+  const categories = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          allProducts
+            .map((p) => p.category)
+            .filter((c): c is string => Boolean(c))
+        )
+      ),
+    [allProducts]
+  );
+
+  const brands = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          allProducts
+            .map((p) => p.brand)
+            .filter((b): b is string => Boolean(b))
+        )
+      ),
+    [allProducts]
+  );
 
   const filteredProducts = useMemo(() => {
     let result = [...allProducts];
@@ -110,6 +151,8 @@ const CatalogPage: React.FC = () => {
       result = result.filter(p => p.inStock);
     } else if (availability === 'outOfStock') {
       result = result.filter(p => !p.inStock);
+    } else if (availability === 'sale') {
+      result = result.filter(p => p.oldPrice && p.oldPrice > p.price);
     }
 
     const minP = Math.min(priceRange[0], priceRange[1]);
@@ -124,7 +167,7 @@ const CatalogPage: React.FC = () => {
     }
 
     return result;
-  }, [selectedCategories, selectedBrands, minRating, availability, priceRange, sortBy, isFlashSaleMode]);
+  }, [allProducts, selectedCategories, selectedBrands, minRating, availability, priceRange, sortBy, isFlashSaleMode]);
 
   // Pagination Logic
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
@@ -132,6 +175,34 @@ const CatalogPage: React.FC = () => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     return filteredProducts.slice(start, start + ITEMS_PER_PAGE);
   }, [currentPage, filteredProducts]);
+
+  // Build compact pagination list with ellipsis
+  const paginationItems = useMemo(() => {
+    const pages: Array<number | 'ellipsis'> = [];
+    const maxButtons = 7;
+    if (totalPages <= maxButtons) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+      return pages;
+    }
+
+    const add = (p: number | 'ellipsis') => pages.push(p);
+    const showRange = (start: number, end: number) => {
+      for (let i = start; i <= end; i++) add(i);
+    };
+
+    const first = 1;
+    const last = totalPages;
+    const windowStart = Math.max(currentPage - 1, 2);
+    const windowEnd = Math.min(currentPage + 1, totalPages - 1);
+
+    add(first);
+    if (windowStart > first + 1) add('ellipsis');
+    showRange(windowStart, windowEnd);
+    if (windowEnd < last - 1) add('ellipsis');
+    add(last);
+
+    return pages;
+  }, [currentPage, totalPages]);
 
   const toggleFilter = (item: string, list: string[], setList: (val: string[]) => void, paramKey: string) => {
     let newList;
@@ -312,6 +383,16 @@ const CatalogPage: React.FC = () => {
                     />
                     <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">Cháy hàng</span>
                   </label>
+                  <label className="flex items-center gap-3 cursor-pointer group/item">
+                    <input 
+                      type="radio" 
+                      name="availability"
+                      checked={availability === 'sale'}
+                      onChange={() => setAvailability('sale')}
+                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
+                    />
+                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">Đang giảm giá</span>
+                  </label>
                 </div>
               </details>
 
@@ -429,18 +510,18 @@ const CatalogPage: React.FC = () => {
             </div>
           </div>
 
-          {currentProducts.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+              {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-[360px] rounded-2xl border border-border-dark bg-surface-dark animate-pulse"
+                />
+              ))}
+            </div>
+          ) : currentProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
               {currentProducts.map((p) => {
-                // Determine the tag to display
-                // If there's a calculated discount, prioritize that.
-                // Otherwise use the static tag (e.g., 'New', 'Hot')
-                let displayTag = p.tag;
-                if (p.oldPrice && p.oldPrice > p.price) {
-                  const discountPercent = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
-                  displayTag = `-${discountPercent}%`;
-                }
-
                 return (
                   <ProductCard 
                     key={p.id} 
@@ -448,7 +529,11 @@ const CatalogPage: React.FC = () => {
                     name={p.name} 
                     price={`${p.price.toLocaleString()}₫`} 
                     oldPrice={p.oldPrice ? `${p.oldPrice.toLocaleString()}₫` : undefined} 
-                    tag={displayTag} 
+                    tag={
+                      p.oldPrice && p.oldPrice > p.price
+                        ? `-${Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}%`
+                        : p.tag
+                    } 
                     rating={p.rating} 
                     imageIndex={parseInt(p.id) + 20}
                   />
@@ -475,19 +560,28 @@ const CatalogPage: React.FC = () => {
                   <span className="material-symbols-outlined text-sm">chevron_left</span>
                 </button>
                 
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                   <button 
-                     key={page}
-                     onClick={() => setCurrentPage(page)}
-                     className={`size-8 rounded-lg font-bold text-xs flex items-center justify-center transition-all ${
-                       currentPage === page
-                       ? 'bg-primary text-black shadow-lg shadow-primary/30'
-                       : 'border border-border-dark text-slate-500 hover:text-white hover:border-primary'
-                     }`}
-                   >
-                     {page}
-                   </button>
-                ))}
+                {paginationItems.map((item, idx) =>
+                  item === 'ellipsis' ? (
+                    <span
+                      key={`ellipsis-${idx}`}
+                      className="px-2 text-slate-600 text-xs select-none"
+                    >
+                      ...
+                    </span>
+                  ) : (
+                    <button 
+                      key={item}
+                      onClick={() => setCurrentPage(item)}
+                      className={`size-8 rounded-lg font-bold text-xs flex items-center justify-center transition-all ${
+                        currentPage === item
+                        ? 'bg-primary text-black shadow-lg shadow-primary/30'
+                        : 'border border-border-dark text-slate-500 hover:text-white hover:border-primary'
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  )
+                )}
 
                 <button 
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))} 

@@ -1,7 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Badge from '../../components/ui/Badge';
+// Badge removed (no longer used)
+import { useCart } from '../../contexts/CartContext';
+import { authService } from '../../services/authService';
 
 // Mock data structure matching Profile
 interface Address {
@@ -15,28 +17,11 @@ interface Address {
 
 const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
+  const cart = useCart();
 
-  // Mock Addresses fetched from user profile
-  const savedAddresses: Address[] = [
-    {
-      id: '1',
-      label: 'Nhà riêng',
-      recipientName: 'Alex User',
-      phone: '0901234567',
-      detail: '123 Đường Công Nghệ, Q.1, TP.HCM',
-      isDefault: true
-    },
-    {
-      id: '2',
-      label: 'Công ty',
-      recipientName: 'Alex Work',
-      phone: '0909888777',
-      detail: 'Tòa nhà Tech, 456 Lê Duẩn, Q.1, TP.HCM',
-      isDefault: false
-    }
-  ];
+  const [addresses] = useState<Address[]>([]);
 
-  const [selectedAddressId, setSelectedAddressId] = useState<string | 'new'>(savedAddresses.find(a => a.isDefault)?.id || 'new');
+  const [selectedAddressId, setSelectedAddressId] = useState<string | 'new'>('new');
   const [paymentMethod, setPaymentMethod] = useState('vnpay');
   
   const [formData, setFormData] = useState({
@@ -46,12 +31,31 @@ const CheckoutPage: React.FC = () => {
     note: ''
   });
 
+  // Prefill user info when available
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const profile = await authService.getUserProfile();
+        const user = profile.data || profile;
+        setFormData(prev => ({
+          ...prev,
+          name: user?.name || user?.username || prev.name,
+          phone: user?.phone || prev.phone
+        }));
+      } catch (error) {
+        console.error('Cannot prefill profile info:', error);
+      }
+    };
+    loadProfile();
+  }, []);
+
   // Effect to populate form when address changes
   useEffect(() => {
     if (selectedAddressId === 'new') {
       setFormData(prev => ({ ...prev, name: '', phone: '', address: '' }));
     } else {
-      const addr = savedAddresses.find(a => a.id === selectedAddressId);
+      const addr = addresses.find(a => a.id === selectedAddressId);
       if (addr) {
         setFormData(prev => ({
           ...prev,
@@ -61,7 +65,7 @@ const CheckoutPage: React.FC = () => {
         }));
       }
     }
-  }, [selectedAddressId]);
+  }, [selectedAddressId, addresses]);
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-[1440px]">
@@ -81,7 +85,7 @@ const CheckoutPage: React.FC = () => {
              
              {/* Horizontal Scroll / Grid for Address Cards */}
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                {savedAddresses.map((addr) => (
+                {addresses.map((addr) => (
                   <div 
                     key={addr.id}
                     onClick={() => setSelectedAddressId(addr.id)}
@@ -180,11 +184,17 @@ const CheckoutPage: React.FC = () => {
           <div className="bg-surface-dark border border-border-dark rounded-3xl p-8 sticky top-24">
             <h3 className="text-xl font-bold text-white mb-6 border-b border-border-dark pb-4">Tóm tắt đơn hàng</h3>
             <div className="space-y-4 mb-6">
-              <div className="flex justify-between text-slate-400"><span>Tạm tính</span><span className="text-white font-bold">6.490.000₫</span></div>
-              <div className="flex justify-between text-slate-400"><span>Vận chuyển</span><span className="text-emerald-500 font-bold">Miễn phí</span></div>
-              <div className="flex justify-between text-lg font-black text-white pt-4 border-t border-border-dark"><span>Tổng tiền</span><span className="text-primary">6.490.000₫</span></div>
+            <div className="flex justify-between text-slate-400"><span>Tạm tính</span><span className="text-white font-bold">{cart.totalAmount.toLocaleString('vi-VN')}₫</span></div>
+            <div className="flex justify-between text-slate-400"><span>Vận chuyển</span><span className="text-emerald-500 font-bold">Miễn phí</span></div>
+            <div className="flex justify-between text-lg font-black text-white pt-4 border-t border-border-dark"><span>Tổng tiền</span><span className="text-primary">{cart.totalAmount.toLocaleString('vi-VN')}₫</span></div>
             </div>
-            <button onClick={() => navigate('/waiting-payment')} className="w-full py-4 bg-primary text-black font-black rounded-2xl shadow-lg hover:shadow-primary/30 transition-all active:scale-95">ĐẶT HÀNG NGAY</button>
+          <button 
+            onClick={() => navigate('/waiting-payment')} 
+            disabled={cart.items.length === 0}
+            className="w-full py-4 bg-primary text-black font-black rounded-2xl shadow-lg hover:shadow-primary/30 transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            ĐẶT HÀNG NGAY
+          </button>
             <p className="text-[10px] text-slate-500 text-center mt-4">Bằng việc đặt hàng, bạn đồng ý với Điều khoản của TechStore.</p>
           </div>
         </div>

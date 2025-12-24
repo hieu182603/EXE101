@@ -130,9 +130,16 @@ export class ProductController {
     }
 
     @Get("/category-name/:categoryName")
-    async getProductsByCategoryName(@Param("categoryName") categoryName: string) {
+    async getProductsByCategoryName(
+        @Param("categoryName") categoryName: string,
+        @QueryParam("limit") limit?: number
+    ) {
         try {
-            const products = await this.productService.getProductsByCategoryName(categoryName);
+            const safeLimit = limit && !isNaN(Number(limit)) ? Number(limit) : undefined;
+            const products = await this.productService.getProductsByCategoryName(
+                categoryName,
+                safeLimit
+            );
             return {
                 message: "Products by category name retrieved successfully",
                 products
