@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@contexts/AuthContext';
 import { useCart } from '@contexts/CartContext';
+import { useNotification } from '@contexts/NotificationContext';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -10,7 +11,12 @@ const Navbar: React.FC = () => {
   const { items } = useCart();
   const [search, setSearch] = useState('');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  
+
+  // Notification State
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotification();
+
   // States for features
   const [isDark, setIsDark] = useState(true);
   const [lang, setLang] = useState<'vi' | 'en'>('vi');
@@ -69,6 +75,9 @@ const Navbar: React.FC = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setShowProfileMenu(false);
+      }
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -151,7 +160,7 @@ const Navbar: React.FC = () => {
             </button>
 
             {/* Theme Toggle */}
-            <button 
+            <button
               onClick={toggleTheme}
               className="size-10 rounded-full border border-border-dark bg-surface-dark text-text-muted hover:text-primary hover:border-primary hover:bg-primary/5 flex items-center justify-center transition-all"
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
@@ -160,6 +169,99 @@ const Navbar: React.FC = () => {
                 {isDark ? 'light_mode' : 'dark_mode'}
               </span>
             </button>
+
+            {/* Notification Toggle */}
+            {isAuthenticated() && user && (
+              <div className="relative" ref={notifRef}>
+                <button
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="relative size-10 rounded-full border border-border-dark bg-surface-dark text-text-muted hover:text-primary hover:border-primary hover:bg-primary/5 flex items-center justify-center transition-all"
+                  title="Thông báo"
+                >
+                  <span className="material-symbols-outlined text-[20px]">notifications</span>
+                  {unreadCount > 0 && (
+                    <span className="absolute top-2 right-2.5 size-2 rounded-full bg-primary ring-2 ring-background-dark animate-pulse shadow-sm"></span>
+                  )}
+                </button>
+
+                {showNotifications && (
+                  <div className="absolute right-0 mt-4 w-80 sm:w-96 bg-surface-dark border border-border-dark rounded-2xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50 ring-1 ring-black/5">
+                    <div className="p-4 border-b border-border-dark flex justify-between items-center bg-surface-accent/50 backdrop-blur-sm">
+                      <h4 className="font-bold text-text-main text-sm flex items-center gap-2">
+                          Thông báo
+                          {unreadCount > 0 && <span className="bg-primary/10 text-primary text-[10px] px-1.5 py-0.5 rounded-md">{unreadCount} mới</span>}
+                      </h4>
+                      <button
+                        onClick={markAllAsRead}
+                        className="text-[10px] text-primary font-bold hover:underline"
+                      >
+                        Đánh dấu đã đọc
+                      </button>
+                    </div>
+                    <div className="max-h-[350px] overflow-y-auto custom-scrollbar">
+                      {notifications.length > 0 ? notifications.map(n => (
+                        <div
+                          key={n.id}
+                          className={`p-4 border-b border-border-dark/50 last:border-0 hover:bg-surface-accent transition-colors cursor-pointer flex gap-3 group ${n.unread ? 'bg-primary/[0.03]' : ''}`}
+                          onClick={() => n.unread && markAsRead(n.id)}
+                        >
+                           <div className={`size-10 rounded-full flex items-center justify-center shrink-0 border border-border-dark group-hover:border-transparent transition-all ${
+                            n.type === 'order' ? 'bg-blue-500/10 text-blue-500' :
+                            n.type === 'promo' ? 'bg-primary/10 text-primary' :
+                            n.type === 'system' ? 'bg-slate-500/10 text-slate-500' :
+                            n.type === 'success' ? 'bg-emerald-500/10 text-emerald-400' :
+                            n.type === 'error' ? 'bg-red-500/10 text-red-400' :
+                            n.type === 'warning' ? 'bg-yellow-500/10 text-yellow-400' :
+                            'bg-blue-500/10 text-blue-400'
+                          }`}>
+                              <span className="material-symbols-outlined text-[18px]">
+                                {n.type === 'order' ? 'local_shipping' :
+                                 n.type === 'promo' ? 'local_offer' :
+                                 n.type === 'system' ? 'notifications' :
+                                 n.type === 'success' ? 'check_circle' :
+                                 n.type === 'error' ? 'error' :
+                                 n.type === 'warning' ? 'warning' :
+                                 'info'}
+                              </span>
+                           </div>
+                           <div className="flex-1">
+                              <div className="flex justify-between items-start mb-1">
+                                 <p className={`text-sm leading-tight pr-2 ${n.unread ? 'font-bold text-text-main' : 'font-medium text-text-muted'}`}>{n.title}</p>
+                                 {n.unread && <span className="size-2 rounded-full bg-primary shrink-0 mt-1 shadow-sm"></span>}
+                              </div>
+                              {n.description && (
+                                <p className="text-xs text-text-muted line-clamp-2 leading-relaxed mb-1.5">{n.description}</p>
+                              )}
+                              <p className="text-[10px] text-text-muted font-bold opacity-60 uppercase tracking-wide">
+                                {new Date(n.timestamp).toLocaleString('vi-VN', {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                  day: '2-digit',
+                                  month: '2-digit'
+                                })}
+                              </p>
+                           </div>
+                        </div>
+                      )) : (
+                          <div className="py-10 text-center">
+                              <span className="material-symbols-outlined text-4xl text-text-muted/30 mb-2">notifications_off</span>
+                              <p className="text-xs text-text-muted">Chưa có thông báo nào</p>
+                          </div>
+                      )}
+                    </div>
+                    <div className="p-2 border-t border-border-dark bg-background-dark/30 text-center">
+                      <Link
+                          to="/profile"
+                          onClick={() => setShowNotifications(false)}
+                          className="block w-full py-1.5 text-[11px] font-bold text-text-muted hover:text-text-main hover:bg-surface-accent rounded-lg transition-all"
+                      >
+                          Xem tất cả thông báo
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Cart */}
             <Link to="/cart" className="relative size-10 rounded-full border border-border-dark bg-surface-dark text-text-muted hover:text-primary hover:border-primary hover:bg-primary/5 flex items-center justify-center transition-all group">
@@ -221,6 +323,14 @@ const Navbar: React.FC = () => {
                     >
                       <span className="material-symbols-outlined text-[20px]">receipt_long</span>
                       Đơn mua
+                    </Link>
+                    <Link 
+                      to="/wishlist" 
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-background-dark hover:text-text-main transition-all"
+                      onClick={() => setShowProfileMenu(false)}
+                    >
+                      <span className="material-symbols-outlined text-[20px]">favorite</span>
+                      Yêu thích
                     </Link>
                     <div className="h-px bg-border-dark my-2"></div>
                     <button 

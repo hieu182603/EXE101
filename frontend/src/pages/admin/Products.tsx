@@ -7,6 +7,7 @@ import Pagination from '@components/ui/Pagination';
 import ProductForm from '@components/admin/products/ProductForm';
 import { productService } from '@services/productService';
 import type { Product } from '@/types/product';
+import { useToast } from '@contexts/ToastContext';
 
 interface Product {
   id: string;
@@ -23,6 +24,7 @@ const PLACEHOLDER_IMAGE = "https://placehold.co/400x300/1e293b/64748b?text=No+Im
 const ITEMS_PER_PAGE = 5;
 
 const ProductManagement: React.FC = () => {
+  const { showSuccess, showError } = useToast();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
     name: '',
@@ -110,11 +112,11 @@ const ProductManagement: React.FC = () => {
         
         setIsAddModalOpen(false);
         setNewProduct({ name: '', category: 'Linh kiện PC', brand: 'Gigabyte', price: 0, originalPrice: 0, stock: 0, image: '' });
-        alert("Thêm sản phẩm thành công!");
+        showSuccess("Thêm sản phẩm thành công!");
       }
     } catch (error) {
       console.error('Error adding product:', error);
-      alert("Thêm sản phẩm thất bại. Vui lòng thử lại.");
+      showError("Thêm sản phẩm thất bại. Vui lòng thử lại.");
     }
   };
 
@@ -124,13 +126,13 @@ const ProductManagement: React.FC = () => {
         const success = await productService.removeProduct(id);
         if (success) {
           setProducts(products.filter(p => p.id !== id));
-          alert("Xóa sản phẩm thành công!");
+          showSuccess("Xóa sản phẩm thành công!");
         } else {
-          alert("Xóa sản phẩm thất bại. Vui lòng thử lại.");
+          showError("Xóa sản phẩm thất bại. Vui lòng thử lại.");
         }
       } catch (error) {
         console.error('Error deleting product:', error);
-        alert("Xóa sản phẩm thất bại. Vui lòng thử lại.");
+        showError("Xóa sản phẩm thất bại. Vui lòng thử lại.");
       }
     }
   };
@@ -148,7 +150,7 @@ const ProductManagement: React.FC = () => {
     if (!editingProduct) return;
     setProducts(prev => prev.map(p => p.id === editingProduct.id ? editingProduct : p));
     setEditingProduct(null);
-    alert("Cập nhật sản phẩm thành công!");
+    showSuccess("Cập nhật sản phẩm thành công!");
   };
 
   const getStockBadge = (stock: number) => {

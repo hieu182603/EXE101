@@ -1,27 +1,19 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/ui/Button';
+import { useCart } from '../../contexts/CartContext';
 
 const CartPage: React.FC = () => {
-  const [items, setItems] = useState([
-    { id: '1', name: 'Tai nghe Gaming HyperX Cloud II - 7.1', price: 2490000, oldPrice: 2990000, color: 'Đỏ đen', qty: 1 },
-    { id: '2', name: 'Logitech G Pro X Wireless Lightspeed', price: 3290000, color: 'Đen', qty: 1 },
-  ]);
+  const {
+    items,
+    increaseQuantity,
+    decreaseQuantity,
+    removeItem,
+    getItemQuantity,
+  } = useCart();
 
-  const updateQty = (id: string, delta: number) => {
-    setItems(items.map(item => 
-      item.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item
-    ));
-  };
-
-  const removeItem = (id: string) => {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-      setItems(items.filter(item => item.id !== id));
-    }
-  };
-
-  const subtotal = items.reduce((acc, curr) => acc + curr.price * curr.qty, 0);
+  const subtotal = items.reduce((acc, curr) => acc + (curr.product?.price || 0) * curr.quantity, 0);
 
   if (items.length === 0) {
     return (
@@ -50,22 +42,32 @@ const CartPage: React.FC = () => {
 
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="flex-1 space-y-4">
-          {items.map((item) => (
+          {items.map((item) => {
+            const product = item.product || (item as any);
+            const qty = item.quantity;
+            const name = product.name || product.productName || 'Sản phẩm';
+            const price = product.price || 0;
+            const color = (product as any).color || 'N/A';
+            return (
             <div key={item.id} className="bg-surface-dark rounded-3xl border border-border-dark p-4 md:p-6 flex flex-col md:flex-row gap-6 items-center group hover:border-primary/30 transition-all">
               
               {/* Product Info */}
               <div className="w-full md:flex-1 flex gap-4 md:gap-6 items-center">
                 <div className="shrink-0 size-20 md:size-24 bg-background-dark rounded-2xl border border-border-dark p-2 flex items-center justify-center overflow-hidden">
-                  <span className="material-symbols-outlined text-3xl text-slate-600">image</span>
+                  {product.images && product.images.length > 0 ? (
+                    <img src={product.images[0].url} alt={name} className="w-full h-full object-cover rounded-lg" />
+                  ) : (
+                    <span className="material-symbols-outlined text-3xl text-slate-600">image</span>
+                  )}
                 </div>
                 <div className="flex flex-col gap-1 pr-4">
-                  <h3 className="font-bold text-white text-base md:text-lg leading-tight line-clamp-2">{item.name}</h3>
+                  <h3 className="font-bold text-white text-base md:text-lg leading-tight line-clamp-2">{name}</h3>
                   <div className="flex items-center gap-2">
-                     <span className="text-[10px] font-bold text-slate-500 bg-white/5 px-2 py-0.5 rounded border border-white/5">Phân loại: {item.color}</span>
+                     <span className="text-[10px] font-bold text-slate-500 bg-white/5 px-2 py-0.5 rounded border border-white/5">Phân loại: {color}</span>
                   </div>
                   {/* Mobile Price Display */}
                   <div className="md:hidden mt-2">
-                     <span className="font-bold text-primary">{item.price.toLocaleString()}₫</span>
+                     <span className="font-bold text-primary">{price.toLocaleString()}₫</span>
                   </div>
                 </div>
               </div>
@@ -83,9 +85,9 @@ const CartPage: React.FC = () => {
                 <div className="flex flex-col items-center">
                   <span className="text-[10px] font-bold text-slate-500 uppercase mb-1 md:hidden">Số lượng</span>
                   <div className="flex items-center bg-background-dark rounded-xl border border-border-dark p-1 h-10">
-                    <Button variant="ghost" icon="remove" className="size-8 p-0 hover:bg-surface-dark" onClick={() => updateQty(item.id, -1)} />
-                    <span className="w-8 text-center text-sm font-bold text-white">{item.qty}</span>
-                    <Button variant="ghost" icon="add" className="size-8 p-0 hover:bg-surface-dark" onClick={() => updateQty(item.id, 1)} />
+                    <Button variant="ghost" icon="remove" className="size-8 p-0 hover:bg-surface-dark" onClick={() => decreaseQuantity(product.id, 1)} />
+                    <span className="w-8 text-center text-sm font-bold text-white">{qty}</span>
+                    <Button variant="ghost" icon="add" className="size-8 p-0 hover:bg-surface-dark" onClick={() => increaseQuantity(product.id, 1)} />
                   </div>
                 </div>
 
@@ -97,7 +99,7 @@ const CartPage: React.FC = () => {
 
                 {/* Delete Button */}
                 <button 
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeItem(product.id)}
                     className="size-10 rounded-xl flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all ml-2"
                     title="Xóa sản phẩm"
                 >
@@ -105,7 +107,8 @@ const CartPage: React.FC = () => {
                 </button>
               </div>
             </div>
-          ))}
+          );
+        })}
         </div>
 
         {/* Checkout Summary Sidebar */}

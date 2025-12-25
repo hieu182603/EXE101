@@ -8,6 +8,7 @@ import Badge from '@components/ui/Badge';
 import Pagination from '@components/ui/Pagination';
 import { AdminOutletContext } from '@layouts/AdminLayout';
 import { orderService } from '@services/orderService';
+import { useToast } from '@contexts/ToastContext';
 
 interface OrderItem {
   id: string;
@@ -33,6 +34,7 @@ const ITEMS_PER_PAGE = 5;
 
 const OrderManagement: React.FC = () => {
   const { isInRange } = useOutletContext<AdminOutletContext>();
+  const { showInfo } = useToast();
   const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -142,7 +144,7 @@ const OrderManagement: React.FC = () => {
   };
 
   const handleExport = () => {
-    alert("Đang xuất dữ liệu đơn hàng ra file Excel...");
+    showInfo("Đang xuất dữ liệu đơn hàng ra file Excel...");
   };
 
   const handleProcessOrder = (id: string, currentStatus: string) => {
@@ -176,7 +178,7 @@ const OrderManagement: React.FC = () => {
           <p className="text-gray-400 mt-1">Theo dõi và cập nhật trạng thái đơn hàng</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="secondary" icon="print" onClick={() => alert("Chức năng in danh sách đang được phát triển")}>In hóa đơn</Button>
+          <Button variant="secondary" icon="print" onClick={() => showInfo("Chức năng in danh sách đang được phát triển")}>In hóa đơn</Button>
           <Button variant="primary" icon="download" onClick={handleExport}>Xuất dữ liệu</Button>
         </div>
       </div>

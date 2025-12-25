@@ -6,6 +6,7 @@ import Modal from '@components/ui/Modal';
 import { Input } from '@components/ui/Input';
 import Badge from '@components/ui/Badge';
 import { customerService } from '@services/customerService';
+import { useToast } from '@contexts/ToastContext';
 
 interface Customer {
   id: string;
@@ -20,6 +21,7 @@ interface Customer {
 const ITEMS_PER_PAGE = 5;
 
 const CustomerManagement: React.FC = () => {
+  const { showSuccess, showError } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
@@ -118,10 +120,10 @@ const CustomerManagement: React.FC = () => {
       
       setCustomers(prev => prev.map(c => c.id === editingCustomer.id ? editingCustomer : c));
       setEditingCustomer(null);
-      alert("Cập nhật khách hàng thành công!");
+      showSuccess("Cập nhật khách hàng thành công!");
     } catch (error) {
       console.error('Error updating customer:', error);
-      alert("Cập nhật khách hàng thất bại. Vui lòng thử lại.");
+      showError("Cập nhật khách hàng thất bại. Vui lòng thử lại.");
     }
   };
 

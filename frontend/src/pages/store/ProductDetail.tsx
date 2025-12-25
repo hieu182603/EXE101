@@ -351,13 +351,13 @@ const ProductDetail: React.FC = () => {
           Sản phẩm liên quan
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((p, i) => (
+          {relatedProducts.map((p, i) => (
             <ProductCard 
                   key={p.id}
                   id={p.id}
                   name={p.name}
                   price={`${p.price.toLocaleString('vi-VN')}₫`}
-                  imageIndex={i + 40}
+                  imageUrl={p.images?.[0]?.url}
             />
           ))}
               {relatedProducts.length === 0 && (

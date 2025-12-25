@@ -12,6 +12,7 @@ interface ProductDisplay {
   price: string;
   oldPrice?: string;
   tag?: string;
+  imageUrl?: string;
 }
 
 const HomePage: React.FC = () => {
@@ -40,7 +41,8 @@ const HomePage: React.FC = () => {
       name: product.name,
       price,
       oldPrice,
-      tag: product.stock === 0 ? 'Hết hàng' : tag
+      tag: product.stock === 0 ? 'Hết hàng' : tag,
+      imageUrl: product.images?.[0]?.url
     };
   };
 
@@ -267,7 +269,7 @@ const HomePage: React.FC = () => {
                       price={p.price}
                       oldPrice={p.oldPrice}
                       tag={p.tag}
-                      imageIndex={i + 50}
+                      imageUrl={p.imageUrl}
                     />
                   </div>
                 ))}
@@ -347,7 +349,7 @@ const HomePage: React.FC = () => {
                   name={p.name}
                   price={p.price}
                   tag={p.tag}
-                  imageIndex={i + 10}
+                  imageUrl={p.imageUrl}
                 />
               ))}
             </div>
@@ -412,7 +414,7 @@ const HomePage: React.FC = () => {
                   price={p.price}
                   oldPrice={p.oldPrice}
                   tag={p.tag}
-                  imageIndex={i + 25}
+                  imageUrl={p.imageUrl}
                 />
               ))}
             </div>

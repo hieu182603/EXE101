@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authService } from '../services/authService';
+import { useToast } from './ToastContext';
 
 interface User {
     username: string;
@@ -20,6 +21,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { showError } = useToast();
     const [user, setUser] = useState(authService.getUser());
     const [token, setToken] = useState(authService.getToken());
 
@@ -49,8 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             
             // Show notification to user
             if (event.detail?.message) {
-                // You can replace this with a toast notification
-                alert(event.detail.message);
+                showError(event.detail.message);
             }
             
             // Emit a custom event for navigation instead of direct navigation

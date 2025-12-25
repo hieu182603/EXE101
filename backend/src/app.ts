@@ -1,6 +1,8 @@
 import express from "express";
 import { Container } from "typedi";
 import swaggerUi from "swagger-ui-express";
+import { getMetadataArgsStorage } from "routing-controllers";
+import { routingControllersToSpec } from "routing-controllers-openapi";
 import { DbConnection } from "@/database/dbConnection";
 import cors from "cors";
 import { CronJobService } from "./shipper/cronJob.service";
@@ -130,35 +132,50 @@ export default class App {
   }
 
   private initializeSwagger() {
-    // Basic Swagger setup - can be enhanced later with manual spec definition
-    const swaggerSpec = {
-      openapi: "3.0.0",
-      info: {
-        title: "Backend API",
-        version: "1.0.0",
-        description: "API documentation for the backend application",
-      },
-      servers: [
-        {
-          url: `http://localhost:${this.port}/api`,
-          description: "Development server",
-        },
-      ],
-      components: {
-        securitySchemes: {
-          ApiKeyAuth: {
-            type: "apiKey",
-            name: "Authorization",
-            in: "header",
-            description: "API key for authorization (Bearer token)",
-          },
-        },
-      },
-      security: [{ ApiKeyAuth: [] }],
-      paths: {},
-    };
+    // Generate OpenAPI spec from routing-controllers metadata so controllers/routes
+    // decorated with routing-controllers decorators are included automatically.
+    try {
+      const storage = getMetadataArgsStorage();
 
-    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+      const swaggerSpec = routingControllersToSpec(
+        storage,
+        {},
+        {
+          info: {
+            title: "Backend API",
+            version: "1.0.0",
+            description: "API documentation for the backend application",
+          },
+          servers: [
+            {
+              url: `http://localhost:${this.port}/api`,
+              description: "Development server",
+            },
+          ],
+          components: {
+            securitySchemes: {
+              ApiKeyAuth: {
+                type: "apiKey",
+                name: "Authorization",
+                in: "header",
+                description: "API key for authorization (Bearer token)",
+              },
+            },
+          },
+        }
+      );
+
+      this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    } catch (err) {
+      console.error("Failed to generate swagger spec from routing-controllers metadata:", err);
+      // Fallback: serve an empty spec so Swagger UI still loads
+      const fallbackSpec = {
+        openapi: "3.0.0",
+        info: { title: "Backend API", version: "1.0.0" },
+        paths: {},
+      };
+      this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(fallbackSpec));
+    }
   }
 
   private initializeCronJobs() {

@@ -22,10 +22,15 @@ export class ProductService {
   }
 
   private async getCategoryByName(name: string): Promise<Category> {
-    const category = await Category.findOne({ where: { name } });
+    // First try to find by slug (for frontend compatibility)
+    let category = await Category.findOne({ where: { slug: name } });
+    if (!category) {
+      // Fallback to name if not found by slug
+      category = await Category.findOne({ where: { name } });
+    }
     if (!category) {
       throw new EntityNotFoundException(
-        `Category with name '${name}' not found`
+        `Category with name/slug '${name}' not found`
       );
     }
     return category;
@@ -1248,7 +1253,7 @@ export class ProductService {
         stock: MoreThan(0),
         categoryId: category.id,
       },
-      relations: ["category"],
+      relations: ["category", "images"],
       order: { createdAt: "DESC" },
       take: limit,
     });

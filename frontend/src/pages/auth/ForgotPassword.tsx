@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthInput from '@components/ui/AuthInput';
+import { useToast } from '@contexts/ToastContext';
 
 // --- OTP Modal Component ---
 const OTPModal = ({ isOpen, onClose, onVerify, email }: { isOpen: boolean; onClose: () => void; onVerify: () => void; email: string }) => {
@@ -67,6 +68,7 @@ const OTPModal = ({ isOpen, onClose, onVerify, email }: { isOpen: boolean; onClo
 
 const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
+  const { showSuccess } = useToast();
   const [step, setStep] = useState<'EMAIL' | 'OTP' | 'RESET'>('EMAIL');
   const [email, setEmail] = useState('');
   
@@ -94,7 +96,7 @@ const ForgotPassword: React.FC = () => {
   const handleResetPassword = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate API Call
-    alert("Mật khẩu đã được thay đổi thành công!");
+    showSuccess("Mật khẩu đã được thay đổi thành công!");
     navigate('/login');
   };
 

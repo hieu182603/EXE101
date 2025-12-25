@@ -5,6 +5,7 @@ import Modal from '@components/ui/Modal';
 import Button from '@components/ui/Button';
 import { orderService } from '@services/orderService';
 import type { Order as BackendOrder, OrderDetail as BackendOrderDetail, OrderStatus } from '../../types/order';
+import { useToast } from '@contexts/ToastContext';
 
 interface OrderItem {
   id: string;
@@ -29,6 +30,7 @@ interface Order {
 
 const OrderHistory: React.FC = () => {
   const navigate = useNavigate();
+  const { showSuccess } = useToast();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,7 +126,7 @@ const OrderHistory: React.FC = () => {
     loadOrders();
   }, []);
 
-  const handleReBuy = () => alert("Đã thêm sản phẩm vào giỏ hàng!");
+  const handleReBuy = () => showSuccess("Đã thêm sản phẩm vào giỏ hàng!");
   const handleTrack = (orderId: string) => {
     setSelectedOrder(null);
     navigate(`/tracking/${orderId.replace('#', '')}`);

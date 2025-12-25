@@ -7,6 +7,7 @@ import Button from '@components/ui/Button';
 import { Input, Textarea } from '@components/ui/Input';
 import { authService } from '@services/authService';
 import { orderService } from '@services/orderService';
+import { useToast } from '@contexts/ToastContext';
 
 interface Address {
   id: string;
@@ -20,6 +21,7 @@ interface Address {
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { showSuccess, showError } = useToast();
   
   // State quản lý chế độ chỉnh sửa thông tin chung
   const [isEditing, setIsEditing] = useState(false);
@@ -130,7 +132,7 @@ const ProfilePage: React.FC = () => {
   const saveChanges = () => {
     setUser(tempUser);
     setIsEditing(false);
-    alert("Đã cập nhật hồ sơ thành công!");
+    showSuccess("Đã cập nhật hồ sơ thành công!");
   };
 
   const handleChange = (field: keyof typeof user, value: string) => {
@@ -141,7 +143,7 @@ const ProfilePage: React.FC = () => {
     // Validate logic could go here
     setIsChangePasswordModalOpen(false);
     setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
-    alert("Đổi mật khẩu thành công!");
+    showSuccess("Đổi mật khẩu thành công!");
   };
 
   // --- Logic Avatar ---
@@ -181,7 +183,7 @@ const ProfilePage: React.FC = () => {
 
   const saveAddress = () => {
     if (!addressForm.recipientName || !addressForm.phone || !addressForm.detail) {
-      alert("Vui lòng điền đầy đủ thông tin địa chỉ");
+      showError("Vui lòng điền đầy đủ thông tin địa chỉ");
       return;
     }
 

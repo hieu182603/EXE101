@@ -32,17 +32,33 @@ const CatalogPage: React.FC = () => {
         const products: Product[] = await productService.getAllProducts();
 
         // Normalize data for UI
-        const mapped: ProductData[] = products.map((p, idx) => ({
-          id: p.id,
-          name: p.name,
-          brand: (p as any).brand || p.category?.name || 'Khác',
-          category: p.category?.name || 'Khác',
-          price: p.price || 0,
-          oldPrice: (p as any).oldPrice,
-          tag: undefined,
-          rating: 5,
-          inStock: (p.stock ?? 0) > 0,
-        }));
+        const mapped: ProductData[] = products.map((p, idx) => {
+          // Derive brand more robustly:
+          // prefer explicit brand field if present; otherwise extract first token from product name
+          const rawBrand = (p as any).brand;
+          let brandValue = '';
+          if (rawBrand && typeof rawBrand === 'string' && rawBrand.trim() !== '') {
+            brandValue = rawBrand;
+          } else if (p.name && typeof p.name === 'string') {
+            const nameParts = p.name.trim().split(/\s+/);
+            brandValue = nameParts.length > 0 ? nameParts[0] : 'Khác';
+          } else {
+            brandValue = 'Khác';
+          }
+
+          return {
+            id: p.id,
+            name: p.name,
+            brand: brandValue,
+            category: p.category?.name || 'Khác',
+            imageUrl: (p as any).images?.[0]?.url || undefined,
+            price: p.price || 0,
+            oldPrice: (p as any).oldPrice,
+            tag: undefined,
+            rating: 5,
+            inStock: (p.stock ?? 0) > 0,
+          } as ProductData;
+        });
 
         setAllProducts(mapped);
       } catch (error) {
@@ -535,7 +551,7 @@ const CatalogPage: React.FC = () => {
                         : p.tag
                     } 
                     rating={p.rating} 
-                    imageIndex={parseInt(p.id) + 20}
+                    imageUrl={p.imageUrl}
                   />
                 );
               })}

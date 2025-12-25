@@ -110,7 +110,6 @@ api.interceptors.response.use(
         })
       );
       if (!window.location.pathname.includes("/login")) {
-        alert("Session expired. Please login again.");
         window.location.href = "/login";
       }
       return Promise.reject(error);

@@ -6,6 +6,7 @@ import Badge from '@components/ui/Badge';
 import { productService } from '@services/productService';
 import { rfqService } from '@services/rfqService';
 import type { Product } from '../../types/product';
+import { useToast } from '@contexts/ToastContext';
 
 // --- Types & Mock Data ---
 type Category = 'CPU' | 'Mainboard' | 'RAM' | 'VGA' | 'SSD' | 'HDD' | 'PSU' | 'Case' | 'Cooling' | 'Monitor' | 'Gear';
@@ -36,6 +37,7 @@ const CATEGORIES: { id: Category; label: string; icon: string; categoryName: str
 ];
 
 const QuoteRequest: React.FC = () => {
+  const { showError, showSuccess } = useToast();
   const [activeCategory, setActiveCategory] = useState<Category>('CPU');
   const [searchTerm, setSearchTerm] = useState('');
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
@@ -122,11 +124,11 @@ const QuoteRequest: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (quoteItems.length === 0) {
-      alert("Vui lòng chọn ít nhất một sản phẩm để báo giá.");
+      showError("Vui lòng chọn ít nhất một sản phẩm để báo giá.");
       return;
     }
     if (!customerInfo.name || !customerInfo.phone) {
-      alert("Vui lòng nhập tên và số điện thoại.");
+      showError("Vui lòng nhập tên và số điện thoại.");
       return;
     }
 
@@ -157,14 +159,14 @@ const QuoteRequest: React.FC = () => {
       
       // For now, just show success message
       // In the future, you might want to show the compatible builds or send email
-      alert(`Đã gửi yêu cầu báo giá thành công!\n\nTổng giá trị: ${totalAmount.toLocaleString('vi-VN')}₫\nSố linh kiện: ${quoteItems.length}\n\nChúng tôi sẽ liên hệ ${customerInfo.name} (${customerInfo.phone}) sớm nhất.`);
+      showSuccess(`Đã gửi yêu cầu báo giá thành công!\n\nTổng giá trị: ${totalAmount.toLocaleString('vi-VN')}₫\nSố linh kiện: ${quoteItems.length}\n\nChúng tôi sẽ liên hệ ${customerInfo.name} (${customerInfo.phone}) sớm nhất.`);
       
       // Reset form
       setQuoteItems([]);
       setCustomerInfo({ name: '', email: '', phone: '', note: '' });
     } catch (error) {
       console.error('Error submitting quote request:', error);
-      alert("Gửi yêu cầu báo giá thất bại. Vui lòng thử lại.");
+      showError("Gửi yêu cầu báo giá thất bại. Vui lòng thử lại.");
     }
   };
 

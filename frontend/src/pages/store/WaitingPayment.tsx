@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { orderService } from '@services/orderService';
+import { useToast } from '@contexts/ToastContext';
 
 const WaitingPayment: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const { showInfo } = useToast();
   const orderId = searchParams.get('orderId') || searchParams.get('id');
   
   const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
@@ -44,7 +46,7 @@ const WaitingPayment: React.FC = () => {
   const seconds = timeLeft % 60;
 
   const handlePayment = () => {
-    alert("Đang chuyển hướng đến cổng thanh toán VNPay...");
+    showInfo("Đang chuyển hướng đến cổng thanh toán VNPay...");
   };
 
   return (

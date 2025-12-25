@@ -6,6 +6,7 @@ import Modal from '@components/ui/Modal';
 import Pagination from '@components/ui/Pagination';
 import { Input } from '@components/ui/Input';
 import { accountService } from '@services/accountService';
+import { useToast } from '@contexts/ToastContext';
 
 interface Account {
   id: string;
@@ -19,6 +20,7 @@ interface Account {
 const ITEMS_PER_PAGE = 5;
 
 const AccountManagement: React.FC = () => {
+  const { showSuccess, showError } = useToast();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAccount, setEditingAccount] = useState<Account | null>(null);
   
@@ -69,13 +71,23 @@ const AccountManagement: React.FC = () => {
         if (account) {
           await accountService.deleteAccount(account.name);
           setAccounts(accounts.filter(a => a.id !== id));
-          alert("Xóa tài khoản thành công!");
+          showSuccess("Xóa tài khoản thành công!");
         }
       } catch (error) {
         console.error('Error deleting account:', error);
-        alert("Xóa tài khoản thất bại. Vui lòng thử lại.");
+        showError("Xóa tài khoản thất bại. Vui lòng thử lại.");
       }
     }
+  };
+
+  const handleCreateAccount = () => {
+    setIsAddModalOpen(false);
+    showSuccess("Đã tạo tài khoản mới!");
+  };
+
+  const handleSaveEdit = () => {
+    setEditingAccount(null);
+    showSuccess("Đã lưu thay đổi!");
   };
 
   const filteredAccounts = useMemo(() => {
@@ -224,7 +236,7 @@ const AccountManagement: React.FC = () => {
         footer={
             <>
                 <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>Hủy bỏ</Button>
-                <Button variant="primary" onClick={() => { setIsAddModalOpen(false); alert("Đã tạo tài khoản mới!"); }}>Tạo tài khoản</Button>
+                <Button variant="primary" onClick={handleCreateAccount}>Tạo tài khoản</Button>
             </>
         }
       >
@@ -273,7 +285,7 @@ const AccountManagement: React.FC = () => {
         footer={
             <>
                 <Button variant="outline" onClick={() => setEditingAccount(null)}>Hủy bỏ</Button>
-                <Button variant="primary" onClick={() => { setEditingAccount(null); alert("Đã lưu thay đổi!"); }}>Lưu thay đổi</Button>
+                <Button variant="primary" onClick={handleSaveEdit}>Lưu thay đổi</Button>
             </>
         }
       >

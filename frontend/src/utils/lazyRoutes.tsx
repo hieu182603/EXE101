@@ -24,6 +24,7 @@ export const LazyOrderHistory = lazy(() => import('@pages/store/OrderHistory'));
 export const LazyQuoteRequest = lazy(() => import('@pages/store/QuoteRequest'));
 export const LazyPolicyPage = lazy(() => import('@pages/store/Policy'));
 export const LazyTrackingPage = lazy(() => import('@pages/store/Tracking'));
+export const LazyWishlistPage = lazy(() => import('@pages/store/Wishlist'));
 
 // Auth Pages - Lazy loaded
 export const LazyLoginPage = lazy(() => import('@pages/auth/Login'));
@@ -38,3 +39,4 @@ export const LazyCustomerManagement = lazy(() => import('@pages/admin/Customers'
 export const LazyShipperManagement = lazy(() => import('@pages/admin/Shippers'));
 export const LazyFeedbackManagement = lazy(() => import('@pages/admin/Feedback'));
 export const LazyAccountManagement = lazy(() => import('@pages/admin/Accounts'));
+export const LazyBannersManagement = lazy(() => import('@pages/admin/Banners'));

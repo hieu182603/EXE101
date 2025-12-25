@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@contexts/ToastContext';
 
-const Footer: React.FC = () => (
+const Footer: React.FC = () => {
+  const { showSuccess } = useToast();
+  return (
   <footer className="border-t border-border-dark bg-surface-dark pt-16 mt-auto transition-colors duration-300">
     <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
@@ -81,7 +84,7 @@ const Footer: React.FC = () => (
         <div className="space-y-6">
           <h4 className="font-black text-text-main uppercase text-xs tracking-[0.2em]">Đăng ký nhận tin</h4>
           <p className="text-sm text-text-muted">Nhận thông tin khuyến mãi và mã giảm giá sớm nhất.</p>
-          <form className="relative" onSubmit={(e) => { e.preventDefault(); alert("Cảm ơn bạn đã đăng ký!"); }}>
+          <form className="relative" onSubmit={(e) => { e.preventDefault(); showSuccess("Cảm ơn bạn đã đăng ký!"); }}>
              <input type="email" placeholder="Email của bạn" className="w-full h-12 rounded-xl border border-border-dark bg-background-dark pl-4 pr-12 text-sm text-text-main focus:border-primary focus:ring-1 focus:ring-primary outline-none" required />
              <button type="submit" className="absolute right-2 top-2 size-8 rounded-lg bg-primary text-white flex items-center justify-center hover:opacity-90">
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -108,9 +111,13 @@ const Footer: React.FC = () => (
       </div>
     </div>
   </footer>
-);
+  );
+};
 
 export default Footer;
+
+
+
 
 
 

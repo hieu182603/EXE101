@@ -4,6 +4,7 @@ import { cartService } from '../services/cartService';
 import type { CartItem } from '../services/cartService';
 import { guestCartService, type GuestCartItem } from '../services/guestCartService';
 import { productService } from '../services/productService';
+import { useToast } from './ToastContext';
 
 // Updated interfaces to match backend
 interface CartState {
@@ -170,6 +171,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, initialState);
+    const toast = useToast();
 
     // Helper function to check if user is authenticated
     const isAuthenticated = (): boolean => {
@@ -254,13 +256,20 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                         totalAmount: Number(cartData.totalAmount) || 0,
                     },
                 });
+                try {
+                    toast.showSuccess('Giỏ hàng đã được cập nhật');
+                } catch (err) {
+                    // ignore toast errors
+                }
             } else if (operation === 'CLEAR_CART') {
                 dispatch({ type: 'CLEAR_CART' });
+                try { toast.showInfo('Giỏ hàng đã được xóa'); } catch {}
             } else {
                 // Don't auto-refresh to avoid infinite loops
             }
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: 'Failed to process cart response' });
+            try { toast.showError('Không thể xử lý dữ liệu giỏ hàng'); } catch {}
         }
     };
 
