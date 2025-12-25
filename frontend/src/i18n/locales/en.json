@@ -1,0 +1,364 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "open": "Open",
+    "view": "View",
+    "details": "Details",
+    "all": "All",
+    "none": "None",
+    "select": "Select",
+    "selected": "Selected",
+    "total": "Total",
+    "quantity": "Quantity",
+    "price": "Price",
+    "name": "Name",
+    "description": "Description",
+    "status": "Status",
+    "date": "Date",
+    "time": "Time",
+    "created": "Created",
+    "updated": "Updated",
+    "deleted": "Deleted"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "catalog": "Catalog",
+    "quote": "Quote",
+    "tracking": "Tracking",
+    "cart": "Cart",
+    "profile": "Profile",
+    "orders": "Orders",
+    "wishlist": "Wishlist",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "admin": "Admin",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "support": "Support",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "searchPlaceholder": "Search products...",
+    "noNotifications": "No notifications yet",
+    "markAsRead": "Mark as read",
+    "viewAll": "View all"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back!",
+      "subtitle": "Sign in to access your tech dashboard",
+      "email": "Email Address",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot Password?",
+      "loginButton": "Sign In",
+      "loggingIn": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create Account",
+      "backToHome": "Back to Home",
+      "loginSuccess": "Login successful!",
+      "loginFailed": "Login failed"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join us to explore premium PC components",
+      "username": "Username",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "createAccount": "Create Account",
+      "creating": "Creating...",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign In",
+      "registerSuccess": "Registration successful!",
+      "registerFailed": "Registration failed",
+      "otpSent": "OTP has been sent to your email",
+      "otpVerified": "Verification successful!",
+      "verificationFailed": "Verification failed"
+    },
+    "otp": {
+      "title": "Verify OTP",
+      "subtitle": "6-digit verification code sent to your email {{email}}",
+      "enterOtp": "Please enter all 6 digits",
+      "verify": "Verify",
+      "verifying": "Verifying...",
+      "resend": "Resend",
+      "resending": "Sending...",
+      "invalidOtp": "Invalid OTP or expired",
+      "resendSuccess": "OTP resent successfully",
+      "resendFailed": "Failed to resend OTP"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordRequirements": "Password must contain at least 8 characters, including uppercase, lowercase and numbers",
+      "passwordMismatch": "Passwords do not match",
+      "usernameLength": "Username must be between 3 and 30 characters",
+      "usernameFormat": "Username can only contain letters, numbers, underscores and hyphens",
+      "usernameExists": "Username already exists",
+      "emailExists": "Email already registered",
+      "phoneExists": "Phone number already exists"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "NEXT LEVEL GAMING PERFORMANCE",
+      "subtitle": "Experience ultimate power with the latest RTX 40 Series. Pre-order now and get 5 million VND gift set.",
+      "explore": "Explore Now",
+      "flagship": "Flagship Series"
+    },
+    "features": {
+      "freeShipping": {
+        "title": "Free Shipping",
+        "subtitle": "For orders over 2,000,000 VND"
+      },
+      "warranty": {
+        "title": "Official Warranty",
+        "subtitle": "100% Full VAT"
+      },
+      "return": {
+        "title": "15-Day Return",
+        "subtitle": "Exchange for defects"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "subtitle": "Professional technicians"
+      }
+    },
+    "categories": {
+      "title": "Featured Categories",
+      "gamingLaptop": "Gaming Laptop",
+      "macbook": "Macbook",
+      "graphicsPC": "Graphics PC",
+      "monitor": "Monitor",
+      "keyboard": "Keyboard",
+      "mouse": "Mouse",
+      "headset": "Headset",
+      "components": "Components"
+    },
+    "flashSale": {
+      "title": "FLASH SALE",
+      "endsIn": "Ends in",
+      "viewAll": "View all",
+      "noProducts": "No flash sale products yet"
+    },
+    "newArrivals": {
+      "title": "New Arrivals",
+      "latest": "Latest",
+      "bestSelling": "Best Selling",
+      "noProducts": "No new products yet"
+    },
+    "banner": {
+      "title": "Dream Setup Corner",
+      "subtitle": "Additional 5% off when buying Combo (Desk + Chair + Gear)",
+      "viewCombo": "View Combo",
+      "promo": "Promo"
+    },
+    "laptops": {
+      "title": "Gaming & Graphics Laptops",
+      "viewAll": "View all",
+      "noProducts": "No laptop products yet",
+      "viewMore": "View {{count}} more products"
+    }
+  },
+  "product": {
+    "stock": "Out of stock",
+    "outOfStock": "Out of stock",
+    "inStock": "In stock",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "viewDetails": "View Details",
+    "specifications": "Specifications",
+    "reviews": "Reviews",
+    "relatedProducts": "Related Products",
+    "noReviews": "No reviews yet",
+    "writeReview": "Write a review",
+    "rating": "Rating",
+    "review": "Review",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "update": "Update",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "tax": "Tax",
+    "quantity": "Quantity",
+    "price": "Price",
+    "item": "item",
+    "items": "items"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shipping": "Shipping Information",
+    "payment": "Payment",
+    "review": "Review Order",
+    "placeOrder": "Place Order",
+    "backToCart": "Back to Cart",
+    "orderSuccess": "Order placed successfully!",
+    "orderFailed": "Order failed",
+    "paymentSuccess": "Payment successful",
+    "paymentFailed": "Payment failed"
+  },
+  "order": {
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "shipping": "Shipping",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "tracking": "Track Order",
+    "orderNumber": "Order Number",
+    "orderDate": "Order Date",
+    "estimatedDelivery": "Estimated Delivery",
+    "shippingAddress": "Shipping Address",
+    "paymentMethod": "Payment Method",
+    "total": "Total",
+    "viewOrder": "View Order",
+    "cancelOrder": "Cancel Order",
+    "reorder": "Reorder",
+    "noOrders": "No orders yet"
+  },
+  "profile": {
+    "title": "Profile",
+    "personalInfo": "Personal Information",
+    "changePassword": "Change Password",
+    "addresses": "Addresses",
+    "preferences": "Preferences",
+    "notifications": "Notifications",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "updateSuccess": "Update successful",
+    "updateFailed": "Update failed"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "orders": "Orders",
+    "customers": "Customers",
+    "shippers": "Shippers",
+    "feedback": "Feedback",
+    "accounts": "Accounts",
+    "banners": "Banners",
+    "analytics": "Analytics",
+    "reports": "Reports",
+    "settings": "Settings",
+    "totalRevenue": "Total Revenue",
+    "totalOrders": "Total Orders",
+    "totalCustomers": "Total Customers",
+    "totalProducts": "Total Products",
+    "search": "Quick search...",
+    "filter": "Filter by time",
+    "today": "Today",
+    "week": "Last 7 days",
+    "month": "This month",
+    "allTime": "All time",
+    "systemAdmin": "System Administration",
+    "manageAccounts": "Manage Accounts",
+    "systemSettings": "System Settings"
+  },
+  "footer": {
+    "brand": {
+      "description": "Leading premium technology retail system. Official partner of major brands in Vietnam."
+    },
+    "products": {
+      "title": "Products",
+      "gamingLaptops": "Gaming Laptops",
+      "workstations": "Workstations",
+      "components": "PC Components",
+      "gamingGear": "Gaming Gear",
+      "appleAccessories": "Apple Accessories"
+    },
+    "policies": {
+      "title": "Policies",
+      "warranty": "Warranty Policy",
+      "shipping": "Shipping & Delivery",
+      "payment": "Payment Policy",
+      "privacy": "Privacy Policy"
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Get the latest promotions and discount codes first.",
+      "placeholder": "Your email",
+      "subscribe": "Subscribe",
+      "thankYou": "Thank you for subscribing!"
+    },
+    "payment": "Payment",
+    "copyright": "© 2024 TechStore Vietnam. All rights reserved.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies"
+  },
+  "validation": {
+    "required": "This field is required",
+    "minLength": "Must be at least {{count}} characters",
+    "maxLength": "Must not exceed {{count}} characters",
+    "invalidFormat": "Invalid format",
+    "invalidPhone": "Invalid phone number",
+    "invalidEmail": "Invalid email address",
+    "passwordMismatch": "Passwords do not match",
+    "weakPassword": "Password is too weak",
+    "usernameTaken": "Username already taken",
+    "emailTaken": "Email already registered"
+  },
+  "errors": {
+    "network": "Network error",
+    "server": "Server error",
+    "notFound": "Not found",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Access denied",
+    "badRequest": "Bad request",
+    "validation": "Invalid data",
+    "unknown": "An unknown error occurred",
+    "tryAgain": "Please try again",
+    "contactSupport": "Please contact support"
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully",
+    "created": "Created successfully",
+    "sent": "Sent successfully",
+    "received": "Received successfully"
+  },
+  "marketing": {
+    "fastShipping": "Fast Shipping",
+    "nationwide": "Nationwide in 24h",
+    "genuineProducts": "Genuine Products",
+    "fullWarranty": "100% Warranty",
+    "levelUp": "Level Up",
+    "premiumGear": "Premium Gear"
+  }
+}
+

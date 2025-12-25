@@ -12,7 +12,7 @@ export abstract class NamedEntity extends BaseEntity {
   @BeforeUpdate()
   generateSlug() {
     if (this.name) {
-      this.slug = this.name.toLowerCase();
+      this.slug = slugify(this.name);
     }
   }
 }

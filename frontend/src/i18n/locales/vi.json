@@ -1,0 +1,364 @@
+{
+  "common": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "add": "Thêm",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "sort": "Sắp xếp",
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "warning": "Cảnh báo",
+    "info": "Thông tin",
+    "confirm": "Xác nhận",
+    "yes": "Có",
+    "no": "Không",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước đó",
+    "close": "Đóng",
+    "open": "Mở",
+    "view": "Xem",
+    "details": "Chi tiết",
+    "all": "Tất cả",
+    "none": "Không có",
+    "select": "Chọn",
+    "selected": "Đã chọn",
+    "total": "Tổng cộng",
+    "quantity": "Số lượng",
+    "price": "Giá",
+    "name": "Tên",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "date": "Ngày",
+    "time": "Thời gian",
+    "created": "Đã tạo",
+    "updated": "Đã cập nhật",
+    "deleted": "Đã xóa"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "products": "Sản phẩm",
+    "catalog": "Danh mục",
+    "quote": "Báo giá",
+    "tracking": "Tra cứu",
+    "cart": "Giỏ hàng",
+    "profile": "Hồ sơ",
+    "orders": "Đơn hàng",
+    "wishlist": "Yêu thích",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "register": "Đăng ký",
+    "admin": "Quản trị",
+    "dashboard": "Bảng điều khiển",
+    "settings": "Cài đặt",
+    "support": "Hỗ trợ",
+    "notifications": "Thông báo",
+    "language": "Ngôn ngữ",
+    "theme": "Giao diện",
+    "searchPlaceholder": "Tìm kiếm sản phẩm...",
+    "noNotifications": "Chưa có thông báo nào",
+    "markAsRead": "Đánh dấu đã đọc",
+    "viewAll": "Xem tất cả"
+  },
+  "auth": {
+    "login": {
+      "title": "Chào mừng trở lại!",
+      "subtitle": "Đăng nhập để truy cập bảng điều khiển công nghệ của bạn",
+      "email": "Địa chỉ email",
+      "password": "Mật khẩu",
+      "rememberMe": "Ghi nhớ đăng nhập",
+      "forgotPassword": "Quên mật khẩu?",
+      "loginButton": "Đăng nhập",
+      "loggingIn": "Đang đăng nhập...",
+      "noAccount": "Chưa có tài khoản?",
+      "createAccount": "Tạo tài khoản",
+      "backToHome": "Quay về trang chủ",
+      "loginSuccess": "Đăng nhập thành công!",
+      "loginFailed": "Đăng nhập thất bại"
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "subtitle": "Tham gia để khám phá các thành phần PC cao cấp",
+      "username": "Tên đăng nhập",
+      "email": "Địa chỉ email",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "createAccount": "Tạo tài khoản",
+      "creating": "Đang xử lý...",
+      "hasAccount": "Đã có tài khoản?",
+      "signIn": "Đăng nhập",
+      "registerSuccess": "Đăng ký thành công!",
+      "registerFailed": "Đăng ký thất bại",
+      "otpSent": "OTP đã được gửi đến email của bạn",
+      "otpVerified": "Xác thực thành công!",
+      "verificationFailed": "Xác thực thất bại"
+    },
+    "otp": {
+      "title": "Xác thực OTP",
+      "subtitle": "Mã xác thực 6 số đã được gửi đến email {{email}} của bạn",
+      "enterOtp": "Vui lòng nhập đủ 6 số",
+      "verify": "Xác nhận",
+      "verifying": "Đang xác thực...",
+      "resend": "Gửi lại",
+      "resending": "Đang gửi...",
+      "invalidOtp": "Mã OTP không đúng hoặc đã hết hạn",
+      "resendSuccess": "OTP đã được gửi lại",
+      "resendFailed": "Không thể gửi lại OTP"
+    },
+    "validation": {
+      "required": "Trường này là bắt buộc",
+      "invalidEmail": "Email không hợp lệ",
+      "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự",
+      "passwordRequirements": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số",
+      "passwordMismatch": "Mật khẩu xác nhận không khớp",
+      "usernameLength": "Tên đăng nhập phải có từ 3 đến 30 ký tự",
+      "usernameFormat": "Tên đăng nhập chỉ được chứa chữ cái, số, dấu gạch dưới và dấu gạch ngang",
+      "usernameExists": "Tên đăng nhập đã tồn tại",
+      "emailExists": "Email đã được đăng ký",
+      "phoneExists": "Số điện thoại đã tồn tại"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "NEXT LEVEL GAMING PERFORMANCE",
+      "subtitle": "Trải nghiệm sức mạnh đỉnh cao với dòng RTX 40 Series mới nhất. Ưu đãi đặt trước tặng ngay bộ quà 5 triệu.",
+      "explore": "Khám phá ngay",
+      "flagship": "Flagship Series"
+    },
+    "features": {
+      "freeShipping": {
+        "title": "Miễn phí vận chuyển",
+        "subtitle": "Cho đơn từ 2.000.000đ"
+      },
+      "warranty": {
+        "title": "Bảo hành chính hãng",
+        "subtitle": "100% Full VAT"
+      },
+      "return": {
+        "title": "Đổi trả 15 ngày",
+        "subtitle": "Lỗi là đổi mới"
+      },
+      "support": {
+        "title": "Hỗ trợ 24/7",
+        "subtitle": "Kỹ thuật viên chuyên nghiệp"
+      }
+    },
+    "categories": {
+      "title": "Danh mục nổi bật",
+      "gamingLaptop": "Laptop Gaming",
+      "macbook": "Macbook",
+      "graphicsPC": "PC Đồ họa",
+      "monitor": "Màn hình",
+      "keyboard": "Bàn phím",
+      "mouse": "Chuột",
+      "headset": "Tai nghe",
+      "components": "Linh kiện"
+    },
+    "flashSale": {
+      "title": "FLASH SALE",
+      "endsIn": "Kết thúc sau",
+      "viewAll": "Xem tất cả",
+      "noProducts": "Chưa có sản phẩm flash sale"
+    },
+    "newArrivals": {
+      "title": "Sản phẩm mới về",
+      "latest": "Mới nhất",
+      "bestSelling": "Bán chạy",
+      "noProducts": "Chưa có sản phẩm mới"
+    },
+    "banner": {
+      "title": "Setup góc máy mơ ước",
+      "subtitle": "Giảm thêm 5% khi mua Combo (Bàn + Ghế + Gear)",
+      "viewCombo": "Xem Combo",
+      "promo": "Promo"
+    },
+    "laptops": {
+      "title": "Laptop Gaming & Đồ họa",
+      "viewAll": "Xem tất cả",
+      "noProducts": "Chưa có sản phẩm laptop",
+      "viewMore": "Xem thêm {{count}} sản phẩm khác"
+    }
+  },
+  "product": {
+    "stock": "Hết hàng",
+    "outOfStock": "Hết hàng",
+    "inStock": "Còn hàng",
+    "addToCart": "Thêm vào giỏ",
+    "buyNow": "Mua ngay",
+    "viewDetails": "Xem chi tiết",
+    "specifications": "Thông số kỹ thuật",
+    "reviews": "Đánh giá",
+    "relatedProducts": "Sản phẩm liên quan",
+    "noReviews": "Chưa có đánh giá nào",
+    "writeReview": "Viết đánh giá",
+    "rating": "Đánh giá",
+    "review": "Đánh giá",
+    "submit": "Gửi",
+    "cancel": "Hủy"
+  },
+  "cart": {
+    "title": "Giỏ hàng",
+    "empty": "Giỏ hàng trống",
+    "continueShopping": "Tiếp tục mua sắm",
+    "checkout": "Thanh toán",
+    "remove": "Xóa",
+    "update": "Cập nhật",
+    "total": "Tổng cộng",
+    "subtotal": "Tạm tính",
+    "shipping": "Phí vận chuyển",
+    "discount": "Giảm giá",
+    "tax": "Thuế",
+    "quantity": "Số lượng",
+    "price": "Giá",
+    "item": "sản phẩm",
+    "items": "sản phẩm"
+  },
+  "checkout": {
+    "title": "Thanh toán",
+    "shipping": "Thông tin giao hàng",
+    "payment": "Thanh toán",
+    "review": "Xem lại đơn hàng",
+    "placeOrder": "Đặt hàng",
+    "backToCart": "Quay lại giỏ hàng",
+    "orderSuccess": "Đặt hàng thành công!",
+    "orderFailed": "Đặt hàng thất bại",
+    "paymentSuccess": "Thanh toán thành công",
+    "paymentFailed": "Thanh toán thất bại"
+  },
+  "order": {
+    "status": {
+      "pending": "Chờ xử lý",
+      "confirmed": "Đã xác nhận",
+      "shipping": "Đang giao hàng",
+      "delivered": "Đã giao hàng",
+      "cancelled": "Đã hủy",
+      "refunded": "Đã hoàn tiền"
+    },
+    "tracking": "Theo dõi đơn hàng",
+    "orderNumber": "Mã đơn hàng",
+    "orderDate": "Ngày đặt hàng",
+    "estimatedDelivery": "Dự kiến giao hàng",
+    "shippingAddress": "Địa chỉ giao hàng",
+    "paymentMethod": "Phương thức thanh toán",
+    "total": "Tổng tiền",
+    "viewOrder": "Xem đơn hàng",
+    "cancelOrder": "Hủy đơn hàng",
+    "reorder": "Đặt lại",
+    "noOrders": "Chưa có đơn hàng nào"
+  },
+  "profile": {
+    "title": "Hồ sơ cá nhân",
+    "personalInfo": "Thông tin cá nhân",
+    "changePassword": "Đổi mật khẩu",
+    "addresses": "Địa chỉ",
+    "preferences": "Tùy chọn",
+    "notifications": "Thông báo",
+    "save": "Lưu thay đổi",
+    "cancel": "Hủy",
+    "updateSuccess": "Cập nhật thành công",
+    "updateFailed": "Cập nhật thất bại"
+  },
+  "admin": {
+    "dashboard": "Bảng điều khiển",
+    "products": "Sản phẩm",
+    "orders": "Đơn hàng",
+    "customers": "Khách hàng",
+    "shippers": "Shipper",
+    "feedback": "Phản hồi",
+    "accounts": "Tài khoản",
+    "banners": "Banner",
+    "analytics": "Phân tích",
+    "reports": "Báo cáo",
+    "settings": "Cài đặt",
+    "totalRevenue": "Tổng doanh thu",
+    "totalOrders": "Tổng đơn hàng",
+    "totalCustomers": "Tổng khách hàng",
+    "totalProducts": "Tổng sản phẩm",
+    "search": "Tìm nhanh...",
+    "filter": "Lọc theo thời gian",
+    "today": "Hôm nay",
+    "week": "7 ngày qua",
+    "month": "Tháng này",
+    "allTime": "Tất cả thời gian",
+    "systemAdmin": "Quản trị hệ thống",
+    "manageAccounts": "Quản lý tài khoản",
+    "systemSettings": "Cài đặt hệ thống"
+  },
+  "footer": {
+    "brand": {
+      "description": "Hệ thống bán lẻ thiết bị công nghệ cao cấp hàng đầu. Đối tác chính thức của các thương hiệu lớn tại Việt Nam."
+    },
+    "products": {
+      "title": "Sản phẩm",
+      "gamingLaptops": "Laptop Gaming",
+      "workstations": "PC Workstation",
+      "components": "Linh kiện máy tính",
+      "gamingGear": "Gaming Gear",
+      "appleAccessories": "Phụ kiện Apple"
+    },
+    "policies": {
+      "title": "Chính sách",
+      "warranty": "Chính sách bảo hành",
+      "shipping": "Vận chuyển & Giao nhận",
+      "payment": "Chính sách thanh toán",
+      "privacy": "Bảo mật thông tin"
+    },
+    "newsletter": {
+      "title": "Đăng ký nhận tin",
+      "description": "Nhận thông tin khuyến mãi và mã giảm giá sớm nhất.",
+      "placeholder": "Email của bạn",
+      "subscribe": "Đăng ký",
+      "thankYou": "Cảm ơn bạn đã đăng ký!"
+    },
+    "payment": "Thanh toán",
+    "copyright": "© 2024 TechStore Vietnam. All rights reserved.",
+    "terms": "Điều khoản",
+    "privacy": "Quyền riêng tư",
+    "cookies": "Cookies"
+  },
+  "validation": {
+    "required": "Trường này là bắt buộc",
+    "minLength": "Phải có ít nhất {{count}} ký tự",
+    "maxLength": "Không được vượt quá {{count}} ký tự",
+    "invalidFormat": "Định dạng không hợp lệ",
+    "invalidPhone": "Số điện thoại không hợp lệ",
+    "invalidEmail": "Email không hợp lệ",
+    "passwordMismatch": "Mật khẩu xác nhận không khớp",
+    "weakPassword": "Mật khẩu quá yếu",
+    "usernameTaken": "Tên đăng nhập đã được sử dụng",
+    "emailTaken": "Email đã được đăng ký"
+  },
+  "errors": {
+    "network": "Lỗi kết nối mạng",
+    "server": "Lỗi máy chủ",
+    "notFound": "Không tìm thấy",
+    "unauthorized": "Không có quyền truy cập",
+    "forbidden": "Truy cập bị từ chối",
+    "badRequest": "Yêu cầu không hợp lệ",
+    "validation": "Dữ liệu không hợp lệ",
+    "unknown": "Đã xảy ra lỗi không xác định",
+    "tryAgain": "Vui lòng thử lại",
+    "contactSupport": "Vui lòng liên hệ hỗ trợ"
+  },
+  "success": {
+    "saved": "Đã lưu thành công",
+    "updated": "Đã cập nhật thành công",
+    "deleted": "Đã xóa thành công",
+    "created": "Đã tạo thành công",
+    "sent": "Đã gửi thành công",
+    "received": "Đã nhận thành công"
+  },
+  "marketing": {
+    "fastShipping": "Giao hàng nhanh",
+    "nationwide": "Toàn quốc trong 24h",
+    "genuineProducts": "Sản phẩm chính hãng",
+    "fullWarranty": "100% Bảo hành",
+    "levelUp": "Nâng cấp setup",
+    "premiumGear": "Thiết bị cao cấp"
+  }
+}
+
