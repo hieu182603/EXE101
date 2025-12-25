@@ -1,20 +1,26 @@
 
 import React, { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { 
-  AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  PieChart, Pie, Cell, Legend 
+import {
+  AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend
 } from 'recharts';
 import Button from '@components/ui/Button';
 import Badge from '@components/ui/Badge';
 import { AdminOutletContext } from '@layouts/AdminLayout';
 import { productService } from '@services/productService';
 import { orderService } from '@services/orderService';
+import { useNotifications } from '@hooks/useNotifications';
+import { useAuth } from '@contexts/AuthContext';
 import type { Product } from '@/types/product';
 
 const AdminDashboard: React.FC = () => {
   const { getDateRangeLabel } = useOutletContext<AdminOutletContext>();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+
+  // Socket notifications for admin
+  const { notifications, unreadCount, markAsRead } = useNotifications(user?.id, true);
 
   const [revenueData, setRevenueData] = useState<Array<{ name: string; revenue: number; profit: number; orders: number }>>([]);
   const [categoryData, setCategoryData] = useState<Array<{ name: string; value: number; color: string }>>([]);
@@ -109,8 +115,31 @@ const AdminDashboard: React.FC = () => {
         <div className="flex gap-3">
           <Button variant="outline" icon="download" size="sm">Xuất báo cáo</Button>
           <Button variant="primary" icon="refresh" size="sm">Cập nhật</Button>
+          {unreadCount > 0 && (
+            <Button variant="primary" icon="notifications" size="sm" onClick={markAsRead}>
+              Thông báo ({unreadCount})
+            </Button>
+          )}
         </div>
       </div>
+
+      {/* Notifications Display */}
+      {notifications.length > 0 && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-blue-900 mb-2">Thông báo mới</h3>
+          <div className="space-y-2 max-h-32 overflow-y-auto">
+            {notifications.slice(0, 5).map((notification, index) => (
+              <div key={index} className="bg-white p-2 rounded border text-sm">
+                <div className="font-medium text-blue-800">{notification.title}</div>
+                <div className="text-blue-600">{notification.message}</div>
+                <div className="text-xs text-blue-500 mt-1">
+                  {new Date(notification.timestamp || '').toLocaleString('vi-VN')}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 2. Key Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

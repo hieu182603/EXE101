@@ -23,7 +23,7 @@ export class EmailService {
       console.error("Email sending will fail until SMTP credentials are configured.");
     } else {
       console.log("✅ SMTP configuration loaded successfully");
-      console.log(`   Host: ${smtpHost}, Port: ${smtpPort}, User: ${smtpUser.substring(0, 3)}***`);
+      
       // Create transporter with verified config
       this.transporter = nodemailer.createTransport({
         host: smtpHost,

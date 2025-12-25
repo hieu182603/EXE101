@@ -3,6 +3,7 @@ import { authService } from '../services/authService';
 import { useToast } from './ToastContext';
 
 interface User {
+    id?: string;
     username: string;
     phone?: string;
     role: string | { name: string };

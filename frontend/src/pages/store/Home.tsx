@@ -185,7 +185,7 @@ const HomePage: React.FC = () => {
                 onClick={() => navigate('/catalog')}
                 className="flex-1 relative rounded-2xl overflow-hidden group border border-border-dark cursor-pointer min-h-[200px]"
               >
-                 <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 transition-all" alt="Sub Banner 1" />
+                 <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 1" />
                  <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/80 p-6 flex flex-col justify-center">
                     <h3 className="text-2xl font-black text-white uppercase italic">Esport Gear</h3>
                     <p className="text-sm text-red-500 font-bold">Chuột & Phím cơ giảm tới 40%</p>
@@ -195,7 +195,7 @@ const HomePage: React.FC = () => {
                 onClick={() => navigate('/quote')}
                 className="flex-1 relative rounded-2xl overflow-hidden group border border-border-dark cursor-pointer min-h-[200px]"
               >
-                 <img src="https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 transition-all" alt="Sub Banner 2" />
+                 <img src="https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 2" />
                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/80 p-6 flex flex-col justify-center text-right items-end">
                     <h3 className="text-2xl font-black text-white uppercase italic">Build PC</h3>
                     <p className="text-sm text-red-500 font-bold">Miễn phí lắp đặt & Vệ sinh</p>
@@ -207,7 +207,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* 2. USP Bar */}
-      <section className="pb-12 px-4 mt-7">
+      <section className="pb-12 px-4 mt-16 lg:mt-20">
         <div className="mx-auto max-w-[1440px]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
@@ -261,7 +261,7 @@ const HomePage: React.FC = () => {
               </div>
             ) : flashSaleProducts.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 relative z-10">
-                {flashSaleProducts.map((p, i) => (
+                {flashSaleProducts.map((p) => (
                   <div key={p.id} className="h-full">
                     <ProductCard 
                       id={p.id}
@@ -342,7 +342,7 @@ const HomePage: React.FC = () => {
             </div>
           ) : newProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 sm:gap-6">
-              {newProducts.map((p, i) => (
+              {newProducts.map((p) => (
                 <ProductCard 
                   key={p.id}
                   id={p.id}
@@ -406,7 +406,7 @@ const HomePage: React.FC = () => {
             </div>
           ) : laptopProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 sm:gap-6">
-              {laptopProducts.map((p, i) => (
+              {laptopProducts.map((p) => (
                 <ProductCard 
                   key={p.id}
                   id={p.id}

@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from '@contexts/AuthContext';
 import { CartProvider } from '@contexts/CartContext';
 import { ToastProvider } from '@contexts/ToastContext';
 import { NotificationProvider } from '@contexts/NotificationContext';
+// import { SocketProvider } from '@contexts/SocketContext';
 import AdminLayout from '@layouts/AdminLayout';
 import MainLayout from '@layouts/MainLayout';
 import SuspenseWrapper from '@components/ui/SuspenseWrapper';
@@ -34,6 +35,7 @@ import {
   LazyBannersManagement,
   LazyWishlistPage,
 } from '@utils/lazyRoutes';
+import SocketStatus from '@components/ui/SocketStatus';
 
 // Protected Route Component
 function ProtectedRoute({
@@ -104,11 +106,12 @@ const App: React.FC = () => {
 
             {/* Default */}
             <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </CartProvider>
-          </AuthProvider>
-        </NotificationProvider>
-      </ToastProvider>
+                </Routes>
+              </CartProvider>
+            </AuthProvider>
+          </NotificationProvider>
+        </ToastProvider>
+      <SocketStatus />
     </BrowserRouter>
   );
 };

@@ -78,7 +78,7 @@ const CartPage: React.FC = () => {
                 {/* Desktop Price */}
                 <div className="hidden md:flex flex-col items-center min-w-[80px]">
                   <span className="text-[10px] font-bold text-slate-500 uppercase mb-1">Đơn giá</span>
-                  <span className="font-bold text-white text-sm">{item.price.toLocaleString()}₫</span>
+                  <span className="font-bold text-white text-sm">{price.toLocaleString()}₫</span>
                 </div>
                 
                 {/* Quantity */}
@@ -94,7 +94,7 @@ const CartPage: React.FC = () => {
                 {/* Subtotal */}
                 <div className="flex flex-col items-end min-w-[100px]">
                   <span className="text-[10px] font-bold text-slate-500 uppercase mb-1 md:hidden">Thành tiền</span>
-                  <span className="font-black text-primary text-lg">{(item.price * item.qty).toLocaleString()}₫</span>
+                  <span className="font-black text-primary text-lg">{(price * qty).toLocaleString()}₫</span>
                 </div>
 
                 {/* Delete Button */}

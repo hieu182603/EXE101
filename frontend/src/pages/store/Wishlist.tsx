@@ -87,3 +87,5 @@ const WishlistPage: React.FC = () => {
 export default WishlistPage;
 
 
+
+

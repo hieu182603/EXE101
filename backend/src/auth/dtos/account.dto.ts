@@ -42,6 +42,9 @@ export class CreateAccountDto {
 
 export class AccountDetailsDto {
     @IsString()
+    accountId: string;
+
+    @IsString()
     username: string;
 
     @IsString()

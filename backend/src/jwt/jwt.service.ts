@@ -18,6 +18,7 @@ export class JwtService {
 
   private accountToPayload(account: Account): AccountDetailsDto{
     return {
+      accountId: account.id, // Add accountId for Socket.IO authentication
       username: account.username,
       phone: account.phone || "01234567878989", // Use actual phone or fallback
       role: account.role,

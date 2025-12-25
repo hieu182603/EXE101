@@ -1,13 +1,17 @@
 import { Service } from "typedi";
-import { Controller, Get, Param, Delete, OnUndefined, QueryParam, Res } from "routing-controllers";
+import { Controller, Get, Param, Delete, OnUndefined, QueryParam, Res, Post } from "routing-controllers";
 import { FeedbackService } from "./feedback.service";
+import { SocketService } from "../utils/socket.service";
 import ExcelJS from "exceljs";
 import { Response } from 'express';
 
 @Service()
 @Controller("/feedbacks")
 export class FeedbackController {
-  constructor(private readonly feedbackService: FeedbackService) {}
+  constructor(
+    private readonly feedbackService: FeedbackService,
+    private readonly socketService: SocketService
+  ) {}
 
   @Get()
   async getAll() {
@@ -62,5 +66,11 @@ export class FeedbackController {
   @OnUndefined(204)
   async delete(@Param("id") id: string) {
     await this.feedbackService.deleteFeedback(id);
+  }
+
+  @Post("/test-notification")
+  async sendTestNotification() {
+    this.socketService.sendTestNotification();
+    return { success: true, message: "Test notification sent" };
   }
 } 

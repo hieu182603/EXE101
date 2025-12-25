@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useToast } from '@contexts/ToastContext';
+import { useCart } from '@contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 
 interface ProductCardProps {
@@ -26,36 +27,38 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const navigate = useNavigate();
   const [isAdded, setIsAdded] = useState(false);
   const toast = useToast();
+  const { addToCart, activeOperations } = useCart();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isAdded) return;
+    if (isAdded || activeOperations.has(`add-${id}`)) return;
 
-    setIsAdded(true);
-    // TODO: integrate real cart logic here
     try {
-      toast.showSuccess('Đã thêm vào giỏ');
-    } catch (err) {
-      // fallback logging
-      console.error('Toast show failed', err);
+      await addToCart(id.toString(), 1);
+      setIsAdded(true);
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+    } catch (error) {
+      // Error is handled by CartContext and toast is shown there
+      console.error('Failed to add product to cart:', error);
     }
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 2000);
   };
 
-  const handleBuyNow = (e: React.MouseEvent) => {
+  const handleBuyNow = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // Navigate to product detail with buyNow flag (checkout flow can read this param)
+
     try {
-      toast.showInfo('Chuyển đến mua ngay...');
-    } catch (err) {
-      console.error('Toast show failed', err);
+      // Add to cart first
+      await addToCart(id.toString(), 1);
+      // Navigate to checkout
+      navigate('/checkout');
+    } catch (error) {
+      console.error('Failed to buy now:', error);
     }
-    navigate(`/product/${id}?buyNow=1`);
   };
 
   const handleViewDetails = (e: React.MouseEvent) => {
@@ -135,16 +138,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="flex gap-2 pt-1">
             <button
               onClick={handleAddToCart}
+              disabled={activeOperations.has(`add-${id}`)}
               className={`h-10 w-12 flex items-center justify-center rounded-lg transition-all active:scale-95 border ${
                 isAdded
                   ? 'bg-green-600 border-green-600 text-white shadow-md'
+                  : activeOperations.has(`add-${id}`)
+                  ? 'bg-gray-500 border-gray-500 text-white cursor-not-allowed'
                   : 'bg-surface-accent border-transparent text-text-main hover:border-primary hover:text-primary hover:bg-white'
               }`}
               title="Thêm vào giỏ"
             >
-              <span className="material-symbols-outlined text-[20px] fill">
-                {isAdded ? 'check' : 'add_shopping_cart'}
-              </span>
+              {activeOperations.has(`add-${id}`) ? (
+                <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+              ) : (
+                <span className="material-symbols-outlined text-[20px] fill">
+                  {isAdded ? 'check' : 'add_shopping_cart'}
+                </span>
+              )}
             </button>
 
             <button
