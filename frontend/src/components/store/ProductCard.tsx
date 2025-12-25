@@ -38,9 +38,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     try {
       await addToCart(id.toString(), 1);
       setIsAdded(true);
-      setTimeout(() => {
-        setIsAdded(false);
-      }, 2000);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
     } catch (error) {
       // Error is handled by CartContext and toast is shown there
       console.error('Failed to add product to cart:', error);
@@ -151,9 +151,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
               {activeOperations.has(`add-${id}`) ? (
                 <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
               ) : (
-                <span className="material-symbols-outlined text-[20px] fill">
-                  {isAdded ? 'check' : 'add_shopping_cart'}
-                </span>
+              <span className="material-symbols-outlined text-[20px] fill">
+                {isAdded ? 'check' : 'add_shopping_cart'}
+              </span>
               )}
             </button>
 

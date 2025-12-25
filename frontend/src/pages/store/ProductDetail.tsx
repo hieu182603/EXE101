@@ -69,8 +69,8 @@ const ProductDetail: React.FC = () => {
 
     try {
       await addToCart(product.id, qty);
-      setIsAdded(true);
-      setTimeout(() => setIsAdded(false), 2000);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
     } catch (error) {
       // Error is handled by CartContext
       console.error('Failed to add product to cart:', error);
@@ -187,12 +187,12 @@ const ProductDetail: React.FC = () => {
                 <span className="material-symbols-outlined">add</span>
               </button>
             </div>
-            <button
+            <button 
               onClick={handleAddToCart}
               disabled={product ? activeOperations.has(`add-${product.id}`) : false}
               className={`flex-1 h-14 font-black rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-95 group ${
-                isAdded
-                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                isAdded 
+                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' 
                 : (product && activeOperations.has(`add-${product.id}`))
                 ? 'bg-gray-500 text-white cursor-not-allowed'
                 : 'bg-primary text-black hover:shadow-[0_0_30px_rgba(239,68,68,0.3)]'
@@ -201,9 +201,9 @@ const ProductDetail: React.FC = () => {
               {product && activeOperations.has(`add-${product.id}`) ? (
                 <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
               ) : (
-                <span className={`material-symbols-outlined ${!isAdded && 'group-hover:rotate-12'} transition-transform`}>
-                  {isAdded ? 'check_circle' : 'shopping_cart'}
-                </span>
+              <span className={`material-symbols-outlined ${!isAdded && 'group-hover:rotate-12'} transition-transform`}>
+                {isAdded ? 'check_circle' : 'shopping_cart'}
+              </span>
               )}
               {product && activeOperations.has(`add-${product.id}`)
                 ? 'ĐANG THÊM...'

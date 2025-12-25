@@ -32,7 +32,11 @@ async function start() {
 
     // Start server
     server.listen(port, host, () => {
-      const serverUrl = `http://${host}:${port}`;
+      // Print a friendly URL for developers. Binding to 0.0.0.0 is fine
+      // (listen on all interfaces), but `http://0.0.0.0` is not a routable
+      // address in browsers — use localhost for clickable link.
+      const displayHost = host === '0.0.0.0' ? 'localhost' : host;
+      const serverUrl = `http://${displayHost}:${port}`;
       const docsUrl = `${serverUrl}/api-docs`;
 
       // Server startup info (chỉ trong development)
