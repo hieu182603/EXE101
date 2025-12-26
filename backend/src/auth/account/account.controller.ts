@@ -18,7 +18,7 @@ import {
   CredentialsDto,
   UpdateAccountDto,
   VerifyRegisterDto,
-} from "../dtos/account.dto";
+} from "../dtos/account.schema";
 import { Admin, Auth } from "@/middlewares/auth.middleware";
 import { Response } from "express";
 import { OtpService } from "@/otp/otp.service";

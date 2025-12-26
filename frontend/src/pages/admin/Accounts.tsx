@@ -7,6 +7,7 @@ import Pagination from '@components/ui/Pagination';
 import { Input } from '@components/ui/Input';
 import { accountService } from '@services/accountService';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface Account {
   id: string;
@@ -21,6 +22,7 @@ const ITEMS_PER_PAGE = 5;
 
 const AccountManagement: React.FC = () => {
   const { showSuccess, showError } = useToast();
+  const { t } = useTranslation();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingAccount, setEditingAccount] = useState<Account | null>(null);
   
@@ -118,15 +120,15 @@ const AccountManagement: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Quản Lý Tài Khoản</h1>
-          <p className="text-gray-400 mt-1">Quản lý quyền truy cập và nhân viên hệ thống</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">{t('admin.accounts.title')}</h1>
+          <p className="text-gray-400 mt-1">{t('admin.accounts.subtitle')}</p>
         </div>
         <Button 
           variant="primary" 
           icon="person_add" 
           onClick={() => setIsAddModalOpen(true)}
         >
-          Thêm Tài Khoản
+          {t('admin.accounts.addAccount')}
         </Button>
       </div>
 
@@ -135,7 +137,7 @@ const AccountManagement: React.FC = () => {
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
           <input 
             className="w-full h-11 pl-10 pr-4 rounded-xl border border-border-dark bg-background-dark text-sm text-white placeholder-gray-500 focus:border-primary outline-none transition-all" 
-            placeholder="Tìm tên nhân viên, email..." 
+            placeholder={t('admin.accounts.searchPlaceholder')} 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -146,20 +148,20 @@ const AccountManagement: React.FC = () => {
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
           >
-            <option value="All">Tất cả vai trò</option>
-            <option value="Administrator">Administrator</option>
-            <option value="Manager">Manager</option>
-            <option value="Editor">Editor</option>
-            <option value="Staff">Staff</option>
+            <option value="All">{t('admin.accounts.roleAll')}</option>
+            <option value="Administrator">{t('admin.roles.administrator')}</option>
+            <option value="Manager">{t('admin.roles.manager')}</option>
+            <option value="Editor">{t('admin.roles.editor')}</option>
+            <option value="Staff">{t('admin.roles.staff')}</option>
           </select>
           <select 
             className="h-11 appearance-none rounded-xl border border-border-dark bg-background-dark px-4 pl-4 text-sm text-white focus:border-primary outline-none min-w-[160px] cursor-pointer"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
-            <option value="All">Tất cả trạng thái</option>
-            <option value="Active">Đang hoạt động</option>
-            <option value="Inactive">Đã khóa</option>
+            <option value="All">{t('admin.accounts.statusAll')}</option>
+            <option value="Active">{t('admin.accounts.statusActive')}</option>
+            <option value="Inactive">{t('admin.accounts.statusInactive')}</option>
           </select>
         </div>
       </div>
@@ -169,11 +171,11 @@ const AccountManagement: React.FC = () => {
           <table className="w-full text-left text-sm">
             <thead className="bg-[#1a1a1a] text-xs uppercase text-gray-300 border-b border-border-dark">
               <tr>
-                <th className="px-6 py-4 font-semibold">Người dùng</th>
-                <th className="px-6 py-4 font-semibold">Vai trò</th>
-                <th className="px-6 py-4 font-semibold">Trạng thái</th>
-                <th className="px-6 py-4 font-semibold">Đăng nhập cuối</th>
-                <th className="px-6 py-4 font-semibold text-right">Thao tác</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.accounts.table.user')}</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.accounts.table.role')}</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.accounts.table.status')}</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.accounts.table.lastLogin')}</th>
+                <th className="px-6 py-4 font-semibold text-right">{t('admin.accounts.table.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border-dark">
@@ -195,7 +197,7 @@ const AccountManagement: React.FC = () => {
                   </td>
                   <td className="px-6 py-4">
                      <Badge variant={account.status === 'Active' ? 'success' : 'neutral'} dot>
-                        {account.status === 'Active' ? 'Đang hoạt động' : 'Đã khóa'}
+                       {account.status === 'Active' ? t('admin.accounts.statusActive') : t('admin.accounts.statusInactive')}
                      </Badge>
                   </td>
                   <td className="px-6 py-4 text-gray-400">{account.lastLogin}</td>
@@ -232,11 +234,11 @@ const AccountManagement: React.FC = () => {
       <Modal 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)}
-        title="Thêm Tài Khoản Mới"
+        title={t('admin.accounts.addModalTitle')}
         footer={
             <>
-                <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>Hủy bỏ</Button>
-                <Button variant="primary" onClick={handleCreateAccount}>Tạo tài khoản</Button>
+                <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>{t('common.cancel')}</Button>
+                <Button variant="primary" onClick={handleCreateAccount}>{t('admin.accounts.createAccount')}</Button>
             </>
         }
       >
@@ -246,17 +248,17 @@ const AccountManagement: React.FC = () => {
                     <span className="material-symbols-outlined">info</span>
                 </div>
                 <div>
-                    <h4 className="text-sm font-bold text-white mb-1">Lưu ý bảo mật</h4>
-                    <p className="text-xs text-slate-400">Mật khẩu mặc định sẽ được gửi vào email của nhân viên. Yêu cầu đổi mật khẩu trong lần đăng nhập đầu tiên.</p>
+                    <h4 className="text-sm font-bold text-white mb-1">{t('admin.accounts.securityNoteTitle')}</h4>
+                    <p className="text-xs text-slate-400">{t('admin.accounts.securityNote')}</p>
                 </div>
             </div>
 
-            <Input label="Họ và tên" placeholder="Nhập tên nhân viên..." icon="person" />
-            <Input label="Email đăng nhập" type="email" placeholder="email@techstore.vn" icon="mail" />
+            <Input label={t('admin.accounts.input.name')} placeholder={t('admin.accounts.input.namePlaceholder')} icon="person" />
+            <Input label={t('admin.accounts.input.email')} type="email" placeholder={t('admin.accounts.input.emailPlaceholder')} icon="mail" />
             
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2 w-full">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block">Phân quyền</label>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block">{t('admin.accounts.label.role')}</label>
                     <select className="w-full h-12 bg-background-dark border border-border-dark rounded-xl px-4 text-white focus:border-primary outline-none cursor-pointer">
                         <option>Administrator</option>
                         <option>Manager</option>
@@ -265,7 +267,7 @@ const AccountManagement: React.FC = () => {
                     </select>
                 </div>
                 <div className="space-y-2 w-full">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block">Phòng ban</label>
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block">{t('admin.accounts.label.department')}</label>
                     <select className="w-full h-12 bg-background-dark border border-border-dark rounded-xl px-4 text-white focus:border-primary outline-none cursor-pointer">
                         <option>Kinh doanh</option>
                         <option>Kỹ thuật</option>
@@ -281,11 +283,11 @@ const AccountManagement: React.FC = () => {
       <Modal 
         isOpen={!!editingAccount} 
         onClose={() => setEditingAccount(null)}
-        title="Chỉnh Sửa Tài Khoản"
+        title={t('admin.accounts.editModalTitle')}
         footer={
             <>
-                <Button variant="outline" onClick={() => setEditingAccount(null)}>Hủy bỏ</Button>
-                <Button variant="primary" onClick={handleSaveEdit}>Lưu thay đổi</Button>
+                <Button variant="outline" onClick={() => setEditingAccount(null)}>{t('common.cancel')}</Button>
+                <Button variant="primary" onClick={handleSaveEdit}>{t('common.save')}</Button>
             </>
         }
       >
@@ -313,10 +315,10 @@ const AccountManagement: React.FC = () => {
                             defaultValue={editingAccount.role}
                             className="w-full h-12 bg-background-dark border border-border-dark rounded-xl px-4 text-white focus:border-primary outline-none cursor-pointer"
                         >
-                            <option>Administrator</option>
-                            <option>Manager</option>
-                            <option>Editor</option>
-                            <option>Staff</option>
+                            <option>{t('admin.roles.administrator')}</option>
+                            <option>{t('admin.roles.manager')}</option>
+                            <option>{t('admin.roles.editor')}</option>
+                            <option>{t('admin.roles.staff')}</option>
                         </select>
                     </div>
 
@@ -326,8 +328,8 @@ const AccountManagement: React.FC = () => {
                             defaultValue={editingAccount.status}
                             className="w-full h-12 bg-background-dark border border-border-dark rounded-xl px-4 text-white focus:border-primary outline-none cursor-pointer"
                         >
-                            <option value="Active">Đang hoạt động</option>
-                            <option value="Inactive">Đã khóa</option>
+                            <option value="Active">{t('admin.accounts.statusActive')}</option>
+                            <option value="Inactive">{t('admin.accounts.statusInactive')}</option>
                         </select>
                     </div>
                 </div>

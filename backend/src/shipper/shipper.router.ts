@@ -124,6 +124,29 @@ router.get("/shippers/export", async (req, res, next) => {
   }
 });
 
+// Backwards-compatible shipping routes used by older frontend paths
+router.put("/shipping/shippers/:shipperId/availability", async (req: any, res, next) => {
+  try {
+    // Map to existing updateShipper endpoint (only update availability)
+    const updateBody = { isAvailable: req.body.isAvailable };
+    const result = await shipperController.updateShipper(req.params.shipperId, updateBody);
+    res.json(result);
+  } catch (error: any) {
+    next(error);
+  }
+});
+
+router.put("/shipping/shippers/:shipperId/priority", async (req: any, res, next) => {
+  try {
+    // Map to existing updateShipper endpoint (only update priority)
+    const updateBody = { priority: req.body.priority };
+    const result = await shipperController.updateShipper(req.params.shipperId, updateBody);
+    res.json(result);
+  } catch (error: any) {
+    next(error);
+  }
+});
+
 // Order Assignment routes
 router.post("/api/order-assignment/run-assignment/:orderId", Admin as any, async (req: any, res, next) => {
   try {

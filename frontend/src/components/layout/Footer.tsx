@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const Footer: React.FC = () => {
   const { showSuccess } = useToast();
+  const { t } = useTranslation();
   return (
   <footer className="border-t border-border-dark bg-surface-dark pt-16 mt-auto transition-colors duration-300">
     <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
@@ -18,7 +20,7 @@ const Footer: React.FC = () => {
             <span className="text-2xl font-black tracking-tighter text-text-main uppercase font-display">TechStore</span>
           </div>
           <p className="text-sm text-text-muted leading-relaxed">
-            Hệ thống bán lẻ thiết bị công nghệ cao cấp hàng đầu. Đối tác chính thức của các thương hiệu lớn tại Việt Nam.
+            {t('footer.brand.description')}
           </p>
           <div className="flex gap-4">
              {/* Facebook */}
@@ -59,33 +61,33 @@ const Footer: React.FC = () => {
 
         {/* Column 2: Quick Links */}
         <div>
-          <h4 className="mb-6 font-black text-text-main uppercase text-xs tracking-[0.2em]">Sản phẩm</h4>
+          <h4 className="mb-6 font-black text-text-main uppercase text-xs tracking-[0.2em]">{t('footer.products.title')}</h4>
           <ul className="space-y-4 text-sm text-text-muted">
-            <li><Link to="/catalog?category=Laptops" className="hover:text-primary transition-colors">Laptop Gaming</Link></li>
-            <li><Link to="/catalog?category=Laptops" className="hover:text-primary transition-colors">PC Workstation</Link></li>
-            <li><Link to="/catalog?category=Linh kiện" className="hover:text-primary transition-colors">Linh kiện máy tính</Link></li>
-            <li><Link to="/catalog?category=Phụ kiện" className="hover:text-primary transition-colors">Gaming Gear</Link></li>
-            <li><Link to="/catalog?brand=Apple" className="hover:text-primary transition-colors">Phụ kiện Apple</Link></li>
+            <li><Link to="/catalog?category=Laptops" className="hover:text-primary transition-colors">{t('footer.products.gamingLaptops')}</Link></li>
+            <li><Link to="/catalog?category=Laptops" className="hover:text-primary transition-colors">{t('footer.products.workstations')}</Link></li>
+            <li><Link to="/catalog?category=Linh kiện" className="hover:text-primary transition-colors">{t('footer.products.components')}</Link></li>
+            <li><Link to="/catalog?category=Phụ kiện" className="hover:text-primary transition-colors">{t('footer.products.gamingGear')}</Link></li>
+            <li><Link to="/catalog?brand=Apple" className="hover:text-primary transition-colors">{t('footer.products.appleAccessories')}</Link></li>
           </ul>
         </div>
 
         {/* Column 3: Policy */}
         <div>
-          <h4 className="mb-6 font-black text-text-main uppercase text-xs tracking-[0.2em]">Chính sách</h4>
+          <h4 className="mb-6 font-black text-text-main uppercase text-xs tracking-[0.2em]">{t('footer.policies.title')}</h4>
           <ul className="space-y-4 text-sm text-text-muted">
-            <li><Link to="/policy?type=warranty" className="hover:text-primary transition-colors">Chính sách bảo hành</Link></li>
-            <li><Link to="/policy?type=shipping" className="hover:text-primary transition-colors">Vận chuyển & Giao nhận</Link></li>
-            <li><Link to="/policy?type=payment" className="hover:text-primary transition-colors">Chính sách thanh toán</Link></li>
-            <li><Link to="/policy?type=privacy" className="hover:text-primary transition-colors">Bảo mật thông tin</Link></li>
+            <li><Link to="/policy?type=warranty" className="hover:text-primary transition-colors">{t('footer.policies.warranty')}</Link></li>
+            <li><Link to="/policy?type=shipping" className="hover:text-primary transition-colors">{t('footer.policies.shipping')}</Link></li>
+            <li><Link to="/policy?type=payment" className="hover:text-primary transition-colors">{t('footer.policies.payment')}</Link></li>
+            <li><Link to="/policy?type=privacy" className="hover:text-primary transition-colors">{t('footer.policies.privacy')}</Link></li>
           </ul>
         </div>
 
         {/* Column 4: Newsletter */}
         <div className="space-y-6">
-          <h4 className="font-black text-text-main uppercase text-xs tracking-[0.2em]">Đăng ký nhận tin</h4>
-          <p className="text-sm text-text-muted">Nhận thông tin khuyến mãi và mã giảm giá sớm nhất.</p>
-          <form className="relative" onSubmit={(e) => { e.preventDefault(); showSuccess("Cảm ơn bạn đã đăng ký!"); }}>
-             <input type="email" placeholder="Email của bạn" className="w-full h-12 rounded-xl border border-border-dark bg-background-dark pl-4 pr-12 text-sm text-text-main focus:border-primary focus:ring-1 focus:ring-primary outline-none" required />
+          <h4 className="font-black text-text-main uppercase text-xs tracking-[0.2em]">{t('footer.newsletter.title')}</h4>
+          <p className="text-sm text-text-muted">{t('footer.newsletter.description')}</p>
+          <form className="relative" onSubmit={(e) => { e.preventDefault(); showSuccess(t('footer.newsletter.thankYou')); }}>
+             <input type="email" placeholder={t('footer.newsletter.placeholder')} className="w-full h-12 rounded-xl border border-border-dark bg-background-dark pl-4 pr-12 text-sm text-text-main focus:border-primary focus:ring-1 focus:ring-primary outline-none" required />
              <button type="submit" className="absolute right-2 top-2 size-8 rounded-lg bg-primary text-white flex items-center justify-center hover:opacity-90">
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
              </button>
@@ -102,11 +104,11 @@ const Footer: React.FC = () => {
       </div>
       
       <div className="border-t border-border-dark py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-         <p className="text-xs text-text-muted font-medium">© 2024 TechStore Vietnam. All rights reserved.</p>
+         <p className="text-xs text-text-muted font-medium">{t('footer.copyright')}</p>
          <div className="flex gap-6 text-xs text-text-muted font-bold uppercase tracking-wider">
-            <Link to="/policy?type=terms" className="hover:text-text-main">Điều khoản</Link>
-            <Link to="/policy?type=privacy" className="hover:text-text-main">Quyền riêng tư</Link>
-            <Link to="/policy?type=cookies" className="hover:text-text-main">Cookies</Link>
+            <Link to="/policy?type=terms" className="hover:text-text-main">{t('footer.terms')}</Link>
+            <Link to="/policy?type=privacy" className="hover:text-text-main">{t('footer.privacy')}</Link>
+            <Link to="/policy?type=cookies" className="hover:text-text-main">{t('footer.cookies')}</Link>
          </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { IsString, IsInt, Min, Max, IsNotEmpty } from 'class-validator';
+import { IsString, IsInt, Min, Max, IsNotEmpty, IsUUID, IsNumber, IsBoolean, IsOptional, IsArray } from 'class-validator';
 
 export class AddToCartDto {
   @IsString()
@@ -11,27 +11,64 @@ export class AddToCartDto {
   quantity: number;
 }
 
-export class CartItemResponseDto {
+export class CartItemProductDto {
+  @IsUUID()
   id: string;
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  @IsOptional()
+  slug?: string;
+
+  @IsNumber()
+  price: number;
+
+  @IsString()
+  @IsOptional()
+  url?: string;
+
+  @IsNumber()
+  stock: number;
+
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @IsBoolean()
+  isActive: boolean;
+}
+
+export class CartItemResponseDto {
+  @IsUUID()
+  id: string;
+
+  @IsNumber()
   quantity: number;
-  product: {
-    id: string;
-    name: string;
-    slug: string;
-    price: number;
-    url?: string;
-    stock: number;
-    category?: string;
-    isActive: boolean;
-  };
+
+  @IsObject()
+  product: CartItemProductDto;
+}
+
+export class CartAccountDto {
+  @IsUUID()
+  id: string;
+
+  @IsString()
+  username: string;
 }
 
 export class CartResponseDto {
+  @IsUUID()
   id: string;
+
+  @IsNumber()
   totalAmount: number;
+
+  @IsArray()
   cartItems: CartItemResponseDto[];
-  account: {
-    id: string;
-    username: string;
-  };
+
+  @IsObject()
+  account: CartAccountDto;
 }

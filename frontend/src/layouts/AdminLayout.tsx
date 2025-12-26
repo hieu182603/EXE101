@@ -89,6 +89,12 @@ const AdminLayout: React.FC = () => {
   ];
 
   const handleLogout = () => {
+    // Simple redirect on logout; actual logout handled by AuthContext elsewhere
+    try {
+      // Clear local storage token/user to force re-login
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+    } catch (e) {}
     navigate('/login');
   };
 
@@ -252,7 +258,7 @@ const AdminLayout: React.FC = () => {
 
               {/* Admin Profile Dropdown */}
               <div className="relative" ref={profileRef}>
-                <button 
+                <button
                     onClick={() => setShowProfileMenu(!showProfileMenu)}
                     className="flex items-center gap-3 hover:bg-surface-accent rounded-xl p-1.5 transition-all group"
                 >
@@ -260,7 +266,7 @@ const AdminLayout: React.FC = () => {
                         <p className="text-xs font-bold text-white group-hover:text-primary transition-colors">Admin User</p>
                         <p className="text-[10px] font-black text-slate-500 uppercase">Administrator</p>
                     </div>
-                    <div className="size-9 rounded-lg bg-cover bg-center border border-border-dark group-hover:border-primary transition-all" style={{ backgroundImage: `url('https://picsum.photos/100/100?random=admin')` }}></div>
+                    <div className="size-9 rounded-lg bg-cover bg-center border border-border-dark group-hover:border-primary transition-all" style={{ backgroundImage: `url('https://picsum.photos/100/100?random=${user?.username || 'admin'}')` }}></div>
                 </button>
 
                 {showProfileMenu && (

@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString, IsEnum } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsEnum, IsUUID, IsNumber, IsDateString, IsObject } from "class-validator";
 import { InvoiceStatus } from "../invoice.entity";
+import { OrderStatus } from "@/order/dtos/update-order.dto";
 
 export class CreateInvoiceDto {
   @IsNotEmpty()
@@ -24,26 +25,68 @@ export class UpdateInvoiceStatusDto {
   reason?: string;
 }
 
-export class InvoiceResponseDto {
+export class InvoiceOrderDto {
+  @IsUUID()
   id: string;
-  invoiceNumber: string;
+
+  @IsNumber()
   totalAmount: number;
+
+  @IsDateString()
+  orderDate: Date;
+
+  @IsString()
+  status: string;
+}
+
+export class InvoicePaymentDto {
+  @IsUUID()
+  id: string;
+
+  @IsNumber()
+  amount: number;
+
+  @IsString()
+  status: string;
+
+  @IsString()
+  method: string;
+}
+
+export class InvoiceResponseDto {
+  @IsUUID()
+  id: string;
+
+  @IsString()
+  invoiceNumber: string;
+
+  @IsNumber()
+  totalAmount: number;
+
+  @IsEnum(InvoiceStatus)
   status: InvoiceStatus;
+
+  @IsString()
   paymentMethod: string;
+
+  @IsDateString()
+  @IsOptional()
   paidAt?: Date;
+
+  @IsString()
+  @IsOptional()
   notes?: string;
+
+  @IsDateString()
   createdAt: Date;
+
+  @IsDateString()
   updatedAt: Date;
-  order: {
-    id: string;
-    totalAmount: number;
-    orderDate: Date;
-    status: string;
-  };
-  payment?: {
-    id: string;
-    amount: number;
-    status: string;
-    method: string;
-  };
+
+  @IsObject()
+  order: InvoiceOrderDto;
+
+  @IsObject()
+  @IsOptional()
+  payment?: InvoicePaymentDto;
 } 

@@ -6,6 +6,7 @@ import ProductCard from '../../components/store/ProductCard';
 import { productService } from '../../services/productService';
 import { useCart } from '../../contexts/CartContext';
 import type { Product } from '@/types/product';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface Review {
   id: number;
@@ -19,6 +20,7 @@ interface Review {
 const ProductDetail: React.FC = () => {
   const { id } = useParams();
   const { addToCart, activeOperations } = useCart();
+  const { t } = useTranslation();
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState('specs');
   const [mainImage, setMainImage] = useState<string | null>(null);
@@ -123,12 +125,12 @@ const ProductDetail: React.FC = () => {
                   alt="Product" 
                />
              ) : (
-              <div className="text-slate-500">Đang tải ảnh...</div>
+              <div className="text-slate-500">{t('product.loadingImage', { defaultValue: 'Đang tải ảnh...' })}</div>
              )}
              {!isZooming && mainImage && (
                <div className="absolute bottom-6 right-6 bg-black/40 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 flex items-center gap-2 pointer-events-none">
                  <span className="material-symbols-outlined text-primary text-sm">zoom_in</span>
-                 <span className="text-[10px] font-bold text-white uppercase tracking-wider">Hover to zoom</span>
+                 <span className="text-[10px] font-bold text-white uppercase tracking-wider">{t('product.hoverToZoom', { defaultValue: 'Hover to zoom' })}</span>
                </div>
              )}
           </div>
@@ -151,10 +153,10 @@ const ProductDetail: React.FC = () => {
         <div className="flex-1 space-y-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-primary/20 inline-block">Flagship</span>
-              <span className="bg-emerald-500/10 text-emerald-500 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-emerald-500/20 inline-block">Sẵn hàng</span>
+              <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-primary/20 inline-block">{t('product.badge.flagship', { defaultValue: 'Flagship' })}</span>
+              <span className="bg-emerald-500/10 text-emerald-500 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest border border-emerald-500/20 inline-block">{t('product.badge.inStock', { defaultValue: 'Sẵn hàng' })}</span>
             </div>
-            <h1 className="text-4xl font-black text-white tracking-tight leading-tight mb-2">{product?.name || 'Đang tải sản phẩm'}</h1>
+            <h1 className="text-4xl font-black text-white tracking-tight leading-tight mb-2">{product?.name || t('product.loadingProduct', { defaultValue: 'Đang tải sản phẩm' })}</h1>
             <div className="flex items-center gap-4">
               <div className="flex text-yellow-400">
                 {[1, 2, 3, 4, 5].map(s => <span key={s} className="material-symbols-outlined text-[18px] fill">star</span>)}
@@ -168,12 +170,12 @@ const ProductDetail: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Tính năng nổi bật</h4>
+            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t('product.features.title', { defaultValue: 'Tính năng nổi bật' })}</h4>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-sm text-slate-300">
-              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">verified</span> Hàng chính hãng 100%</li>
-              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">bolt</span> Hiệu năng vượt trội</li>
-              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">shuttle</span> Miễn phí vận chuyển</li>
-              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">headset_mic</span> Hỗ trợ kỹ thuật 24/7</li>
+              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">verified</span> {t('product.features.genuine', { defaultValue: 'Hàng chính hãng 100%' })}</li>
+              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">bolt</span> {t('product.features.performance', { defaultValue: 'Hiệu năng vượt trội' })}</li>
+              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">shuttle</span> {t('product.features.freeShipping', { defaultValue: 'Miễn phí vận chuyển' })}</li>
+              <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-[20px]">headset_mic</span> {t('product.features.support', { defaultValue: 'Hỗ trợ kỹ thuật 24/7' })}</li>
             </ul>
           </div>
 
@@ -206,10 +208,10 @@ const ProductDetail: React.FC = () => {
               </span>
               )}
               {product && activeOperations.has(`add-${product.id}`)
-                ? 'ĐANG THÊM...'
+                ? t('product.adding', { defaultValue: 'ĐANG THÊM...' })
                 : isAdded
-                ? 'ĐÃ THÊM VÀO GIỎ'
-                : 'THÊM VÀO GIỎ HÀNG'}
+                ? t('product.added', { defaultValue: 'ĐÃ THÊM VÀO GIỎ' })
+                : t('product.addToCart', { defaultValue: 'THÊM VÀO GIỎ HÀNG' })}
             </button>
             <button 
               onClick={() => setIsFavorite(!isFavorite)}
@@ -287,7 +289,7 @@ const ProductDetail: React.FC = () => {
 
               {/* Add Review Form */}
               <div className="bg-surface-accent/20 p-6 rounded-2xl border border-border-dark/50">
-                  <h4 className="text-lg font-bold text-white mb-4">Viết đánh giá của bạn</h4>
+                  <h4 className="text-lg font-bold text-white mb-4">{t('product.review.writeTitle', { defaultValue: 'Viết đánh giá của bạn' })}</h4>
                   <div className="flex gap-4 items-start">
                       <div className="size-12 rounded-full overflow-hidden border border-border-dark shrink-0 hidden sm:block">
                           <img src="https://picsum.photos/200/200?random=user" alt="User" className="w-full h-full object-cover" />
@@ -313,14 +315,14 @@ const ProductDetail: React.FC = () => {
                             <textarea 
                                 value={userComment}
                                 onChange={(e) => setUserComment(e.target.value)}
-                                placeholder="Chia sẻ cảm nhận của bạn về sản phẩm này..." 
+                                placeholder={t('product.review.placeholder', { defaultValue: 'Chia sẻ cảm nhận của bạn về sản phẩm này...' })} 
                                 className="w-full bg-background-dark border border-border-dark rounded-xl p-4 text-white text-sm focus:ring-1 focus:ring-primary outline-none min-h-[100px] placeholder:text-slate-600"
                             ></textarea>
                           </div>
                           
                           <div className="flex justify-end">
                               <Button onClick={handleSubmitReview} disabled={!userComment.trim()} variant="primary" size="sm">
-                                  Gửi đánh giá
+                                  {t('product.review.submit', { defaultValue: 'Gửi đánh giá' })}
                               </Button>
                           </div>
                       </div>
@@ -367,7 +369,7 @@ const ProductDetail: React.FC = () => {
       <div>
         <h3 className="text-2xl font-black text-white tracking-tight mb-8 flex items-center gap-3">
           <span className="material-symbols-outlined text-primary">dynamic_feed</span>
-          Sản phẩm liên quan
+          {t('product.relatedTitle', { defaultValue: 'Sản phẩm liên quan' })}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {relatedProducts.map((p, i) => (
@@ -380,7 +382,7 @@ const ProductDetail: React.FC = () => {
             />
           ))}
               {relatedProducts.length === 0 && (
-                <div className="text-slate-500 text-sm col-span-full">Chưa có sản phẩm liên quan.</div>
+                <div className="text-slate-500 text-sm col-span-full">{t('product.noRelated', { defaultValue: 'Chưa có sản phẩm liên quan.' })}</div>
               )}
         </div>
       </div>

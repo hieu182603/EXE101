@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@contexts/AuthContext';
 import { useCart } from '@contexts/CartContext';
 import { useNotification } from '@contexts/NotificationContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -71,6 +72,9 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const { t, changeLanguage, getCurrentLanguage } = useTranslation();
+  const currentLang = getCurrentLanguage();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -118,29 +122,20 @@ const Navbar: React.FC = () => {
             </Link>
 
             <nav className="hidden lg:flex items-center bg-surface-dark/50 p-1 rounded-full border border-border-dark">
-              {navLinks.map((link) => (
-                <Link 
-                  key={link.path} 
-                  to={link.path} 
-                  className={`px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all ${
-                    location.pathname === link.path 
-                    ? 'bg-primary text-white shadow-md' 
-                    : 'text-text-muted hover:text-text-main hover:bg-white/10'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
+              <Link to="/" className={`px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all ${location.pathname === '/' ? 'bg-primary text-white shadow-md' : 'text-text-muted hover:text-text-main hover:bg-white/10'}`}>{t('nav.home')}</Link>
+              <Link to="/catalog" className={`px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all ${location.pathname === '/catalog' ? 'bg-primary text-white shadow-md' : 'text-text-muted hover:text-text-main hover:bg-white/10'}`}>{t('nav.products')}</Link>
+              <Link to="/quote" className={`px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all ${location.pathname === '/quote' ? 'bg-primary text-white shadow-md' : 'text-text-muted hover:text-text-main hover:bg-white/10'}`}>{t('nav.quote')}</Link>
+              <Link to="/history" className={`px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all ${location.pathname === '/history' ? 'bg-primary text-white shadow-md' : 'text-text-muted hover:text-text-main hover:bg-white/10'}`}>{t('nav.tracking')}</Link>
             </nav>
           </div>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md relative group">
+            <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md relative group">
             <input 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full h-11 pl-12 pr-4 rounded-full border border-border-dark bg-surface-dark text-text-main placeholder-text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none text-sm transition-all shadow-sm" 
-              placeholder={lang === 'vi' ? "Tìm kiếm sản phẩm..." : "Search products..."} 
+              placeholder={t('nav.searchPlaceholder')} 
             />
             <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">
               <span className="material-symbols-outlined">search</span>
@@ -152,18 +147,18 @@ const Navbar: React.FC = () => {
             
             {/* Language Toggle */}
             <button 
-              onClick={toggleLang}
+              onClick={() => changeLanguage(currentLang === 'vi' ? 'en' : 'vi')}
               className="size-10 rounded-full border border-border-dark bg-surface-dark text-text-muted hover:text-primary hover:border-primary hover:bg-primary/5 flex items-center justify-center transition-all font-black text-[10px]"
-              title={lang === 'vi' ? "Switch to English" : "Chuyển sang Tiếng Việt"}
+              title={currentLang === 'vi' ? t('nav.language') : t('nav.language')}
             >
-              {lang === 'vi' ? 'VN' : 'EN'}
+              {currentLang === 'vi' ? 'VN' : 'EN'}
             </button>
 
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="size-10 rounded-full border border-border-dark bg-surface-dark text-text-muted hover:text-primary hover:border-primary hover:bg-primary/5 flex items-center justify-center transition-all"
-              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              title={isDark ? t('nav.theme') : t('nav.theme')}
             >
               <span className="material-symbols-outlined text-[20px] transition-transform duration-500 rotate-0 dark:-rotate-180">
                 {isDark ? 'light_mode' : 'dark_mode'}
@@ -314,7 +309,7 @@ const Navbar: React.FC = () => {
                       onClick={() => setShowProfileMenu(false)}
                     >
                       <span className="material-symbols-outlined text-[20px]">person</span>
-                      Hồ sơ cá nhân
+                      {t('profile.menu.profile')}
                     </Link>
                     <Link 
                       to="/history" 
@@ -322,7 +317,7 @@ const Navbar: React.FC = () => {
                       onClick={() => setShowProfileMenu(false)}
                     >
                       <span className="material-symbols-outlined text-[20px]">receipt_long</span>
-                      Đơn mua
+                      {t('profile.menu.orders')}
                     </Link>
                     <Link 
                       to="/wishlist" 
@@ -330,7 +325,7 @@ const Navbar: React.FC = () => {
                       onClick={() => setShowProfileMenu(false)}
                     >
                       <span className="material-symbols-outlined text-[20px]">favorite</span>
-                      Yêu thích
+                      {t('profile.menu.wishlist')}
                     </Link>
                     <div className="h-px bg-border-dark my-2"></div>
                     <button 
@@ -338,7 +333,7 @@ const Navbar: React.FC = () => {
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-red-500 hover:bg-red-500/10 transition-all"
                     >
                       <span className="material-symbols-outlined text-[20px]">logout</span>
-                      Đăng xuất
+                      {t('profile.menu.logout')}
                     </button>
                   </div>
                 )}

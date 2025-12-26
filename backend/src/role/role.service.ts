@@ -1,77 +1,80 @@
 import { Service } from "typedi";
 import { Role } from "./role.entity";
-import { Not } from "typeorm";
+import { Not, In } from "typeorm";
+
+export interface RoleDefinition {
+  name: string;
+  slug: string;
+  description?: string;
+}
 
 @Service()
 export class RoleService {
+  private readonly defaultRoles: RoleDefinition[] = [
+    { name: "admin", slug: "admin", description: "System administrator with full access" },
+    { name: "manager", slug: "manager", description: "Manager with account and order management access" },
+    { name: "staff", slug: "staff", description: "Staff with product and order management access" },
+    { name: "customer", slug: "customer", description: "Customer with basic access" },
+    { name: "shipper", slug: "shipper", description: "Shipper with order delivery access" },
+  ];
+
   async createRoles(): Promise<void> {
-    const admin = await Role.findOne({
-      where: {
-        name: "admin",
-      },
+    const existingRoles = await Role.find({
+      select: ["slug"]
     });
-    if (admin == null) {
-      const role = new Role();
-      role.name = "admin";
-      role.slug = "admin";
-      await role.save();
+
+    const existingSlugs = new Set(existingRoles.map(role => role.slug));
+    const rolesToCreate = this.defaultRoles.filter(role => !existingSlugs.has(role.slug));
+
+    if (rolesToCreate.length === 0) {
+      console.log("All default roles already exist");
+      return;
     }
-    const manager = await Role.findOne({
-      where: {
-        name: "manager"
-      }
-    });
-    if(manager == null){
+
+    for (const roleDef of rolesToCreate) {
       const role = new Role();
-      role.name = "manager";
-      role.slug = "manager";
+      role.name = roleDef.name;
+      role.slug = roleDef.slug;
       await role.save();
+      console.log(`✅ Created role: ${roleDef.name}`);
     }
-    const staff = await Role.findOne({
-      where: {
-        name: "staff"
-      }
-    });
-    if(staff == null){
-      const role = new Role();
-      role.name = "staff";
-      role.slug = "staff";
-      await role.save();
-    }
-    const customer = await Role.findOne({
-      where: {
-        name: "customer"
-      }
-    });
-    if(customer == null){
-      const role = new Role();
-      role.name = "customer";
-      role.slug = "customer";
-      await role.save();
-    }
-    const shipper = await Role.findOne({
-      where: {
-        name: "shipper"
-      }
-    });
-    if(shipper == null){
-      const role = new Role();
-      role.name = "shipper";
-      role.slug = "shipper";
-      await role.save();
-    }
+
+    console.log(`Created ${rolesToCreate.length} new roles`);
   }
 
-  async getAllRoles(){
-    return await Role.find(
-      {
-        where: {
-          name: Not("admin"),
-        }
-      }
-    );
+  async getAllRoles(): Promise<Role[]> {
+    return await Role.find({
+      order: { name: "ASC" }
+    });
+  }
+
+  async getNonAdminRoles(): Promise<Role[]> {
+    return await Role.find({
+      where: {
+        slug: Not("admin"),
+      },
+      order: { name: "ASC" }
+    });
+  }
+
+  async getRoleBySlug(slug: string): Promise<Role | null> {
+    return await Role.findOne({
+      where: { slug },
+      relations: ["accounts"]
+    });
+  }
+
+  async validateRoleExists(slug: string): Promise<boolean> {
+    const role = await Role.findOne({
+      where: { slug },
+      select: ["id"]
+    });
+    return !!role;
   }
 }
+
+
+
 
 
 

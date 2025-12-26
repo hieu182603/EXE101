@@ -11,7 +11,7 @@ import {
 import { Service } from "typedi";
 import { PaymentService } from "./payment.service";
 import { Auth } from "@/middlewares/auth.middleware";
-import { AccountDetailsDto } from "@/auth/dtos/account.dto";
+import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { JwtService } from "@/jwt/jwt.service";
 import { UpdatePaymentStatusDto } from "./dtos/payment.dto";
 

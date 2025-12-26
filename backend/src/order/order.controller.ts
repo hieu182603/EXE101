@@ -4,7 +4,7 @@ import { OrderService } from "./order.service";
 import { CreateOrderDto } from "./dtos/create-order.dto";
 import { UpdateOrderDto, OrderStatus } from "./dtos/update-order.dto";
 import { Auth } from "@/middlewares/auth.middleware";
-import { AccountDetailsDto } from "@/auth/dtos/account.dto";
+import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { HttpException } from "@/exceptions/http-exceptions";
 import { JwtService } from "@/jwt/jwt.service";
 

@@ -18,13 +18,18 @@ import {
 } from "../dtos/account.dto";
 import { JwtService } from "@/jwt/jwt.service";
 import { RefreshToken } from "@/jwt/refreshToken.entity";
+import { ShipperProfile } from "./shipperProfile.entity";
+import { RoleService } from "@/role/role.service";
 import { MoreThan } from "typeorm";
 import { HttpMessages } from "@/exceptions/http-messages.constant";
 
 const SALT_ROUNDS = 8;
 @Service()
 export class AccountService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly roleService: RoleService
+  ) {}
 
   async register(request: CreateAccountDto): Promise<Account> {
     const role = await Role.findOne({
@@ -66,12 +71,24 @@ export class AccountService {
     
     // Phone and name are optional
     if (request.phone) {
-      const phone = "0" + request.phone.slice(-9);
-      account.phone = phone;
+      // Validate and normalize phone number
+      const phoneRegex = /^(0|\+84)\d{9,10}$/;
+      if (!phoneRegex.test(request.phone)) {
+        throw new ValidationException("Invalid phone number format");
+      }
+
+      // Normalize to start with 0
+      const normalizedPhone = request.phone.startsWith('+84')
+        ? '0' + request.phone.slice(3)
+        : request.phone;
+
+      account.phone = normalizedPhone;
+
+      // Check if phone already exists
       if (
         await Account.findOne({
           where: {
-            phone,
+            phone: normalizedPhone,
           },
         })
       )
@@ -115,12 +132,19 @@ export class AccountService {
     
     // Update account to mark as registered
     existingAccount.isRegistered = true;
-    // Password was already hashed in register(), but if it's plain text here, hash it
-    if (password && !password.startsWith("$2")) {
-      existingAccount.password = await bcrypt.hash(password, SALT_ROUNDS);
+
+    // Update password if provided (should already be hashed from register)
+    if (password) {
+      existingAccount.password = password;
     }
+
+    // Update phone if provided and not already set
     if (phone && !existingAccount.phone) {
-      existingAccount.phone = phone;
+      const phoneRegex = /^(0|\+84)\d{9,10}$/;
+      if (!phoneRegex.test(phone)) {
+        throw new ValidationException("Invalid phone number format");
+      }
+      existingAccount.phone = phone.startsWith('+84') ? '0' + phone.slice(3) : phone;
     }
     await existingAccount.save();
     const newRefreshToken = await this.jwtService.generateRefreshToken(
@@ -143,39 +167,40 @@ export class AccountService {
   async login(
     credentials: CredentialsDto
   ): Promise<{ newRefreshToken: string; accessToken: string }> {
-    // Support login by email or username
+    // Find account by email or username
     let account: Account | null = null;
+
     if (credentials.email) {
       account = await Account.findOne({
         where: { email: credentials.email },
-        relations: ["role"],
+        relations: ["role", "shipperProfile"],
       });
     } else if (credentials.username) {
-      account = await this.findAccountByUsername(credentials.username);
+      account = await Account.findOne({
+        where: { username: credentials.username },
+        relations: ["role", "shipperProfile"],
+      });
     }
-    
+
     if (!account) {
-      throw new AccountNotFoundException();
+      throw new AccountNotFoundException("Invalid credentials");
     }
-    if (!(await bcrypt.compare(credentials.password, account.password)))
-      throw new AccountNotFoundException();
 
     // Check if account is registered
     if (!account.isRegistered) {
-      throw new AccountNotFoundException();
+      throw new ValidationException("Account not verified. Please check your email for OTP.");
     }
-    
-    const token = await RefreshToken.findOne({
-      where: {
-        account,
-        expiredAt: MoreThan(new Date()),
-      },
-    });
-    let newRefreshToken: string = "";
-    if (!token) {
-      newRefreshToken = await this.jwtService.generateRefreshToken(account);
+
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(credentials.password, account.password);
+    if (!isPasswordValid) {
+      throw new ValidationException("Invalid credentials");
     }
+
+    // Always generate new refresh token for security
+    const newRefreshToken = await this.jwtService.generateRefreshToken(account);
     const accessToken = this.jwtService.generateAccessToken(account);
+
     return { newRefreshToken, accessToken };
   }
 
@@ -266,30 +291,135 @@ export class AccountService {
     account.role = role;
     account.isRegistered = true;
     await account.save();
+
+    // Create shipper profile if role is shipper
+    if (role.slug === 'shipper') {
+      const shipperProfile = new ShipperProfile();
+      shipperProfile.account = account;
+      shipperProfile.maxOrdersPerDay = 50; // Default values
+      shipperProfile.currentOrdersToday = 0;
+      shipperProfile.isAvailable = true;
+      shipperProfile.priority = 1;
+      await shipperProfile.save();
+    }
+
     return account;
   }
 
   async updateAccount(username: string, request: UpdateAccountDto) {
-    const account = await this.findAccountByUsername(username);
-    if (request.username) account.username = request.username;
-    if (request.phone) account.phone = request.phone;
-    if (request.email) account.email = request.email;
-    if (request.name) account.name = request.name;
+    const account = await Account.findOne({
+      where: { username },
+      relations: ["role"]
+    });
+
+    if (!account) {
+      throw new AccountNotFoundException();
+    }
+
+    let roleChanged = false;
+    let changes: string[] = [];
+
+    // Update username with uniqueness check
+    if (request.username && request.username !== account.username) {
+      const existingAccount = await Account.findOne({
+        where: { username: request.username }
+      });
+      if (existingAccount) {
+        throw new UsernameAlreadyExistedException("Username already exists");
+      }
+      account.username = request.username;
+      changes.push("username");
+    }
+
+    // Update email with uniqueness check
+    if (request.email && request.email !== account.email) {
+      const existingAccount = await Account.findOne({
+        where: { email: request.email }
+      });
+      if (existingAccount) {
+        throw new ValidationException("Email already registered");
+      }
+      account.email = request.email;
+      changes.push("email");
+    }
+
+    // Update phone with validation
+    if (request.phone !== undefined) {
+      if (request.phone) {
+        const phoneRegex = /^(0|\+84)\d{9,10}$/;
+        if (!phoneRegex.test(request.phone)) {
+          throw new ValidationException("Invalid phone number format");
+        }
+        const normalizedPhone = request.phone.startsWith('+84')
+          ? '0' + request.phone.slice(3)
+          : request.phone;
+
+        // Check uniqueness if phone changed
+        if (normalizedPhone !== account.phone) {
+          const existingAccount = await Account.findOne({
+            where: { phone: normalizedPhone }
+          });
+          if (existingAccount) {
+            throw new PhoneAlreadyExistedException("Phone number already registered");
+          }
+          account.phone = normalizedPhone;
+          changes.push("phone");
+        }
+      } else {
+        account.phone = null;
+        changes.push("phone");
+      }
+    }
+
+    // Update name
+    if (request.name !== undefined) {
+      account.name = request.name;
+      changes.push("name");
+    }
+
+    // Update role
     if (request.roleSlug) {
       const role = await Role.findOne({
-        where: {
-          slug: request.roleSlug,
-        },
+        where: { slug: request.roleSlug },
       });
-      if (!role) throw new EntityNotFoundException("Role");
-      if (role.name === "admin")
-        throw new ForbiddenException(
-          "You do not have permission to change to admin role."
-        );
-      account.role = role;
+      if (!role) {
+        throw new EntityNotFoundException("Role");
+      }
+
+      if (role.name === "admin") {
+        throw new ForbiddenException("You do not have permission to change to admin role.");
+      }
+
+      if (account.role.slug !== request.roleSlug) {
+        account.role = role;
+        roleChanged = true;
+        changes.push("role");
+
+        // Revoke refresh token to force re-login with new role
+        const refreshToken = await this.jwtService.getRefreshToken(account);
+        if (refreshToken) {
+          await this.jwtService.revokeRefreshToken(refreshToken.token);
+        }
+      }
     }
-    await account.save();
-    return account;
+
+    // Only save if there are changes
+    if (changes.length > 0) {
+      await account.save();
+    }
+
+    const message = roleChanged
+      ? "Role updated successfully. User must login again to apply changes."
+      : changes.length > 0
+        ? "Account updated successfully."
+        : "No changes made.";
+
+    return {
+      account,
+      message,
+      requiresRelogin: roleChanged,
+      changes
+    };
   }
 
   async deleteAccount(username: string) {
@@ -308,10 +438,33 @@ export class AccountService {
       throw new ForbiddenException(
         "You do not have permission to update admin account."
       );
+
+    let roleChanged = false;
     if (request.username) account.username = request.username;
     if (request.phone) account.phone = request.phone;
     if (request.name) account.name = request.name;
+    if (request.roleSlug) {
+      const role = await Role.findOne({
+        where: {
+          slug: request.roleSlug,
+        },
+      });
+      if (!role) throw new EntityNotFoundException("Role");
+      account.role = role;
+      roleChanged = true;
+
+      // Revoke refresh token to force re-login with new role
+      const refreshToken = await this.jwtService.getRefreshToken(account);
+      if (refreshToken) {
+        await this.jwtService.revokeRefreshToken(refreshToken.token);
+      }
+    }
     await account.save();
-    return account;
+
+    return {
+      account,
+      message: roleChanged ? "Role updated successfully. User must login again to apply changes." : "Account updated successfully.",
+      requiresRelogin: roleChanged
+    };
   }
 }

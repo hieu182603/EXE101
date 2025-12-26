@@ -123,7 +123,7 @@ export const customerService = {
 
   async importCustomers(formData: FormData): Promise<ApiResponse<void>> {
     try {
-      const response = await api.post<ApiResponse<void>>('/customers/import', formData, {
+    const response = await api.post<ApiResponse<void>>('/customers/import-real', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

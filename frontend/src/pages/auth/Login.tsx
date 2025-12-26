@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthInput from '@components/ui/AuthInput';
 import { authService } from '@services/authService';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface AuthPageProps {
   initialSignUp?: boolean;
@@ -23,6 +24,7 @@ const OTPModal = ({
   email?: string;
   onResend?: () => Promise<void>;
 }) => {
+  const { t } = useTranslation();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [isVerifying, setIsVerifying] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,7 +63,7 @@ const OTPModal = ({
   const handleVerify = async () => {
     const otpCode = otp.join('');
     if (otpCode.length !== 6) {
-      setError('Vui lòng nhập đủ 6 số');
+      setError(t('auth.otp.enterOtp'));
       return;
     }
     
@@ -70,7 +72,7 @@ const OTPModal = ({
     try {
       await onVerify(otpCode);
     } catch (err: any) {
-      setError(err.message || 'Mã OTP không đúng hoặc đã hết hạn');
+      setError(err.message || t('auth.otp.invalidOtp'));
       // Clear OTP on error
       setOtp(['', '', '', '', '', '']);
       setTimeout(() => inputRefs.current[0]?.focus(), 100);
@@ -103,9 +105,9 @@ const OTPModal = ({
         <div className="size-16 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400">
            <span className="material-symbols-outlined text-3xl">lock_open</span>
         </div>
-        <h2 className="text-2xl font-black text-white mb-2">Xác thực OTP</h2>
+        <h2 className="text-2xl font-black text-white mb-2">{t('auth.otp.title')}</h2>
         <p className="text-slate-400 text-xs mb-8">
-          Mã xác thực 6 số đã được gửi đến email{email ? ` ${email}` : ''} của bạn.
+          {t('auth.otp.subtitle', { email: email || '' })}
         </p>
 
         <div className="flex justify-center gap-3 mb-4">
@@ -133,18 +135,19 @@ const OTPModal = ({
           disabled={otp.some(d => !d) || isVerifying}
           className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isVerifying ? 'Đang xác thực...' : 'Xác nhận'}
+          {isVerifying ? t('auth.otp.verifying') : t('auth.otp.verify')}
         </button>
 
         {onResend && (
-          <p className="mt-6 text-[10px] text-slate-500">
-            Không nhận được mã?{' '}
+            <p className="mt-6 text-[10px] text-slate-500">
+            { /* keep surrounding question as-is for now, only translate button */ }
+            {t('auth.otp.noCodeQuestion', { defaultValue: 'Không nhận được mã?' })}
             <button 
               onClick={handleResend}
               disabled={isResending}
               className="text-purple-400 font-bold hover:underline disabled:opacity-50"
             >
-              {isResending ? 'Đang gửi...' : 'Gửi lại'}
+              {isResending ? t('auth.otp.resending') : t('auth.otp.resend')}
             </button>
           </p>
         )}
@@ -158,6 +161,7 @@ const OTPModal = ({
 export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => {
   const navigate = useNavigate();
   const toast = useToast();
+  const { t } = useTranslation();
   const [isSignUp, setIsSignUp] = useState(initialSignUp);
   const [isAnimating, setIsAnimating] = useState(false);
   
@@ -208,10 +212,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
         password: loginPassword
       });
       // Login successful - navigate to home
-      toast.showSuccess('Đăng nhập thành công!');
+      toast.showSuccess(t('auth.login.loginSuccess'));
       navigate('/');
     } catch (error: any) {
-      toast.showError(error.message || 'Đăng nhập thất bại');
+      toast.showError(error.message || t('auth.login.loginFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -222,17 +226,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
     
     // Validation
     if (!username || !email || !password || !confirmPassword) {
-      toast.showWarning('Vui lòng điền đầy đủ thông tin');
+      toast.showWarning(t('auth.validation.required'));
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.showError('Mật khẩu xác nhận không khớp');
+      toast.showError(t('auth.validation.passwordMismatch'));
       return;
     }
 
     if (!hasLength || !hasLower || !hasUpper || !hasNumber) {
-      toast.showError('Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số');
+      toast.showError(t('auth.validation.passwordRequirements'));
       return;
     }
 
@@ -242,19 +246,19 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
       // Validate username format (only letters, numbers, underscores, hyphens)
       const usernameRegex = /^[a-zA-Z0-9_-]+$/;
       if (!usernameRegex.test(username.trim())) {
-        toast.showError('Username chỉ được chứa chữ cái, số, dấu gạch dưới và dấu gạch ngang');
+        toast.showError(t('auth.validation.usernameFormat'));
         return;
       }
 
       if (username.trim().length < 3 || username.trim().length > 30) {
-        toast.showError('Username phải có từ 3 đến 30 ký tự');
+        toast.showError(t('auth.validation.usernameLength'));
         return;
       }
 
       // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email.trim())) {
-        toast.showError('Email không hợp lệ');
+        toast.showError(t('auth.validation.invalidEmail'));
         return;
       }
 
@@ -274,7 +278,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
       });
       
       // Show success message
-      toast.showSuccess('OTP đã được gửi đến email của bạn');
+      toast.showSuccess(t('auth.register.otpSent'));
       
       // Show OTP Modal
       setShowOTP(true);
@@ -321,7 +325,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
       
       // Registration successful
       setShowOTP(false);
-      toast.showSuccess('Đăng ký thành công!');
+      toast.showSuccess(t('auth.register.registerSuccess'));
       navigate('/');
     } catch (error: any) {
       throw error; // Let OTP modal handle the error display
@@ -338,9 +342,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
         identifier: registrationData.email,
         isForLogin: false
       });
-      toast.showSuccess('OTP đã được gửi lại');
+      toast.showSuccess(t('auth.otp.resendSuccess'));
     } catch (error: any) {
-      toast.showError(error.message || 'Không thể gửi lại OTP');
+      toast.showError(error.message || t('auth.otp.resendFailed'));
       throw error;
     }
   };
@@ -353,7 +357,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
         <div className="size-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all backdrop-blur-md">
             <span className="material-symbols-outlined text-sm group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
         </div>
-        <span className="text-xs font-bold tracking-widest uppercase hidden sm:block">Back to Home</span>
+        <span className="text-xs font-bold tracking-widest uppercase hidden sm:block">{t('auth.login.backToHome')}</span>
       </Link>
 
       {/* Dynamic Background */}
@@ -378,19 +382,19 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
         {/* --- SIGN UP FORM CONTAINER --- */}
         <div className={`absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 ${isSignUp ? 'translate-x-[100%] opacity-100 z-50' : 'opacity-0 z-10'}`}>
           <form onSubmit={handleSignUpSubmit} className="bg-[#151525] flex flex-col items-center justify-center h-full px-8 text-center relative">
-            <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-2 tracking-tight">Create Account</h1>
-            <p className="text-slate-400 text-[11px] mb-6">Join us to explore premium PC components</p>
+            <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-2 tracking-tight">{t('auth.register.title')}</h1>
+            <p className="text-slate-400 text-[11px] mb-6">{t('auth.register.subtitle')}</p>
 
             <div className="w-full space-y-2">
               <AuthInput 
                 icon="person" 
-                placeholder="Username" 
+                placeholder={t('auth.register.username')} 
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
               <AuthInput 
                 icon="mail" 
-                placeholder="Email Address" 
+                placeholder={t('auth.register.email')} 
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -398,7 +402,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
               
               <AuthInput 
                 icon="lock" 
-                placeholder="Password" 
+                placeholder={t('auth.register.password')} 
                 showEye={true} 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -437,7 +441,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
               
               <AuthInput 
                 icon="lock_reset" 
-                placeholder="Confirm Password" 
+                placeholder={t('auth.register.confirmPassword')} 
                 showEye={true}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -449,13 +453,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
               disabled={isSubmitting}
               className="w-full mt-5 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Đang xử lý...' : 'Create Account'}
+              {isSubmitting ? t('auth.register.creating') : t('auth.register.createAccount')}
             </button>
 
             <div className="mt-5 pt-5 border-t border-white/5 w-full">
                 <p className="text-[11px] text-slate-500">
-                Already have an account? 
-                <button type="button" onClick={handleToggle} className="text-purple-400 font-bold ml-1 hover:underline outline-none">Sign In</button>
+                {t('auth.register.hasAccount')} 
+                <button type="button" onClick={handleToggle} className="text-purple-400 font-bold ml-1 hover:underline outline-none">{t('auth.register.signIn')}</button>
                 </p>
             </div>
           </form>
@@ -469,20 +473,20 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
                <span className="material-symbols-outlined text-white text-2xl">bolt</span>
             </div>
 
-            <h1 className="text-3xl font-black text-white mb-2 tracking-tight">Welcome Back!</h1>
-            <p className="text-slate-400 text-xs mb-8">Sign in to access your tech dashboard</p>
+            <h1 className="text-3xl font-black text-white mb-2 tracking-tight">{t('auth.login.title')}</h1>
+            <p className="text-slate-400 text-xs mb-8">{t('auth.login.subtitle')}</p>
 
             <div className="w-full space-y-3">
               <AuthInput 
                 icon="mail" 
-                placeholder="Email Address" 
+                placeholder={t('auth.login.email')} 
                 type="email"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
               />
               <AuthInput 
                 icon="lock" 
-                placeholder="Password" 
+                placeholder={t('auth.login.password')} 
                 showEye={true}
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
@@ -492,9 +496,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
             <div className="w-full flex justify-between items-center mt-3 mb-6">
                <label className="flex items-center gap-2 cursor-pointer group">
                   <input type="checkbox" className="rounded border-slate-700 bg-slate-800 text-purple-600 focus:ring-purple-500/50 size-3.5" />
-                  <span className="text-[11px] text-slate-400 group-hover:text-white transition-colors">Remember me</span>
+                  <span className="text-[11px] text-slate-400 group-hover:text-white transition-colors">{t('auth.login.rememberMe')}</span>
                </label>
-               <Link to="/forgot-password" className="text-[11px] font-bold text-purple-400 hover:text-purple-300 transition-colors">Forgot Password?</Link>
+               <Link to="/forgot-password" className="text-[11px] font-bold text-purple-400 hover:text-purple-300 transition-colors">{t('auth.login.forgotPassword')}</Link>
             </div>
 
             <button 
@@ -502,13 +506,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialSignUp = false }) => 
               disabled={isSubmitting}
               className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Đang đăng nhập...' : 'Sign In'}
+              {isSubmitting ? t('auth.login.loggingIn') : t('auth.login.loginButton')}
             </button>
 
             <div className="mt-6 pt-6 border-t border-white/5 w-full">
                 <p className="text-[11px] text-slate-500">
-                Don't have an account? 
-                <button type="button" onClick={handleToggle} className="text-purple-400 font-bold ml-1 hover:underline outline-none">Create Account</button>
+                {t('auth.login.noAccount')} 
+                <button type="button" onClick={handleToggle} className="text-purple-400 font-bold ml-1 hover:underline outline-none">{t('auth.login.createAccount')}</button>
                 </p>
             </div>
           </form>

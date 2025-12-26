@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { feedbackService } from '@services/feedbackService';
 import type { Feedback } from '@services/feedbackService';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const FeedbackManagement: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<Array<{ id: string; user: string; product: string; rating: number; comment: string; date: string }>>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   // Load feedbacks
   useEffect(() => {
@@ -38,11 +40,11 @@ const FeedbackManagement: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-white tracking-tight">Phản Hồi Khách Hàng</h1>
+      <h1 className="text-3xl font-bold text-white tracking-tight">{t('admin.feedback.title')}</h1>
       {loading ? (
         <div className="text-center py-20">
           <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-400">Đang tải phản hồi...</p>
+          <p className="text-slate-400">{t('admin.feedback.loading')}</p>
         </div>
       ) : feedbacks.length > 0 ? (
         <div className="space-y-4">
@@ -55,7 +57,7 @@ const FeedbackManagement: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-white">{f.user}</h3>
-                  <p className="text-xs text-primary">về: {f.product}</p>
+                  <p className="text-xs text-primary">{t('admin.feedback.about')}: {f.product}</p>
                 </div>
               </div>
               <span className="text-xs text-gray-500">{f.date}</span>
@@ -67,8 +69,8 @@ const FeedbackManagement: React.FC = () => {
             </div>
             <p className="text-gray-300 text-sm italic">"{f.comment}"</p>
             <div className="mt-4 flex gap-3">
-              <button className="text-xs font-bold text-primary hover:underline">Phản hồi</button>
-              <button className="text-xs font-bold text-gray-500 hover:text-red-400">Ẩn</button>
+              <button className="text-xs font-bold text-primary hover:underline">{t('admin.feedback.reply')}</button>
+              <button className="text-xs font-bold text-gray-500 hover:text-red-400">{t('admin.feedback.hide')}</button>
               </div>
             </div>
           ))}
@@ -76,7 +78,7 @@ const FeedbackManagement: React.FC = () => {
       ) : (
         <div className="text-center py-20 text-slate-500">
           <span className="material-symbols-outlined text-6xl mb-4 block">feedback</span>
-          <p>Chưa có phản hồi nào</p>
+          <p>{t('admin.feedback.noFeedback')}</p>
         </div>
       )}
     </div>

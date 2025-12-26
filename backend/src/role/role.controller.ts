@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, UseBefore } from "routing-controllers";
+import { Controller, Get, Post, Param, UseBefore } from "routing-controllers";
 import { Service } from "typedi";
 import { RoleService } from "./role.service";
 import { Admin, Auth } from "@/middlewares/auth.middleware";
@@ -6,25 +6,47 @@ import { CheckAbility } from "@/middlewares/rbac/permission.decorator";
 import { Role } from "./role.entity";
 
 @Service()
-@Controller('/auth')
+@Controller('/auth/roles')
 export class RoleController{
     constructor(
-        private roleService: RoleService
+        private readonly roleService: RoleService
     ){}
 
-    @Get('/roles')
+    @Get('/')
     @UseBefore(Auth)
     @CheckAbility("read", Role)
-    async getAllRoles(@Req() req: any){
+    async getAllRoles(){
         return await this.roleService.getAllRoles();
     }
 
-    @Post('/roles/create-roles')
+    @Get('/non-admin')
+    @UseBefore(Auth)
+    @CheckAbility("read", Role)
+    async getNonAdminRoles(){
+        return await this.roleService.getNonAdminRoles();
+    }
+
+    @Get('/:slug')
+    @UseBefore(Auth)
+    @CheckAbility("read", Role)
+    async getRoleBySlug(@Param('slug') slug: string){
+        const role = await this.roleService.getRoleBySlug(slug);
+        if (!role) {
+            throw new Error(`Role with slug '${slug}' not found`);
+        }
+        return role;
+    }
+
+    @Post('/create-default')
     @UseBefore(Admin)
-    async createRoles(){
-        return await this.roleService.createRoles();
+    async createDefaultRoles(){
+        await this.roleService.createRoles();
+        return { message: "Default roles created successfully" };
     }
 }
+
+
+
 
 
 

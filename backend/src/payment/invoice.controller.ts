@@ -12,7 +12,7 @@ import {
 import { Service } from "typedi";
 import { InvoiceService } from "./invoice.service";
 import { Auth, Admin } from "@/middlewares/auth.middleware";
-import { AccountDetailsDto } from "@/auth/dtos/account.dto";
+import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { JwtService } from "@/jwt/jwt.service";
 import { Invoice } from "./invoice.entity";
 import { CheckAbility } from "@/middlewares/rbac/permission.decorator";

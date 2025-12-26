@@ -13,10 +13,12 @@ import { orderService } from '@services/orderService';
 import { useNotifications } from '@hooks/useNotifications';
 import { useAuth } from '@contexts/AuthContext';
 import type { Product } from '@/types/product';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const AdminDashboard: React.FC = () => {
   const { getDateRangeLabel } = useOutletContext<AdminOutletContext>();
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
 
   // Socket notifications for admin
@@ -107,17 +109,17 @@ const AdminDashboard: React.FC = () => {
       {/* 1. Header & Actions */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight">Dashboard Overview</h1>
+          <h1 className="text-3xl font-black text-white tracking-tight">{t('admin.dashboard')}</h1>
           <p className="text-slate-400 text-sm mt-1">
-            Báo cáo chi tiết hiệu quả kinh doanh: <span className="text-primary font-bold">{getDateRangeLabel()}</span>
+            {t('admin.reportDetail')}: <span className="text-primary font-bold">{getDateRangeLabel()}</span>
           </p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" icon="download" size="sm">Xuất báo cáo</Button>
-          <Button variant="primary" icon="refresh" size="sm">Cập nhật</Button>
+          <Button variant="outline" icon="download" size="sm">{t('admin.exportReport')}</Button>
+          <Button variant="primary" icon="refresh" size="sm">{t('admin.refresh')}</Button>
           {unreadCount > 0 && (
             <Button variant="primary" icon="notifications" size="sm" onClick={markAsRead}>
-              Thông báo ({unreadCount})
+              {t('nav.notifications')} ({unreadCount})
             </Button>
           )}
         </div>
@@ -126,7 +128,7 @@ const AdminDashboard: React.FC = () => {
       {/* Notifications Display */}
       {notifications.length > 0 && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-blue-900 mb-2">Thông báo mới</h3>
+          <h3 className="text-lg font-semibold text-blue-900 mb-2">{t('admin.notifications.new')}</h3>
           <div className="space-y-2 max-h-32 overflow-y-auto">
             {notifications.slice(0, 5).map((notification, index) => (
               <div key={index} className="bg-white p-2 rounded border text-sm">
@@ -142,7 +144,7 @@ const AdminDashboard: React.FC = () => {
       )}
 
       {/* 2. Key Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Revenue */}
         <div className="bg-surface-dark border border-border-dark p-5 rounded-2xl shadow-sm hover:border-primary/30 transition-all group">
           <div className="flex justify-between items-start mb-3">
@@ -153,7 +155,7 @@ const AdminDashboard: React.FC = () => {
                +12.5% <span className="material-symbols-outlined text-[14px]">trending_up</span>
              </span>
           </div>
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Tổng Doanh Thu</p>
+          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{t('admin.totalRevenue')}</p>
           <h3 className="text-2xl font-black text-white">
             {loading ? '...' : fmt(revenueData.reduce((sum, d) => sum + d.revenue, 0))}
           </h3>
@@ -169,7 +171,7 @@ const AdminDashboard: React.FC = () => {
                +5.2% <span className="material-symbols-outlined text-[14px]">trending_up</span>
              </span>
           </div>
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Tổng Đơn Hàng</p>
+          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{t('admin.totalOrders')}</p>
           <h3 className="text-2xl font-black text-white">{loading ? '...' : recentOrders.length}</h3>
         </div>
 
@@ -183,7 +185,7 @@ const AdminDashboard: React.FC = () => {
                -2.1% <span className="material-symbols-outlined text-[14px]">trending_down</span>
              </span>
           </div>
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Giá Trị Đơn TB</p>
+          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{t('admin.avgOrderValue')}</p>
           <h3 className="text-2xl font-black text-white">
             {loading ? '...' : recentOrders.length > 0 
               ? fmt(recentOrders.reduce((sum, o) => sum + o.total, 0) / recentOrders.length)
@@ -201,7 +203,7 @@ const AdminDashboard: React.FC = () => {
                +8.4% <span className="material-symbols-outlined text-[14px]">trending_up</span>
              </span>
           </div>
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Khách Hàng Mới</p>
+          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{t('admin.newCustomers')}</p>
           <h3 className="text-2xl font-black text-white">0</h3>
           <p className="text-slate-500 text-xs mt-2">TODO: Load from API</p>
         </div>
@@ -214,13 +216,13 @@ const AdminDashboard: React.FC = () => {
         <div className="lg:col-span-2 bg-surface-dark border border-border-dark rounded-2xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-lg font-bold text-white">Biểu đồ doanh thu</h3>
-              <p className="text-xs text-slate-500">So sánh Doanh thu và Lợi nhuận gộp</p>
+              <h3 className="text-lg font-bold text-white">{t('admin.charts.revenue.title')}</h3>
+              <p className="text-xs text-slate-500">{t('admin.charts.revenue.subtitle')}</p>
             </div>
             <select className="bg-background-dark border border-border-dark text-white text-xs rounded-lg px-3 py-1.5 outline-none">
-              <option>30 ngày qua</option>
-              <option>7 ngày qua</option>
-              <option>Năm nay</option>
+              <option>{t('admin.charts.range.30days')}</option>
+              <option>{t('admin.charts.range.7days')}</option>
+              <option>{t('admin.charts.range.year')}</option>
             </select>
           </div>
           <div className="h-[320px] w-full">
@@ -254,8 +256,8 @@ const AdminDashboard: React.FC = () => {
 
         {/* Secondary Chart: Categories */}
         <div className="bg-surface-dark border border-border-dark rounded-2xl p-6 shadow-sm flex flex-col">
-          <h3 className="text-lg font-bold text-white mb-1">Tỷ trọng danh mục</h3>
-          <p className="text-xs text-slate-500 mb-6">Phân bổ doanh thu theo ngành hàng</p>
+          <h3 className="text-lg font-bold text-white mb-1">{t('admin.charts.category.title')}</h3>
+          <p className="text-xs text-slate-500 mb-6">{t('admin.charts.category.subtitle')}</p>
           
           <div className="flex-1 flex items-center justify-center relative">
              <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
@@ -304,11 +306,11 @@ const AdminDashboard: React.FC = () => {
         {/* Top Selling Products */}
         <div className="bg-surface-dark border border-border-dark rounded-2xl p-6 shadow-sm">
            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+          <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <span className="material-symbols-outlined text-yellow-500">trophy</span>
-                Top Sản Phẩm Bán Chạy
+                {t('admin.topProducts.title')}
               </h3>
-              <Button variant="ghost" size="sm" className="text-xs h-8">Xem tất cả</Button>
+              <Button variant="ghost" size="sm" className="text-xs h-8">{t('admin.viewAll')}</Button>
            </div>
            
            <div className="space-y-4">
@@ -336,19 +338,19 @@ const AdminDashboard: React.FC = () => {
            <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <span className="material-symbols-outlined text-blue-400">schedule</span>
-                Đơn Hàng Gần Đây
+                {t('admin.recentOrders.title')}
               </h3>
-              <Button variant="ghost" size="sm" className="text-xs h-8">Xem tất cả</Button>
+              <Button variant="ghost" size="sm" className="text-xs h-8">{t('admin.viewAll')}</Button>
            </div>
            
            <div className="overflow-x-auto">
              <table className="w-full text-left text-sm">
                <thead className="text-xs text-slate-500 uppercase bg-background-dark/50 border-b border-border-dark">
                  <tr>
-                   <th className="px-3 py-3 rounded-tl-lg">Mã đơn</th>
-                   <th className="px-3 py-3">Khách hàng</th>
-                   <th className="px-3 py-3">Tổng tiền</th>
-                   <th className="px-3 py-3 rounded-tr-lg text-right">Trạng thái</th>
+                   <th className="px-3 py-3 rounded-tl-lg">{t('admin.orders.orderId')}</th>
+                   <th className="px-3 py-3">{t('admin.orders.customer')}</th>
+                   <th className="px-3 py-3">{t('admin.orders.total')}</th>
+                   <th className="px-3 py-3 rounded-tr-lg text-right">{t('admin.orders.status')}</th>
                  </tr>
                </thead>
                <tbody className="divide-y divide-border-dark/50">

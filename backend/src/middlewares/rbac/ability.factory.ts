@@ -124,11 +124,6 @@ export function defineAbilityFor(role: string, user?: Account): AppAbility {
       can("update", Account, { phone: user?.phone });
       break;
     }
-    case "manager": {
-      can("manage", Account);
-      can("read", Role);
-      break;
-    }
     case "shipper": {
       can("update", Order, {
         status: { $in: ["PENDING", "SHIPPING", "DELIVERED"] } as any,
@@ -150,7 +145,15 @@ export function defineAbilityFor(role: string, user?: Account): AppAbility {
       break;
     }
     case "manager": {
-      can("manage", Account, { role: { name: { $ne: "admin" }}} as any);
+      // Manager có quyền quản lý account (không phải admin)
+      can("manage", Account, { role: { slug: { $ne: "admin" }}} as any);
+      can("read", Role);
+      // Manager có quyền xem và cập nhật tất cả orders, products
+      can("read", Order);
+      can("update", Order);
+      can("read", Product);
+      can("update", Product);
+      can("read", Account);
       break;
     }
     default: {

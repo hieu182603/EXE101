@@ -6,6 +6,7 @@ import Button from '@components/ui/Button';
 import { orderService } from '@services/orderService';
 import type { Order as BackendOrder, OrderDetail as BackendOrderDetail, OrderStatus } from '../../types/order';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface OrderItem {
   id: string;
@@ -29,6 +30,7 @@ interface Order {
 }
 
 const OrderHistory: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { showSuccess } = useToast();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -53,21 +55,21 @@ const OrderHistory: React.FC = () => {
     }
   };
 
-  // Map backend order status to Vietnamese display
+  // Map backend order status to i18n display
   const getStatusDisplay = (status: OrderStatus | string): string => {
     switch (status) {
       case 'PENDING':
-        return 'CHỜ XỬ LÝ';
+        return t('order.history.status.PENDING');
       case 'ASSIGNED':
-        return 'ĐÃ PHÂN CÔNG';
+        return t('order.history.status.ASSIGNED');
       case 'CONFIRMED':
-        return 'ĐÃ XÁC NHẬN';
+        return t('order.history.status.CONFIRMED');
       case 'SHIPPING':
-        return 'ĐANG GIAO';
+        return t('order.history.status.SHIPPING');
       case 'DELIVERED':
-        return 'HOÀN THÀNH';
+        return t('order.history.status.DELIVERED');
       case 'CANCELLED':
-        return 'ĐÃ HỦY';
+        return t('order.history.status.CANCELLED');
       default:
         return status;
     }
@@ -126,7 +128,7 @@ const OrderHistory: React.FC = () => {
     loadOrders();
   }, []);
 
-  const handleReBuy = () => showSuccess("Đã thêm sản phẩm vào giỏ hàng!");
+  const handleReBuy = () => showSuccess(t('order.history.success.reorder'));
   const handleTrack = (orderId: string) => {
     setSelectedOrder(null);
     navigate(`/tracking/${orderId.replace('#', '')}`);
@@ -142,21 +144,21 @@ const OrderHistory: React.FC = () => {
   };
 
   const getStatusTimelineWidth = (status: string) => {
-    if (status === 'ĐÃ HỦY') return '100%'; 
-    if (status === 'HOÀN THÀNH') return '100%';
-    if (status === 'ĐANG GIAO') return '60%';
+    if (status === t('order.history.status.CANCELLED')) return '100%';
+    if (status === t('order.history.status.DELIVERED')) return '100%';
+    if (status === t('order.history.status.SHIPPING')) return '60%';
     return '10%';
   };
 
   return (
     <div className="min-h-screen bg-background-dark py-12">
       <div className="container mx-auto px-4 max-w-[1000px]">
-      <h1 className="text-3xl font-black text-text-main mb-8 tracking-tight">Lịch sử đơn hàng</h1>
-      
+      <h1 className="text-3xl font-black text-text-main mb-8 tracking-tight">{t('order.history.title')}</h1>
+
       {loading ? (
         <div className="text-center py-20">
           <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-400">Đang tải đơn hàng...</p>
+          <p className="text-slate-400">{t('order.history.loading')}</p>
         </div>
       ) : orders.length > 0 ? (
         /* Order List */
@@ -194,7 +196,7 @@ const OrderHistory: React.FC = () => {
                    {o.items.length > 0 && (
                      <div className="flex flex-col justify-center pl-6">
                         <p className="text-sm font-bold text-text-main line-clamp-1">{o.items[0].name}</p>
-                        {o.items.length > 1 && <p className="text-xs text-text-muted">và {o.items.length - 1} sản phẩm khác</p>}
+                        {o.items.length > 1 && <p className="text-xs text-text-muted">{t('order.history.andMore', { count: o.items.length - 1 })}</p>}
                      </div>
                    )}
                 </div>
@@ -202,7 +204,7 @@ const OrderHistory: React.FC = () => {
                 {/* Total & Action */}
                 <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-end">
                    <div className="text-right">
-                      <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mb-1">Tổng tiền</p>
+                      <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest mb-1">{t('order.history.total')}</p>
                       <p className="font-display font-black text-xl text-text-main">{o.total.toLocaleString()}đ</p>
                    </div>
                    <button 
@@ -221,8 +223,8 @@ const OrderHistory: React.FC = () => {
           <div className="size-20 bg-background-dark rounded-full flex items-center justify-center mx-auto mb-6 border border-border-dark">
             <span className="material-symbols-outlined text-4xl text-slate-600">receipt_long</span>
           </div>
-          <h3 className="text-lg font-bold text-white mb-2">Chưa có đơn hàng nào</h3>
-          <p className="text-slate-500">Bạn chưa mua sắm sản phẩm nào tại TechStore.</p>
+          <h3 className="text-lg font-bold text-white mb-2">{t('order.history.empty.title')}</h3>
+          <p className="text-slate-500">{t('order.history.empty.description')}</p>
         </div>
       )}
 
@@ -230,16 +232,16 @@ const OrderHistory: React.FC = () => {
       <Modal
         isOpen={!!selectedOrder}
         onClose={() => setSelectedOrder(null)}
-        title={selectedOrder ? "Thông tin đơn hàng" : ""}
+        title={selectedOrder ? t('order.history.modal.title') : ""}
         size="3xl"
         footer={
           <div className="flex justify-end gap-3 w-full bg-surface-dark pt-2">
-             <Button variant="outline" onClick={() => setSelectedOrder(null)}>Đóng</Button>
-             {selectedOrder?.status === 'HOÀN THÀNH' && (
-                 <Button variant="primary" icon="refresh" onClick={handleReBuy}>Mua lại</Button>
+             <Button variant="outline" onClick={() => setSelectedOrder(null)}>{t('order.history.modal.close')}</Button>
+             {selectedOrder?.status === t('order.history.status.DELIVERED') && (
+                 <Button variant="primary" icon="refresh" onClick={handleReBuy}>{t('order.history.modal.reorder')}</Button>
              )}
-             {selectedOrder?.status === 'ĐANG GIAO' && (
-                 <Button variant="secondary" icon="local_shipping" onClick={() => handleTrack(selectedOrder.id)}>Theo dõi vận chuyển</Button>
+             {selectedOrder?.status === t('order.history.status.SHIPPING') && (
+                 <Button variant="secondary" icon="local_shipping" onClick={() => handleTrack(selectedOrder.id)}>{t('order.history.modal.track')}</Button>
              )}
           </div>
         }
@@ -269,7 +271,7 @@ const OrderHistory: React.FC = () => {
                 <div className="bg-background-dark border border-border-dark p-5 rounded-2xl space-y-3">
                     <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <span className="material-symbols-outlined text-[18px]">location_on</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest">Giao tới</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">{t('order.history.shippedTo')}</span>
                     </div>
                     <div>
                         <p className="text-sm font-bold text-white">Alex User</p>
@@ -279,12 +281,12 @@ const OrderHistory: React.FC = () => {
                 <div className="bg-background-dark border border-border-dark p-5 rounded-2xl space-y-3">
                     <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <span className="material-symbols-outlined text-[18px]">credit_card</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest">Thanh toán</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">{t('order.history.payment')}</span>
                     </div>
                     <div>
                         <p className="text-sm font-bold text-white">{selectedOrder.paymentMethod}</p>
                         <p className="text-xs text-emerald-500 font-bold mt-1 flex items-center gap-1">
-                           <span className="material-symbols-outlined text-[14px]">check_circle</span> Đã thanh toán
+                           <span className="material-symbols-outlined text-[14px]">check_circle</span> {t('order.history.paid')}
                         </p>
                     </div>
                 </div>
@@ -293,7 +295,7 @@ const OrderHistory: React.FC = () => {
             {/* Items List */}
             <div className="bg-background-dark/30 border border-border-dark rounded-2xl overflow-hidden">
                 <div className="px-5 py-3 border-b border-border-dark bg-white/[0.02]">
-                   <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Chi tiết sản phẩm</h4>
+                   <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t('order.history.productDetails')}</h4>
                 </div>
                 <div className="divide-y divide-border-dark/50">
                     {selectedOrder.items.map((item) => (
@@ -303,7 +305,7 @@ const OrderHistory: React.FC = () => {
                             </div>
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-bold text-white line-clamp-1">{item.name}</p>
-                                <p className="text-xs text-slate-500 mt-1">Số lượng: <span className="text-white">x{item.qty}</span></p>
+                                <p className="text-xs text-slate-500 mt-1">{t('order.history.quantity')}: <span className="text-white">x{item.qty}</span></p>
                             </div>
                             <div className="text-right">
                                 <p className="text-sm font-bold text-white">{item.price.toLocaleString()}đ</p>
@@ -317,22 +319,22 @@ const OrderHistory: React.FC = () => {
             <div className="flex flex-col items-end space-y-3 pt-2">
                 <div className="w-full md:w-1/2 space-y-3">
                     <div className="flex justify-between text-xs text-slate-400">
-                        <span>Tạm tính</span>
+                        <span>{t('order.history.subtotal')}</span>
                         <span className="text-white font-medium">{(selectedOrder.total - selectedOrder.shippingFee + selectedOrder.discount).toLocaleString()}đ</span>
                     </div>
                     <div className="flex justify-between text-xs text-slate-400">
-                        <span>Phí vận chuyển</span>
+                        <span>{t('order.history.shipping')}</span>
                         <span className="text-white font-medium">{selectedOrder.shippingFee.toLocaleString()}đ</span>
                     </div>
                     {selectedOrder.discount > 0 && (
                         <div className="flex justify-between text-xs text-primary">
-                            <span>Khuyến mãi</span>
+                            <span>{t('order.history.discount')}</span>
                             <span>-{selectedOrder.discount.toLocaleString()}đ</span>
                         </div>
                     )}
                     <div className="h-px bg-border-dark my-2"></div>
                     <div className="flex justify-between items-center">
-                        <span className="text-xs font-black text-white uppercase tracking-widest">Tổng cộng</span>
+                        <span className="text-xs font-black text-white uppercase tracking-widest">{t('order.history.grandTotal')}</span>
                         <span className="text-2xl font-display font-black text-primary">{selectedOrder.total.toLocaleString()}đ</span>
                     </div>
                 </div>

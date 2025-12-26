@@ -1,7 +1,8 @@
-import { Product } from "../src/product/product.entity";
-import { Category } from "../src/product/categories/category.entity";
+import { Product } from "@/product/product.entity";
+import { Category } from "@/product/categories/category.entity";
 import { Role } from "@/role/role.entity";
 import { Account } from "@/auth/account/account.entity";
+import { ShipperProfile } from "@/auth/shipperProfile.entity";
 import { Cart } from "@/Cart/cart.entity";
 import { CartItem } from "@/Cart/cartItem.entity";
 import { Order } from "@/order/order.entity";
@@ -268,7 +269,11 @@ export async function seedAccounts(roles: Record<string, Role>): Promise<Record<
   ];
 
   for (const accData of shipperAccounts) {
-    let account = await Account.findOne({ where: { username: accData.username } });
+    let account = await Account.findOne({
+      where: { username: accData.username },
+      relations: ["shipperProfile"]
+    });
+
     if (!account) {
       account = new Account();
       account.username = accData.username;
@@ -278,11 +283,17 @@ export async function seedAccounts(roles: Record<string, Role>): Promise<Record<
       account.name = accData.fullName;
       account.isRegistered = true;
       account.role = roles.shipper;
-      account.maxOrdersPerDay = accData.maxOrdersPerDay;
-      account.currentOrdersToday = 0;
-      account.isAvailable = accData.isAvailable;
-      account.priority = accData.priority;
       await account.save();
+
+      // Create shipper profile
+      const shipperProfile = new ShipperProfile();
+      shipperProfile.account = account;
+      shipperProfile.maxOrdersPerDay = accData.maxOrdersPerDay;
+      shipperProfile.currentOrdersToday = 0;
+      shipperProfile.isAvailable = accData.isAvailable;
+      shipperProfile.priority = accData.priority;
+      await shipperProfile.save();
+
       console.log(`✅ Created shipper account: ${accData.username}`);
     } else {
       console.log(`ℹ️  Shipper account already exists: ${accData.username}`);

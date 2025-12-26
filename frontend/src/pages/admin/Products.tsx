@@ -8,6 +8,7 @@ import ProductForm from '@components/admin/products/ProductForm';
 import { productService } from '@services/productService';
 import type { Product } from '@/types/product';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface Product {
   id: string;
@@ -25,6 +26,7 @@ const ITEMS_PER_PAGE = 5;
 
 const ProductManagement: React.FC = () => {
   const { showSuccess, showError } = useToast();
+  const { t } = useTranslation();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
     name: '',
@@ -112,7 +114,7 @@ const ProductManagement: React.FC = () => {
         
         setIsAddModalOpen(false);
         setNewProduct({ name: '', category: 'Linh kiện PC', brand: 'Gigabyte', price: 0, originalPrice: 0, stock: 0, image: '' });
-        showSuccess("Thêm sản phẩm thành công!");
+        showSuccess(t('admin.products.addSuccess'));
       }
     } catch (error) {
       console.error('Error adding product:', error);
@@ -126,13 +128,14 @@ const ProductManagement: React.FC = () => {
         const success = await productService.removeProduct(id);
         if (success) {
           setProducts(products.filter(p => p.id !== id));
-          showSuccess("Xóa sản phẩm thành công!");
+          showSuccess(t('admin.products.deleteSuccess'));
         } else {
           showError("Xóa sản phẩm thất bại. Vui lòng thử lại.");
         }
       } catch (error) {
         console.error('Error deleting product:', error);
-        showError("Xóa sản phẩm thất bại. Vui lòng thử lại.");
+        showError(t('admin.products.deleteFailed'));
+        showError(t('admin.products.deleteFailed'));
       }
     }
   };
@@ -197,15 +200,15 @@ const ProductManagement: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Quản Lý Sản Phẩm</h1>
-          <p className="text-gray-400 mt-1">Cập nhật và theo dõi tồn kho thời gian thực</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">{t('admin.products.title')}</h1>
+          <p className="text-gray-400 mt-1">{t('admin.products.subtitle')}</p>
         </div>
         <Button 
           variant="primary" 
           icon="add" 
           onClick={() => setIsAddModalOpen(true)}
         >
-          Thêm Sản Phẩm
+          {t('admin.products.addProduct')}
         </Button>
       </div>
 
@@ -214,9 +217,9 @@ const ProductManagement: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="relative flex-1">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-            <input 
+              <input 
               className="w-full h-11 pl-10 pr-4 rounded-xl border border-border-dark bg-background-dark text-sm text-white placeholder-gray-500 focus:border-primary outline-none transition-all"
-              placeholder="Tìm kiếm sản phẩm theo tên..."
+              placeholder={t('admin.products.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -316,7 +319,7 @@ const ProductManagement: React.FC = () => {
                 className="w-full h-10 rounded-lg border border-border-dark text-gray-400 hover:text-white hover:bg-white/5 text-sm font-bold transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-[16px]">restart_alt</span>
-                Đặt lại
+                {t('common.reset')}
               </button>
             </div>
           </div>
@@ -329,12 +332,12 @@ const ProductManagement: React.FC = () => {
           <table className="w-full text-left text-sm">
             <thead className="bg-[#1a1a1a] text-xs uppercase text-gray-300 border-b border-border-dark">
               <tr>
-                <th className="px-6 py-4 font-semibold">Tên sản phẩm</th>
-                <th className="px-6 py-4 font-semibold">Thương hiệu</th>
-                <th className="px-6 py-4 font-semibold">Giá bán</th>
-                <th className="px-6 py-4 font-semibold text-center">Tồn kho</th>
-                <th className="px-6 py-4 font-semibold">Trạng thái</th>
-                <th className="px-6 py-4 font-semibold text-right">Thao tác</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.products.table.name')}</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.products.table.brand')}</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.products.table.price')}</th>
+                <th className="px-6 py-4 font-semibold text-center">{t('admin.products.table.stock')}</th>
+                <th className="px-6 py-4 font-semibold">{t('admin.products.table.status')}</th>
+                <th className="px-6 py-4 font-semibold text-right">{t('admin.products.table.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border-dark">
@@ -401,14 +404,14 @@ const ProductManagement: React.FC = () => {
                             onClick={() => setEditingProduct(p)}
                           >
                             <span className="material-symbols-outlined text-[16px]">edit</span>
-                            Sửa
+                            {t('common.edit')}
                           </button>
                           <button 
                             className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all text-xs font-bold"
                             onClick={() => handleDelete(p.id)}
                           >
                             <span className="material-symbols-outlined text-[16px]">delete</span>
-                            Xóa
+                            {t('common.delete')}
                           </button>
                         </div>
                       </td>
@@ -418,7 +421,7 @@ const ProductManagement: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-slate-500 font-medium">
-                    Không tìm thấy sản phẩm nào khớp với bộ lọc.
+                    {t('admin.products.noProductsMatch')}
                   </td>
                 </tr>
               )}
@@ -437,12 +440,12 @@ const ProductManagement: React.FC = () => {
       <Modal 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)}
-        title="Thêm Sản Phẩm Mới"
+        title={t('admin.products.addModalTitle')}
         size="4xl"
         footer={
           <>
-            <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>Hủy bỏ</Button>
-            <Button variant="primary" onClick={handleAddProduct}>Lưu sản phẩm</Button>
+            <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>{t('common.cancel')}</Button>
+            <Button variant="primary" onClick={handleAddProduct}>{t('admin.products.saveProduct')}</Button>
           </>
         }
       >
@@ -453,12 +456,12 @@ const ProductManagement: React.FC = () => {
       <Modal 
         isOpen={!!editingProduct} 
         onClose={() => setEditingProduct(null)}
-        title="Chỉnh Sửa Sản Phẩm"
+        title={t('admin.products.editModalTitle')}
         size="4xl"
         footer={
           <>
-            <Button variant="outline" onClick={() => setEditingProduct(null)}>Hủy bỏ</Button>
-            <Button variant="primary" onClick={handleSaveEdit}>Lưu thay đổi</Button>
+            <Button variant="outline" onClick={() => setEditingProduct(null)}>{t('common.cancel')}</Button>
+            <Button variant="primary" onClick={handleSaveEdit}>{t('admin.products.saveChanges')}</Button>
           </>
         }
       >

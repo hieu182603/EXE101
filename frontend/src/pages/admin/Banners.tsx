@@ -4,6 +4,7 @@ import Modal from '@components/ui/Modal';
 import { Input, Textarea } from '@components/ui/Input';
 import Badge from '@components/ui/Badge';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface Banner {
   id: string;
@@ -25,6 +26,7 @@ interface PopupConfig {
 
 const BannerManagement: React.FC = () => {
   const { showError, showSuccess } = useToast();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'hero' | 'popup'>('hero');
 
   const [banners, setBanners] = useState<Banner[]>([
@@ -116,19 +118,19 @@ const BannerManagement: React.FC = () => {
   };
 
   const handleSavePopup = () => {
-    showSuccess("Đã lưu cấu hình Pop-up Banner thành công!");
+    showSuccess(t('admin.banners.popupSaved'));
   };
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Quản Lý Banner & Quảng Cáo</h1>
-          <p className="text-gray-400 mt-1">Thay đổi nội dung hiển thị trên trang chủ</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">{t('admin.banners.title')}</h1>
+          <p className="text-gray-400 mt-1">{t('admin.banners.subtitle')}</p>
         </div>
         {activeTab === 'hero' && (
             <Button onClick={handleAdd} icon="add_photo_alternate" variant="primary">
-            Thêm Banner Slider
+            {t('admin.banners.addBannerSlider')}
             </Button>
         )}
       </div>
@@ -138,13 +140,13 @@ const BannerManagement: React.FC = () => {
             onClick={() => setActiveTab('hero')}
             className={`px-6 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'hero' ? 'border-primary text-primary' : 'border-transparent text-slate-400 hover:text-white'}`}
         >
-            Hero Sliders
+            {t('admin.banners.tabs.hero')}
         </button>
         <button 
             onClick={() => setActiveTab('popup')}
             className={`px-6 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'popup' ? 'border-primary text-primary' : 'border-transparent text-slate-400 hover:text-white'}`}
         >
-            Pop-up Chiến dịch
+            {t('admin.banners.tabs.popup')}
         </button>
       </div>
 
@@ -169,13 +171,13 @@ const BannerManagement: React.FC = () => {
                                 <div className={`h-4 w-4 rounded-full bg-white transition-transform ${banner.isActive ? 'translate-x-6' : 'translate-x-0'}`}></div>
                             </div>
                             <span className={`text-sm font-bold ${banner.isActive ? 'text-white' : 'text-slate-500'}`}>
-                                {banner.isActive ? 'Đang hiển thị' : 'Đang ẩn'}
+                                {banner.isActive ? t('admin.banners.active') : t('admin.banners.hidden')}
                             </span>
                         </label>
                     </div>
                     <div className="flex gap-2">
-                        <Button size="sm" variant="secondary" icon="edit" onClick={() => handleEdit(banner)}>Sửa</Button>
-                        <Button size="sm" variant="danger" icon="delete" onClick={() => handleDelete(banner.id)}>Xóa</Button>
+                        <Button size="sm" variant="secondary" icon="edit" onClick={() => handleEdit(banner)}>{t('common.edit')}</Button>
+                        <Button size="sm" variant="danger" icon="delete" onClick={() => handleDelete(banner.id)}>{t('common.delete')}</Button>
                     </div>
                 </div>
             </div>
@@ -185,10 +187,10 @@ const BannerManagement: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="bg-surface-dark border border-border-dark rounded-3xl p-8 space-y-6">
                 <div className="flex justify-between items-center pb-4 border-b border-border-dark">
-                    <h3 className="text-lg font-bold text-white">Cấu hình Pop-up</h3>
+                <h3 className="text-lg font-bold text-white">{t('admin.banners.popupConfigTitle')}</h3>
                     <label className="flex items-center gap-3 cursor-pointer">
                         <span className={`text-sm font-bold ${popupConfig.isActive ? 'text-primary' : 'text-slate-500'}`}>
-                            {popupConfig.isActive ? 'Đang bật' : 'Đã tắt'}
+                            {popupConfig.isActive ? t('common.enabled') : t('common.disabled')}
                         </span>
                         <div 
                             className={`w-12 h-6 rounded-full p-1 transition-colors ${popupConfig.isActive ? 'bg-primary' : 'bg-slate-700'}`} 
@@ -201,13 +203,13 @@ const BannerManagement: React.FC = () => {
 
                 <div className="space-y-4">
                     <Input 
-                        label="Đường dẫn ảnh (Image URL)" 
+                        label={t('admin.banners.input.imageUrl')} 
                         placeholder="https://..." 
                         value={popupConfig.imageUrl}
                         onChange={(e) => setPopupConfig({...popupConfig, imageUrl: e.target.value})}
                     />
                     <Input 
-                        label="Link đích khi click" 
+                        label={t('admin.banners.input.link')} 
                         placeholder="/catalog" 
                         value={popupConfig.link}
                         onChange={(e) => setPopupConfig({...popupConfig, link: e.target.value})}
@@ -219,15 +221,15 @@ const BannerManagement: React.FC = () => {
                             value={popupConfig.frequency}
                             onChange={(e) => setPopupConfig({...popupConfig, frequency: e.target.value as any})}
                         >
-                            <option value="once_session">1 lần mỗi phiên (Khuyên dùng)</option>
-                            <option value="always">Luôn hiện khi vào trang chủ</option>
+                            <option value="once_session">{t('admin.banners.popup.frequency.onceSession')}</option>
+                            <option value="always">{t('admin.banners.popup.frequency.always')}</option>
                         </select>
-                        <p className="text-[10px] text-slate-500 italic mt-1">* Phiên làm việc sẽ reset khi người dùng tắt trình duyệt.</p>
+                        <p className="text-[10px] text-slate-500 italic mt-1">{t('admin.banners.popup.note')}</p>
                     </div>
                 </div>
 
                 <div className="pt-4 border-t border-border-dark flex justify-end">
-                    <Button onClick={handleSavePopup} icon="save">Lưu cấu hình</Button>
+                    <Button onClick={handleSavePopup} icon="save">{t('admin.banners.saveConfig')}</Button>
                 </div>
             </div>
 
@@ -263,12 +265,12 @@ const BannerManagement: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingBanner ? "Chỉnh sửa Banner Slider" : "Thêm Banner Mới"}
+        title={editingBanner ? t('admin.banners.editModalTitle') : t('admin.banners.addModalTitle')}
         size="2xl"
         footer={
             <>
-                <Button variant="outline" onClick={() => setIsModalOpen(false)}>Hủy bỏ</Button>
-                <Button variant="primary" onClick={handleSave}>Lưu Banner</Button>
+                <Button variant="outline" onClick={() => setIsModalOpen(false)}>{t('common.cancel')}</Button>
+                <Button variant="primary" onClick={handleSave}>{t('admin.banners.saveBanner')}</Button>
             </>
         }
       >

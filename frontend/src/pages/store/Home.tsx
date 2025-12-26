@@ -5,6 +5,7 @@ import ProductCard from '@components/store/ProductCard';
 import Button from '@components/ui/Button';
 import { productService } from '@services/productService';
 import type { Product } from '@/types/product';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface ProductDisplay {
   id: string;
@@ -17,6 +18,7 @@ interface ProductDisplay {
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(12 * 60 * 60 + 45 * 60); // Mock countdown
   const [activeTab, setActiveTab] = useState<'new' | 'best'>('new');
   
@@ -41,7 +43,7 @@ const HomePage: React.FC = () => {
       name: product.name,
       price,
       oldPrice,
-      tag: product.stock === 0 ? 'Hết hàng' : tag,
+      tag: product.stock === 0 ? t('product.outOfStock') : tag,
       imageUrl: product.images?.[0]?.url
     };
   };
@@ -128,14 +130,14 @@ const HomePage: React.FC = () => {
   };
 
   const categories = [
-    { name: 'Laptop Gaming', icon: 'laptop_chromebook' },
-    { name: 'Macbook', icon: 'laptop_mac' },
-    { name: 'PC Đồ họa', icon: 'desktop_windows' },
-    { name: 'Màn hình', icon: 'monitor' },
-    { name: 'Bàn phím', icon: 'keyboard' },
-    { name: 'Chuột', icon: 'mouse' },
-    { name: 'Tai nghe', icon: 'headphones' },
-    { name: 'Linh kiện', icon: 'memory' },
+    { nameKey: 'home.categories.gamingLaptop', icon: 'laptop_chromebook' },
+    { nameKey: 'home.categories.macbook', icon: 'laptop_mac' },
+    { nameKey: 'home.categories.graphicsPC', icon: 'desktop_windows' },
+    { nameKey: 'home.categories.monitor', icon: 'monitor' },
+    { nameKey: 'home.categories.keyboard', icon: 'keyboard' },
+    { nameKey: 'home.categories.mouse', icon: 'mouse' },
+    { nameKey: 'home.categories.headset', icon: 'headphones' },
+    { nameKey: 'home.categories.components', icon: 'memory' },
   ];
 
   return (
@@ -158,13 +160,13 @@ const HomePage: React.FC = () => {
               {/* Gradient: Black to Transparent */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8 sm:p-12">
                 <span className="inline-block px-3 py-1 bg-red-600 text-white text-xs font-black uppercase tracking-widest rounded-lg w-fit mb-3 shadow-lg shadow-red-600/30">
-                  Flagship Series
+                  {t('home.hero.flagship')}
                 </span>
                 <h2 className="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
-                  NEXT LEVEL <br/> GAMING PERFORMANCE
+                  {t('home.hero.title')}
                 </h2>
                 <p className="text-slate-300 text-lg mb-6 max-w-lg hidden sm:block">
-                  Trải nghiệm sức mạnh đỉnh cao với dòng RTX 40 Series mới nhất. Ưu đãi đặt trước tặng ngay bộ quà 5 triệu.
+                  {t('home.hero.subtitle')}
                 </p>
                 <Button 
                   size="lg" 
@@ -174,7 +176,7 @@ const HomePage: React.FC = () => {
                     navigate('/catalog');
                   }}
                 >
-                  Khám phá ngay
+                  {t('home.hero.explore')}
                 </Button>
               </div>
             </div>
@@ -187,8 +189,8 @@ const HomePage: React.FC = () => {
               >
                  <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 1" />
                  <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/80 p-6 flex flex-col justify-center">
-                    <h3 className="text-2xl font-black text-white uppercase italic">Esport Gear</h3>
-                    <p className="text-sm text-red-500 font-bold">Chuột & Phím cơ giảm tới 40%</p>
+                    <h3 className="text-2xl font-black text-white uppercase italic">{t('home.sideBanner.esport')}</h3>
+                    <p className="text-sm text-red-500 font-bold">{t('home.sideBanner.esportSub')}</p>
                  </div>
               </div>
               <div 
@@ -197,8 +199,8 @@ const HomePage: React.FC = () => {
               >
                  <img src="https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 2" />
                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/80 p-6 flex flex-col justify-center text-right items-end">
-                    <h3 className="text-2xl font-black text-white uppercase italic">Build PC</h3>
-                    <p className="text-sm text-red-500 font-bold">Miễn phí lắp đặt & Vệ sinh</p>
+                    <h3 className="text-2xl font-black text-white uppercase italic">{t('home.sideBanner.build')}</h3>
+                    <p className="text-sm text-red-500 font-bold">{t('home.sideBanner.buildSub')}</p>
                  </div>
               </div>
             </div>
@@ -210,17 +212,17 @@ const HomePage: React.FC = () => {
       <section className="pb-12 px-4 mt-16 lg:mt-20">
         <div className="mx-auto max-w-[1440px]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { icon: 'local_shipping', title: 'Miễn phí vận chuyển', sub: 'Cho đơn từ 2.000.000đ' },
-              { icon: 'verified_user', title: 'Bảo hành chính hãng', sub: '100% Full VAT' },
-              { icon: 'assignment_return', title: 'Đổi trả 15 ngày', sub: 'Lỗi là đổi mới' },
-              { icon: 'support_agent', title: 'Hỗ trợ 24/7', sub: 'Kỹ thuật viên chuyên nghiệp' },
+              {[
+              { icon: 'local_shipping', titleKey: 'home.features.freeShipping.title', subKey: 'home.features.freeShipping.subtitle' },
+              { icon: 'verified_user', titleKey: 'home.features.warranty.title', subKey: 'home.features.warranty.subtitle' },
+              { icon: 'assignment_return', titleKey: 'home.features.return.title', subKey: 'home.features.return.subtitle' },
+              { icon: 'support_agent', titleKey: 'home.features.support.title', subKey: 'home.features.support.subtitle' },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3 bg-surface-dark border border-border-dark p-4 rounded-xl hover:border-red-500/50 hover:bg-surface-accent transition-all group">
                 <span className="material-symbols-outlined text-3xl text-white group-hover:text-red-500 transition-colors">{item.icon}</span>
                 <div>
-                  <h4 className="font-bold text-sm text-white">{item.title}</h4>
-                  <p className="text-xs text-slate-500">{item.sub}</p>
+                  <h4 className="font-bold text-sm text-white">{t(item.titleKey)}</h4>
+                  <p className="text-xs text-slate-500">{t(item.subKey)}</p>
                 </div>
               </div>
             ))}
@@ -239,16 +241,16 @@ const HomePage: React.FC = () => {
                <div className="flex flex-wrap items-center gap-6">
                  <h2 className="text-4xl font-black text-white italic tracking-tighter flex items-center gap-3 drop-shadow-md">
                     <span className="material-symbols-outlined text-red-500 text-4xl animate-pulse">local_fire_department</span>
-                    FLASH SALE
+                    {t('home.flashSale.title')}
                  </h2>
                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest pt-1">Kết thúc sau</span>
+                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest pt-1">{t('home.flashSale.endsIn')}</span>
                     {formatTime(timeLeft)}
                  </div>
                </div>
                {/* UPDATED: Link points to filtered catalog */}
                <Link to="/catalog?filter=flash-sale" className="text-sm font-bold text-white hover:text-red-500 flex items-center gap-1 transition-colors group">
-                  Xem tất cả <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                  {t('home.flashSale.viewAll')} <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
                </Link>
             </div>
 
@@ -277,7 +279,7 @@ const HomePage: React.FC = () => {
             ) : (
               <div className="text-center py-12 text-slate-500">
                 <span className="material-symbols-outlined text-4xl mb-2 block">inventory_2</span>
-                <p>Chưa có sản phẩm flash sale</p>
+                <p>{t('home.flashSale.noProducts')}</p>
               </div>
             )}
           </div>
@@ -288,7 +290,7 @@ const HomePage: React.FC = () => {
       <section className="py-12 px-4 bg-[#0a0a0a] border-y border-white/5 mb-12 relative overflow-hidden">
         <div className="mx-auto max-w-[1440px] relative z-10">
            <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
-             <span className="material-symbols-outlined text-red-500">category</span> Danh mục nổi bật
+             <span className="material-symbols-outlined text-red-500">category</span> {t('home.categories.title')}
            </h3>
            <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
               {categories.map((cat, i) => (
@@ -296,7 +298,7 @@ const HomePage: React.FC = () => {
                   <div className="size-20 rounded-2xl bg-[#151515] border border-white/10 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-all shadow-lg">
                     <span className="material-symbols-outlined text-3xl text-zinc-500 group-hover:text-white transition-colors">{cat.icon}</span>
                   </div>
-                  <span className="text-xs font-bold text-zinc-500 group-hover:text-white text-center transition-colors uppercase">{cat.name}</span>
+                  <span className="text-xs font-bold text-zinc-500 group-hover:text-white text-center transition-colors uppercase">{t(cat.nameKey)}</span>
                 </Link>
               ))}
            </div>
@@ -309,7 +311,7 @@ const HomePage: React.FC = () => {
           <div className="flex items-center justify-between mb-6 border-b border-border-dark pb-4">
              <h3 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-2">
                <span className="material-symbols-outlined text-primary">new_releases</span>
-               Sản phẩm mới về
+               {t('home.newArrivals.title')}
              </h3>
              <div className="flex gap-2">
                 <button 
@@ -320,7 +322,7 @@ const HomePage: React.FC = () => {
                     : 'bg-surface-dark border border-border-dark text-slate-400 hover:text-white hover:border-white'
                   }`}
                 >
-                  Mới nhất
+                  {t('home.newArrivals.latest')}
                 </button>
                 <button 
                   onClick={() => setActiveTab('best')}
@@ -330,7 +332,7 @@ const HomePage: React.FC = () => {
                     : 'bg-surface-dark border border-border-dark text-slate-400 hover:text-white hover:border-white'
                   }`}
                 >
-                  Bán chạy
+                  {t('home.newArrivals.bestSelling')}
                 </button>
              </div>
           </div>
@@ -356,7 +358,7 @@ const HomePage: React.FC = () => {
           ) : (
             <div className="text-center py-12 text-slate-500">
               <span className="material-symbols-outlined text-4xl mb-2 block">new_releases</span>
-              <p>Chưa có sản phẩm mới</p>
+              <p>{t('home.newArrivals.noProducts')}</p>
             </div>
           )}
         </div>
@@ -371,17 +373,17 @@ const HomePage: React.FC = () => {
            >
               
               {/* Promo Label */}
-              <div className="absolute top-6 left-8 flex items-center gap-2 opacity-70">
+                 <div className="absolute top-6 left-8 flex items-center gap-2 opacity-70">
                  <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" className="w-5 h-5 invert" alt="Promo" />
-                 <span className="text-white font-bold text-xs tracking-widest uppercase">Promo</span>
+                 <span className="text-white font-bold text-xs tracking-widest uppercase">{t('home.banner.promo')}</span>
               </div>
 
               {/* Content */}
               <div className="relative z-10 px-4">
-                 <h3 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-tighter">Setup góc máy mơ ước</h3>
-                 <p className="text-slate-400 font-medium mb-8 text-sm sm:text-base">Giảm thêm 5% khi mua Combo (Bàn + Ghế + Gear)</p>
+                 <h3 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-tighter">{t('home.banner.title')}</h3>
+                 <p className="text-slate-400 font-medium mb-8 text-sm sm:text-base">{t('home.banner.subtitle')}</p>
                  <button className="px-12 py-3.5 rounded-2xl border border-white text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
-                   Xem Combo
+                   {t('home.banner.viewCombo')}
                  </button>
               </div>
            </div>
@@ -394,9 +396,9 @@ const HomePage: React.FC = () => {
           <div className="flex items-center justify-between mb-6 border-b border-border-dark pb-4">
              <h3 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-2">
                <span className="material-symbols-outlined text-red-400">laptop_chromebook</span>
-               Laptop Gaming & Đồ họa
+               {t('home.laptops.title')}
              </h3>
-             <Link to="/catalog" className="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest">Xem tất cả</Link>
+             <Link to="/catalog" className="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest">{t('home.laptops.viewAll')}</Link>
           </div>
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 sm:gap-6">
@@ -427,14 +429,14 @@ const HomePage: React.FC = () => {
           
           <div className="mt-12 text-center">
              <Link to="/catalog">
-               <Button
+              <Button
                  variant="outline"
                  size="lg"
                  className="w-full sm:w-auto px-16 border-border-dark text-slate-400 hover:text-white hover:border-white hover:bg-white/5"
                >
-                 {totalProducts > 0
-                   ? `Xem thêm ${Math.max(totalProducts - laptopProducts.length, 0)} sản phẩm khác`
-                   : 'Xem thêm sản phẩm khác'}
+                {totalProducts > 0
+                  ? t('home.laptops.viewMore', { count: Math.max(totalProducts - laptopProducts.length, 0) })
+                  : t('home.laptops.viewAll')}
                </Button>
              </Link>
           </div>

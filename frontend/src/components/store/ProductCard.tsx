@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useToast } from '@contexts/ToastContext';
 import { useCart } from '@contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface ProductCardProps {
   id: string | number;
@@ -28,6 +29,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isAdded, setIsAdded] = useState(false);
   const toast = useToast();
   const { addToCart, activeOperations } = useCart();
+  const { t } = useTranslation();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -146,7 +148,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   ? 'bg-gray-500 border-gray-500 text-white cursor-not-allowed'
                   : 'bg-surface-accent border-transparent text-text-main hover:border-primary hover:text-primary hover:bg-white'
               }`}
-              title="Thêm vào giỏ"
+              title={t('product.addToCartTitle', { defaultValue: 'Thêm vào giỏ' })}
             >
               {activeOperations.has(`add-${id}`) ? (
                 <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
@@ -162,7 +164,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               className="flex-1 h-10 rounded-lg bg-primary text-white font-bold text-xs uppercase tracking-wider hover:bg-primary-dark shadow-lg shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-1"
             >
               <span className="material-symbols-outlined">bolt</span>
-              Mua ngay
+              {t('product.buyNow', { defaultValue: 'Mua ngay' })}
             </button>
           </div>
         </div>

@@ -1,0 +1,3617 @@
+{
+  "generatedAt": "2025-12-25T17:57:23.122Z",
+  "count": 504,
+  "items": [
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\DashboardCard.tsx",
+      "line": 33,
+      "type": "jsx_text",
+      "text": "so với tháng trước",
+      "suggestedKey": "components.admin.DashboardCard.text.so_vi_thng_trc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 52,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Preview",
+      "suggestedKey": "components.admin.products.ProductForm.alt.preview"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 58,
+      "type": "jsx_text",
+      "text": "Tải ảnh lên",
+      "suggestedKey": "components.admin.products.ProductForm.text.ti_nh_ln"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 59,
+      "type": "jsx_text",
+      "text": "Hỗ trợ JPG, PNG (Max 5MB)",
+      "suggestedKey": "components.admin.products.ProductForm.text.h_tr_jpg_png_max_5mb"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 71,
+      "type": "jsx_text",
+      "text": "Tồn kho hiện tại",
+      "suggestedKey": "components.admin.products.ProductForm.text.tn_kho_hin_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 81,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Ví dụ: RTX 4090 Gaming OC...",
+      "suggestedKey": "components.admin.products.ProductForm.placeholder.v_d_rtx_4090_gaming_oc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 89,
+      "type": "jsx_text",
+      "text": "Thương hiệu",
+      "suggestedKey": "components.admin.products.ProductForm.text.thng_hiu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 95,
+      "type": "jsx_text",
+      "text": "Chọn thương hiệu",
+      "suggestedKey": "components.admin.products.ProductForm.text.chn_thng_hiu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 106,
+      "type": "jsx_text",
+      "text": "Danh mục",
+      "suggestedKey": "components.admin.products.ProductForm.text.danh_mc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 112,
+      "type": "jsx_text",
+      "text": "Chọn danh mục",
+      "suggestedKey": "components.admin.products.ProductForm.text.chn_danh_mc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 114,
+      "type": "jsx_text",
+      "text": "Linh kiện PC",
+      "suggestedKey": "components.admin.products.ProductForm.text.linh_kin_pc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 115,
+      "type": "jsx_text",
+      "text": "Phụ kiện",
+      "suggestedKey": "components.admin.products.ProductForm.text.ph_kin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 116,
+      "type": "jsx_text",
+      "text": "Bàn phím",
+      "suggestedKey": "components.admin.products.ProductForm.text.bn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 126,
+      "type": "jsx_text",
+      "text": "Thiết lập giá & Sale",
+      "suggestedKey": "components.admin.products.ProductForm.text.thit_lp_gi__sale"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 139,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "0",
+      "suggestedKey": "components.admin.products.ProductForm.placeholder.0"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 143,
+      "type": "jsx_text",
+      "text": "Nhập giá này cao hơn giá bán để tạo Sale",
+      "suggestedKey": "components.admin.products.ProductForm.text.nhp_gi_ny_cao_hn_gi_bn__to_sale"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 149,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "0",
+      "suggestedKey": "components.admin.products.ProductForm.placeholder.0"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 158,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "0",
+      "suggestedKey": "components.admin.products.ProductForm.placeholder.0"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 172,
+      "type": "jsx_text",
+      "text": "Sản phẩm sẽ hiển thị nhãn giảm giá trên cửa hàng.",
+      "suggestedKey": "components.admin.products.ProductForm.text.sn_phm_s_hin_th_nhn_gim_gi_trn_ca_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 176,
+      "type": "jsx_text",
+      "text": "Flash Sale",
+      "suggestedKey": "components.admin.products.ProductForm.text.flash_sale"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\admin\\products\\ProductForm.tsx",
+      "line": 182,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Nhập thông tin chi tiết...",
+      "suggestedKey": "components.admin.products.ProductForm.placeholder.nhp_thng_tin_chi_tit"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 62,
+      "type": "jsx_text",
+      "text": "Sản phẩm",
+      "suggestedKey": "components.layout.Footer.text.sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 64,
+      "type": "jsx_text",
+      "text": "Laptop Gaming",
+      "suggestedKey": "components.layout.Footer.text.laptop_gaming"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 65,
+      "type": "jsx_text",
+      "text": "PC Workstation",
+      "suggestedKey": "components.layout.Footer.text.pc_workstation"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 66,
+      "type": "jsx_text",
+      "text": "Linh kiện máy tính",
+      "suggestedKey": "components.layout.Footer.text.linh_kin_my_tnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 67,
+      "type": "jsx_text",
+      "text": "Gaming Gear",
+      "suggestedKey": "components.layout.Footer.text.gaming_gear"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 68,
+      "type": "jsx_text",
+      "text": "Phụ kiện Apple",
+      "suggestedKey": "components.layout.Footer.text.ph_kin_apple"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 74,
+      "type": "jsx_text",
+      "text": "Chính sách",
+      "suggestedKey": "components.layout.Footer.text.chnh_sch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 76,
+      "type": "jsx_text",
+      "text": "Chính sách bảo hành",
+      "suggestedKey": "components.layout.Footer.text.chnh_sch_bo_hnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 77,
+      "type": "jsx_text",
+      "text": "Vận chuyển & Giao nhận",
+      "suggestedKey": "components.layout.Footer.text.vn_chuyn__giao_nhn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 78,
+      "type": "jsx_text",
+      "text": "Chính sách thanh toán",
+      "suggestedKey": "components.layout.Footer.text.chnh_sch_thanh_ton"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 79,
+      "type": "jsx_text",
+      "text": "Bảo mật thông tin",
+      "suggestedKey": "components.layout.Footer.text.bo_mt_thng_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 85,
+      "type": "jsx_text",
+      "text": "Đăng ký nhận tin",
+      "suggestedKey": "components.layout.Footer.text.ng_k_nhn_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 86,
+      "type": "jsx_text",
+      "text": "Nhận thông tin khuyến mãi và mã giảm giá sớm nhất.",
+      "suggestedKey": "components.layout.Footer.text.nhn_thng_tin_khuyn_mi_v_m_gim_gi_sm_nht"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 87,
+      "type": "toast",
+      "text": "Cảm ơn bạn đã đăng ký!",
+      "suggestedKey": "components.layout.Footer.toast.cm_n_bn__ng_k"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 88,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Email của bạn",
+      "suggestedKey": "components.layout.Footer.placeholder.email_ca_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 94,
+      "type": "jsx_text",
+      "text": "Thanh toán",
+      "suggestedKey": "components.layout.Footer.text.thanh_ton"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 96,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Visa",
+      "suggestedKey": "components.layout.Footer.alt.visa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 97,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Mastercard",
+      "suggestedKey": "components.layout.Footer.alt.mastercard"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 98,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Paypal",
+      "suggestedKey": "components.layout.Footer.alt.paypal"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 105,
+      "type": "jsx_text",
+      "text": "© 2024 TechStore Vietnam. All rights reserved.",
+      "suggestedKey": "components.layout.Footer.text.2024_techstore_vietnam_all_rights_reserved"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 107,
+      "type": "jsx_text",
+      "text": "Điều khoản",
+      "suggestedKey": "components.layout.Footer.text.iu_khon"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Footer.tsx",
+      "line": 108,
+      "type": "jsx_text",
+      "text": "Quyền riêng tư",
+      "suggestedKey": "components.layout.Footer.text.quyn_ring_t"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 93,
+      "type": "jsx_text",
+      "text": "Hotline: 1900 1234",
+      "suggestedKey": "components.layout.Navbar.text.hotline_1900_1234"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 94,
+      "type": "jsx_text",
+      "text": "Email: support@techstore.vn",
+      "suggestedKey": "components.layout.Navbar.text.email_supporttechstorevn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 98,
+      "type": "jsx_text",
+      "text": "Kênh người bán",
+      "suggestedKey": "components.layout.Navbar.text.knh_ngi_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 116,
+      "type": "jsx_text",
+      "text": "Premium Gear",
+      "suggestedKey": "components.layout.Navbar.text.premium_gear"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 179,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Thông báo",
+      "suggestedKey": "components.layout.Navbar.title.thng_bo"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 192,
+      "type": "jsx_text",
+      "text": "0 &&",
+      "suggestedKey": "components.layout.Navbar.text.0"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 248,
+      "type": "jsx_text",
+      "text": "Chưa có thông báo nào",
+      "suggestedKey": "components.layout.Navbar.text.cha_c_thng_bo_no"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\layout\\Navbar.tsx",
+      "line": 352,
+      "type": "jsx_text",
+      "text": "Đăng nhập",
+      "suggestedKey": "components.layout.Navbar.text.ng_nhp"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\store\\ProductCard.tsx",
+      "line": 149,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Thêm vào giỏ",
+      "suggestedKey": "components.store.ProductCard.title.thm_vo_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\ui\\LoadingSpinner.tsx",
+      "line": 26,
+      "type": "attribute",
+      "attr": "aria-label",
+      "text": "Loading",
+      "suggestedKey": "components.ui.LoadingSpinner.aria-label.loading"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\ui\\Popup.tsx",
+      "line": 38,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Popup Ad",
+      "suggestedKey": "components.ui.Popup.alt.popup_ad"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\ui\\ZaloChat.tsx",
+      "line": 13,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Chat với Zalo OA",
+      "suggestedKey": "components.ui.ZaloChat.title.chat_vi_zalo_oa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\ui\\ZaloChat.tsx",
+      "line": 15,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Zalo",
+      "suggestedKey": "components.ui.ZaloChat.alt.zalo"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\ui\\ZaloChat.tsx",
+      "line": 17,
+      "type": "jsx_text",
+      "text": "Chat với chúng tôi",
+      "suggestedKey": "components.ui.ZaloChat.text.chat_vi_chng_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\components\\ui\\ZaloChat.tsx",
+      "line": 18,
+      "type": "jsx_text",
+      "text": "Zalo OA",
+      "suggestedKey": "components.ui.ZaloChat.text.zalo_oa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\contexts\\CartContext.tsx",
+      "line": 260,
+      "type": "toast",
+      "text": "Giỏ hàng đã được cập nhật",
+      "suggestedKey": "contexts.CartContext.toast.gi_hng__c_cp_nht"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\contexts\\CartContext.tsx",
+      "line": 266,
+      "type": "toast",
+      "text": "Giỏ hàng đã được xóa",
+      "suggestedKey": "contexts.CartContext.toast.gi_hng__c_xa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\contexts\\CartContext.tsx",
+      "line": 272,
+      "type": "toast",
+      "text": "Không thể xử lý dữ liệu giỏ hàng",
+      "suggestedKey": "contexts.CartContext.toast.khng_th_x_l_d_liu_gi_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\i18n\\example.tsx",
+      "line": 41,
+      "type": "jsx_text",
+      "text": "Common translations:",
+      "suggestedKey": "i18n.example.text.common_translations"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\i18n\\example.tsx",
+      "line": 46,
+      "type": "jsx_text",
+      "text": "Navigation:",
+      "suggestedKey": "i18n.example.text.navigation"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\i18n\\example.tsx",
+      "line": 51,
+      "type": "jsx_text",
+      "text": "Authentication:",
+      "suggestedKey": "i18n.example.text.authentication"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\i18n\\example.tsx",
+      "line": 56,
+      "type": "jsx_text",
+      "text": "With interpolation:",
+      "suggestedKey": "i18n.example.text.with_interpolation"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\i18n\\example.tsx",
+      "line": 61,
+      "type": "jsx_text",
+      "text": "Error messages:",
+      "suggestedKey": "i18n.example.text.error_messages"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\i18n\\example.tsx",
+      "line": 66,
+      "type": "jsx_text",
+      "text": "Success messages:",
+      "suggestedKey": "i18n.example.text.success_messages"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 69,
+      "type": "jsx_text",
+      "text": "= weekAgo && date",
+      "suggestedKey": "layouts.AdminLayout.text.weekago__date"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 75,
+      "type": "jsx_text",
+      "text": "= monthAgo && date",
+      "suggestedKey": "layouts.AdminLayout.text.monthago__date"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 153,
+      "type": "jsx_text",
+      "text": "Quản trị Hệ thống",
+      "suggestedKey": "layouts.AdminLayout.text.qun_tr_h_thng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 161,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Tìm nhanh...",
+      "suggestedKey": "layouts.AdminLayout.placeholder.tm_nhanh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 172,
+      "type": "jsx_text",
+      "text": "Tất cả thời gian",
+      "suggestedKey": "layouts.AdminLayout.text.tt_c_thi_gian"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 173,
+      "type": "jsx_text",
+      "text": "Hôm nay",
+      "suggestedKey": "layouts.AdminLayout.text.hm_nay"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 174,
+      "type": "jsx_text",
+      "text": "7 ngày qua",
+      "suggestedKey": "layouts.AdminLayout.text.7_ngy_qua"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 175,
+      "type": "jsx_text",
+      "text": "Tháng này",
+      "suggestedKey": "layouts.AdminLayout.text.thng_ny"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 196,
+      "type": "jsx_text",
+      "text": "Thông báo",
+      "suggestedKey": "layouts.AdminLayout.text.thng_bo"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 235,
+      "type": "jsx_text",
+      "text": "Không có thông báo mới",
+      "suggestedKey": "layouts.AdminLayout.text.khng_c_thng_bo_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 260,
+      "type": "jsx_text",
+      "text": "Admin User",
+      "suggestedKey": "layouts.AdminLayout.text.admin_user"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\layouts\\AdminLayout.tsx",
+      "line": 269,
+      "type": "jsx_text",
+      "text": "Admin User",
+      "suggestedKey": "layouts.AdminLayout.text.admin_user"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 74,
+      "type": "toast",
+      "text": "Xóa tài khoản thành công!",
+      "suggestedKey": "pages.admin.Accounts.toast.xa_ti_khon_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 78,
+      "type": "toast",
+      "text": "Xóa tài khoản thất bại. Vui lòng thử lại.",
+      "suggestedKey": "pages.admin.Accounts.toast.xa_ti_khon_tht_bi_vui_lng_th_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 85,
+      "type": "toast",
+      "text": "Đã tạo tài khoản mới!",
+      "suggestedKey": "pages.admin.Accounts.toast.to_ti_khon_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 90,
+      "type": "toast",
+      "text": "Đã lưu thay đổi!",
+      "suggestedKey": "pages.admin.Accounts.toast.lu_thay_i"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 121,
+      "type": "jsx_text",
+      "text": "Quản Lý Tài Khoản",
+      "suggestedKey": "pages.admin.Accounts.text.qun_l_ti_khon"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 122,
+      "type": "jsx_text",
+      "text": "Quản lý quyền truy cập và nhân viên hệ thống",
+      "suggestedKey": "pages.admin.Accounts.text.qun_l_quyn_truy_cp_v_nhn_vin_h_thng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 138,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Tìm tên nhân viên, email...",
+      "suggestedKey": "pages.admin.Accounts.placeholder.tm_tn_nhn_vin_email"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 149,
+      "type": "jsx_text",
+      "text": "Tất cả vai trò",
+      "suggestedKey": "pages.admin.Accounts.text.tt_c_vai_tr"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 160,
+      "type": "jsx_text",
+      "text": "Tất cả trạng thái",
+      "suggestedKey": "pages.admin.Accounts.text.tt_c_trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 161,
+      "type": "jsx_text",
+      "text": "Đang hoạt động",
+      "suggestedKey": "pages.admin.Accounts.text.ang_hot_ng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 162,
+      "type": "jsx_text",
+      "text": "Đã khóa",
+      "suggestedKey": "pages.admin.Accounts.text.kha"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 172,
+      "type": "jsx_text",
+      "text": "Người dùng",
+      "suggestedKey": "pages.admin.Accounts.text.ngi_dng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 173,
+      "type": "jsx_text",
+      "text": "Vai trò",
+      "suggestedKey": "pages.admin.Accounts.text.vai_tr"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 174,
+      "type": "jsx_text",
+      "text": "Trạng thái",
+      "suggestedKey": "pages.admin.Accounts.text.trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 175,
+      "type": "jsx_text",
+      "text": "Đăng nhập cuối",
+      "suggestedKey": "pages.admin.Accounts.text.ng_nhp_cui"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 176,
+      "type": "jsx_text",
+      "text": "Thao tác",
+      "suggestedKey": "pages.admin.Accounts.text.thao_tc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 235,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Thêm Tài Khoản Mới",
+      "suggestedKey": "pages.admin.Accounts.title.thm_ti_khon_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 238,
+      "type": "jsx_text",
+      "text": "Hủy bỏ",
+      "suggestedKey": "pages.admin.Accounts.text.hy_b"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 239,
+      "type": "jsx_text",
+      "text": "Tạo tài khoản",
+      "suggestedKey": "pages.admin.Accounts.text.to_ti_khon"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 249,
+      "type": "jsx_text",
+      "text": "Lưu ý bảo mật",
+      "suggestedKey": "pages.admin.Accounts.text.lu__bo_mt"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 250,
+      "type": "jsx_text",
+      "text": "Mật khẩu mặc định sẽ được gửi vào email của nhân viên. Yêu cầu đổi mật khẩu trong lần đăng nhập đầu tiên.",
+      "suggestedKey": "pages.admin.Accounts.text.mt_khu_mc_nh_s_c_gi_vo_email_ca_nhn_vin_yu_cu_i_mt_khu_trong"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 254,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Nhập tên nhân viên...",
+      "suggestedKey": "pages.admin.Accounts.placeholder.nhp_tn_nhn_vin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 255,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "email@techstore.vn",
+      "suggestedKey": "pages.admin.Accounts.placeholder.emailtechstorevn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 259,
+      "type": "jsx_text",
+      "text": "Phân quyền",
+      "suggestedKey": "pages.admin.Accounts.text.phn_quyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 268,
+      "type": "jsx_text",
+      "text": "Phòng ban",
+      "suggestedKey": "pages.admin.Accounts.text.phng_ban"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 270,
+      "type": "jsx_text",
+      "text": "Kinh doanh",
+      "suggestedKey": "pages.admin.Accounts.text.kinh_doanh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 271,
+      "type": "jsx_text",
+      "text": "Kỹ thuật",
+      "suggestedKey": "pages.admin.Accounts.text.k_thut"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 272,
+      "type": "jsx_text",
+      "text": "Kho vận",
+      "suggestedKey": "pages.admin.Accounts.text.kho_vn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 284,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Chỉnh Sửa Tài Khoản",
+      "suggestedKey": "pages.admin.Accounts.title.chnh_sa_ti_khon"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 287,
+      "type": "jsx_text",
+      "text": "Hủy bỏ",
+      "suggestedKey": "pages.admin.Accounts.text.hy_b"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 288,
+      "type": "jsx_text",
+      "text": "Lưu thay đổi",
+      "suggestedKey": "pages.admin.Accounts.text.lu_thay_i"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 306,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "090...",
+      "suggestedKey": "pages.admin.Accounts.placeholder.090"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 311,
+      "type": "jsx_text",
+      "text": "Phân quyền",
+      "suggestedKey": "pages.admin.Accounts.text.phn_quyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 324,
+      "type": "jsx_text",
+      "text": "Trạng thái",
+      "suggestedKey": "pages.admin.Accounts.text.trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 329,
+      "type": "jsx_text",
+      "text": "Đang hoạt động",
+      "suggestedKey": "pages.admin.Accounts.text.ang_hot_ng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Accounts.tsx",
+      "line": 330,
+      "type": "jsx_text",
+      "text": "Đã khóa",
+      "suggestedKey": "pages.admin.Accounts.text.kha"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 92,
+      "type": "toast",
+      "text": "Vui lòng điền tiêu đề và link ảnh",
+      "suggestedKey": "pages.admin.Banners.toast.vui_lng_in_tiu__v_link_nh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 119,
+      "type": "toast",
+      "text": "Đã lưu cấu hình Pop-up Banner thành công!",
+      "suggestedKey": "pages.admin.Banners.toast.lu_cu_hnh_pop-up_banner_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 126,
+      "type": "jsx_text",
+      "text": "Quản Lý Banner & Quảng Cáo",
+      "suggestedKey": "pages.admin.Banners.text.qun_l_banner__qung_co"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 127,
+      "type": "jsx_text",
+      "text": "Thay đổi nội dung hiển thị trên trang chủ",
+      "suggestedKey": "pages.admin.Banners.text.thay_i_ni_dung_hin_th_trn_trang_ch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 177,
+      "type": "jsx_text",
+      "text": "Sửa",
+      "suggestedKey": "pages.admin.Banners.text.sa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 178,
+      "type": "jsx_text",
+      "text": "Xóa",
+      "suggestedKey": "pages.admin.Banners.text.xa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 188,
+      "type": "jsx_text",
+      "text": "Cấu hình Pop-up",
+      "suggestedKey": "pages.admin.Banners.text.cu_hnh_pop-up"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 205,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "https://...",
+      "suggestedKey": "pages.admin.Banners.placeholder.https"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 211,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "/catalog",
+      "suggestedKey": "pages.admin.Banners.placeholder.catalog"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 216,
+      "type": "jsx_text",
+      "text": "Tần suất hiển thị",
+      "suggestedKey": "pages.admin.Banners.text.tn_sut_hin_th"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 222,
+      "type": "jsx_text",
+      "text": "1 lần mỗi phiên (Khuyên dùng)",
+      "suggestedKey": "pages.admin.Banners.text.1_ln_mi_phin_khuyn_dng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 223,
+      "type": "jsx_text",
+      "text": "Luôn hiện khi vào trang chủ",
+      "suggestedKey": "pages.admin.Banners.text.lun_hin_khi_vo_trang_ch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 225,
+      "type": "jsx_text",
+      "text": "* Phiên làm việc sẽ reset khi người dùng tắt trình duyệt.",
+      "suggestedKey": "pages.admin.Banners.text.phin_lm_vic_s_reset_khi_ngi_dng_tt_trnh_duyt"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 230,
+      "type": "jsx_text",
+      "text": "Lưu cấu hình",
+      "suggestedKey": "pages.admin.Banners.text.lu_cu_hnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 235,
+      "type": "jsx_text",
+      "text": "Xem trước hiển thị",
+      "suggestedKey": "pages.admin.Banners.text.xem_trc_hin_th"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 246,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Popup Preview",
+      "suggestedKey": "pages.admin.Banners.alt.popup_preview"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 250,
+      "type": "jsx_text",
+      "text": "Xem ngay",
+      "suggestedKey": "pages.admin.Banners.text.xem_ngay"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 255,
+      "type": "jsx_text",
+      "text": "POP-UP ĐANG TẮT",
+      "suggestedKey": "pages.admin.Banners.text.pop-up_ang_tt"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 270,
+      "type": "jsx_text",
+      "text": "Hủy bỏ",
+      "suggestedKey": "pages.admin.Banners.text.hy_b"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 271,
+      "type": "jsx_text",
+      "text": "Lưu Banner",
+      "suggestedKey": "pages.admin.Banners.text.lu_banner"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 278,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "VD: NEXT LEVEL GAMING...",
+      "suggestedKey": "pages.admin.Banners.placeholder.vd_next_level_gaming"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 284,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Mô tả chiến dịch...",
+      "suggestedKey": "pages.admin.Banners.placeholder.m_t_chin_dch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 292,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "VD: Flagship Series",
+      "suggestedKey": "pages.admin.Banners.placeholder.vd_flagship_series"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 298,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "VD: Mua ngay",
+      "suggestedKey": "pages.admin.Banners.placeholder.vd_mua_ngay"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 305,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "https://...",
+      "suggestedKey": "pages.admin.Banners.placeholder.https"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 311,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "/catalog",
+      "suggestedKey": "pages.admin.Banners.placeholder.catalog"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 318,
+      "type": "jsx_text",
+      "text": "Xem trước ảnh",
+      "suggestedKey": "pages.admin.Banners.text.xem_trc_nh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Banners.tsx",
+      "line": 319,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Preview",
+      "suggestedKey": "pages.admin.Banners.alt.preview"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 123,
+      "type": "toast",
+      "text": "Cập nhật khách hàng thành công!",
+      "suggestedKey": "pages.admin.Customers.toast.cp_nht_khch_hng_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 126,
+      "type": "toast",
+      "text": "Cập nhật khách hàng thất bại. Vui lòng thử lại.",
+      "suggestedKey": "pages.admin.Customers.toast.cp_nht_khch_hng_tht_bi_vui_lng_th_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 144,
+      "type": "jsx_text",
+      "text": "Quản Lý Khách Hàng",
+      "suggestedKey": "pages.admin.Customers.text.qun_l_khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 145,
+      "type": "jsx_text",
+      "text": "Quản lý thông tin và hoạt động của khách hàng",
+      "suggestedKey": "pages.admin.Customers.text.qun_l_thng_tin_v_hot_ng_ca_khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 154,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Tìm tên, email hoặc số điện thoại...",
+      "suggestedKey": "pages.admin.Customers.placeholder.tm_tn_email_hoc_s_in_thoi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 165,
+      "type": "jsx_text",
+      "text": "Tất cả trạng thái",
+      "suggestedKey": "pages.admin.Customers.text.tt_c_trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 186,
+      "type": "jsx_text",
+      "text": "Khách hàng",
+      "suggestedKey": "pages.admin.Customers.text.khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 187,
+      "type": "jsx_text",
+      "text": "Liên hệ",
+      "suggestedKey": "pages.admin.Customers.text.lin_h"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 188,
+      "type": "jsx_text",
+      "text": "Đơn hàng",
+      "suggestedKey": "pages.admin.Customers.text.n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 189,
+      "type": "jsx_text",
+      "text": "Tổng chi tiêu",
+      "suggestedKey": "pages.admin.Customers.text.tng_chi_tiu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 190,
+      "type": "jsx_text",
+      "text": "Trạng thái",
+      "suggestedKey": "pages.admin.Customers.text.trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 191,
+      "type": "jsx_text",
+      "text": "Thao tác",
+      "suggestedKey": "pages.admin.Customers.text.thao_tc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 227,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Gửi email",
+      "suggestedKey": "pages.admin.Customers.title.gi_email"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 234,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Chỉnh sửa",
+      "suggestedKey": "pages.admin.Customers.title.chnh_sa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 241,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Chặn/Xóa",
+      "suggestedKey": "pages.admin.Customers.title.chnxa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 272,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Hồ sơ khách hàng",
+      "suggestedKey": "pages.admin.Customers.title.h_s_khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 276,
+      "type": "jsx_text",
+      "text": "Hủy bỏ",
+      "suggestedKey": "pages.admin.Customers.text.hy_b"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 277,
+      "type": "jsx_text",
+      "text": "Lưu thay đổi",
+      "suggestedKey": "pages.admin.Customers.text.lu_thay_i"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 292,
+      "type": "jsx_text",
+      "text": "Hạng Vàng",
+      "suggestedKey": "pages.admin.Customers.text.hng_vng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 298,
+      "type": "jsx_text",
+      "text": "Đơn hàng",
+      "suggestedKey": "pages.admin.Customers.text.n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 302,
+      "type": "jsx_text",
+      "text": "Chi tiêu",
+      "suggestedKey": "pages.admin.Customers.text.chi_tiu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 331,
+      "type": "jsx_text",
+      "text": "Trạng thái tài khoản",
+      "suggestedKey": "pages.admin.Customers.text.trng_thi_ti_khon"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 337,
+      "type": "jsx_text",
+      "text": "Đang hoạt động (Active)",
+      "suggestedKey": "pages.admin.Customers.text.ang_hot_ng_active"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 338,
+      "type": "jsx_text",
+      "text": "Tạm ngưng (Inactive)",
+      "suggestedKey": "pages.admin.Customers.text.tm_ngng_inactive"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 339,
+      "type": "jsx_text",
+      "text": "Đã bị chặn (Banned)",
+      "suggestedKey": "pages.admin.Customers.text.b_chn_banned"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 344,
+      "type": "jsx_text",
+      "text": "Ghi chú quản trị viên",
+      "suggestedKey": "pages.admin.Customers.text.ghi_ch_qun_tr_vin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Customers.tsx",
+      "line": 347,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Thêm ghi chú về khách hàng này...",
+      "suggestedKey": "pages.admin.Customers.placeholder.thm_ghi_ch_v_khch_hng_ny"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 110,
+      "type": "jsx_text",
+      "text": "Dashboard Overview",
+      "suggestedKey": "pages.admin.Dashboard.text.dashboard_overview"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 116,
+      "type": "jsx_text",
+      "text": "Xuất báo cáo",
+      "suggestedKey": "pages.admin.Dashboard.text.xut_bo_co"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 117,
+      "type": "jsx_text",
+      "text": "Cập nhật",
+      "suggestedKey": "pages.admin.Dashboard.text.cp_nht"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 129,
+      "type": "jsx_text",
+      "text": "Thông báo mới",
+      "suggestedKey": "pages.admin.Dashboard.text.thng_bo_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 156,
+      "type": "jsx_text",
+      "text": "Tổng Doanh Thu",
+      "suggestedKey": "pages.admin.Dashboard.text.tng_doanh_thu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 172,
+      "type": "jsx_text",
+      "text": "Tổng Đơn Hàng",
+      "suggestedKey": "pages.admin.Dashboard.text.tng_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 186,
+      "type": "jsx_text",
+      "text": "Giá Trị Đơn TB",
+      "suggestedKey": "pages.admin.Dashboard.text.gi_tr_n_tb"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 204,
+      "type": "jsx_text",
+      "text": "Khách Hàng Mới",
+      "suggestedKey": "pages.admin.Dashboard.text.khch_hng_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 206,
+      "type": "jsx_text",
+      "text": "TODO: Load from API",
+      "suggestedKey": "pages.admin.Dashboard.text.todo_load_from_api"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 217,
+      "type": "jsx_text",
+      "text": "Biểu đồ doanh thu",
+      "suggestedKey": "pages.admin.Dashboard.text.biu__doanh_thu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 218,
+      "type": "jsx_text",
+      "text": "So sánh Doanh thu và Lợi nhuận gộp",
+      "suggestedKey": "pages.admin.Dashboard.text.so_snh_doanh_thu_v_li_nhun_gp"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 221,
+      "type": "jsx_text",
+      "text": "30 ngày qua",
+      "suggestedKey": "pages.admin.Dashboard.text.30_ngy_qua"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 222,
+      "type": "jsx_text",
+      "text": "7 ngày qua",
+      "suggestedKey": "pages.admin.Dashboard.text.7_ngy_qua"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 223,
+      "type": "jsx_text",
+      "text": "Năm nay",
+      "suggestedKey": "pages.admin.Dashboard.text.nm_nay"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 257,
+      "type": "jsx_text",
+      "text": "Tỷ trọng danh mục",
+      "suggestedKey": "pages.admin.Dashboard.text.t_trng_danh_mc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 258,
+      "type": "jsx_text",
+      "text": "Phân bổ doanh thu theo ngành hàng",
+      "suggestedKey": "pages.admin.Dashboard.text.phn_b_doanh_thu_theo_ngnh_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 262,
+      "type": "jsx_text",
+      "text": "45%",
+      "suggestedKey": "pages.admin.Dashboard.text.45"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 311,
+      "type": "jsx_text",
+      "text": "Xem tất cả",
+      "suggestedKey": "pages.admin.Dashboard.text.xem_tt_c"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 326,
+      "type": "jsx_text",
+      "text": "đã bán",
+      "suggestedKey": "pages.admin.Dashboard.text.bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 341,
+      "type": "jsx_text",
+      "text": "Xem tất cả",
+      "suggestedKey": "pages.admin.Dashboard.text.xem_tt_c"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 348,
+      "type": "jsx_text",
+      "text": "Mã đơn",
+      "suggestedKey": "pages.admin.Dashboard.text.m_n"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 349,
+      "type": "jsx_text",
+      "text": "Khách hàng",
+      "suggestedKey": "pages.admin.Dashboard.text.khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 350,
+      "type": "jsx_text",
+      "text": "Tổng tiền",
+      "suggestedKey": "pages.admin.Dashboard.text.tng_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Dashboard.tsx",
+      "line": 351,
+      "type": "jsx_text",
+      "text": "Trạng thái",
+      "suggestedKey": "pages.admin.Dashboard.text.trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Feedback.tsx",
+      "line": 41,
+      "type": "jsx_text",
+      "text": "Phản Hồi Khách Hàng",
+      "suggestedKey": "pages.admin.Feedback.text.phn_hi_khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Feedback.tsx",
+      "line": 45,
+      "type": "jsx_text",
+      "text": "Đang tải phản hồi...",
+      "suggestedKey": "pages.admin.Feedback.text.ang_ti_phn_hi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Feedback.tsx",
+      "line": 70,
+      "type": "jsx_text",
+      "text": "Phản hồi",
+      "suggestedKey": "pages.admin.Feedback.text.phn_hi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Feedback.tsx",
+      "line": 71,
+      "type": "jsx_text",
+      "text": "Ẩn",
+      "suggestedKey": "pages.admin.Feedback.text.n"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Feedback.tsx",
+      "line": 79,
+      "type": "jsx_text",
+      "text": "Chưa có phản hồi nào",
+      "suggestedKey": "pages.admin.Feedback.text.cha_c_phn_hi_no"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 147,
+      "type": "toast",
+      "text": "Đang xuất dữ liệu đơn hàng ra file Excel...",
+      "suggestedKey": "pages.admin.Orders.toast.ang_xut_d_liu_n_hng_ra_file_excel"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 177,
+      "type": "jsx_text",
+      "text": "Quản Lý Đơn Hàng",
+      "suggestedKey": "pages.admin.Orders.text.qun_l_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 178,
+      "type": "jsx_text",
+      "text": "Theo dõi và cập nhật trạng thái đơn hàng",
+      "suggestedKey": "pages.admin.Orders.text.theo_di_v_cp_nht_trng_thi_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 181,
+      "type": "toast",
+      "text": "Chức năng in danh sách đang được phát triển",
+      "suggestedKey": "pages.admin.Orders.toast.chc_nng_in_danh_sch_ang_c_pht_trin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 181,
+      "type": "jsx_text",
+      "text": "In hóa đơn",
+      "suggestedKey": "pages.admin.Orders.text.in_ha_n"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 182,
+      "type": "jsx_text",
+      "text": "Xuất dữ liệu",
+      "suggestedKey": "pages.admin.Orders.text.xut_d_liu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 191,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Tìm kiếm theo mã đơn, tên khách hàng...",
+      "suggestedKey": "pages.admin.Orders.placeholder.tm_kim_theo_m_n_tn_khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 202,
+      "type": "jsx_text",
+      "text": "Tất cả trạng thái",
+      "suggestedKey": "pages.admin.Orders.text.tt_c_trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 203,
+      "type": "jsx_text",
+      "text": "Chờ xác nhận",
+      "suggestedKey": "pages.admin.Orders.text.ch_xc_nhn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 204,
+      "type": "jsx_text",
+      "text": "Đã xác nhận",
+      "suggestedKey": "pages.admin.Orders.text.xc_nhn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 205,
+      "type": "jsx_text",
+      "text": "Đang giao hàng",
+      "suggestedKey": "pages.admin.Orders.text.ang_giao_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 206,
+      "type": "jsx_text",
+      "text": "Đã giao hàng",
+      "suggestedKey": "pages.admin.Orders.text.giao_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 207,
+      "type": "jsx_text",
+      "text": "Đã hủy",
+      "suggestedKey": "pages.admin.Orders.text.hy"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 217,
+      "type": "jsx_text",
+      "text": "Mã đơn hàng",
+      "suggestedKey": "pages.admin.Orders.text.m_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 218,
+      "type": "jsx_text",
+      "text": "Khách hàng",
+      "suggestedKey": "pages.admin.Orders.text.khch_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 219,
+      "type": "jsx_text",
+      "text": "Ngày đặt",
+      "suggestedKey": "pages.admin.Orders.text.ngy_t"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 220,
+      "type": "jsx_text",
+      "text": "Tổng tiền",
+      "suggestedKey": "pages.admin.Orders.text.tng_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 221,
+      "type": "jsx_text",
+      "text": "Trạng thái",
+      "suggestedKey": "pages.admin.Orders.text.trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 222,
+      "type": "jsx_text",
+      "text": "Hành động",
+      "suggestedKey": "pages.admin.Orders.text.hnh_ng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 263,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Xem chi tiết",
+      "suggestedKey": "pages.admin.Orders.title.xem_chi_tit"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 309,
+      "type": "jsx_text",
+      "text": "Không có đơn hàng nào trong khoảng thời gian này.",
+      "suggestedKey": "pages.admin.Orders.text.khng_c_n_hng_no_trong_khong_thi_gian_ny"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 333,
+      "type": "jsx_text",
+      "text": "Đóng",
+      "suggestedKey": "pages.admin.Orders.text.ng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 334,
+      "type": "jsx_text",
+      "text": "In phiếu giao hàng",
+      "suggestedKey": "pages.admin.Orders.text.in_phiu_giao_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 335,
+      "type": "jsx_text",
+      "text": "Cập nhật trạng thái",
+      "suggestedKey": "pages.admin.Orders.text.cp_nht_trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 352,
+      "type": "jsx_text",
+      "text": "Trạng thái hiện tại",
+      "suggestedKey": "pages.admin.Orders.text.trng_thi_hin_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 357,
+      "type": "jsx_text",
+      "text": "Ngày đặt hàng",
+      "suggestedKey": "pages.admin.Orders.text.ngy_t_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 375,
+      "type": "jsx_text",
+      "text": "Thành viên Vip",
+      "suggestedKey": "pages.admin.Orders.text.thnh_vin_vip"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 393,
+      "type": "jsx_text",
+      "text": "Điện thoại",
+      "suggestedKey": "pages.admin.Orders.text.in_thoi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 402,
+      "type": "jsx_text",
+      "text": "Địa chỉ giao hàng",
+      "suggestedKey": "pages.admin.Orders.text.a_ch_giao_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 403,
+      "type": "jsx_text",
+      "text": "123 Đường ABC, Quận 1, TP.HCM",
+      "suggestedKey": "pages.admin.Orders.text.123_ng_abc_qun_1_tphcm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 427,
+      "type": "jsx_text",
+      "text": "Bảo hành: 12 tháng",
+      "suggestedKey": "pages.admin.Orders.text.bo_hnh_12_thng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 442,
+      "type": "jsx_text",
+      "text": "Tạm tính",
+      "suggestedKey": "pages.admin.Orders.text.tm_tnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 446,
+      "type": "jsx_text",
+      "text": "Phí vận chuyển",
+      "suggestedKey": "pages.admin.Orders.text.ph_vn_chuyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 447,
+      "type": "jsx_text",
+      "text": "Miễn phí",
+      "suggestedKey": "pages.admin.Orders.text.min_ph"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 450,
+      "type": "jsx_text",
+      "text": "Thuế VAT (8%)",
+      "suggestedKey": "pages.admin.Orders.text.thu_vat_8"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 451,
+      "type": "jsx_text",
+      "text": "Đã bao gồm",
+      "suggestedKey": "pages.admin.Orders.text.bao_gm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Orders.tsx",
+      "line": 455,
+      "type": "jsx_text",
+      "text": "Tổng thanh toán",
+      "suggestedKey": "pages.admin.Orders.text.tng_thanh_ton"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 115,
+      "type": "toast",
+      "text": "Thêm sản phẩm thành công!",
+      "suggestedKey": "pages.admin.Products.toast.thm_sn_phm_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 119,
+      "type": "toast",
+      "text": "Thêm sản phẩm thất bại. Vui lòng thử lại.",
+      "suggestedKey": "pages.admin.Products.toast.thm_sn_phm_tht_bi_vui_lng_th_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 129,
+      "type": "toast",
+      "text": "Xóa sản phẩm thành công!",
+      "suggestedKey": "pages.admin.Products.toast.xa_sn_phm_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 131,
+      "type": "toast",
+      "text": "Xóa sản phẩm thất bại. Vui lòng thử lại.",
+      "suggestedKey": "pages.admin.Products.toast.xa_sn_phm_tht_bi_vui_lng_th_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 135,
+      "type": "toast",
+      "text": "Xóa sản phẩm thất bại. Vui lòng thử lại.",
+      "suggestedKey": "pages.admin.Products.toast.xa_sn_phm_tht_bi_vui_lng_th_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 153,
+      "type": "toast",
+      "text": "Cập nhật sản phẩm thành công!",
+      "suggestedKey": "pages.admin.Products.toast.cp_nht_sn_phm_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 178,
+      "type": "jsx_text",
+      "text": "= min && price",
+      "suggestedKey": "pages.admin.Products.text.min__price"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 200,
+      "type": "jsx_text",
+      "text": "Quản Lý Sản Phẩm",
+      "suggestedKey": "pages.admin.Products.text.qun_l_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 201,
+      "type": "jsx_text",
+      "text": "Cập nhật và theo dõi tồn kho thời gian thực",
+      "suggestedKey": "pages.admin.Products.text.cp_nht_v_theo_di_tn_kho_thi_gian_thc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 219,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Tìm kiếm sản phẩm theo tên...",
+      "suggestedKey": "pages.admin.Products.placeholder.tm_kim_sn_phm_theo_tn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 232,
+      "type": "jsx_text",
+      "text": "Tất cả danh mục",
+      "suggestedKey": "pages.admin.Products.text.tt_c_danh_mc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 234,
+      "type": "jsx_text",
+      "text": "Linh kiện PC",
+      "suggestedKey": "pages.admin.Products.text.linh_kin_pc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 235,
+      "type": "jsx_text",
+      "text": "Phụ kiện",
+      "suggestedKey": "pages.admin.Products.text.ph_kin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 236,
+      "type": "jsx_text",
+      "text": "Bàn phím",
+      "suggestedKey": "pages.admin.Products.text.bn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 237,
+      "type": "jsx_text",
+      "text": "Màn hình",
+      "suggestedKey": "pages.admin.Products.text.mn_hnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 245,
+      "type": "jsx_text",
+      "text": "Tất cả kho",
+      "suggestedKey": "pages.admin.Products.text.tt_c_kho"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 246,
+      "type": "jsx_text",
+      "text": "Còn hàng",
+      "suggestedKey": "pages.admin.Products.text.cn_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 247,
+      "type": "jsx_text",
+      "text": "Sắp hết",
+      "suggestedKey": "pages.admin.Products.text.sp_ht"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 248,
+      "type": "jsx_text",
+      "text": "Hết hàng",
+      "suggestedKey": "pages.admin.Products.text.ht_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 268,
+      "type": "jsx_text",
+      "text": "Thương hiệu",
+      "suggestedKey": "pages.admin.Products.text.thng_hiu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 274,
+      "type": "jsx_text",
+      "text": "Tất cả",
+      "suggestedKey": "pages.admin.Products.text.tt_c"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 286,
+      "type": "jsx_text",
+      "text": "Khoảng giá",
+      "suggestedKey": "pages.admin.Products.text.khong_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 290,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Từ...",
+      "suggestedKey": "pages.admin.Products.placeholder.t"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 298,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Đến...",
+      "suggestedKey": "pages.admin.Products.placeholder.n"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 332,
+      "type": "jsx_text",
+      "text": "Tên sản phẩm",
+      "suggestedKey": "pages.admin.Products.text.tn_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 333,
+      "type": "jsx_text",
+      "text": "Thương hiệu",
+      "suggestedKey": "pages.admin.Products.text.thng_hiu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 334,
+      "type": "jsx_text",
+      "text": "Giá bán",
+      "suggestedKey": "pages.admin.Products.text.gi_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 335,
+      "type": "jsx_text",
+      "text": "Tồn kho",
+      "suggestedKey": "pages.admin.Products.text.tn_kho"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 336,
+      "type": "jsx_text",
+      "text": "Trạng thái",
+      "suggestedKey": "pages.admin.Products.text.trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 337,
+      "type": "jsx_text",
+      "text": "Thao tác",
+      "suggestedKey": "pages.admin.Products.text.thao_tc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 440,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Thêm Sản Phẩm Mới",
+      "suggestedKey": "pages.admin.Products.title.thm_sn_phm_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 444,
+      "type": "jsx_text",
+      "text": "Hủy bỏ",
+      "suggestedKey": "pages.admin.Products.text.hy_b"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 445,
+      "type": "jsx_text",
+      "text": "Lưu sản phẩm",
+      "suggestedKey": "pages.admin.Products.text.lu_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 456,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Chỉnh Sửa Sản Phẩm",
+      "suggestedKey": "pages.admin.Products.title.chnh_sa_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 460,
+      "type": "jsx_text",
+      "text": "Hủy bỏ",
+      "suggestedKey": "pages.admin.Products.text.hy_b"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Products.tsx",
+      "line": 461,
+      "type": "jsx_text",
+      "text": "Lưu thay đổi",
+      "suggestedKey": "pages.admin.Products.text.lu_thay_i"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 54,
+      "type": "jsx_text",
+      "text": "Quản Lý Shipper",
+      "suggestedKey": "pages.admin.Shippers.text.qun_l_shipper"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 55,
+      "type": "jsx_text",
+      "text": "Theo dõi đội ngũ giao hàng",
+      "suggestedKey": "pages.admin.Shippers.text.theo_di_i_ng_giao_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 66,
+      "type": "jsx_text",
+      "text": "Đang tải danh sách shipper...",
+      "suggestedKey": "pages.admin.Shippers.text.ang_ti_danh_sch_shipper"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 83,
+      "type": "jsx_text",
+      "text": "Khu vực:",
+      "suggestedKey": "pages.admin.Shippers.text.khu_vc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 87,
+      "type": "jsx_text",
+      "text": "Đánh giá:",
+      "suggestedKey": "pages.admin.Shippers.text.nh_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 93,
+      "type": "jsx_text",
+      "text": "Hoàn thành:",
+      "suggestedKey": "pages.admin.Shippers.text.hon_thnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 104,
+      "type": "jsx_text",
+      "text": "Chi tiết",
+      "suggestedKey": "pages.admin.Shippers.text.chi_tit"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\admin\\Shippers.tsx",
+      "line": 112,
+      "type": "jsx_text",
+      "text": "Chưa có shipper nào",
+      "suggestedKey": "pages.admin.Shippers.text.cha_c_shipper_no"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 39,
+      "type": "jsx_text",
+      "text": "Xác thực Email",
+      "suggestedKey": "pages.auth.ForgotPassword.text.xc_thc_email"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 40,
+      "type": "jsx_text",
+      "text": "Mã OTP đã được gửi tới",
+      "suggestedKey": "pages.auth.ForgotPassword.text.m_otp__c_gi_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 99,
+      "type": "toast",
+      "text": "Mật khẩu đã được thay đổi thành công!",
+      "suggestedKey": "pages.auth.ForgotPassword.toast.mt_khu__c_thay_i_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 122,
+      "type": "jsx_text",
+      "text": "Quên mật khẩu?",
+      "suggestedKey": "pages.auth.ForgotPassword.text.qun_mt_khu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 123,
+      "type": "jsx_text",
+      "text": "Nhập email của bạn để nhận mã xác thực.",
+      "suggestedKey": "pages.auth.ForgotPassword.text.nhp_email_ca_bn__nhn_m_xc_thc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 129,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Email của bạn",
+      "suggestedKey": "pages.auth.ForgotPassword.placeholder.email_ca_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 146,
+      "type": "jsx_text",
+      "text": "Đặt lại mật khẩu",
+      "suggestedKey": "pages.auth.ForgotPassword.text.t_li_mt_khu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 147,
+      "type": "jsx_text",
+      "text": "Vui lòng nhập mật khẩu mới của bạn.",
+      "suggestedKey": "pages.auth.ForgotPassword.text.vui_lng_nhp_mt_khu_mi_ca_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 153,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Mật khẩu mới",
+      "suggestedKey": "pages.auth.ForgotPassword.placeholder.mt_khu_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\ForgotPassword.tsx",
+      "line": 184,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Xác nhận mật khẩu",
+      "suggestedKey": "pages.auth.ForgotPassword.placeholder.xc_nhn_mt_khu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 106,
+      "type": "jsx_text",
+      "text": "Xác thực OTP",
+      "suggestedKey": "pages.auth.Login.text.xc_thc_otp"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 211,
+      "type": "toast",
+      "text": "Đăng nhập thành công!",
+      "suggestedKey": "pages.auth.Login.toast.ng_nhp_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 225,
+      "type": "toast",
+      "text": "Vui lòng điền đầy đủ thông tin",
+      "suggestedKey": "pages.auth.Login.toast.vui_lng_in_y__thng_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 230,
+      "type": "toast",
+      "text": "Mật khẩu xác nhận không khớp",
+      "suggestedKey": "pages.auth.Login.toast.mt_khu_xc_nhn_khng_khp"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 235,
+      "type": "toast",
+      "text": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số",
+      "suggestedKey": "pages.auth.Login.toast.mt_khu_phi_c_t_nht_8_k_t_bao_gm_ch_hoa_ch_thng_v_s"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 245,
+      "type": "toast",
+      "text": "Username chỉ được chứa chữ cái, số, dấu gạch dưới và dấu gạch ngang",
+      "suggestedKey": "pages.auth.Login.toast.username_ch_c_cha_ch_ci_s_du_gch_di_v_du_gch_ngang"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 250,
+      "type": "toast",
+      "text": "Username phải có từ 3 đến 30 ký tự",
+      "suggestedKey": "pages.auth.Login.toast.username_phi_c_t_3_n_30_k_t"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 257,
+      "type": "toast",
+      "text": "Email không hợp lệ",
+      "suggestedKey": "pages.auth.Login.toast.email_khng_hp_l"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 277,
+      "type": "toast",
+      "text": "OTP đã được gửi đến email của bạn",
+      "suggestedKey": "pages.auth.Login.toast.otp__c_gi_n_email_ca_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 324,
+      "type": "toast",
+      "text": "Đăng ký thành công!",
+      "suggestedKey": "pages.auth.Login.toast.ng_k_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 341,
+      "type": "toast",
+      "text": "OTP đã được gửi lại",
+      "suggestedKey": "pages.auth.Login.toast.otp__c_gi_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 356,
+      "type": "jsx_text",
+      "text": "Back to Home",
+      "suggestedKey": "pages.auth.Login.text.back_to_home"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 381,
+      "type": "jsx_text",
+      "text": "Create Account",
+      "suggestedKey": "pages.auth.Login.text.create_account"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 382,
+      "type": "jsx_text",
+      "text": "Join us to explore premium PC components",
+      "suggestedKey": "pages.auth.Login.text.join_us_to_explore_premium_pc_components"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 387,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Username",
+      "suggestedKey": "pages.auth.Login.placeholder.username"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 393,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Email Address",
+      "suggestedKey": "pages.auth.Login.placeholder.email_address"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 401,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Password",
+      "suggestedKey": "pages.auth.Login.placeholder.password"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 440,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Confirm Password",
+      "suggestedKey": "pages.auth.Login.placeholder.confirm_password"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 458,
+      "type": "jsx_text",
+      "text": "Sign In",
+      "suggestedKey": "pages.auth.Login.text.sign_in"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 472,
+      "type": "jsx_text",
+      "text": "Welcome Back!",
+      "suggestedKey": "pages.auth.Login.text.welcome_back"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 473,
+      "type": "jsx_text",
+      "text": "Sign in to access your tech dashboard",
+      "suggestedKey": "pages.auth.Login.text.sign_in_to_access_your_tech_dashboard"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 478,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Email Address",
+      "suggestedKey": "pages.auth.Login.placeholder.email_address"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 485,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Password",
+      "suggestedKey": "pages.auth.Login.placeholder.password"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 495,
+      "type": "jsx_text",
+      "text": "Remember me",
+      "suggestedKey": "pages.auth.Login.text.remember_me"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 497,
+      "type": "jsx_text",
+      "text": "Forgot Password?",
+      "suggestedKey": "pages.auth.Login.text.forgot_password"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 511,
+      "type": "jsx_text",
+      "text": "Create Account",
+      "suggestedKey": "pages.auth.Login.text.create_account"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 534,
+      "type": "jsx_text",
+      "text": "Premium Gear for Pros",
+      "suggestedKey": "pages.auth.Login.text.premium_gear_for_pros"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 544,
+      "type": "jsx_text",
+      "text": "Fast Shipping",
+      "suggestedKey": "pages.auth.Login.text.fast_shipping"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 545,
+      "type": "jsx_text",
+      "text": "Nationwide delivery within 24h",
+      "suggestedKey": "pages.auth.Login.text.nationwide_delivery_within_24h"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 553,
+      "type": "jsx_text",
+      "text": "Genuine Product",
+      "suggestedKey": "pages.auth.Login.text.genuine_product"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 554,
+      "type": "jsx_text",
+      "text": "100% Authentic Warranty",
+      "suggestedKey": "pages.auth.Login.text.100_authentic_warranty"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 565,
+      "type": "jsx_text",
+      "text": "Join Us",
+      "suggestedKey": "pages.auth.Login.text.join_us"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 566,
+      "type": "jsx_text",
+      "text": "Level Up Your Setup",
+      "suggestedKey": "pages.auth.Login.text.level_up_your_setup"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 575,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "User",
+      "suggestedKey": "pages.auth.Login.alt.user"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\auth\\Login.tsx",
+      "line": 577,
+      "type": "jsx_text",
+      "text": "Alex Designer",
+      "suggestedKey": "pages.auth.Login.text.alex_designer"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 24,
+      "type": "jsx_text",
+      "text": "Giỏ hàng trống",
+      "suggestedKey": "pages.store.Cart.text.gi_hng_trng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 25,
+      "type": "jsx_text",
+      "text": "Có vẻ như bạn chưa thêm sản phẩm nào. Hãy khám phá danh mục của chúng tôi để tìm món đồ ưng ý.",
+      "suggestedKey": "pages.store.Cart.text.c_v_nh_bn_cha_thm_sn_phm_no_hy_khm_ph_danh_mc_ca_chng_ti__tm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 27,
+      "type": "jsx_text",
+      "text": "Quay lại mua sắm",
+      "suggestedKey": "pages.store.Cart.text.quay_li_mua_sm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 36,
+      "type": "jsx_text",
+      "text": "Giỏ hàng của bạn",
+      "suggestedKey": "pages.store.Cart.text.gi_hng_ca_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 80,
+      "type": "jsx_text",
+      "text": "Đơn giá",
+      "suggestedKey": "pages.store.Cart.text.n_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 86,
+      "type": "jsx_text",
+      "text": "Số lượng",
+      "suggestedKey": "pages.store.Cart.text.s_lng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 96,
+      "type": "jsx_text",
+      "text": "Thành tiền",
+      "suggestedKey": "pages.store.Cart.text.thnh_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 104,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Xóa sản phẩm",
+      "suggestedKey": "pages.store.Cart.title.xa_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 127,
+      "type": "jsx_text",
+      "text": "Tổng giá trị hàng",
+      "suggestedKey": "pages.store.Cart.text.tng_gi_tr_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 131,
+      "type": "jsx_text",
+      "text": "Khuyến mãi",
+      "suggestedKey": "pages.store.Cart.text.khuyn_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 132,
+      "type": "jsx_text",
+      "text": "-0₫",
+      "suggestedKey": "pages.store.Cart.text.-0"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 135,
+      "type": "jsx_text",
+      "text": "Vận chuyển",
+      "suggestedKey": "pages.store.Cart.text.vn_chuyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 136,
+      "type": "jsx_text",
+      "text": "Miễn phí",
+      "suggestedKey": "pages.store.Cart.text.min_ph"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 142,
+      "type": "jsx_text",
+      "text": "Tổng cộng",
+      "suggestedKey": "pages.store.Cart.text.tng_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 145,
+      "type": "jsx_text",
+      "text": "(Đã bao gồm VAT)",
+      "suggestedKey": "pages.store.Cart.text.bao_gm_vat"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 157,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Bảo mật",
+      "suggestedKey": "pages.store.Cart.title.bo_mt"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 158,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Visa",
+      "suggestedKey": "pages.store.Cart.title.visa"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Cart.tsx",
+      "line": 159,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Ví điện tử",
+      "suggestedKey": "pages.store.Cart.title.v_in_t"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 177,
+      "type": "jsx_text",
+      "text": "= minP && p.price",
+      "suggestedKey": "pages.store.Catalog.text.minp__pprice"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 275,
+      "type": "jsx_text",
+      "text": "Trang chủ",
+      "suggestedKey": "pages.store.Catalog.text.trang_ch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 326,
+      "type": "jsx_text",
+      "text": "Danh mục",
+      "suggestedKey": "pages.store.Catalog.text.danh_mc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 347,
+      "type": "jsx_text",
+      "text": "Thương hiệu",
+      "suggestedKey": "pages.store.Catalog.text.thng_hiu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 368,
+      "type": "jsx_text",
+      "text": "Trạng thái",
+      "suggestedKey": "pages.store.Catalog.text.trng_thi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 380,
+      "type": "jsx_text",
+      "text": "Tất cả",
+      "suggestedKey": "pages.store.Catalog.text.tt_c"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 390,
+      "type": "jsx_text",
+      "text": "Sẵn hàng",
+      "suggestedKey": "pages.store.Catalog.text.sn_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 400,
+      "type": "jsx_text",
+      "text": "Cháy hàng",
+      "suggestedKey": "pages.store.Catalog.text.chy_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 410,
+      "type": "jsx_text",
+      "text": "Đang giảm giá",
+      "suggestedKey": "pages.store.Catalog.text.ang_gim_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 418,
+      "type": "jsx_text",
+      "text": "Đánh giá",
+      "suggestedKey": "pages.store.Catalog.text.nh_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 442,
+      "type": "jsx_text",
+      "text": "Khoảng giá",
+      "suggestedKey": "pages.store.Catalog.text.khong_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 447,
+      "type": "jsx_text",
+      "text": "0đ",
+      "suggestedKey": "pages.store.Catalog.text.0"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 448,
+      "type": "jsx_text",
+      "text": "100trđ",
+      "suggestedKey": "pages.store.Catalog.text.100tr"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 481,
+      "type": "jsx_text",
+      "text": "Từ",
+      "suggestedKey": "pages.store.Catalog.text.t"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 485,
+      "type": "jsx_text",
+      "text": "Đến",
+      "suggestedKey": "pages.store.Catalog.text.n"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 520,
+      "type": "jsx_text",
+      "text": "Mới nhất",
+      "suggestedKey": "pages.store.Catalog.text.mi_nht"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 521,
+      "type": "jsx_text",
+      "text": "Giá: Thấp đến Cao",
+      "suggestedKey": "pages.store.Catalog.text.gi_thp_n_cao"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 522,
+      "type": "jsx_text",
+      "text": "Giá: Cao đến Thấp",
+      "suggestedKey": "pages.store.Catalog.text.gi_cao_n_thp"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 562,
+      "type": "jsx_text",
+      "text": "Không tìm thấy sản phẩm",
+      "suggestedKey": "pages.store.Catalog.text.khng_tm_thy_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 563,
+      "type": "jsx_text",
+      "text": "Hãy thử thay đổi bộ lọc để tìm kiếm kết quả phù hợp hơn.",
+      "suggestedKey": "pages.store.Catalog.text.hy_th_thay_i_b_lc__tm_kim_kt_qu_ph_hp_hn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Catalog.tsx",
+      "line": 564,
+      "type": "jsx_text",
+      "text": "Xóa tất cả bộ lọc",
+      "suggestedKey": "pages.store.Catalog.text.xa_tt_c_b_lc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 72,
+      "type": "jsx_text",
+      "text": "Thanh toán đơn hàng",
+      "suggestedKey": "pages.store.Checkout.text.thanh_ton_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 83,
+      "type": "jsx_text",
+      "text": "Quản lý sổ địa chỉ",
+      "suggestedKey": "pages.store.Checkout.text.qun_l_s_a_ch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 119,
+      "type": "jsx_text",
+      "text": "Nhập địa chỉ khác",
+      "suggestedKey": "pages.store.Checkout.text.nhp_a_ch_khc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 128,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Họ và tên người nhận",
+      "suggestedKey": "pages.store.Checkout.placeholder.h_v_tn_ngi_nhn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 134,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Số điện thoại",
+      "suggestedKey": "pages.store.Checkout.placeholder.s_in_thoi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 140,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Địa chỉ chi tiết (Số nhà, đường, phường/xã...)",
+      "suggestedKey": "pages.store.Checkout.placeholder.a_ch_chi_tit_s_nh_ng_phngx"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 146,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Ghi chú thêm (VD: Giao giờ hành chính, gọi trước khi giao...)",
+      "suggestedKey": "pages.store.Checkout.placeholder.ghi_ch_thm_vd_giao_gi_hnh_chnh_gi_trc_khi_giao"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 185,
+      "type": "jsx_text",
+      "text": "Tóm tắt đơn hàng",
+      "suggestedKey": "pages.store.Checkout.text.tm_tt_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 187,
+      "type": "jsx_text",
+      "text": "Tạm tính",
+      "suggestedKey": "pages.store.Checkout.text.tm_tnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 188,
+      "type": "jsx_text",
+      "text": "Vận chuyển",
+      "suggestedKey": "pages.store.Checkout.text.vn_chuyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 188,
+      "type": "jsx_text",
+      "text": "Miễn phí",
+      "suggestedKey": "pages.store.Checkout.text.min_ph"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 189,
+      "type": "jsx_text",
+      "text": "Tổng tiền",
+      "suggestedKey": "pages.store.Checkout.text.tng_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Checkout.tsx",
+      "line": 198,
+      "type": "jsx_text",
+      "text": "Bằng việc đặt hàng, bạn đồng ý với Điều khoản của TechStore.",
+      "suggestedKey": "pages.store.Checkout.text.bng_vic_t_hng_bn_ng__vi_iu_khon_ca_techstore"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 156,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Main Banner",
+      "suggestedKey": "pages.store.Home.alt.main_banner"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 188,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Sub Banner 1",
+      "suggestedKey": "pages.store.Home.alt.sub_banner_1"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 190,
+      "type": "jsx_text",
+      "text": "Esport Gear",
+      "suggestedKey": "pages.store.Home.text.esport_gear"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 191,
+      "type": "jsx_text",
+      "text": "Chuột & Phím cơ giảm tới 40%",
+      "suggestedKey": "pages.store.Home.text.chut__phm_c_gim_ti_40"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 198,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Sub Banner 2",
+      "suggestedKey": "pages.store.Home.alt.sub_banner_2"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 200,
+      "type": "jsx_text",
+      "text": "Build PC",
+      "suggestedKey": "pages.store.Home.text.build_pc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 201,
+      "type": "jsx_text",
+      "text": "Miễn phí lắp đặt & Vệ sinh",
+      "suggestedKey": "pages.store.Home.text.min_ph_lp_t__v_sinh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 245,
+      "type": "jsx_text",
+      "text": "Kết thúc sau",
+      "suggestedKey": "pages.store.Home.text.kt_thc_sau"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 280,
+      "type": "jsx_text",
+      "text": "Chưa có sản phẩm flash sale",
+      "suggestedKey": "pages.store.Home.text.cha_c_sn_phm_flash_sale"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 359,
+      "type": "jsx_text",
+      "text": "Chưa có sản phẩm mới",
+      "suggestedKey": "pages.store.Home.text.cha_c_sn_phm_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 375,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Promo",
+      "suggestedKey": "pages.store.Home.alt.promo"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 381,
+      "type": "jsx_text",
+      "text": "Setup góc máy mơ ước",
+      "suggestedKey": "pages.store.Home.text.setup_gc_my_m_c"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 382,
+      "type": "jsx_text",
+      "text": "Giảm thêm 5% khi mua Combo (Bàn + Ghế + Gear)",
+      "suggestedKey": "pages.store.Home.text.gim_thm_5_khi_mua_combo_bn__gh__gear"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 399,
+      "type": "jsx_text",
+      "text": "Xem tất cả",
+      "suggestedKey": "pages.store.Home.text.xem_tt_c"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Home.tsx",
+      "line": 424,
+      "type": "jsx_text",
+      "text": "Chưa có sản phẩm laptop",
+      "suggestedKey": "pages.store.Home.text.cha_c_sn_phm_laptop"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 129,
+      "type": "toast",
+      "text": "Đã thêm sản phẩm vào giỏ hàng!",
+      "suggestedKey": "pages.store.OrderHistory.toast.thm_sn_phm_vo_gi_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 154,
+      "type": "jsx_text",
+      "text": "Lịch sử đơn hàng",
+      "suggestedKey": "pages.store.OrderHistory.text.lch_s_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 159,
+      "type": "jsx_text",
+      "text": "Đang tải đơn hàng...",
+      "suggestedKey": "pages.store.OrderHistory.text.ang_ti_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 197,
+      "type": "jsx_text",
+      "text": "1 &&",
+      "suggestedKey": "pages.store.OrderHistory.text.1"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 205,
+      "type": "jsx_text",
+      "text": "Tổng tiền",
+      "suggestedKey": "pages.store.OrderHistory.text.tng_tin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 224,
+      "type": "jsx_text",
+      "text": "Chưa có đơn hàng nào",
+      "suggestedKey": "pages.store.OrderHistory.text.cha_c_n_hng_no"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 225,
+      "type": "jsx_text",
+      "text": "Bạn chưa mua sắm sản phẩm nào tại TechStore.",
+      "suggestedKey": "pages.store.OrderHistory.text.bn_cha_mua_sm_sn_phm_no_ti_techstore"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 237,
+      "type": "jsx_text",
+      "text": "Đóng",
+      "suggestedKey": "pages.store.OrderHistory.text.ng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 239,
+      "type": "jsx_text",
+      "text": "Mua lại",
+      "suggestedKey": "pages.store.OrderHistory.text.mua_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 242,
+      "type": "jsx_text",
+      "text": "Theo dõi vận chuyển",
+      "suggestedKey": "pages.store.OrderHistory.text.theo_di_vn_chuyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 272,
+      "type": "jsx_text",
+      "text": "Giao tới",
+      "suggestedKey": "pages.store.OrderHistory.text.giao_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 275,
+      "type": "jsx_text",
+      "text": "Alex User",
+      "suggestedKey": "pages.store.OrderHistory.text.alex_user"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 282,
+      "type": "jsx_text",
+      "text": "Thanh toán",
+      "suggestedKey": "pages.store.OrderHistory.text.thanh_ton"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 296,
+      "type": "jsx_text",
+      "text": "Chi tiết sản phẩm",
+      "suggestedKey": "pages.store.OrderHistory.text.chi_tit_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 306,
+      "type": "jsx_text",
+      "text": "Số lượng:",
+      "suggestedKey": "pages.store.OrderHistory.text.s_lng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 320,
+      "type": "jsx_text",
+      "text": "Tạm tính",
+      "suggestedKey": "pages.store.OrderHistory.text.tm_tnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 324,
+      "type": "jsx_text",
+      "text": "Phí vận chuyển",
+      "suggestedKey": "pages.store.OrderHistory.text.ph_vn_chuyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 329,
+      "type": "jsx_text",
+      "text": "Khuyến mãi",
+      "suggestedKey": "pages.store.OrderHistory.text.khuyn_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\OrderHistory.tsx",
+      "line": 335,
+      "type": "jsx_text",
+      "text": "Tổng cộng",
+      "suggestedKey": "pages.store.OrderHistory.text.tng_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Policy.tsx",
+      "line": 136,
+      "type": "jsx_text",
+      "text": "Danh mục hỗ trợ",
+      "suggestedKey": "pages.store.Policy.text.danh_mc_h_tr"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Policy.tsx",
+      "line": 186,
+      "type": "jsx_text",
+      "text": "Cập nhật lần cuối: 01/01/2024",
+      "suggestedKey": "pages.store.Policy.text.cp_nht_ln_cui_01012024"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 123,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Product",
+      "suggestedKey": "pages.store.ProductDetail.alt.product"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 126,
+      "type": "jsx_text",
+      "text": "Đang tải ảnh...",
+      "suggestedKey": "pages.store.ProductDetail.text.ang_ti_nh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 131,
+      "type": "jsx_text",
+      "text": "Hover to zoom",
+      "suggestedKey": "pages.store.ProductDetail.text.hover_to_zoom"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 144,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Thumbnail",
+      "suggestedKey": "pages.store.ProductDetail.alt.thumbnail"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 155,
+      "type": "jsx_text",
+      "text": "Sẵn hàng",
+      "suggestedKey": "pages.store.ProductDetail.text.sn_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 171,
+      "type": "jsx_text",
+      "text": "Tính năng nổi bật",
+      "suggestedKey": "pages.store.ProductDetail.text.tnh_nng_ni_bt"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 173,
+      "type": "jsx_text",
+      "text": "Hàng chính hãng 100%",
+      "suggestedKey": "pages.store.ProductDetail.text.hng_chnh_hng_100"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 174,
+      "type": "jsx_text",
+      "text": "Hiệu năng vượt trội",
+      "suggestedKey": "pages.store.ProductDetail.text.hiu_nng_vt_tri"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 175,
+      "type": "jsx_text",
+      "text": "Miễn phí vận chuyển",
+      "suggestedKey": "pages.store.ProductDetail.text.min_ph_vn_chuyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 176,
+      "type": "jsx_text",
+      "text": "Hỗ trợ kỹ thuật 24/7",
+      "suggestedKey": "pages.store.ProductDetail.text.h_tr_k_thut_247"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 290,
+      "type": "jsx_text",
+      "text": "Viết đánh giá của bạn",
+      "suggestedKey": "pages.store.ProductDetail.text.vit_nh_gi_ca_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 293,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "User",
+      "suggestedKey": "pages.store.ProductDetail.alt.user"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 316,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Chia sẻ cảm nhận của bạn về sản phẩm này...",
+      "suggestedKey": "pages.store.ProductDetail.placeholder.chia_s_cm_nhn_ca_bn_v_sn_phm_ny"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 352,
+      "type": "jsx_text",
+      "text": "Của bạn",
+      "suggestedKey": "pages.store.ProductDetail.text.ca_bn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\ProductDetail.tsx",
+      "line": 383,
+      "type": "jsx_text",
+      "text": "Chưa có sản phẩm liên quan.",
+      "suggestedKey": "pages.store.ProductDetail.text.cha_c_sn_phm_lin_quan"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 135,
+      "type": "toast",
+      "text": "Đã cập nhật hồ sơ thành công!",
+      "suggestedKey": "pages.store.Profile.toast.cp_nht_h_s_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 146,
+      "type": "toast",
+      "text": "Đổi mật khẩu thành công!",
+      "suggestedKey": "pages.store.Profile.toast.i_mt_khu_thnh_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 186,
+      "type": "toast",
+      "text": "Vui lòng điền đầy đủ thông tin địa chỉ",
+      "suggestedKey": "pages.store.Profile.toast.vui_lng_in_y__thng_tin_a_ch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 250,
+      "type": "attribute",
+      "attr": "alt",
+      "text": "Avatar",
+      "suggestedKey": "pages.store.Profile.alt.avatar"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 274,
+      "type": "jsx_text",
+      "text": "Tên hiển thị",
+      "suggestedKey": "pages.store.Profile.text.tn_hin_th"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 290,
+      "type": "jsx_text",
+      "text": "Hủy",
+      "suggestedKey": "pages.store.Profile.text.hy"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 291,
+      "type": "jsx_text",
+      "text": "Lưu thay đổi",
+      "suggestedKey": "pages.store.Profile.text.lu_thay_i"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 315,
+      "type": "jsx_text",
+      "text": "Thông tin liên hệ",
+      "suggestedKey": "pages.store.Profile.text.thng_tin_lin_h"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 326,
+      "type": "jsx_text",
+      "text": "Số điện thoại chính",
+      "suggestedKey": "pages.store.Profile.text.s_in_thoi_chnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 338,
+      "type": "jsx_text",
+      "text": "Hạng thành viên",
+      "suggestedKey": "pages.store.Profile.text.hng_thnh_vin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 345,
+      "type": "jsx_text",
+      "text": "Hạng Vàng",
+      "suggestedKey": "pages.store.Profile.text.hng_vng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 346,
+      "type": "jsx_text",
+      "text": "1,500 / 2,000 pts",
+      "suggestedKey": "pages.store.Profile.text.1500__2000_pts"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 351,
+      "type": "jsx_text",
+      "text": "Còn 500 điểm để lên hạng Kim Cương",
+      "suggestedKey": "pages.store.Profile.text.cn_500_im__ln_hng_kim_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 364,
+      "type": "jsx_text",
+      "text": "Sổ địa chỉ",
+      "suggestedKey": "pages.store.Profile.text.s_a_ch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 376,
+      "type": "jsx_text",
+      "text": "Mặc định",
+      "suggestedKey": "pages.store.Profile.text.mc_nh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 380,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Đặt làm mặc định",
+      "suggestedKey": "pages.store.Profile.title.t_lm_mc_nh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 380,
+      "type": "jsx_text",
+      "text": "Mặc định",
+      "suggestedKey": "pages.store.Profile.text.mc_nh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 401,
+      "type": "jsx_text",
+      "text": "Đơn hàng gần đây",
+      "suggestedKey": "pages.store.Profile.text.n_hng_gn_y"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 410,
+      "type": "jsx_text",
+      "text": "Đang tải...",
+      "suggestedKey": "pages.store.Profile.text.ang_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 430,
+      "type": "jsx_text",
+      "text": "Chưa có đơn hàng",
+      "suggestedKey": "pages.store.Profile.text.cha_c_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 448,
+      "type": "jsx_text",
+      "text": "Hủy",
+      "suggestedKey": "pages.store.Profile.text.hy"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 449,
+      "type": "jsx_text",
+      "text": "Lưu địa chỉ",
+      "suggestedKey": "pages.store.Profile.text.lu_a_ch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 484,
+      "type": "jsx_text",
+      "text": "Đặt làm địa chỉ mặc định",
+      "suggestedKey": "pages.store.Profile.text.t_lm_a_ch_mc_nh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 493,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Đổi Mật Khẩu",
+      "suggestedKey": "pages.store.Profile.title.i_mt_khu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 496,
+      "type": "jsx_text",
+      "text": "Hủy",
+      "suggestedKey": "pages.store.Profile.text.hy"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 497,
+      "type": "jsx_text",
+      "text": "Cập nhật mật khẩu",
+      "suggestedKey": "pages.store.Profile.text.cp_nht_mt_khu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 505,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Nhập mật khẩu cũ",
+      "suggestedKey": "pages.store.Profile.placeholder.nhp_mt_khu_c"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 514,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Nhập mật khẩu mới",
+      "suggestedKey": "pages.store.Profile.placeholder.nhp_mt_khu_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Profile.tsx",
+      "line": 546,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Nhập lại mật khẩu mới",
+      "suggestedKey": "pages.store.Profile.placeholder.nhp_li_mt_khu_mi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 127,
+      "type": "toast",
+      "text": "Vui lòng chọn ít nhất một sản phẩm để báo giá.",
+      "suggestedKey": "pages.store.QuoteRequest.toast.vui_lng_chn_t_nht_mt_sn_phm__bo_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 131,
+      "type": "toast",
+      "text": "Vui lòng nhập tên và số điện thoại.",
+      "suggestedKey": "pages.store.QuoteRequest.toast.vui_lng_nhp_tn_v_s_in_thoi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 169,
+      "type": "toast",
+      "text": "Gửi yêu cầu báo giá thất bại. Vui lòng thử lại.",
+      "suggestedKey": "pages.store.QuoteRequest.toast.gi_yu_cu_bo_gi_tht_bi_vui_lng_th_li"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 178,
+      "type": "jsx_text",
+      "text": "Xây Dựng Cấu Hình & Báo Giá",
+      "suggestedKey": "pages.store.QuoteRequest.text.xy_dng_cu_hnh__bo_gi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 254,
+      "type": "jsx_text",
+      "text": "Không tìm thấy linh kiện nào.",
+      "suggestedKey": "pages.store.QuoteRequest.text.khng_tm_thy_linh_kin_no"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 256,
+      "type": "jsx_text",
+      "text": "Thử tìm kiếm với từ khóa khác.",
+      "suggestedKey": "pages.store.QuoteRequest.text.th_tm_kim_vi_t_kha_khc"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 309,
+      "type": "jsx_text",
+      "text": "Chưa có linh kiện nào được chọn",
+      "suggestedKey": "pages.store.QuoteRequest.text.cha_c_linh_kin_no_c_chn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 316,
+      "type": "jsx_text",
+      "text": "Tổng dự kiến",
+      "suggestedKey": "pages.store.QuoteRequest.text.tng_d_kin"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 319,
+      "type": "jsx_text",
+      "text": "* Giá chưa bao gồm VAT và ưu đãi doanh nghiệp",
+      "suggestedKey": "pages.store.QuoteRequest.text.gi_cha_bao_gm_vat_v_u_i_doanh_nghip"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 331,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Tên người liên hệ / Doanh nghiệp",
+      "suggestedKey": "pages.store.QuoteRequest.placeholder.tn_ngi_lin_h__doanh_nghip"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 338,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Số điện thoại",
+      "suggestedKey": "pages.store.QuoteRequest.placeholder.s_in_thoi"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 344,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Email (Tùy chọn)",
+      "suggestedKey": "pages.store.QuoteRequest.placeholder.email_ty_chn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\QuoteRequest.tsx",
+      "line": 351,
+      "type": "attribute",
+      "attr": "placeholder",
+      "text": "Ghi chú thêm (VD: Cần xuất VAT, Giao gấp...)",
+      "suggestedKey": "pages.store.QuoteRequest.placeholder.ghi_ch_thm_vd_cn_xut_vat_giao_gp"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 126,
+      "type": "jsx_text",
+      "text": "Đang tải thông tin đơn hàng...",
+      "suggestedKey": "pages.store.Tracking.text.ang_ti_thng_tin_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 138,
+      "type": "jsx_text",
+      "text": "Không tìm thấy đơn hàng",
+      "suggestedKey": "pages.store.Tracking.text.khng_tm_thy_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 139,
+      "type": "jsx_text",
+      "text": "Đơn hàng bạn đang tìm không tồn tại.",
+      "suggestedKey": "pages.store.Tracking.text.n_hng_bn_ang_tm_khng_tn_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 141,
+      "type": "jsx_text",
+      "text": "Quay lại lịch sử đơn hàng",
+      "suggestedKey": "pages.store.Tracking.text.quay_li_lch_s_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 156,
+      "type": "jsx_text",
+      "text": "Theo dõi đơn hàng",
+      "suggestedKey": "pages.store.Tracking.text.theo_di_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 157,
+      "type": "jsx_text",
+      "text": "Mã đơn hàng:",
+      "suggestedKey": "pages.store.Tracking.text.m_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 232,
+      "type": "jsx_text",
+      "text": "Liên hệ",
+      "suggestedKey": "pages.store.Tracking.text.lin_h"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 240,
+      "type": "jsx_text",
+      "text": "Chưa có thông tin shipper",
+      "suggestedKey": "pages.store.Tracking.text.cha_c_thng_tin_shipper"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 245,
+      "type": "jsx_text",
+      "text": "Gọi ngay",
+      "suggestedKey": "pages.store.Tracking.text.gi_ngay"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 255,
+      "type": "jsx_text",
+      "text": "Cần hỗ trợ?",
+      "suggestedKey": "pages.store.Tracking.text.cn_h_tr"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 256,
+      "type": "jsx_text",
+      "text": "Nếu đơn hàng của bạn gặp vấn đề, hãy liên hệ với chúng tôi.",
+      "suggestedKey": "pages.store.Tracking.text.nu_n_hng_ca_bn_gp_vn__hy_lin_h_vi_chng_ti"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Tracking.tsx",
+      "line": 257,
+      "type": "jsx_text",
+      "text": "Gửi yêu cầu hỗ trợ",
+      "suggestedKey": "pages.store.Tracking.text.gi_yu_cu_h_tr"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 49,
+      "type": "toast",
+      "text": "Đang chuyển hướng đến cổng thanh toán VNPay...",
+      "suggestedKey": "pages.store.WaitingPayment.toast.ang_chuyn_hng_n_cng_thanh_ton_vnpay"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 63,
+      "type": "jsx_text",
+      "text": "Chờ Thanh Toán",
+      "suggestedKey": "pages.store.WaitingPayment.text.ch_thanh_ton"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 74,
+      "type": "jsx_text",
+      "text": "Phút",
+      "suggestedKey": "pages.store.WaitingPayment.text.pht"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 81,
+      "type": "jsx_text",
+      "text": "Giây",
+      "suggestedKey": "pages.store.WaitingPayment.text.giy"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 90,
+      "type": "jsx_text",
+      "text": "Chuyển đến cổng VNPay",
+      "suggestedKey": "pages.store.WaitingPayment.text.chuyn_n_cng_vnpay"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 117,
+      "type": "jsx_text",
+      "text": "Đang tải thông tin đơn hàng...",
+      "suggestedKey": "pages.store.WaitingPayment.text.ang_ti_thng_tin_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 142,
+      "type": "jsx_text",
+      "text": "Tạm tính",
+      "suggestedKey": "pages.store.WaitingPayment.text.tm_tnh"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 146,
+      "type": "jsx_text",
+      "text": "Phí vận chuyển",
+      "suggestedKey": "pages.store.WaitingPayment.text.ph_vn_chuyn"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 147,
+      "type": "jsx_text",
+      "text": "Miễn phí",
+      "suggestedKey": "pages.store.WaitingPayment.text.min_ph"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 150,
+      "type": "jsx_text",
+      "text": "Tổng cộng",
+      "suggestedKey": "pages.store.WaitingPayment.text.tng_cng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 158,
+      "type": "jsx_text",
+      "text": "Không tìm thấy thông tin đơn hàng",
+      "suggestedKey": "pages.store.WaitingPayment.text.khng_tm_thy_thng_tin_n_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 172,
+      "type": "jsx_text",
+      "text": "Thanh toán nhanh qua QR",
+      "suggestedKey": "pages.store.WaitingPayment.text.thanh_ton_nhanh_qua_qr"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\WaitingPayment.tsx",
+      "line": 173,
+      "type": "jsx_text",
+      "text": "Quét mã bằng ứng dụng Ngân hàng hoặc Ví điện tử.",
+      "suggestedKey": "pages.store.WaitingPayment.text.qut_m_bng_ng_dng_ngn_hng_hoc_v_in_t"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 31,
+      "type": "jsx_text",
+      "text": "Danh sách trống",
+      "suggestedKey": "pages.store.Wishlist.text.danh_sch_trng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 32,
+      "type": "jsx_text",
+      "text": "Hãy thả tim",
+      "suggestedKey": "pages.store.Wishlist.text.hy_th_tim"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 32,
+      "type": "jsx_text",
+      "text": "các món đồ công nghệ bạn thích để xem lại tại đây.",
+      "suggestedKey": "pages.store.Wishlist.text.cc_mn__cng_ngh_bn_thch__xem_li_ti_y"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 34,
+      "type": "jsx_text",
+      "text": "Khám phá sản phẩm",
+      "suggestedKey": "pages.store.Wishlist.text.khm_ph_sn_phm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 48,
+      "type": "jsx_text",
+      "text": "Bạn đang lưu",
+      "suggestedKey": "pages.store.Wishlist.text.bn_ang_lu"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 48,
+      "type": "jsx_text",
+      "text": "sản phẩm quan tâm.",
+      "suggestedKey": "pages.store.Wishlist.text.sn_phm_quan_tm"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 61,
+      "type": "attribute",
+      "attr": "title",
+      "text": "Bỏ thích",
+      "suggestedKey": "pages.store.Wishlist.title.b_thch"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\pages\\store\\Wishlist.tsx",
+      "line": 77,
+      "type": "jsx_text",
+      "text": "Hết hàng",
+      "suggestedKey": "pages.store.Wishlist.text.ht_hng"
+    },
+    {
+      "file": "D:\\OJT\\EXE101\\frontend\\src\\services\\productService.ts",
+      "line": 271,
+      "type": "jsx_text",
+      "text": "): Promise",
+      "suggestedKey": "services.productService.text.promise"
+    }
+  ]
+}

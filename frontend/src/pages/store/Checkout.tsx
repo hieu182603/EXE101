@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 // Badge removed (no longer used)
 import { useCart } from '../../contexts/CartContext';
 import { authService } from '../../services/authService';
+import { useTranslation } from '../../hooks/useTranslation';
 
 // Mock data structure matching Profile
 interface Address {
@@ -18,6 +19,7 @@ interface Address {
 const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const cart = useCart();
+  const { t } = useTranslation();
 
   const [addresses] = useState<Address[]>([]);
 
@@ -69,19 +71,19 @@ const CheckoutPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-[1440px]">
-      <h1 className="text-3xl font-black text-white mb-8 tracking-tight">Thanh toán đơn hàng</h1>
+      <h1 className="text-3xl font-black text-white mb-8 tracking-tight">{t('checkout.title')}</h1>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div className="lg:col-span-8 space-y-6">
           
           {/* Address Selection Section */}
           <section className="bg-surface-dark border border-border-dark rounded-3xl p-8">
              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-white flex items-center gap-3">
-                  <span className="material-symbols-outlined text-primary">location_on</span>
-                  Địa chỉ nhận hàng
-                </h3>
-                <Link to="/profile" className="text-xs font-bold text-primary hover:underline">Quản lý sổ địa chỉ</Link>
-             </div>
+               <h3 className="text-xl font-bold text-white flex items-center gap-3">
+                 <span className="material-symbols-outlined text-primary">location_on</span>
+                 {t('checkout.addressTitle')}
+               </h3>
+               <Link to="/profile" className="text-xs font-bold text-primary hover:underline">{t('checkout.manageAddresses')}</Link>
+            </div>
              
              {/* Horizontal Scroll / Grid for Address Cards */}
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -116,7 +118,7 @@ const CheckoutPage: React.FC = () => {
                    }`}
                 >
                    <span className="material-symbols-outlined text-2xl">add_location_alt</span>
-                   <span className="text-xs font-bold uppercase">Nhập địa chỉ khác</span>
+                   <span className="text-xs font-bold uppercase">{t('checkout.enterOtherAddress')}</span>
                 </div>
              </div>
 
@@ -125,25 +127,25 @@ const CheckoutPage: React.FC = () => {
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
                 className="bg-background-dark border border-border-dark rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:ring-1 focus:ring-primary outline-none" 
-                placeholder="Họ và tên người nhận" 
+                placeholder={t('checkout.form.name')}
               />
               <input 
                 value={formData.phone}
                 onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 className="bg-background-dark border border-border-dark rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:ring-1 focus:ring-primary outline-none" 
-                placeholder="Số điện thoại" 
+                placeholder={t('checkout.form.phone')}
               />
               <input 
                 value={formData.address}
                 onChange={(e) => setFormData({...formData, address: e.target.value})}
                 className="md:col-span-2 bg-background-dark border border-border-dark rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:ring-1 focus:ring-primary outline-none" 
-                placeholder="Địa chỉ chi tiết (Số nhà, đường, phường/xã...)" 
+                placeholder={t('checkout.form.address')}
               />
               <textarea 
                 value={formData.note}
                 onChange={(e) => setFormData({...formData, note: e.target.value})}
                 className="md:col-span-2 bg-background-dark border border-border-dark rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:ring-1 focus:ring-primary outline-none h-24" 
-                placeholder="Ghi chú thêm (VD: Giao giờ hành chính, gọi trước khi giao...)"
+                placeholder={t('checkout.form.note')}
               ></textarea>
             </div>
           </section>
@@ -151,7 +153,7 @@ const CheckoutPage: React.FC = () => {
           <section className="bg-surface-dark border border-border-dark rounded-3xl p-8">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
               <span className="material-symbols-outlined text-primary">payments</span>
-              Phương thức thanh toán
+              {t('checkout.paymentTitle')}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
@@ -172,7 +174,7 @@ const CheckoutPage: React.FC = () => {
                     {p.icon}
                   </span>
                   <span className={`text-sm font-bold ${paymentMethod === p.id ? 'text-white' : 'text-slate-400 group-hover:text-white'}`}>
-                    {p.name}
+                    {t(`payment.${p.id}`, { defaultValue: p.name })}
                   </span>
                 </div>
               ))}
@@ -182,20 +184,20 @@ const CheckoutPage: React.FC = () => {
 
         <div className="lg:col-span-4">
           <div className="bg-surface-dark border border-border-dark rounded-3xl p-8 sticky top-24">
-            <h3 className="text-xl font-bold text-white mb-6 border-b border-border-dark pb-4">Tóm tắt đơn hàng</h3>
+            <h3 className="text-xl font-bold text-white mb-6 border-b border-border-dark pb-4">{t('checkout.summaryTitle')}</h3>
             <div className="space-y-4 mb-6">
-            <div className="flex justify-between text-slate-400"><span>Tạm tính</span><span className="text-white font-bold">{cart.totalAmount.toLocaleString('vi-VN')}₫</span></div>
-            <div className="flex justify-between text-slate-400"><span>Vận chuyển</span><span className="text-emerald-500 font-bold">Miễn phí</span></div>
-            <div className="flex justify-between text-lg font-black text-white pt-4 border-t border-border-dark"><span>Tổng tiền</span><span className="text-primary">{cart.totalAmount.toLocaleString('vi-VN')}₫</span></div>
+            <div className="flex justify-between text-slate-400"><span>{t('checkout.subtotal')}</span><span className="text-white font-bold">{cart.totalAmount.toLocaleString('vi-VN')}₫</span></div>
+            <div className="flex justify-between text-slate-400"><span>{t('checkout.shipping')}</span><span className="text-emerald-500 font-bold">{t('checkout.free')}</span></div>
+            <div className="flex justify-between text-lg font-black text-white pt-4 border-t border-border-dark"><span>{t('checkout.total')}</span><span className="text-primary">{cart.totalAmount.toLocaleString('vi-VN')}₫</span></div>
             </div>
           <button 
             onClick={() => navigate('/waiting-payment')} 
             disabled={cart.items.length === 0}
             className="w-full py-4 bg-primary text-black font-black rounded-2xl shadow-lg hover:shadow-primary/30 transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            ĐẶT HÀNG NGAY
+            {t('checkout.placeOrder')}
           </button>
-            <p className="text-[10px] text-slate-500 text-center mt-4">Bằng việc đặt hàng, bạn đồng ý với Điều khoản của TechStore.</p>
+            <p className="text-[10px] text-slate-500 text-center mt-4">{t('checkout.termsAgree', { defaultValue: 'Bằng việc đặt hàng, bạn đồng ý với Điều khoản của TechStore.' })}</p>
           </div>
         </div>
       </div>

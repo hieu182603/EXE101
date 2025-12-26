@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsString,
   Min,
+  IsDateString,
 } from "class-validator";
 
 export class CreatePaymentDto {
@@ -31,12 +32,26 @@ export class CreatePaymentDto {
 
 
 export class PaymentStatusDto {
+  @IsString()
   orderId: string;
+
+  @IsString()
   status: string;
+
+  @IsNumber()
   amount: number;
+
+  @IsString()
+  @IsOptional()
   transactionId?: string;
+
+  @IsString()
   paymentMethod: string;
+
+  @IsDateString()
   createdAt: Date;
+
+  @IsDateString()
   updatedAt: Date;
 }
 

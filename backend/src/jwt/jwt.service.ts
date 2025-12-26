@@ -20,8 +20,12 @@ export class JwtService {
     return {
       accountId: account.id, // Add accountId for Socket.IO authentication
       username: account.username,
-      phone: account.phone || "01234567878989", // Use actual phone or fallback
-      role: account.role,
+      phone: account.phone || null,
+      role: {
+        id: account.role.id,
+        name: account.role.name,
+        slug: account.role.slug,
+      },
     };
   }
 

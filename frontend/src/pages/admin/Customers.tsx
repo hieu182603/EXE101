@@ -7,6 +7,7 @@ import { Input } from '@components/ui/Input';
 import Badge from '@components/ui/Badge';
 import { customerService } from '@services/customerService';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface Customer {
   id: string;
@@ -22,6 +23,7 @@ const ITEMS_PER_PAGE = 5;
 
 const CustomerManagement: React.FC = () => {
   const { showSuccess, showError } = useToast();
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
@@ -141,8 +143,8 @@ const CustomerManagement: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Quản Lý Khách Hàng</h1>
-          <p className="text-gray-400 mt-1">Quản lý thông tin và hoạt động của khách hàng</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">{t('admin.customers.title')}</h1>
+          <p className="text-gray-400 mt-1">{t('admin.customers.subtitle')}</p>
         </div>
       </div>
 
@@ -151,7 +153,7 @@ const CustomerManagement: React.FC = () => {
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
           <input 
             className="w-full h-11 pl-10 pr-4 rounded-xl border border-border-dark bg-background-dark text-sm text-white placeholder-gray-500 focus:border-primary outline-none transition-all" 
-            placeholder="Tìm tên, email hoặc số điện thoại..." 
+            placeholder={t('admin.customers.searchPlaceholder')} 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -162,10 +164,10 @@ const CustomerManagement: React.FC = () => {
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
-            <option value="All">Tất cả trạng thái</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-            <option value="Banned">Banned</option>
+            <option value="All">{t('admin.customers.statusAll')}</option>
+            <option value="Active">{t('admin.customers.statusActive')}</option>
+            <option value="Inactive">{t('admin.customers.statusInactive')}</option>
+            <option value="Banned">{t('admin.customers.statusBanned')}</option>
           </select>
           <Button 
             variant="outline" 
@@ -173,7 +175,7 @@ const CustomerManagement: React.FC = () => {
             onClick={handleExportCSV}
             className="h-11"
           >
-            Export
+            {t('admin.customers.export')}
           </Button>
         </div>
       </div>
@@ -250,7 +252,7 @@ const CustomerManagement: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-slate-500 font-medium">
-                    Không tìm thấy khách hàng nào.
+                    {t('admin.customers.noCustomers')}
                   </td>
                 </tr>
               )}

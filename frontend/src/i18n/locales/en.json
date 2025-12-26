@@ -129,6 +129,12 @@
       "explore": "Explore Now",
       "flagship": "Flagship Series"
     },
+    "sideBanner": {
+      "esport": "Esports Gaming",
+      "esportSub": "Professional Equipment",
+      "build": "Custom PC Build",
+      "buildSub": "Premium Components"
+    },
     "features": {
       "freeShipping": {
         "title": "Free Shipping",
@@ -200,8 +206,97 @@
     "submit": "Submit",
     "cancel": "Cancel"
   },
+  "wishlist": {
+    "title": "Favorite Products",
+    "subtitle": "You have saved {{count}} favorite products.",
+    "empty": {
+      "title": "List is empty",
+      "description": "Add hearts to your favorite tech products to view them here.",
+      "explore": "Explore Products"
+    },
+    "actions": {
+      "clearAll": "Clear all",
+      "remove": "Remove from favorites",
+      "confirmRemove": "Remove this product from favorites?",
+      "confirmClearAll": "Clear entire favorites list?"
+    },
+    "outOfStock": "Out of stock"
+  },
+  "profile": {
+    "title": "Personal Profile",
+    "personalInfo": "Contact Information",
+    "membership": "Membership Rank",
+    "addresses": "Address Book",
+    "recentOrders": "Recent Orders",
+    "memberSince": "Member since",
+    "memberId": "Member ID",
+    "labels": {
+      "displayName": "Display Name",
+      "email": "Email",
+      "phone": "Primary Phone Number",
+      "rank": "Gold Rank",
+      "points": "pts",
+      "pointsNeeded": "{{points}} points left to Diamond Rank",
+      "recipientName": "Recipient Name",
+      "recipientPhone": "Recipient Phone Number",
+      "addressLabel": "Label (e.g. Home)",
+      "addressDetail": "Detailed Address (Street, ward/district...)",
+      "setDefault": "Set as default address",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password"
+    },
+    "actions": {
+      "editProfile": "Edit Profile",
+      "changePassword": "Change Password",
+      "saveChanges": "Save Changes",
+      "cancel": "Cancel",
+      "addAddress": "Add New",
+      "editAddress": "Edit",
+      "deleteAddress": "Delete",
+      "setAsDefault": "Set as Default",
+      "viewAllOrders": "View All"
+    },
+    "modals": {
+      "addAddress": "Add New Address",
+      "editAddress": "Update Address",
+      "changePassword": "Change Password",
+      "saveAddress": "Save Address",
+      "updatePassword": "Update Password"
+    },
+    "placeholders": {
+      "currentPassword": "Enter current password",
+      "newPassword": "Enter new password",
+      "confirmPassword": "Confirm new password"
+    },
+    "validation": {
+      "passwordLength": "8+ chars",
+      "passwordLower": "Lowercase",
+      "passwordUpper": "Uppercase",
+      "passwordNumber": "Number",
+      "addressRequired": "Please fill in all address information",
+      "deleteConfirm": "Are you sure you want to delete this address?"
+    },
+    "messages": {
+      "profileUpdated": "Profile updated successfully!",
+      "passwordChanged": "Password changed successfully!",
+      "loading": "Loading...",
+      "noAddresses": "No addresses yet. Add an address for faster checkout.",
+      "noOrders": "No orders yet"
+    },
+    "menu": {
+      "profile": "Profile",
+      "orders": "Orders",
+      "wishlist": "Wishlist",
+      "logout": "Logout"
+    },
+    "membership": {
+      "default": "Default"
+    }
+  },
   "cart": {
     "title": "Shopping Cart",
+    "updated": "Cart updated",
     "empty": "Your cart is empty",
     "continueShopping": "Continue Shopping",
     "checkout": "Checkout",
@@ -216,6 +311,58 @@
     "price": "Price",
     "item": "item",
     "items": "items"
+  },
+  "catalog": {
+    "breadcrumb": {
+      "home": "Home",
+      "allProducts": "All Products",
+      "flashSale": "Flash Sale"
+    },
+    "title": {
+      "allProducts": "All Products",
+      "flashSale": "FLASH SALE"
+    },
+    "subtitle": {
+      "allProducts": "Explore {{count}} high-tech products",
+      "flashSale": "Explore {{count}} products on shock sale"
+    },
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear all",
+      "flashSaleMode": "Viewing Flash Sale",
+      "categories": "Categories",
+      "brands": "Brands",
+      "availability": "Availability",
+      "rating": "Rating",
+      "priceRange": "Price Range"
+    },
+    "availability": {
+      "all": "All",
+      "inStock": "In Stock",
+      "outOfStock": "Out of Stock",
+      "sale": "On Sale"
+    },
+    "rating": {
+      "from": "From {{stars}} stars"
+    },
+    "sort": {
+      "newest": "Newest",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low"
+    },
+    "mobileFilters": {
+      "show": "Filters",
+      "hide": "Hide filters"
+    },
+    "noProducts": {
+      "title": "No products found",
+      "description": "Try changing filters to find more suitable results.",
+      "clearFilters": "Clear all filters"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next"
+    }
   },
   "checkout": {
     "title": "Checkout",
@@ -248,20 +395,45 @@
     "viewOrder": "View Order",
     "cancelOrder": "Cancel Order",
     "reorder": "Reorder",
-    "noOrders": "No orders yet"
+    "noOrders": "No orders yet",
+    "history": {
+      "title": "Order History",
+      "loading": "Loading orders...",
+      "empty": {
+        "title": "No orders yet",
+        "description": "You haven't purchased any products at TechStore."
+      },
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "discount": "Discount",
+      "grandTotal": "Grand Total",
+      "paid": "Paid",
+      "shippedTo": "Shipped to",
+      "payment": "Payment",
+      "productDetails": "Product Details",
+      "quantity": "Quantity",
+      "andMore": "and {{count}} more items",
+      "modal": {
+        "title": "Order Information",
+        "close": "Close",
+        "reorder": "Reorder",
+        "track": "Track Shipping"
+      },
+      "status": {
+        "PENDING": "PENDING",
+        "ASSIGNED": "ASSIGNED",
+        "CONFIRMED": "CONFIRMED",
+        "SHIPPING": "SHIPPING",
+        "DELIVERED": "COMPLETED",
+        "CANCELLED": "CANCELLED"
+      },
+      "success": {
+        "reorder": "Products added to cart!"
+      }
+    }
   },
-  "profile": {
-    "title": "Profile",
-    "personalInfo": "Personal Information",
-    "changePassword": "Change Password",
-    "addresses": "Addresses",
-    "preferences": "Preferences",
-    "notifications": "Notifications",
-    "save": "Save Changes",
-    "cancel": "Cancel",
-    "updateSuccess": "Update successful",
-    "updateFailed": "Update failed"
-  },
+  
   "admin": {
     "dashboard": "Dashboard",
     "products": "Products",
@@ -320,6 +492,47 @@
     "privacy": "Privacy",
     "cookies": "Cookies"
   },
+  "quote": {
+    "title": "Build Configuration & Get Quote",
+    "subtitle": "Select components to build your dream PC or create a list of equipment needed for your business. We will check compatibility and send the best quote.",
+    "searchPlaceholder": "Search {{category}}...",
+    "noProducts": "No components found.",
+    "noProductsHint": "Try searching with different keywords.",
+    "addButton": "Add",
+    "selectedTitle": "Your Configuration",
+    "selectedCount": "{{count}} components",
+    "emptySelection": "No components selected yet",
+    "totalLabel": "Estimated Total",
+    "totalNote": "* Price excludes VAT and business discounts",
+    "form": {
+      "title": "Send Quote Request",
+      "namePlaceholder": "Contact Name / Business",
+      "phonePlaceholder": "Phone Number",
+      "emailPlaceholder": "Email (Optional)",
+      "notePlaceholder": "Additional Notes (e.g., Need VAT invoice, Urgent delivery...)",
+      "submitButton": "GET QUOTE NOW"
+    },
+    "categories": {
+      "cpu": "Processor",
+      "motherboard": "Motherboard",
+      "ram": "RAM",
+      "gpu": "Graphics Card",
+      "drive": "SSD/HDD",
+      "psu": "Power Supply",
+      "case": "Case",
+      "cooler": "Cooling",
+      "monitor": "Monitor",
+      "accessories": "Accessories"
+    },
+    "errors": {
+      "noItems": "Please select at least one product for quotation.",
+      "missingInfo": "Please enter name and phone number.",
+      "submitFailed": "Quote request failed. Please try again."
+    },
+    "success": {
+      "submitMessage": "Quote request sent successfully!\n\nTotal value: {{total}}₫\nNumber of components: {{count}}\n\nWe will contact {{name}} ({{phone}}) as soon as possible."
+    }
+  },
   "validation": {
     "required": "This field is required",
     "minLength": "Must be at least {{count}} characters",
@@ -361,4 +574,5 @@
     "premiumGear": "Premium Gear"
   }
 }
+
 

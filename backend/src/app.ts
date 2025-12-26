@@ -161,9 +161,797 @@ export default class App {
                 description: "API key for authorization (Bearer token)",
               },
             },
+            schemas: {
+              CreateAccountSchema: {
+                type: "object",
+                properties: {
+                  name: { type: "string", minLength: 2, maxLength: 50 },
+                  email: { type: "string", format: "email" },
+                  phone: { type: "string", pattern: "^\\+?[0-9]{10,15}$" },
+                  username: { type: "string", minLength: 3, maxLength: 30 },
+                  password: { type: "string", minLength: 6 }
+                },
+                required: ["name", "email", "username", "password"]
+              },
+              VerifyRegisterSchema: {
+                type: "object",
+                properties: {
+                  email: { type: "string", format: "email" },
+                  otp: { type: "string", minLength: 6, maxLength: 6, pattern: "^[0-9]{6}$" }
+                },
+                required: ["email", "otp"]
+              },
+              CredentialsSchema: {
+                type: "object",
+                properties: {
+                  identifier: { type: "string", description: "Username or email" },
+                  password: { type: "string", minLength: 6 }
+                },
+                required: ["identifier", "password"]
+              },
+              UpdateAccountSchema: {
+                type: "object",
+                properties: {
+                  name: { type: "string", minLength: 2, maxLength: 50 },
+                  email: { type: "string", format: "email" },
+                  phone: { type: "string", pattern: "^\\+?[0-9]{10,15}$" },
+                  username: { type: "string", minLength: 3, maxLength: 30 },
+                  oldUsername: { type: "string" }
+                }
+              },
+              CreateAccountAdminSchema: {
+                type: "object",
+                properties: {
+                  name: { type: "string", minLength: 2, maxLength: 50 },
+                  email: { type: "string", format: "email" },
+                  phone: { type: "string", pattern: "^\\+?[0-9]{10,15}$" },
+                  username: { type: "string", minLength: 3, maxLength: 30 },
+                  password: { type: "string", minLength: 6 },
+                  roleId: { type: "string" }
+                },
+                required: ["name", "email", "username", "password", "roleId"]
+              },
+              CreateOrderSchema: {
+                type: "object",
+                properties: {
+                  customerName: { type: "string" },
+                  customerEmail: { type: "string", format: "email" },
+                  customerPhone: { type: "string" },
+                  shippingAddress: { type: "string" },
+                  paymentMethod: { type: "string", enum: ["cod", "bank_transfer", "momo", "zalopay"] },
+                  notes: { type: "string" }
+                },
+                required: ["customerName", "customerEmail", "customerPhone", "shippingAddress", "paymentMethod"]
+              },
+              UpdateOrderSchema: {
+                type: "object",
+                properties: {
+                  status: { type: "string", enum: ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"] },
+                  shipperId: { type: "string" },
+                  notes: { type: "string" }
+                }
+              }
+            }
           },
         }
       );
+
+      // Add manual routes that are not using routing-controllers decorators
+      const manualPaths: any = {
+        // Auth routes
+        "/account/register": {
+          post: {
+            summary: "Register a new account",
+            description: "Register a new account (sends OTP email)",
+            tags: ["Account"],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/CreateAccountSchema" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Registration initiated successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/verify-register": {
+          post: {
+            summary: "Verify registration with OTP",
+            description: "Verify registration with OTP and complete account setup",
+            tags: ["Account"],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/VerifyRegisterSchema" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Registration completed successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/login": {
+          post: {
+            summary: "Login with credentials",
+            description: "Login with username/email and password",
+            tags: ["Account"],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/CredentialsSchema" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Login successful",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        accessToken: { type: "string" },
+                        refreshToken: { type: "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/logout": {
+          post: {
+            summary: "Logout user",
+            description: "Logout and invalidate refresh token",
+            tags: ["Account"],
+            security: [{ ApiKeyAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      username: { type: "string" }
+                    },
+                    required: ["username"]
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Logout successful",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/details": {
+          get: {
+            summary: "Get account details",
+            description: "Get current user account details",
+            tags: ["Account"],
+            security: [{ ApiKeyAuth: [] }],
+            responses: {
+              200: {
+                description: "Account details retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/all": {
+          get: {
+            summary: "Get all accounts",
+            description: "Get all accounts (admin only)",
+            tags: ["Account"],
+            security: [{ ApiKeyAuth: [] }],
+            responses: {
+              200: {
+                description: "Accounts retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "array", items: { type: "object" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/create": {
+          post: {
+            summary: "Create account",
+            description: "Create new account (admin only)",
+            tags: ["Account"],
+            security: [{ ApiKeyAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/CreateAccountAdminSchema" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Account created successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/update": {
+          patch: {
+            summary: "Update account",
+            description: "Update account information",
+            tags: ["Account"],
+            security: [{ ApiKeyAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/UpdateAccountSchema" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Account updated successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/account/delete": {
+          delete: {
+            summary: "Delete account",
+            description: "Delete account (admin only)",
+            tags: ["Account"],
+            security: [{ ApiKeyAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      username: { type: "string" }
+                    },
+                    required: ["username"]
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Account deleted successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        // Product routes
+        "/products": {
+          get: {
+            summary: "Get all products",
+            description: "Get all available products",
+            tags: ["Products"],
+            responses: {
+              200: {
+                description: "Products retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "array", items: { type: "object" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/products/search": {
+          get: {
+            summary: "Search products",
+            description: "Search products by query",
+            tags: ["Products"],
+            parameters: [
+              {
+                name: "q",
+                in: "query",
+                schema: { type: "string" },
+                description: "Search query"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Search results",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "array", items: { type: "object" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/products/{id}": {
+          get: {
+            summary: "Get product by ID",
+            description: "Get a specific product by ID",
+            tags: ["Products"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Product ID"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Product retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          put: {
+            summary: "Update product",
+            description: "Update product information",
+            tags: ["Products"],
+            security: [{ ApiKeyAuth: [] }],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Product ID"
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { type: "object" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Product updated successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          delete: {
+            summary: "Delete product",
+            description: "Delete a product",
+            tags: ["Products"],
+            security: [{ ApiKeyAuth: [] }],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Product ID"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Product deleted successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/products/category/{categoryId}": {
+          get: {
+            summary: "Get products by category",
+            description: "Get all products in a specific category",
+            tags: ["Products"],
+            parameters: [
+              {
+                name: "categoryId",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Category ID"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Products retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "array", items: { type: "object" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/products/categories/all": {
+          get: {
+            summary: "Get all categories",
+            description: "Get all product categories",
+            tags: ["Products"],
+            responses: {
+              200: {
+                description: "Categories retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "array", items: { type: "object" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        // Order routes
+        "/orders": {
+          get: {
+            summary: "Get user orders",
+            description: "Get orders for the authenticated user",
+            tags: ["Orders"],
+            security: [{ ApiKeyAuth: [] }],
+            parameters: [
+              {
+                name: "page",
+                in: "query",
+                schema: { type: "integer", default: 1 },
+                description: "Page number"
+              },
+              {
+                name: "limit",
+                in: "query",
+                schema: { type: "integer", default: 1000 },
+                description: "Items per page"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Orders retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "array", items: { type: "object" } },
+                        pagination: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          post: {
+            summary: "Create order",
+            description: "Create a new order from cart",
+            tags: ["Orders"],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/CreateOrderSchema" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Order created successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/orders/{id}": {
+          get: {
+            summary: "Get order by ID",
+            description: "Get a specific order by ID",
+            tags: ["Orders"],
+            security: [{ ApiKeyAuth: [] }],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Order ID"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Order retrieved successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          patch: {
+            summary: "Update order status",
+            description: "Update order status",
+            tags: ["Orders"],
+            security: [{ ApiKeyAuth: [] }],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Order ID"
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/UpdateOrderSchema" }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: "Order updated successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          delete: {
+            summary: "Delete order",
+            description: "Delete an order",
+            tags: ["Orders"],
+            security: [{ ApiKeyAuth: [] }],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Order ID"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Order deleted successfully",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/orders/{id}/confirm-delivery": {
+          post: {
+            summary: "Confirm order delivery",
+            description: "Confirm that an order has been delivered",
+            tags: ["Orders"],
+            security: [{ ApiKeyAuth: [] }],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "string" },
+                description: "Order ID"
+              }
+            ],
+            responses: {
+              200: {
+                description: "Order delivery confirmed",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        success: { type: "boolean" },
+                        message: { type: "string" },
+                        data: { type: "object" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      // Merge manual paths with auto-generated paths
+      swaggerSpec.paths = { ...swaggerSpec.paths, ...manualPaths };
 
       this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     } catch (err) {

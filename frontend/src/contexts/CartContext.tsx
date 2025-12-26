@@ -5,6 +5,7 @@ import type { CartItem } from '../services/cartService';
 import { guestCartService, type GuestCartItem } from '../services/guestCartService';
 import { productService } from '../services/productService';
 import { useToast } from './ToastContext';
+import i18n from '../i18n';
 
 // Updated interfaces to match backend
 interface CartState {
@@ -257,7 +258,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     },
                 });
                 try {
-                    toast.showSuccess('Giỏ hàng đã được cập nhật');
+                    // Only show "cart updated" toast for explicit user-initiated operations
+                    const opsShowToast = new Set(['ADD_TO_CART', 'INCREASE_QUANTITY', 'DECREASE_QUANTITY', 'REMOVE_ITEM', 'CLEAR_CART']);
+                    if (operation && opsShowToast.has(operation)) {
+                        toast.showSuccess(i18n.t('cart.updated'));
+                    }
                 } catch (err) {
                     // ignore toast errors
                 }

@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, Index } from "typeorm";
 import { NamedEntity } from "@/common/NamedEntity";
 import { Role } from "@/role/role.entity";
 import { RefreshToken } from "@/jwt/refreshToken.entity";
+import { ShipperProfile } from "@/auth/shipperProfile.entity";
 import { Exclude } from "class-transformer";
 import { Order } from "@/order/order.entity";
 import { Marketing } from "@/marketing/marketing.entity";
@@ -12,23 +13,32 @@ import { RFQ } from "@/rfq/rfq.entity";
 
 
 @Entity("accounts")
+@Index(["username"])
+@Index(["email"])
+@Index(["phone"])
+@Index(["isRegistered"])
+@Index(["role"])
 export class Account extends NamedEntity {
   @Column({ nullable: false, unique: true })
+  @Index({ unique: true })
   username: string;
-  
+
   @Column({ nullable: false })
   password: string;
 
   @Column({nullable: true})
+  @Index()
   phone: string;
 
   @Column({ nullable: true })
+  @Index({ unique: true })
   email: string;
 
   @Column({ nullable: false, default: false })
   isRegistered: boolean;
 
-  @ManyToOne(() => Role, (role) => role.accounts)
+  @ManyToOne(() => Role, (role) => role.accounts, { nullable: false })
+  @JoinColumn({ name: 'role_id' })
   role: Role;
 
   @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.account)
@@ -49,22 +59,9 @@ export class Account extends NamedEntity {
   @OneToMany(() => Feedback, (feedback) => feedback.account)
   feedbacks: Feedback[];
 
-  // Shipper-specific fields
-  @Column({ type: "int", default: 0 })
-  maxOrdersPerDay: number; // Số đơn hàng tối đa mỗi ngày
-
-  @Column({ type: "int", default: 0 })
-  currentOrdersToday: number; // Số đơn hàng hiện tại hôm nay
-
-  @Column({ type: "boolean", default: true })
-  isAvailable: boolean; // Trạng thái online/available
-
-  @Column({ type: "int", default: 1 })
-  priority: number; // Độ ưu tiên khi phân loại đơn hàng
-
-  @Column({ type: "date", nullable: true })
-  lastOrderDate: Date; // Ngày đơn hàng cuối cùng
-
   @OneToMany(() => RFQ, (rfq) => rfq.account)
   rfqs: RFQ[];
+
+  @OneToOne(() => ShipperProfile, (shipperProfile: ShipperProfile) => shipperProfile.account)
+  shipperProfile?: ShipperProfile;
 }

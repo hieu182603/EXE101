@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/ui/Button';
 import { useCart } from '../../contexts/CartContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const CartPage: React.FC = () => {
   const {
@@ -12,6 +13,7 @@ const CartPage: React.FC = () => {
     removeItem,
     getItemQuantity,
   } = useCart();
+  const { t } = useTranslation();
 
   const subtotal = items.reduce((acc, curr) => acc + (curr.product?.price || 0) * curr.quantity, 0);
 
@@ -21,10 +23,10 @@ const CartPage: React.FC = () => {
         <div className="size-32 bg-surface-dark border border-border-dark rounded-full flex items-center justify-center mx-auto mb-6">
            <span className="material-symbols-outlined text-[64px] text-slate-700">shopping_cart_off</span>
         </div>
-        <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Giỏ hàng trống</h2>
-        <p className="text-slate-400 mb-8 max-w-md mx-auto">Có vẻ như bạn chưa thêm sản phẩm nào. Hãy khám phá danh mục của chúng tôi để tìm món đồ ưng ý.</p>
+        <h2 className="text-3xl font-black text-white mb-2 tracking-tight">{t('cart.empty')}</h2>
+        <p className="text-slate-400 mb-8 max-w-md mx-auto">{t('cart.emptyMessage')}</p>
         <Link to="/catalog">
-          <Button icon="arrow_back" size="lg">Quay lại mua sắm</Button>
+          <Button icon="arrow_back" size="lg">{t('cart.continueShopping')}</Button>
         </Link>
       </div>
     );
@@ -33,10 +35,10 @@ const CartPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-12 max-w-[1440px]">
       <div className="mb-10">
-        <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">Giỏ hàng của bạn</h1>
+        <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">{t('cart.title')}</h1>
         <p className="text-slate-400 mt-2 flex items-center gap-2">
           <span className="material-symbols-outlined text-sm text-primary">check_circle</span>
-          Bạn có <span className="font-bold text-white">{items.length}</span> sản phẩm trong danh sách
+          {t('cart.youHave', { count: items.length })}
         </p>
       </div>
 
@@ -63,7 +65,7 @@ const CartPage: React.FC = () => {
                 <div className="flex flex-col gap-1 pr-4">
                   <h3 className="font-bold text-white text-base md:text-lg leading-tight line-clamp-2">{name}</h3>
                   <div className="flex items-center gap-2">
-                     <span className="text-[10px] font-bold text-slate-500 bg-white/5 px-2 py-0.5 rounded border border-white/5">Phân loại: {color}</span>
+                     <span className="text-[10px] font-bold text-slate-500 bg-white/5 px-2 py-0.5 rounded border border-white/5">{t('cart.variant', { defaultValue: 'Phân loại' })}: {color}</span>
                   </div>
                   {/* Mobile Price Display */}
                   <div className="md:hidden mt-2">
@@ -77,13 +79,13 @@ const CartPage: React.FC = () => {
                 
                 {/* Desktop Price */}
                 <div className="hidden md:flex flex-col items-center min-w-[80px]">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase mb-1">Đơn giá</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase mb-1">{t('cart.unitPrice')}</span>
                   <span className="font-bold text-white text-sm">{price.toLocaleString()}₫</span>
                 </div>
                 
                 {/* Quantity */}
                 <div className="flex flex-col items-center">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase mb-1 md:hidden">Số lượng</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase mb-1 md:hidden">{t('cart.quantity')}</span>
                   <div className="flex items-center bg-background-dark rounded-xl border border-border-dark p-1 h-10">
                     <Button variant="ghost" icon="remove" className="size-8 p-0 hover:bg-surface-dark" onClick={() => decreaseQuantity(product.id, 1)} />
                     <span className="w-8 text-center text-sm font-bold text-white">{qty}</span>
@@ -93,7 +95,7 @@ const CartPage: React.FC = () => {
 
                 {/* Subtotal */}
                 <div className="flex flex-col items-end min-w-[100px]">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase mb-1 md:hidden">Thành tiền</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase mb-1 md:hidden">{t('cart.lineTotal')}</span>
                   <span className="font-black text-primary text-lg">{(price * qty).toLocaleString()}₫</span>
                 </div>
 
@@ -101,7 +103,7 @@ const CartPage: React.FC = () => {
                 <button 
                     onClick={() => removeItem(product.id)}
                     className="size-10 rounded-xl flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all ml-2"
-                    title="Xóa sản phẩm"
+                    title={t('cart.removeItemTitle', { defaultValue: 'Xóa sản phẩm' })}
                 >
                     <span className="material-symbols-outlined text-[20px]">delete</span>
                 </button>
@@ -119,37 +121,37 @@ const CartPage: React.FC = () => {
             
             <h2 className="text-xl font-black text-white mb-6 flex items-center gap-2 relative z-10">
                <span className="material-symbols-outlined text-primary">receipt_long</span>
-               Tổng quan đơn hàng
+               {t('cart.summaryTitle')}
             </h2>
             
             <div className="space-y-4 mb-8 relative z-10">
               <div className="flex justify-between text-sm">
-                <span className="text-slate-400">Tổng giá trị hàng</span>
+                <span className="text-slate-400">{t('cart.subtotal')}</span>
                 <span className="text-white font-bold">{subtotal.toLocaleString()}₫</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-slate-400">Khuyến mãi</span>
+                <span className="text-slate-400">{t('cart.discount')}</span>
                 <span className="text-emerald-400 font-bold">-0₫</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-slate-400">Vận chuyển</span>
-                <span className="text-emerald-400 font-bold uppercase text-xs tracking-wider bg-emerald-400/10 px-2 py-0.5 rounded">Miễn phí</span>
+                <span className="text-slate-400">{t('cart.shipping')}</span>
+                <span className="text-emerald-400 font-bold uppercase text-xs tracking-wider bg-emerald-400/10 px-2 py-0.5 rounded">{t('cart.free')}</span>
               </div>
               
               <div className="h-px bg-border-dark my-4"></div>
               
               <div className="flex justify-between items-end">
-                <span className="text-lg font-bold text-white">Tổng cộng</span>
+                <span className="text-lg font-bold text-white">{t('cart.total')}</span>
                 <div className="text-right">
                    <span className="text-3xl font-black text-primary block leading-none">{subtotal.toLocaleString()}₫</span>
-                   <span className="text-[10px] text-slate-500 font-medium">(Đã bao gồm VAT)</span>
+                   <span className="text-[10px] text-slate-500 font-medium">({t('cart.vatIncluded', { defaultValue: 'Đã bao gồm VAT' })})</span>
                 </div>
               </div>
             </div>
             
             <Link to="/checkout">
               <Button size="xl" variant="primary" icon="arrow_forward" className="w-full relative z-10 bg-gradient-to-r from-primary to-red-700 hover:to-red-600 border-none shadow-lg shadow-red-900/30">
-                Thanh toán
+                {t('cart.checkout')}
               </Button>
             </Link>
             

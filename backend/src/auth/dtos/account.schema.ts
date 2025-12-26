@@ -13,6 +13,9 @@ export const CredentialsSchema = z.object({
 }).refine((data) => data.username || data.email, {
   message: "Either username or email must be provided",
   path: ["username"],
+}).refine((data) => !(data.username && data.email), {
+  message: "Provide either username or email, not both",
+  path: ["username"],
 });
 
 // Registration
@@ -132,11 +135,24 @@ export const DeleteAccountSchema = z.object({
   username: z.string().min(1, "Username is required"),
 });
 
+// Account Details schema
+export const AccountDetailsSchema = z.object({
+  accountId: z.string().uuid(),
+  username: z.string(),
+  phone: z.string().nullable(),
+  role: z.object({
+    id: z.string().uuid(),
+    name: z.string(),
+    slug: z.string(),
+  }),
+});
+
 // Type exports for TypeScript
 export type CredentialsDto = z.infer<typeof CredentialsSchema>;
 export type CreateAccountDto = z.infer<typeof CreateAccountSchema>;
 export type VerifyRegisterDto = z.infer<typeof VerifyRegisterSchema>;
 export type UpdateAccountDto = z.infer<typeof UpdateAccountSchema>;
+export type AccountDetailsDto = z.infer<typeof AccountDetailsSchema>;
 export type ResendOtpDto = z.infer<typeof ResendOtpSchema>;
 export type SendOtpDto = z.infer<typeof SendOtpSchema>;
 export type VerifyOtpDto = z.infer<typeof VerifyOtpSchema>;

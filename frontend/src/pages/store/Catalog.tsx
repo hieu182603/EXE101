@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import ProductCard from '../../components/store/ProductCard';
 import { productService } from '@services/productService';
 import type { Product } from '@/types/product';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface ProductData {
   id: string;
@@ -20,6 +21,7 @@ interface ProductData {
 const ITEMS_PER_PAGE = 12;
 
 const CatalogPage: React.FC = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [allProducts, setAllProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -272,21 +274,21 @@ const CatalogPage: React.FC = () => {
     <div className="mx-auto max-w-[1440px] px-4 lg:px-10 py-10">
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
-          <Link to="/" className="hover:text-primary">Trang chủ</Link>
+          <Link to="/" className="hover:text-primary">{t('nav.home')}</Link>
           <span className="material-symbols-outlined text-[14px]">chevron_right</span>
           <span className="text-white font-medium">
-            {isFlashSaleMode ? 'Flash Sale' : 'Tất cả sản phẩm'}
+            {isFlashSaleMode ? t('catalog.breadcrumb.flashSale') : t('catalog.breadcrumb.allProducts')}
           </span>
         </div>
         <h1 className="text-4xl font-black text-white tracking-tight">
           {isFlashSaleMode ? (
             <span className="flex items-center gap-3 text-red-500 italic">
               <span className="material-symbols-outlined text-4xl animate-pulse">local_fire_department</span>
-              FLASH SALE
+              {t('catalog.title.flashSale')}
             </span>
-          ) : 'Tất Cả Sản Phẩm'}
+          ) : t('catalog.title.allProducts')}
         </h1>
-        <p className="text-slate-400 mt-2">Khám phá {filteredProducts.length} sản phẩm {isFlashSaleMode ? 'đang giảm giá sốc' : 'công nghệ đỉnh cao'}</p>
+        <p className="text-slate-400 mt-2">{t(isFlashSaleMode ? 'catalog.subtitle.flashSale' : 'catalog.subtitle.allProducts', { count: filteredProducts.length })}</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10 items-start">
@@ -296,13 +298,13 @@ const CatalogPage: React.FC = () => {
             <div className="flex items-center justify-between pb-3 border-b border-border-dark mb-4">
               <h3 className="font-bold text-white uppercase text-xs tracking-widest flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary text-[20px]">filter_list</span>
-                Bộ lọc
+                {t('catalog.filters.title')}
               </h3>
-              <button 
+              <button
                 onClick={clearAllFilters}
                 className="text-[10px] font-black text-primary uppercase hover:underline"
               >
-                Xóa tất cả
+                {t('catalog.filters.clearAll')}
               </button>
             </div>
 
@@ -312,7 +314,7 @@ const CatalogPage: React.FC = () => {
                 <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/50 flex items-center justify-between">
                   <span className="text-sm font-bold text-red-500 flex items-center gap-2">
                     <span className="material-symbols-outlined text-lg">bolt</span>
-                    Đang xem Flash Sale
+                    {t('catalog.filters.flashSaleMode')}
                   </span>
                   <button onClick={clearAllFilters} className="text-slate-400 hover:text-white">
                     <span className="material-symbols-outlined text-lg">close</span>
@@ -323,7 +325,7 @@ const CatalogPage: React.FC = () => {
               {/* Category Filter */}
               <details open className="group bg-surface-dark border border-border-dark rounded-2xl overflow-hidden">
                 <summary className="flex cursor-pointer items-center justify-between px-5 py-4 hover:bg-white/5 transition-colors list-none">
-                  <span className="text-sm font-bold text-white">Danh mục</span>
+                  <span className="text-sm font-bold text-white">{t('catalog.filters.categories')}</span>
                   <span className="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
                 </summary>
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-3 border-t border-border-dark/50">
@@ -344,7 +346,7 @@ const CatalogPage: React.FC = () => {
               {/* Brand Filter */}
               <details open className="group bg-surface-dark border border-border-dark rounded-2xl overflow-hidden">
                 <summary className="flex cursor-pointer items-center justify-between px-5 py-4 hover:bg-white/5 transition-colors list-none">
-                  <span className="text-sm font-bold text-white">Thương hiệu</span>
+                  <span className="text-sm font-bold text-white">{t('catalog.filters.brands')}</span>
                   <span className="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
                 </summary>
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-3 border-t border-border-dark/50">
@@ -365,7 +367,7 @@ const CatalogPage: React.FC = () => {
                {/* Status Filter */}
               <details open className="group bg-surface-dark border border-border-dark rounded-2xl overflow-hidden">
                 <summary className="flex cursor-pointer items-center justify-between px-5 py-4 hover:bg-white/5 transition-colors list-none">
-                  <span className="text-sm font-bold text-white">Trạng thái</span>
+                  <span className="text-sm font-bold text-white">{t('catalog.filters.availability')}</span>
                   <span className="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
                 </summary>
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-3 border-t border-border-dark/50">
@@ -377,7 +379,7 @@ const CatalogPage: React.FC = () => {
                       onChange={() => setAvailability('all')}
                       className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
                     />
-                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">Tất cả</span>
+                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.all')}</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group/item">
                     <input 
@@ -387,7 +389,7 @@ const CatalogPage: React.FC = () => {
                       onChange={() => setAvailability('inStock')}
                       className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
                     />
-                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">Sẵn hàng</span>
+                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.inStock')}</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group/item">
                     <input 
@@ -397,7 +399,7 @@ const CatalogPage: React.FC = () => {
                       onChange={() => setAvailability('outOfStock')}
                       className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
                     />
-                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">Cháy hàng</span>
+                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.outOfStock')}</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group/item">
                     <input 
@@ -407,7 +409,7 @@ const CatalogPage: React.FC = () => {
                       onChange={() => setAvailability('sale')}
                       className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
                     />
-                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">Đang giảm giá</span>
+                    <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.sale')}</span>
                   </label>
                 </div>
               </details>
@@ -415,7 +417,7 @@ const CatalogPage: React.FC = () => {
               {/* Rating Filter */}
               <details open className="group bg-surface-dark border border-border-dark rounded-2xl overflow-hidden">
                 <summary className="flex cursor-pointer items-center justify-between px-5 py-4 hover:bg-white/5 transition-colors list-none">
-                  <span className="text-sm font-bold text-white">Đánh giá</span>
+                  <span className="text-sm font-bold text-white">{t('catalog.filters.rating')}</span>
                   <span className="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
                 </summary>
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-2 border-t border-border-dark/50">
@@ -430,7 +432,7 @@ const CatalogPage: React.FC = () => {
                           <span key={i} className={`material-symbols-outlined text-sm ${i < star ? 'fill' : ''}`}>star</span>
                         ))}
                       </div>
-                      <span className="text-xs font-bold text-slate-400">Từ {star} sao</span>
+                      <span className="text-xs font-bold text-slate-400">{t('catalog.rating.from', { stars: star })}</span>
                     </button>
                   ))}
                 </div>
@@ -439,7 +441,7 @@ const CatalogPage: React.FC = () => {
               {/* Price Range */}
               <details open className="group bg-surface-dark border border-border-dark rounded-2xl overflow-hidden">
                 <summary className="flex cursor-pointer items-center justify-between px-5 py-4 hover:bg-white/5 transition-colors list-none">
-                  <span className="text-sm font-bold text-white">Khoảng giá</span>
+                  <span className="text-sm font-bold text-white">{t('catalog.filters.priceRange')}</span>
                   <span className="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
                 </summary>
                 <div className="px-5 pb-6 pt-2 border-t border-border-dark/50">
@@ -505,7 +507,7 @@ const CatalogPage: React.FC = () => {
               <span className="material-symbols-outlined text-[18px]">
                 {showMobileFilters ? 'filter_list_off' : 'filter_list'}
               </span>
-              {showMobileFilters ? 'Ẩn bộ lọc' : 'Bộ lọc'}
+              {showMobileFilters ? t('catalog.mobileFilters.hide') : t('catalog.mobileFilters.show')}
               {!showMobileFilters && activeFilterCount > 0 && (
                 <span className="absolute -top-1 -right-1 size-4 bg-primary text-white text-[9px] flex items-center justify-center rounded-full font-bold">
                   {activeFilterCount}
@@ -517,9 +519,9 @@ const CatalogPage: React.FC = () => {
             <div className="flex items-center gap-4 w-full sm:w-auto justify-end">
                 <div className="relative">
                   <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="appearance-none bg-surface-dark border border-border-dark rounded-xl pl-4 pr-10 py-2.5 text-xs font-bold text-white focus:ring-1 focus:ring-primary outline-none cursor-pointer">
-                    <option value="newest">Mới nhất</option>
-                    <option value="price-low">Giá: Thấp đến Cao</option>
-                    <option value="price-high">Giá: Cao đến Thấp</option>
+                    <option value="newest">{t('catalog.sort.newest')}</option>
+                    <option value="price-low">{t('catalog.sort.priceLow')}</option>
+                    <option value="price-high">{t('catalog.sort.priceHigh')}</option>
                   </select>
                   <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
                 </div>
@@ -559,9 +561,9 @@ const CatalogPage: React.FC = () => {
           ) : (
              <div className="flex flex-col items-center justify-center py-20 text-center">
               <span className="material-symbols-outlined text-[64px] text-slate-700 mb-4">search_off</span>
-              <h3 className="text-xl font-bold text-white mb-2">Không tìm thấy sản phẩm</h3>
-              <p className="text-slate-500">Hãy thử thay đổi bộ lọc để tìm kiếm kết quả phù hợp hơn.</p>
-              <button onClick={clearAllFilters} className="mt-6 px-6 py-2 bg-primary/10 text-primary border border-primary/20 rounded-xl font-bold hover:bg-primary hover:text-black transition-all">Xóa tất cả bộ lọc</button>
+              <h3 className="text-xl font-bold text-white mb-2">{t('catalog.noProducts.title')}</h3>
+              <p className="text-slate-500">{t('catalog.noProducts.description')}</p>
+              <button onClick={clearAllFilters} className="mt-6 px-6 py-2 bg-primary/10 text-primary border border-primary/20 rounded-xl font-bold hover:bg-primary hover:text-black transition-all">{t('catalog.noProducts.clearFilters')}</button>
             </div>
           )}
           

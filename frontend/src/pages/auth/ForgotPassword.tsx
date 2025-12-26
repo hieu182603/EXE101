@@ -3,9 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthInput from '@components/ui/AuthInput';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 // --- OTP Modal Component ---
 const OTPModal = ({ isOpen, onClose, onVerify, email }: { isOpen: boolean; onClose: () => void; onVerify: () => void; email: string }) => {
+  const { t } = useTranslation();
   const [otp, setOtp] = useState(['', '', '', '']);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -36,8 +38,8 @@ const OTPModal = ({ isOpen, onClose, onVerify, email }: { isOpen: boolean; onClo
         <div className="size-16 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400">
            <span className="material-symbols-outlined text-3xl">mark_email_read</span>
         </div>
-        <h2 className="text-2xl font-black text-white mb-2">Xác thực Email</h2>
-        <p className="text-slate-400 text-xs mb-8">Mã OTP đã được gửi tới <b>{email}</b></p>
+        <h2 className="text-2xl font-black text-white mb-2">{t('auth.otp.title')}</h2>
+        <p className="text-slate-400 text-xs mb-8">{t('auth.otp.subtitle', { email })}</p>
 
         <div className="flex justify-center gap-4 mb-8">
           {otp.map((digit, index) => (
@@ -59,7 +61,7 @@ const OTPModal = ({ isOpen, onClose, onVerify, email }: { isOpen: boolean; onClo
           disabled={otp.some(d => !d)}
           className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Xác nhận
+          {t('auth.otp.verify')}
         </button>
       </div>
     </div>
@@ -69,6 +71,7 @@ const OTPModal = ({ isOpen, onClose, onVerify, email }: { isOpen: boolean; onClo
 const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
   const { showSuccess } = useToast();
+  const { t } = useTranslation();
   const [step, setStep] = useState<'EMAIL' | 'OTP' | 'RESET'>('EMAIL');
   const [email, setEmail] = useState('');
   
@@ -96,7 +99,7 @@ const ForgotPassword: React.FC = () => {
   const handleResetPassword = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate API Call
-    showSuccess("Mật khẩu đã được thay đổi thành công!");
+    showSuccess(t('success.saved'));
     navigate('/login');
   };
 
@@ -119,19 +122,19 @@ const ForgotPassword: React.FC = () => {
               <div className="size-12 bg-purple-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 text-purple-400 shadow-lg shadow-purple-500/10">
                 <span className="material-symbols-outlined text-2xl">lock_reset</span>
               </div>
-              <h1 className="text-2xl font-black text-white mb-2 tracking-tight">Quên mật khẩu?</h1>
-              <p className="text-slate-400 text-xs">Nhập email của bạn để nhận mã xác thực.</p>
+              <h1 className="text-2xl font-black text-white mb-2 tracking-tight">{t('auth.forgot.title', { defaultValue: 'Quên mật khẩu?' })}</h1>
+              <p className="text-slate-400 text-xs">{t('auth.forgot.subtitle', { defaultValue: 'Nhập email của bạn để nhận mã xác thực.' })}</p>
             </div>
 
             <form onSubmit={handleSendEmail} className="space-y-6">
               <AuthInput 
                 icon="mail" 
-                placeholder="Email của bạn" 
+                placeholder={t('auth.login.email')} 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all active:scale-95">
-                GỬI YÊU CẦU
+                {t('auth.forgot.sendRequest', { defaultValue: 'GỬI YÊU CẦU' })}
               </button>
             </form>
           </>
@@ -143,14 +146,14 @@ const ForgotPassword: React.FC = () => {
               <div className="size-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 text-emerald-400 shadow-lg shadow-emerald-500/10">
                 <span className="material-symbols-outlined text-2xl">check_circle</span>
               </div>
-              <h1 className="text-2xl font-black text-white mb-2 tracking-tight">Đặt lại mật khẩu</h1>
-              <p className="text-slate-400 text-xs">Vui lòng nhập mật khẩu mới của bạn.</p>
+              <h1 className="text-2xl font-black text-white mb-2 tracking-tight">{t('auth.forgot.resetTitle', { defaultValue: 'Đặt lại mật khẩu' })}</h1>
+              <p className="text-slate-400 text-xs">{t('auth.forgot.resetSubtitle', { defaultValue: 'Vui lòng nhập mật khẩu mới của bạn.' })}</p>
             </div>
 
             <form onSubmit={handleResetPassword} className="space-y-4">
               <AuthInput 
                 icon="lock" 
-                placeholder="Mật khẩu mới" 
+                placeholder={t('auth.forgot.newPassword', { defaultValue: 'Mật khẩu mới' })} 
                 showEye={true} 
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -181,14 +184,14 @@ const ForgotPassword: React.FC = () => {
 
               <AuthInput 
                 icon="lock_reset" 
-                placeholder="Xác nhận mật khẩu" 
+                placeholder={t('auth.forgot.confirmPassword', { defaultValue: 'Xác nhận mật khẩu' })} 
                 showEye={true}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
               
               <button className="w-full mt-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black text-xs rounded-xl uppercase tracking-widest shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.02] transition-all active:scale-95">
-                XÁC NHẬN ĐỔI
+                {t('auth.forgot.confirmReset', { defaultValue: 'XÁC NHẬN ĐỔI' })}
               </button>
             </form>
           </>
@@ -197,7 +200,7 @@ const ForgotPassword: React.FC = () => {
         <div className="mt-8 text-center pt-6 border-t border-white/5">
            <Link to="/login" className="text-xs font-bold text-slate-400 hover:text-white flex items-center justify-center gap-2 group">
              <span className="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
-             Quay lại đăng nhập
+             {t('auth.forgot.backToLogin', { defaultValue: 'Quay lại đăng nhập' })}
            </Link>
         </div>
       </div>

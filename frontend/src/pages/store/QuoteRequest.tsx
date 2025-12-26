@@ -7,6 +7,7 @@ import { productService } from '@services/productService';
 import { rfqService } from '@services/rfqService';
 import type { Product } from '../../types/product';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 // --- Types & Mock Data ---
 type Category = 'CPU' | 'Mainboard' | 'RAM' | 'VGA' | 'SSD' | 'HDD' | 'PSU' | 'Case' | 'Cooling' | 'Monitor' | 'Gear';
@@ -23,26 +24,29 @@ interface QuoteItem extends ProductPart {
   qty: number;
 }
 
-const CATEGORIES: { id: Category; label: string; icon: string; categoryName: string }[] = [
-  { id: 'CPU', label: 'Vi xử lý', icon: 'memory', categoryName: 'cpu' },
-  { id: 'Mainboard', label: 'Bo mạch chủ', icon: 'developer_board', categoryName: 'motherboard' },
-  { id: 'RAM', label: 'RAM', icon: 'memory_alt', categoryName: 'ram' },
-  { id: 'VGA', label: 'Card đồ họa', icon: 'videogame_asset', categoryName: 'gpu' },
-  { id: 'SSD', label: 'SSD/HDD', icon: 'storage', categoryName: 'drive' },
-  { id: 'PSU', label: 'Nguồn', icon: 'power', categoryName: 'psu' },
-  { id: 'Case', label: 'Vỏ máy', icon: 'computer', categoryName: 'case' },
-  { id: 'Cooling', label: 'Tản nhiệt', icon: 'mode_fan', categoryName: 'cooler' },
-  { id: 'Monitor', label: 'Màn hình', icon: 'monitor', categoryName: 'monitor' },
-  { id: 'Gear', label: 'Phụ kiện', icon: 'keyboard', categoryName: 'accessories' },
+const getCategories = (t: (key: string) => string) => [
+  { id: 'CPU', label: t('quote.categories.cpu'), icon: 'memory', categoryName: 'cpu' },
+  { id: 'Mainboard', label: t('quote.categories.motherboard'), icon: 'developer_board', categoryName: 'motherboard' },
+  { id: 'RAM', label: t('quote.categories.ram'), icon: 'memory_alt', categoryName: 'ram' },
+  { id: 'VGA', label: t('quote.categories.gpu'), icon: 'videogame_asset', categoryName: 'gpu' },
+  { id: 'SSD', label: t('quote.categories.drive'), icon: 'storage', categoryName: 'drive' },
+  { id: 'PSU', label: t('quote.categories.psu'), icon: 'power', categoryName: 'psu' },
+  { id: 'Case', label: t('quote.categories.case'), icon: 'computer', categoryName: 'case' },
+  { id: 'Cooling', label: t('quote.categories.cooler'), icon: 'mode_fan', categoryName: 'cooler' },
+  { id: 'Monitor', label: t('quote.categories.monitor'), icon: 'monitor', categoryName: 'monitor' },
+  { id: 'Gear', label: t('quote.categories.accessories'), icon: 'keyboard', categoryName: 'accessories' },
 ];
 
 const QuoteRequest: React.FC = () => {
+  const { t } = useTranslation();
   const { showError, showSuccess } = useToast();
   const [activeCategory, setActiveCategory] = useState<Category>('CPU');
   const [searchTerm, setSearchTerm] = useState('');
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [products, setProducts] = useState<ProductPart[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const CATEGORIES = useMemo(() => getCategories(t), [t]);
   
   // Form State
   const [customerInfo, setCustomerInfo] = useState({
@@ -124,11 +128,11 @@ const QuoteRequest: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (quoteItems.length === 0) {
-      showError("Vui lòng chọn ít nhất một sản phẩm để báo giá.");
+      showError(t('quote.errors.noItems'));
       return;
     }
     if (!customerInfo.name || !customerInfo.phone) {
-      showError("Vui lòng nhập tên và số điện thoại.");
+      showError(t('quote.errors.missingInfo'));
       return;
     }
 
@@ -159,14 +163,19 @@ const QuoteRequest: React.FC = () => {
       
       // For now, just show success message
       // In the future, you might want to show the compatible builds or send email
-      showSuccess(`Đã gửi yêu cầu báo giá thành công!\n\nTổng giá trị: ${totalAmount.toLocaleString('vi-VN')}₫\nSố linh kiện: ${quoteItems.length}\n\nChúng tôi sẽ liên hệ ${customerInfo.name} (${customerInfo.phone}) sớm nhất.`);
+      showSuccess(t('quote.success.submitMessage', {
+        total: totalAmount.toLocaleString('vi-VN'),
+        count: quoteItems.length,
+        name: customerInfo.name,
+        phone: customerInfo.phone
+      }));
       
       // Reset form
       setQuoteItems([]);
       setCustomerInfo({ name: '', email: '', phone: '', note: '' });
     } catch (error) {
       console.error('Error submitting quote request:', error);
-      showError("Gửi yêu cầu báo giá thất bại. Vui lòng thử lại.");
+      showError(t('quote.errors.submitFailed'));
     }
   };
 
@@ -175,10 +184,9 @@ const QuoteRequest: React.FC = () => {
       {/* Header Banner */}
       <div className="bg-surface-dark border-b border-border-dark py-10 px-4 rounded-b-[32px] shadow-lg shadow-black/40 mb-10">
         <div className="container mx-auto max-w-[1440px]">
-           <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">Xây Dựng Cấu Hình & Báo Giá</h1>
+           <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">{t('quote.title')}</h1>
            <p className="text-slate-400 max-w-2xl">
-             Chọn linh kiện để xây dựng bộ PC mơ ước của bạn hoặc tạo danh sách thiết bị cần mua cho doanh nghiệp. 
-             Chúng tôi sẽ kiểm tra tính tương thích và gửi báo giá tốt nhất.
+             {t('quote.subtitle')}
            </p>
         </div>
       </div>
@@ -210,9 +218,9 @@ const QuoteRequest: React.FC = () => {
             {/* 2. Search & List */}
             <div className="bg-surface-dark border border-border-dark rounded-3xl p-6 min-h-[600px]">
               <div className="mb-6">
-                <Input 
-                  icon="search" 
-                  placeholder={`Tìm kiếm ${CATEGORIES.find(c => c.id === activeCategory)?.label}...`} 
+                <Input
+                  icon="search"
+                  placeholder={t('quote.searchPlaceholder', { category: CATEGORIES.find(c => c.id === activeCategory)?.label })}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -241,7 +249,7 @@ const QuoteRequest: React.FC = () => {
                       <div className="flex items-center justify-between mt-3">
                         <span className="font-bold text-white">{product.price.toLocaleString()}đ</span>
                         <Button size="sm" variant="secondary" icon="add" onClick={() => addToQuote(product)} className="h-8">
-                           Thêm
+                           {t('quote.addButton')}
                         </Button>
                       </div>
                       </div>
@@ -251,9 +259,9 @@ const QuoteRequest: React.FC = () => {
               ) : (
                 <div className="col-span-full py-20 text-center text-slate-500">
                   <span className="material-symbols-outlined text-5xl mb-2">manage_search</span>
-                  <p>Không tìm thấy linh kiện nào.</p>
+                  <p>{t('quote.noProducts')}</p>
                   {searchTerm && (
-                    <p className="text-sm mt-2">Thử tìm kiếm với từ khóa khác.</p>
+                    <p className="text-sm mt-2">{t('quote.noProductsHint')}</p>
                   )}
                 </div>
               )}
@@ -271,9 +279,9 @@ const QuoteRequest: React.FC = () => {
                 <div className="p-5 border-b border-border-dark bg-surface-accent/20 flex justify-between items-center">
                    <h3 className="font-bold text-white flex items-center gap-2">
                      <span className="material-symbols-outlined text-primary">list_alt</span>
-                     Cấu hình của bạn
+                     {t('quote.selectedTitle')}
                    </h3>
-                   <Badge variant="primary" dot>{quoteItems.length} linh kiện</Badge>
+                   <Badge variant="primary" dot>{t('quote.selectedCount', { count: quoteItems.length })}</Badge>
                 </div>
 
                 <div className="flex-1 overflow-y-auto custom-scrollbar p-2">
@@ -306,61 +314,61 @@ const QuoteRequest: React.FC = () => {
                   ) : (
                     <div className="h-40 flex flex-col items-center justify-center text-slate-500 gap-2">
                        <span className="material-symbols-outlined text-4xl opacity-50">add_circle_outline</span>
-                       <p className="text-xs">Chưa có linh kiện nào được chọn</p>
+                       <p className="text-xs">{t('quote.emptySelection')}</p>
                     </div>
                   )}
                 </div>
 
                 <div className="p-5 border-t border-border-dark bg-surface-accent/10">
                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-bold text-slate-400">Tổng dự kiến</span>
+                      <span className="text-sm font-bold text-slate-400">{t('quote.totalLabel')}</span>
                       <span className="text-xl font-black text-white">{totalPrice.toLocaleString()}đ</span>
                    </div>
-                   <p className="text-[10px] text-slate-500 text-right italic">* Giá chưa bao gồm VAT và ưu đãi doanh nghiệp</p>
+                   <p className="text-[10px] text-slate-500 text-right italic">{t('quote.totalNote')}</p>
                 </div>
               </div>
 
               {/* Contact Form */}
               <div className="bg-surface-dark border border-border-dark rounded-3xl p-6 shadow-2xl">
                  <h3 className="font-bold text-white mb-4 flex items-center gap-2 text-sm uppercase tracking-widest">
-                   <span className="material-symbols-outlined text-primary text-lg">send</span> 
-                   Gửi yêu cầu báo giá
+                   <span className="material-symbols-outlined text-primary text-lg">send</span>
+                   {t('quote.form.title')}
                  </h3>
                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input 
-                      placeholder="Tên người liên hệ / Doanh nghiệp" 
+                    <Input
+                      placeholder={t('quote.form.namePlaceholder')}
                       value={customerInfo.name}
                       onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
                       className="bg-background-dark text-sm h-10"
                     />
                     <div className="grid grid-cols-2 gap-3">
-                      <Input 
-                        placeholder="Số điện thoại" 
+                      <Input
+                        placeholder={t('quote.form.phonePlaceholder')}
                         value={customerInfo.phone}
                         onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
                         className="bg-background-dark text-sm h-10"
                       />
-                      <Input 
-                        placeholder="Email (Tùy chọn)" 
+                      <Input
+                        placeholder={t('quote.form.emailPlaceholder')}
                         value={customerInfo.email}
                         onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})}
                         className="bg-background-dark text-sm h-10"
                       />
                     </div>
-                    <Textarea 
-                      placeholder="Ghi chú thêm (VD: Cần xuất VAT, Giao gấp...)"
+                    <Textarea
+                      placeholder={t('quote.form.notePlaceholder')}
                       value={customerInfo.note}
                       onChange={(e) => setCustomerInfo({...customerInfo, note: e.target.value})}
                       className="bg-background-dark text-sm min-h-[80px]"
                     />
-                    <Button 
-                      type="submit" 
-                      variant="primary" 
+                    <Button
+                      type="submit"
+                      variant="primary"
                       className="w-full bg-gradient-to-r from-primary to-red-700 hover:to-red-600 shadow-lg shadow-red-900/30"
                       size="lg"
                       icon="rocket_launch"
                     >
-                      NHẬN BÁO GIÁ NGAY
+                      {t('quote.form.submitButton')}
                     </Button>
                  </form>
               </div>

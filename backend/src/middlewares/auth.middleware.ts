@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Container, Service } from "typedi";
 import { JwtService } from "../jwt/jwt.service";
-import { AccountDetailsDto } from "@/auth/dtos/account.dto";
+import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { HttpException } from "@/exceptions/http-exceptions";
 import { HttpMessages } from "@/exceptions/http-messages.constant";
 
@@ -68,7 +68,8 @@ export const Admin = (req: RequestWithUser, res: Response, next: NextFunction): 
   if (!user || !user.role || !user.role.name) {
     return next(new HttpException(403, "Forbidden"));
   }
-  if (user.role.name !== "admin") {
+  // Cho phép admin, manager, staff vào admin routes
+  if (!["admin", "manager", "staff"].includes(user.role.name)) {
     return next(new HttpException(403, "Forbidden"));
   }
   return next();

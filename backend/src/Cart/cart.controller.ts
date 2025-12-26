@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { CartService } from "./cart.service";
 import { AddToCartDto } from "./dtos/cart.dto";
 import { Auth } from "@/middlewares/auth.middleware";
-import { AccountDetailsDto } from "@/auth/dtos/account.dto";
+import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 
 @Service()
 @Controller("/cart")

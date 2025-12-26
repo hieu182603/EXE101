@@ -22,6 +22,7 @@ import {
 } from "./dtos/account.schema";
 import { OtpService } from "@/otp/otp.service";
 import { AccountService } from "./account/account.service";
+import { JwtService } from "@/jwt/jwt.service";
 
 const router = Router();
 const accountController = Container.get(AccountController);
@@ -57,6 +58,66 @@ router.post("/account/verify-register", validate(VerifyRegisterSchema), async (r
     const result = await accountController.verifyRegister(req.body, res);
     // Frontend expects accessToken as string directly
     res.json(result);
+  } catch (error: any) {
+    next(error);
+  }
+});
+
+/**
+ * Backwards-compatible alias for verify-register
+ * Some frontends use /account/verify-registration
+ */
+router.post("/account/verify-registration", validate(VerifyRegisterSchema), async (req, res, next) => {
+  try {
+    const result = await accountController.verifyRegister(req.body, res);
+    res.json(result);
+  } catch (error: any) {
+    next(error);
+  }
+});
+
+/**
+ * Legacy placeholder for verify-login (not implemented)
+ * Returns 501 Not Implemented to indicate client should use /account/login
+ */
+router.post("/account/verify-login", async (req, res, next) => {
+  try {
+    const { username, otp } = req.body;
+    if (!username || !otp) {
+      res.status(400).json({ success: false, message: "username and otp are required" });
+      return;
+    }
+
+    try {
+      const account = await accountService.findAccountByUsername(username);
+      const identifier = account.email || account.phone;
+      if (!identifier) {
+        res.status(400).json({ success: false, message: "Account does not have email or phone to verify OTP" });
+        return;
+      }
+
+      const verified = await otpService.verifyOtp(identifier, otp);
+      if (!verified) {
+        res.status(400).json({ success: false, message: "OTP is wrong or expired" });
+        return;
+      }
+
+      const jwtService = Container.get(JwtService);
+      const newRefreshToken = await jwtService.generateRefreshToken(account);
+      const accessToken = jwtService.generateAccessToken(account);
+
+      res.cookie("refreshToken", newRefreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: "/",
+      });
+
+      res.json(accessToken);
+    } catch (err: any) {
+      next(err);
+    }
   } catch (error: any) {
     next(error);
   }

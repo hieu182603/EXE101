@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { shipperService } from '@services/shipperService';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const ShipperManagement: React.FC = () => {
   const [shippers, setShippers] = useState<Array<{ id: string; name: string; area: string; status: string; rating: number; completed: number }>>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   // Load shippers
   useEffect(() => {
@@ -51,19 +53,19 @@ const ShipperManagement: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Quản Lý Shipper</h1>
-          <p className="text-gray-400 mt-1">Theo dõi đội ngũ giao hàng</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">{t('admin.shippers.title')}</h1>
+          <p className="text-gray-400 mt-1">{t('admin.shippers.subtitle')}</p>
         </div>
         <button className="rounded-xl bg-primary px-6 py-3 text-sm font-bold text-background-dark hover:brightness-110 transition-all flex items-center gap-2">
           <span className="material-symbols-outlined">add</span>
-          Thêm Shipper
+          {t('admin.shippers.add')}
         </button>
       </div>
 
       {loading ? (
         <div className="text-center py-20">
           <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-400">Đang tải danh sách shipper...</p>
+          <p className="text-slate-400">{t('admin.shippers.loading')}</p>
         </div>
       ) : shippers.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -109,7 +111,7 @@ const ShipperManagement: React.FC = () => {
       ) : (
         <div className="text-center py-20 text-slate-500">
           <span className="material-symbols-outlined text-6xl mb-4 block">local_shipping</span>
-          <p>Chưa có shipper nào</p>
+          <p>{t('admin.shippers.noShippers')}</p>
         </div>
       )}
     </div>

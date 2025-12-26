@@ -129,6 +129,12 @@
       "explore": "Khám phá ngay",
       "flagship": "Flagship Series"
     },
+    "sideBanner": {
+      "esport": "Esports Gaming",
+      "esportSub": "Thiết bị chuyên nghiệp",
+      "build": "Tự Build PC",
+      "buildSub": "Linh kiện cao cấp"
+    },
     "features": {
       "freeShipping": {
         "title": "Miễn phí vận chuyển",
@@ -200,8 +206,97 @@
     "submit": "Gửi",
     "cancel": "Hủy"
   },
+  "wishlist": {
+    "title": "Sản phẩm yêu thích",
+    "subtitle": "Bạn đang lưu {{count}} sản phẩm quan tâm.",
+    "empty": {
+      "title": "Danh sách trống",
+      "description": "Hãy thả tim các món đồ công nghệ bạn thích để xem lại tại đây.",
+      "explore": "Khám phá sản phẩm"
+    },
+    "actions": {
+      "clearAll": "Xóa tất cả",
+      "remove": "Bỏ thích",
+      "confirmRemove": "Bỏ sản phẩm này khỏi danh sách yêu thích?",
+      "confirmClearAll": "Xóa toàn bộ danh sách yêu thích?"
+    },
+    "outOfStock": "Hết hàng"
+  },
+  "profile": {
+    "title": "Hồ sơ cá nhân",
+    "personalInfo": "Thông tin liên hệ",
+    "membership": "Hạng thành viên",
+    "addresses": "Sổ địa chỉ",
+    "recentOrders": "Đơn hàng gần đây",
+    "memberSince": "Thành viên từ",
+    "memberId": "Member ID",
+    "labels": {
+      "displayName": "Tên hiển thị",
+      "email": "Email",
+      "phone": "Số điện thoại chính",
+      "rank": "Hạng Vàng",
+      "points": "pts",
+      "pointsNeeded": "Còn {{points}} điểm để lên hạng Kim Cương",
+      "recipientName": "Tên người nhận",
+      "recipientPhone": "Số điện thoại nhận hàng",
+      "addressLabel": "Nhãn (VD: Nhà riêng)",
+      "addressDetail": "Địa chỉ chi tiết (Số nhà, đường, phường/xã...)",
+      "setDefault": "Đặt làm địa chỉ mặc định",
+      "currentPassword": "Mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu mới"
+    },
+    "actions": {
+      "editProfile": "Sửa hồ sơ",
+      "changePassword": "Đổi mật khẩu",
+      "saveChanges": "Lưu thay đổi",
+      "cancel": "Hủy",
+      "addAddress": "Thêm mới",
+      "editAddress": "Chỉnh sửa",
+      "deleteAddress": "Xóa",
+      "setAsDefault": "Đặt làm mặc định",
+      "viewAllOrders": "Xem tất cả"
+    },
+    "modals": {
+      "addAddress": "Thêm địa chỉ mới",
+      "editAddress": "Cập nhật địa chỉ",
+      "changePassword": "Đổi Mật Khẩu",
+      "saveAddress": "Lưu địa chỉ",
+      "updatePassword": "Cập nhật mật khẩu"
+    },
+    "placeholders": {
+      "currentPassword": "Nhập mật khẩu cũ",
+      "newPassword": "Nhập mật khẩu mới",
+      "confirmPassword": "Nhập lại mật khẩu mới"
+    },
+    "validation": {
+      "passwordLength": "8+ chars",
+      "passwordLower": "Lowercase",
+      "passwordUpper": "Uppercase",
+      "passwordNumber": "Number",
+      "addressRequired": "Vui lòng điền đầy đủ thông tin địa chỉ",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa địa chỉ này?"
+    },
+    "messages": {
+      "profileUpdated": "Đã cập nhật hồ sơ thành công!",
+      "passwordChanged": "Đổi mật khẩu thành công!",
+      "loading": "Đang tải...",
+      "noAddresses": "Chưa có địa chỉ nào. Hãy thêm địa chỉ để thanh toán nhanh hơn.",
+      "noOrders": "Chưa có đơn hàng"
+    },
+    "menu": {
+      "profile": "Hồ sơ cá nhân",
+      "orders": "Đơn mua",
+      "wishlist": "Yêu thích",
+      "logout": "Đăng xuất"
+    },
+    "membership": {
+      "default": "Mặc định"
+    }
+  },
   "cart": {
     "title": "Giỏ hàng",
+    "updated": "Giỏ hàng đã được cập nhật",
     "empty": "Giỏ hàng trống",
     "continueShopping": "Tiếp tục mua sắm",
     "checkout": "Thanh toán",
@@ -216,6 +311,58 @@
     "price": "Giá",
     "item": "sản phẩm",
     "items": "sản phẩm"
+  },
+  "catalog": {
+    "breadcrumb": {
+      "home": "Trang chủ",
+      "allProducts": "Tất cả sản phẩm",
+      "flashSale": "Flash Sale"
+    },
+    "title": {
+      "allProducts": "Tất Cả Sản Phẩm",
+      "flashSale": "FLASH SALE"
+    },
+    "subtitle": {
+      "allProducts": "Khám phá {{count}} sản phẩm công nghệ đỉnh cao",
+      "flashSale": "Khám phá {{count}} sản phẩm đang giảm giá sốc"
+    },
+    "filters": {
+      "title": "Bộ lọc",
+      "clearAll": "Xóa tất cả",
+      "flashSaleMode": "Đang xem Flash Sale",
+      "categories": "Danh mục",
+      "brands": "Thương hiệu",
+      "availability": "Trạng thái",
+      "rating": "Đánh giá",
+      "priceRange": "Khoảng giá"
+    },
+    "availability": {
+      "all": "Tất cả",
+      "inStock": "Sẵn hàng",
+      "outOfStock": "Cháy hàng",
+      "sale": "Đang giảm giá"
+    },
+    "rating": {
+      "from": "Từ {{stars}} sao"
+    },
+    "sort": {
+      "newest": "Mới nhất",
+      "priceLow": "Giá: Thấp đến Cao",
+      "priceHigh": "Giá: Cao đến Thấp"
+    },
+    "mobileFilters": {
+      "show": "Bộ lọc",
+      "hide": "Ẩn bộ lọc"
+    },
+    "noProducts": {
+      "title": "Không tìm thấy sản phẩm",
+      "description": "Hãy thử thay đổi bộ lọc để tìm kiếm kết quả phù hợp hơn.",
+      "clearFilters": "Xóa tất cả bộ lọc"
+    },
+    "pagination": {
+      "prev": "Trước",
+      "next": "Sau"
+    }
   },
   "checkout": {
     "title": "Thanh toán",
@@ -248,20 +395,45 @@
     "viewOrder": "Xem đơn hàng",
     "cancelOrder": "Hủy đơn hàng",
     "reorder": "Đặt lại",
-    "noOrders": "Chưa có đơn hàng nào"
+    "noOrders": "Chưa có đơn hàng nào",
+    "history": {
+      "title": "Lịch sử đơn hàng",
+      "loading": "Đang tải đơn hàng...",
+      "empty": {
+        "title": "Chưa có đơn hàng nào",
+        "description": "Bạn chưa mua sắm sản phẩm nào tại TechStore."
+      },
+      "total": "Tổng tiền",
+      "subtotal": "Tạm tính",
+      "shipping": "Phí vận chuyển",
+      "discount": "Khuyến mãi",
+      "grandTotal": "Tổng cộng",
+      "paid": "Đã thanh toán",
+      "shippedTo": "Giao tới",
+      "payment": "Thanh toán",
+      "productDetails": "Chi tiết sản phẩm",
+      "quantity": "Số lượng",
+      "andMore": "và {{count}} sản phẩm khác",
+      "modal": {
+        "title": "Thông tin đơn hàng",
+        "close": "Đóng",
+        "reorder": "Mua lại",
+        "track": "Theo dõi vận chuyển"
+      },
+      "status": {
+        "PENDING": "CHỜ XỬ LÝ",
+        "ASSIGNED": "ĐÃ PHÂN CÔNG",
+        "CONFIRMED": "ĐÃ XÁC NHẬN",
+        "SHIPPING": "ĐANG GIAO",
+        "DELIVERED": "HOÀN THÀNH",
+        "CANCELLED": "ĐÃ HỦY"
+      },
+      "success": {
+        "reorder": "Đã thêm sản phẩm vào giỏ hàng!"
+      }
+    }
   },
-  "profile": {
-    "title": "Hồ sơ cá nhân",
-    "personalInfo": "Thông tin cá nhân",
-    "changePassword": "Đổi mật khẩu",
-    "addresses": "Địa chỉ",
-    "preferences": "Tùy chọn",
-    "notifications": "Thông báo",
-    "save": "Lưu thay đổi",
-    "cancel": "Hủy",
-    "updateSuccess": "Cập nhật thành công",
-    "updateFailed": "Cập nhật thất bại"
-  },
+  
   "admin": {
     "dashboard": "Bảng điều khiển",
     "products": "Sản phẩm",
@@ -320,6 +492,47 @@
     "privacy": "Quyền riêng tư",
     "cookies": "Cookies"
   },
+  "quote": {
+    "title": "Xây Dựng Cấu Hình & Báo Giá",
+    "subtitle": "Chọn linh kiện để xây dựng bộ PC mơ ước của bạn hoặc tạo danh sách thiết bị cần mua cho doanh nghiệp. Chúng tôi sẽ kiểm tra tính tương thích và gửi báo giá tốt nhất.",
+    "searchPlaceholder": "Tìm kiếm {{category}}...",
+    "noProducts": "Không tìm thấy linh kiện nào.",
+    "noProductsHint": "Thử tìm kiếm với từ khóa khác.",
+    "addButton": "Thêm",
+    "selectedTitle": "Cấu hình của bạn",
+    "selectedCount": "{{count}} linh kiện",
+    "emptySelection": "Chưa có linh kiện nào được chọn",
+    "totalLabel": "Tổng dự kiến",
+    "totalNote": "* Giá chưa bao gồm VAT và ưu đãi doanh nghiệp",
+    "form": {
+      "title": "Gửi yêu cầu báo giá",
+      "namePlaceholder": "Tên người liên hệ / Doanh nghiệp",
+      "phonePlaceholder": "Số điện thoại",
+      "emailPlaceholder": "Email (Tùy chọn)",
+      "notePlaceholder": "Ghi chú thêm (VD: Cần xuất VAT, Giao gấp...)",
+      "submitButton": "NHẬN BÁO GIÁ NGAY"
+    },
+    "categories": {
+      "cpu": "Vi xử lý",
+      "motherboard": "Bo mạch chủ",
+      "ram": "RAM",
+      "gpu": "Card đồ họa",
+      "drive": "SSD/HDD",
+      "psu": "Nguồn",
+      "case": "Vỏ máy",
+      "cooler": "Tản nhiệt",
+      "monitor": "Màn hình",
+      "accessories": "Phụ kiện"
+    },
+    "errors": {
+      "noItems": "Vui lòng chọn ít nhất một sản phẩm để báo giá.",
+      "missingInfo": "Vui lòng nhập tên và số điện thoại.",
+      "submitFailed": "Gửi yêu cầu báo giá thất bại. Vui lòng thử lại."
+    },
+    "success": {
+      "submitMessage": "Đã gửi yêu cầu báo giá thành công!\n\nTổng giá trị: {{total}}₫\nSố linh kiện: {{count}}\n\nChúng tôi sẽ liên hệ {{name}} ({{phone}}) sớm nhất."
+    }
+  },
   "validation": {
     "required": "Trường này là bắt buộc",
     "minLength": "Phải có ít nhất {{count}} ký tự",
@@ -361,4 +574,5 @@
     "premiumGear": "Thiết bị cao cấp"
   }
 }
+
 

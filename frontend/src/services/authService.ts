@@ -365,9 +365,38 @@ export const authService = {
             if (!verifyData.username || !verifyData.otp) {
                 throw new Error('Username and OTP are required');
             }
-            // Note: /account/verify-login endpoint doesn't exist in backend
-            // For now, use alternative approach or return error
-            throw new Error('Login verification endpoint not implemented in backend');
+            const response = await api.post('/account/verify-login', {
+                username: verifyData.username,
+                otp: verifyData.otp
+            });
+
+            const accessToken =
+                typeof response.data === 'string' ? response.data : response.data?.data || response.data;
+
+            // Persist token
+            localStorage.setItem('authToken', accessToken);
+
+            // Small delay to ensure interceptor sees token
+            await new Promise((resolve) => setTimeout(resolve, 100));
+
+            // Fetch and store user profile
+            try {
+                const userProfile = await authService.getUserProfile();
+                const userData = userProfile?.data || userProfile;
+                if (userData) {
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    // Notify AuthContext
+                    window.dispatchEvent(
+                        new CustomEvent('auth:login', {
+                            detail: { user: userData, token: accessToken },
+                        })
+                    );
+                }
+            } catch (profileError) {
+                // If profile fetch fails, still keep token
+            }
+
+            return accessToken;
         } catch (error: unknown) {
             if (isErrorWithMessage(error) && 'response' in error) {
                 return handleAuthError(error as AuthError);

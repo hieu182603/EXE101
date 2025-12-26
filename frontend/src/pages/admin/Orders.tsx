@@ -9,6 +9,7 @@ import Pagination from '@components/ui/Pagination';
 import { AdminOutletContext } from '@layouts/AdminLayout';
 import { orderService } from '@services/orderService';
 import { useToast } from '@contexts/ToastContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface OrderItem {
   id: string;
@@ -35,6 +36,7 @@ const ITEMS_PER_PAGE = 5;
 const OrderManagement: React.FC = () => {
   const { isInRange } = useOutletContext<AdminOutletContext>();
   const { showInfo } = useToast();
+  const { t } = useTranslation();
   const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -174,21 +176,21 @@ const OrderManagement: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Quản Lý Đơn Hàng</h1>
-          <p className="text-gray-400 mt-1">Theo dõi và cập nhật trạng thái đơn hàng</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">{t('admin.orders.title')}</h1>
+          <p className="text-gray-400 mt-1">{t('admin.orders.subtitle')}</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="secondary" icon="print" onClick={() => showInfo("Chức năng in danh sách đang được phát triển")}>In hóa đơn</Button>
-          <Button variant="primary" icon="download" onClick={handleExport}>Xuất dữ liệu</Button>
+          <Button variant="secondary" icon="print" onClick={() => showInfo(t('admin.orders.printComingSoon'))}>{t('admin.orders.print')}</Button>
+          <Button variant="primary" icon="download" onClick={handleExport}>{t('admin.orders.export')}</Button>
         </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 rounded-2xl border border-border-dark bg-surface-dark p-5 shadow-sm items-center">
         <div className="relative flex-1 w-full md:w-auto">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-          <input 
+            <input 
             className="w-full h-11 pl-10 pr-4 rounded-xl border border-border-dark bg-background-dark text-sm text-white placeholder-gray-500 focus:border-primary outline-none transition-all" 
-            placeholder="Tìm kiếm theo mã đơn, tên khách hàng..." 
+            placeholder={t('admin.orders.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -199,12 +201,12 @@ const OrderManagement: React.FC = () => {
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
-            <option value="All">Tất cả trạng thái</option>
-            <option value="Chờ xác nhận">Chờ xác nhận</option>
-            <option value="Đã xác nhận">Đã xác nhận</option>
-            <option value="Đang giao hàng">Đang giao hàng</option>
-            <option value="Đã giao hàng">Đã giao hàng</option>
-            <option value="Đã hủy">Đã hủy</option>
+            <option value="All">{t('admin.orders.statusAll')}</option>
+            <option value="Chờ xác nhận">{t('order.status.PENDING')}</option>
+            <option value="Đã xác nhận">{t('order.status.CONFIRMED')}</option>
+            <option value="Đang giao hàng">{t('order.status.SHIPPING')}</option>
+            <option value="Đã giao hàng">{t('order.status.DELIVERED')}</option>
+            <option value="Đã hủy">{t('order.status.CANCELLED')}</option>
           </select>
         </div>
       </div>
@@ -214,12 +216,12 @@ const OrderManagement: React.FC = () => {
           <table className="w-full text-left text-sm border-collapse">
             <thead className="bg-[#1a1a1a] text-xs uppercase tracking-wider text-slate-400 border-b border-border-dark">
               <tr>
-                <th className="px-6 py-5 font-bold">Mã đơn hàng</th>
-                <th className="px-6 py-5 font-bold">Khách hàng</th>
-                <th className="px-6 py-5 font-bold">Ngày đặt</th>
-                <th className="px-6 py-5 font-bold">Tổng tiền</th>
-                <th className="px-6 py-5 font-bold text-center">Trạng thái</th>
-                <th className="px-6 py-5 font-bold text-right">Hành động</th>
+                <th className="px-6 py-5 font-bold">{t('admin.orders.table.orderId')}</th>
+                <th className="px-6 py-5 font-bold">{t('admin.orders.table.customer')}</th>
+                <th className="px-6 py-5 font-bold">{t('admin.orders.table.orderDate')}</th>
+                <th className="px-6 py-5 font-bold">{t('admin.orders.table.total')}</th>
+                <th className="px-6 py-5 font-bold text-center">{t('admin.orders.table.status')}</th>
+                <th className="px-6 py-5 font-bold text-right">{t('admin.orders.table.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border-dark/50">
@@ -259,11 +261,11 @@ const OrderManagement: React.FC = () => {
                       <div className="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => setSelectedOrder(o)}
-                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-primary transition-all text-xs font-bold" 
-                          title="Xem chi tiết"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-dark border border-border-dark text-slate-300 hover:text-white hover:border-primary transition-all text-xs font-bold" 
+                          title={t('admin.orders.viewDetailTitle')}
                         >
                           <span className="material-symbols-outlined text-[16px]">visibility</span>
-                          Chi tiết
+                          {t('admin.orders.viewDetail')}
                         </button>
                         <div className="relative">
                             <button 
@@ -302,11 +304,11 @@ const OrderManagement: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-slate-500 font-medium">
-                    <div className="flex flex-col items-center justify-center gap-3">
+        <div className="flex flex-col items-center justify-center gap-3">
                       <div className="size-12 rounded-full bg-background-dark flex items-center justify-center">
                         <span className="material-symbols-outlined text-slate-600">search_off</span>
                       </div>
-                      <p>Không có đơn hàng nào trong khoảng thời gian này.</p>
+                      <p>{t('admin.orders.noOrdersInRange')}</p>
                     </div>
                   </td>
                 </tr>
@@ -326,13 +328,13 @@ const OrderManagement: React.FC = () => {
       <Modal
         isOpen={!!selectedOrder}
         onClose={() => setSelectedOrder(null)}
-        title={selectedOrder ? `Đơn hàng ${selectedOrder.id}` : ''}
+        title={selectedOrder ? `${t('admin.orders.orderPrefix')} ${selectedOrder.id}` : ''}
         size="4xl"
         footer={
           <div className="flex justify-end gap-3 w-full">
-             <Button variant="outline" onClick={() => setSelectedOrder(null)}>Đóng</Button>
-             <Button variant="secondary" icon="print" onClick={handlePrint}>In phiếu giao hàng</Button>
-             <Button variant="primary" icon="check" onClick={() => selectedOrder && handleProcessOrder(selectedOrder.id, selectedOrder.status)}>Cập nhật trạng thái</Button>
+             <Button variant="outline" onClick={() => setSelectedOrder(null)}>{t('common.close')}</Button>
+             <Button variant="secondary" icon="print" onClick={handlePrint}>{t('admin.orders.printDelivery')}</Button>
+             <Button variant="primary" icon="check" onClick={() => selectedOrder && handleProcessOrder(selectedOrder.id, selectedOrder.status)}>{t('admin.orders.updateStatus')}</Button>
           </div>
         }
       >

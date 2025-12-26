@@ -1,5 +1,7 @@
 import { IsString, IsNumber, IsBoolean, IsOptional, IsUUID, IsArray, IsObject } from "class-validator";
 import { Category } from "../categories/category.entity";
+import { Image } from "@/image/image.entity";
+import { Feedback } from "@/feedback/feedback.entity";
 
 export class CreateProductDto {
     @IsString()
@@ -94,11 +96,11 @@ export class ProductResponseDto {
 
     @IsArray()
     @IsOptional()
-    images?: any[];
+    images?: Image[];
 
     @IsArray()
     @IsOptional()
-    feedbacks?: any[];
+    feedbacks?: Feedback[];
 
     @IsString()
     createdAt: string;
