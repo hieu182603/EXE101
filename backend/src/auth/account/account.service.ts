@@ -18,7 +18,7 @@ import {
 } from "../dtos/account.dto";
 import { JwtService } from "@/jwt/jwt.service";
 import { RefreshToken } from "@/jwt/refreshToken.entity";
-import { ShipperProfile } from "./shipperProfile.entity";
+import { ShipperProfile } from "@/auth/shipperProfile.entity";
 import { RoleService } from "@/role/role.service";
 import { MoreThan } from "typeorm";
 import { HttpMessages } from "@/exceptions/http-messages.constant";
@@ -183,7 +183,7 @@ export class AccountService {
     }
 
     if (!account) {
-      throw new AccountNotFoundException("Invalid credentials");
+      throw new AccountNotFoundException();
     }
 
     // Check if account is registered

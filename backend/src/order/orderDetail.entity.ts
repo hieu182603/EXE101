@@ -14,6 +14,6 @@ export class OrderDetail extends BaseEntity {
   @Column({ type: 'int' })
   quantity: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 15, scale: 2 })
   price: number;
 }

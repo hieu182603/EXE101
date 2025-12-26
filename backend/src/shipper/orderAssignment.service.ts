@@ -1,5 +1,6 @@
 import { Service } from "typedi";
 import { Account } from "@/auth/account/account.entity";
+import { ShipperProfile } from "@/auth/shipperProfile.entity";
 import { Order } from "@/order/order.entity";
 import { Role } from "@/role/role.entity";
 import { OrderStatus } from "@/order/dtos/update-order.dto";
@@ -104,8 +105,8 @@ export class OrderAssignmentService {
       }
       
       // 4. Sắp xếp shipper theo số đơn hiện tại (ít nhất lên đầu)
-      availableShippers.sort((a, b) => 
-        (a.currentOrdersToday || 0) - (b.currentOrdersToday || 0)
+      availableShippers.sort((a, b) =>
+        (a.shipperProfile?.currentOrdersToday || 0) - (b.shipperProfile?.currentOrdersToday || 0)
       );
       
       // 5. Chọn shipper đầu tiên (ít đơn nhất)
@@ -332,15 +333,16 @@ export class OrderAssignmentService {
 
     try {
       const allAvailableShippers = await Account.createQueryBuilder("account")
+        .leftJoinAndSelect("account.shipperProfile", "profile")
         .where("account.role.id = :roleId", { roleId: shipperRole.id })
         .andWhere("account.isRegistered = :isRegistered", { isRegistered: true })
-        .andWhere("account.isAvailable = :isAvailable", { isAvailable: true })
+        .andWhere("profile.isAvailable = :isAvailable", { isAvailable: true })
         .andWhere(
           // Fix: Nếu maxOrdersPerDay = 0 thì coi như unlimited (999)
-          "account.currentOrdersToday < CASE WHEN account.maxOrdersPerDay = 0 THEN 999 ELSE account.maxOrdersPerDay END"
+          "profile.currentOrdersToday < CASE WHEN profile.maxOrdersPerDay = 0 THEN 999 ELSE profile.maxOrdersPerDay END"
         )
-        .orderBy("account.priority", "DESC")
-        .addOrderBy("account.currentOrdersToday", "ASC")
+        .orderBy("profile.priority", "DESC")
+        .addOrderBy("profile.currentOrdersToday", "ASC")
         .getMany();
       
       if (allAvailableShippers.length === 0) {
@@ -517,7 +519,7 @@ export class OrderAssignmentService {
     const availableShippers = await this.findAvailableShippers(orderAddress);
     
     return availableShippers
-      .filter(shipper => (shipper.priority || 1) >= 5)
+      .filter(shipper => (shipper.shipperProfile?.priority || 1) >= 5)
       .slice(0, 3); // Lấy tối đa 3 shipper
   }
 
@@ -525,9 +527,12 @@ export class OrderAssignmentService {
    * Kiểm tra shipper có còn available không
    */
   private async checkShipperAvailability(shipperId: string): Promise<boolean> {
-    const shipper = await Account.findOne({ where: { id: shipperId } });
-    return shipper?.isAvailable === true && 
-           (shipper.currentOrdersToday || 0) < (shipper.maxOrdersPerDay || 999);
+    const shipper = await Account.findOne({
+      where: { id: shipperId },
+      relations: ["shipperProfile"]
+    });
+    return shipper?.shipperProfile?.isAvailable === true &&
+           (shipper.shipperProfile?.currentOrdersToday || 0) < (shipper.shipperProfile?.maxOrdersPerDay || 999);
   }
 
   /**
@@ -543,10 +548,11 @@ export class OrderAssignmentService {
       // 1. Check if shipper is still available
       const currentShipper = await transactionalEntityManager.findOne(Account, {
         where: { id: shipper.id },
+        relations: ["shipperProfile"],
         lock: { mode: 'pessimistic_write' }
       });
-      
-      if (!currentShipper || !currentShipper.isAvailable) {
+
+      if (!currentShipper || !currentShipper.shipperProfile?.isAvailable) {
         throw new Error(`Shipper ${shipper.id} is no longer available`);
       }
 
@@ -590,8 +596,8 @@ export class OrderAssignmentService {
         .getCount();
 
       // 4. Check if exceeds maximum orders per day
-      if (currentOrdersCount >= (currentShipper.maxOrdersPerDay || 999)) {
-        throw new Error(`Shipper ${shipper.id} has reached maximum orders for today (${currentOrdersCount}/${currentShipper.maxOrdersPerDay})`);
+      if (currentOrdersCount >= (currentShipper.shipperProfile?.maxOrdersPerDay || 999)) {
+        throw new Error(`Shipper ${shipper.id} has reached maximum orders for today (${currentOrdersCount}/${currentShipper.shipperProfile?.maxOrdersPerDay})`);
       }
 
       // 5. Assign order to shipper and change status to ASSIGNED
@@ -633,13 +639,13 @@ export class OrderAssignmentService {
       })
       .getCount();
 
-    await Account.createQueryBuilder("account")
+    // Update shipper profile instead of account
+    await ShipperProfile.createQueryBuilder("profile")
       .update()
-      .set({ 
-        currentOrdersToday: count,
-        lastOrderDate: new Date()
+      .set({
+        currentOrdersToday: count
       })
-      .where("account.id = :shipperId", { shipperId })
+      .where("profile.accountId = :shipperId", { shipperId })
       .execute();
   }
 
@@ -727,22 +733,21 @@ export class OrderAssignmentService {
         })
         .getCount();
 
-      await Account.createQueryBuilder("account")
+      await ShipperProfile.createQueryBuilder("profile")
         .update()
-        .set({ 
-          currentOrdersToday: currentOrdersCount,
-          lastOrderDate: new Date()
+        .set({
+          currentOrdersToday: currentOrdersCount
         })
-        .where("account.id = :shipperId", { shipperId: shipper.id })
+        .where("profile.accountId = :shipperId", { shipperId: shipper.id })
         .execute();
     }
   }
 
   async updateShipperAvailability(shipperId: string, isAvailable: boolean): Promise<void> {
-    await Account.createQueryBuilder("account")
+    await ShipperProfile.createQueryBuilder("profile")
       .update()
       .set({ isAvailable })
-      .where("account.id = :shipperId", { shipperId })
+      .where("profile.accountId = :shipperId", { shipperId })
       .execute();
   }
 
@@ -864,15 +869,15 @@ export class OrderAssignmentService {
   async updateShipperPriority(shipperId: string, priority: number): Promise<void> {
     // Validate input
     ValidationHelper.validateUUID(shipperId, 'shipperId');
-    
+
     if (typeof priority !== 'number' || priority < 1 || priority > 10) {
       throw new Error('Priority must be a number between 1 and 10');
     }
 
-    await Account.createQueryBuilder("account")
+    await ShipperProfile.createQueryBuilder("profile")
       .update()
       .set({ priority })
-      .where("account.id = :shipperId", { shipperId })
+      .where("profile.accountId = :shipperId", { shipperId })
       .execute();
   }
 
@@ -972,10 +977,10 @@ export class OrderAssignmentService {
         processedShipperIds.add(shipper.id);
         
         // Kiểm tra shipper có khả dụng không
-        if (shipper && 
-            shipper.isAvailable && 
-            shipper.isRegistered && 
-            (!shipper.maxOrdersPerDay || shipper.currentOrdersToday < shipper.maxOrdersPerDay)) {
+        if (shipper &&
+            shipper.shipperProfile?.isAvailable &&
+            shipper.isRegistered &&
+            (!shipper.shipperProfile?.maxOrdersPerDay || shipper.shipperProfile?.currentOrdersToday < shipper.shipperProfile?.maxOrdersPerDay)) {
           availableShippers.push(shipper);
         }
       }

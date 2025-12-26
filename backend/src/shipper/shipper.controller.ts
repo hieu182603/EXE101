@@ -110,9 +110,9 @@ export class ShipperController {
           cancellationRate: parseFloat(cancellationRate),
           rating: parseFloat(rating),
           todayOrders,
-          maxDailyOrders: shipper.maxOrdersPerDay || 10,
-          isAvailable: shipper.isAvailable,
-          priority: shipper.priority || 1
+          maxDailyOrders: shipper.shipperProfile?.maxOrdersPerDay || 10,
+          isAvailable: shipper.shipperProfile?.isAvailable,
+          priority: shipper.shipperProfile?.priority || 1
         },
         message: "Statistics retrieved successfully"
       };

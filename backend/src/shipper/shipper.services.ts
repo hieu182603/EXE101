@@ -1,5 +1,6 @@
 import { Service } from "typedi";
 import { Account } from "@/auth/account/account.entity";
+import { ShipperProfile } from "@/auth/shipperProfile.entity";
 import { Role } from "@/role/role.entity";
 import { CreateShipperDto, UpdateShipperDto } from "./dtos/shipper.dtos";
 import { EntityNotFoundException, BadRequestException } from "@/exceptions/http-exceptions";
@@ -118,8 +119,8 @@ export class ShipperService {
         ...shipper,
         fullName: shipper.name,  // Frontend expect 'fullName'
         workingZones,
-        dailyOrderCount: shipper.currentOrdersToday || 0,  // Frontend expect 'dailyOrderCount'
-        maxDailyOrders: shipper.maxOrdersPerDay || 10      // Frontend expect 'maxDailyOrders'
+        dailyOrderCount: shipper.shipperProfile?.currentOrdersToday || 0,  // Frontend expect 'dailyOrderCount'
+        maxDailyOrders: shipper.shipperProfile?.maxOrdersPerDay || 10      // Frontend expect 'maxDailyOrders'
       });
     }
 
@@ -182,9 +183,22 @@ export class ShipperService {
         if (updateShipperDto.fullName) account.name = updateShipperDto.fullName;
         if (updateShipperDto.phone) account.phone = updateShipperDto.phone;
         if (updateShipperDto.isRegistered !== undefined) account.isRegistered = updateShipperDto.isRegistered;
-        if (updateShipperDto.isAvailable !== undefined) account.isAvailable = updateShipperDto.isAvailable;
-        if (updateShipperDto.priority !== undefined) account.priority = updateShipperDto.priority;
-        if (updateShipperDto.maxDailyOrders !== undefined) account.maxOrdersPerDay = updateShipperDto.maxDailyOrders;
+
+        // Handle shipper profile updates
+        let shipperProfile = await transactionalEntityManager.findOne(ShipperProfile, {
+          where: { account: { id: account.id } }
+        });
+
+        if (!shipperProfile) {
+          shipperProfile = new ShipperProfile();
+          shipperProfile.account = account;
+        }
+
+        if (updateShipperDto.isAvailable !== undefined) shipperProfile.isAvailable = updateShipperDto.isAvailable;
+        if (updateShipperDto.priority !== undefined) shipperProfile.priority = updateShipperDto.priority;
+        if (updateShipperDto.maxDailyOrders !== undefined) shipperProfile.maxOrdersPerDay = updateShipperDto.maxDailyOrders;
+
+        await transactionalEntityManager.save(shipperProfile);
 
         return await transactionalEntityManager.save(account);
       });

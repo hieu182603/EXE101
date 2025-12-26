@@ -22,7 +22,7 @@ export class Invoice extends BaseEntity {
   @Column({ type: 'varchar', length: 50, unique: true, nullable: true, name: 'invoice_number' })
   invoiceNumber: string | null;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, name: 'total_amount' })
+  @Column({ type: 'decimal', precision: 15, scale: 2, name: 'total_amount' })
   totalAmount: number;
 
   @Column({

@@ -26,7 +26,7 @@ export class Order extends BaseEntity {
   })
   status: OrderStatus;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, name: 'total_amount' })
+  @Column({ type: 'decimal', precision: 15, scale: 2, name: 'total_amount' })
   totalAmount: number;
 
   @Column({ nullable: true })

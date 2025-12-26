@@ -14,7 +14,7 @@ const roleController = Container.get(RoleController);
  */
 router.get("/auth/roles", Auth as any, checkAbility("read", Role), async (req: any, res, next) => {
   try {
-    const result = await roleController.getAllRoles(req);
+    const result = await roleController.getAllRoles();
     res.json({
       success: true,
       data: result,
@@ -25,12 +25,12 @@ router.get("/auth/roles", Auth as any, checkAbility("read", Role), async (req: a
 });
 
 /**
- * POST /api/auth/roles/create-roles
+ * POST /api/auth/roles/create-default
  * Create default roles (admin only)
  */
-router.post("/auth/roles/create-roles", Admin as any, async (req, res, next) => {
+router.post("/auth/roles/create-default", Admin as any, async (req, res, next) => {
   try {
-    const result = await roleController.createRoles();
+    const result = await roleController.createDefaultRoles();
     res.json({
       success: true,
       message: "Roles created successfully",
@@ -42,6 +42,7 @@ router.post("/auth/roles/create-roles", Admin as any, async (req, res, next) => 
 });
 
 export default router;
+
 
 
 

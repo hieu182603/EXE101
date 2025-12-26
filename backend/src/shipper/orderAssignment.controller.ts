@@ -359,8 +359,8 @@ export class OrderAssignmentController {
           phone: shipper.phone,
           role: shipper.role,
           isRegistered: shipper.isRegistered,
-          isAvailable: shipper.isAvailable,
-          priority: shipper.priority,
+          isAvailable: shipper.shipperProfile?.isAvailable,
+          priority: shipper.shipperProfile?.priority,
           workingZones: zones.map(zone => zone.district)
         },
         message: 'Working zones updated successfully'

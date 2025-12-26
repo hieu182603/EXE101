@@ -140,6 +140,9 @@ export class AccountController {
     );
     if (!checkOldPassword) return "Wrong old password";
     const identifier = account.email || account.phone;
+    if (!identifier) {
+      throw new ValidationException("Account must have email or phone to change password");
+    }
     await this.otpService.sendOtp(identifier, account.name, "password-change");
     return "Check OTP email to complete password change";
   }
@@ -156,6 +159,9 @@ export class AccountController {
     });
     if (!account) throw new AccountNotFoundException();
     const identifier = account.email || account.phone;
+    if (!identifier) {
+      throw new ValidationException("Account must have email or phone to verify OTP");
+    }
     const result = await this.otpService.verifyOtp(identifier, otp);
     if (!result) return "OTP is wrong or is expired";
     const token = await this.accountService.changePassword(
@@ -173,6 +179,9 @@ export class AccountController {
     });
     if (!account) throw new AccountNotFoundException();
     const identifier = account.email || account.phone;
+    if (!identifier) {
+      throw new ValidationException("Account must have email or phone to reset password");
+    }
     await this.otpService.sendOtp(identifier, account.name, "forgot-password");
     return "Check OTP email to reset password";
   }
@@ -181,6 +190,9 @@ export class AccountController {
   async sendOtp(@BodyParam("username") username: string) {
     const account = await this.accountService.findAccountByUsername(username);
     const identifier = account.email || account.phone;
+    if (!identifier) {
+      throw new ValidationException("Account must have email or phone to send OTP");
+    }
     return await this.otpService.sendOtp(identifier, account.name);
   }
 
@@ -191,6 +203,9 @@ export class AccountController {
   ) {
     const account = await this.accountService.findAccountByUsername(username);
     const identifier = account.email || account.phone;
+    if (!identifier) {
+      throw new ValidationException("Account must have email or phone to verify OTP");
+    }
     const verify = await this.otpService.verifyOtp(identifier, otp);
     if (!verify) throw new ValidationException("OTP is wrong or is expired");
     return verify;

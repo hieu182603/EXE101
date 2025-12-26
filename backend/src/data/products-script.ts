@@ -1,20 +1,20 @@
-import { Product } from "./product.entity";
-import { Category } from "./categories/category.entity";
-import { CPU } from "./components/cpu.entity";
-import { GPU } from "./components/gpu.entity";
-import { RAM } from "./components/ram.entity";
-import { Drive } from "./components/drive.entity";
-import { Motherboard } from "./components/motherboard.entity";
-import { PSU } from "./components/psu.entity";
-import { Case } from "./components/case.entity";
-import { Monitor } from "./components/monitor.entity";
-import { Mouse } from "./components/mouse.entity";
-import { Keyboard } from "./components/keyboard.entity";
-import { Headset } from "./components/headset.entity";
-import { NetworkCard } from "./components/networkCard.entity";
-import { Laptop } from "./components/laptop/laptop.entity";
-import { PC } from "./components/pc.entity";
-import { Cooler } from "./components/cooler.entity";
+import { Product } from "../product/product.entity";
+import { Category } from "../product/categories/category.entity";
+import { CPU } from "../product/components/cpu.entity";
+import { GPU } from "../product/components/gpu.entity";
+import { RAM } from "../product/components/ram.entity";
+import { Drive } from "../product/components/drive.entity";
+import { Motherboard } from "../product/components/motherboard.entity";
+import { PSU } from "../product/components/psu.entity";
+import { Case } from "../product/components/case.entity";
+import { Monitor } from "../product/components/monitor.entity";
+import { Mouse } from "../product/components/mouse.entity";
+import { Keyboard } from "../product/components/keyboard.entity";
+import { Headset } from "../product/components/headset.entity";
+import { NetworkCard } from "../product/components/networkCard.entity";
+import { Laptop } from "../product/components/laptop/laptop.entity";
+import { PC } from "../product/components/pc.entity";
+import { Cooler } from "../product/components/cooler.entity";
 
 // async addProducts() {
 //     const caseCategory = await Category.findOne({

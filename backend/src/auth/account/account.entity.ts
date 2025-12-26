@@ -13,8 +13,6 @@ import { RFQ } from "@/rfq/rfq.entity";
 
 
 @Entity("accounts")
-@Index(["username"])
-@Index(["email"])
 @Index(["phone"])
 @Index(["isRegistered"])
 @Index(["role"])
@@ -26,9 +24,8 @@ export class Account extends NamedEntity {
   @Column({ nullable: false })
   password: string;
 
-  @Column({nullable: true})
-  @Index()
-  phone: string;
+  @Column({ type: 'varchar', nullable: true })
+  phone: string | null;
 
   @Column({ nullable: true })
   @Index({ unique: true })

@@ -1,4 +1,4 @@
-import { IsString, IsInt, Min, Max, IsNotEmpty, IsUUID, IsNumber, IsBoolean, IsOptional, IsArray } from 'class-validator';
+import { IsString, IsInt, Min, Max, IsNotEmpty, IsUUID, IsNumber, IsBoolean, IsOptional, IsArray, IsObject } from 'class-validator';
 
 export class AddToCartDto {
   @IsString()

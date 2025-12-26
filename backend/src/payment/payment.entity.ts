@@ -7,7 +7,7 @@ export class Payment extends BaseEntity {
   @ManyToOne(() => Order, (order) => order.payments)
   order: Order;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 15, scale: 2 })
   amount: number;
 
   @Column({ type: 'varchar', length: 50 })

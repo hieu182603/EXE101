@@ -297,6 +297,16 @@ export async function seedAccounts(roles: Record<string, Role>): Promise<Record<
       console.log(`✅ Created shipper account: ${accData.username}`);
     } else {
       console.log(`ℹ️  Shipper account already exists: ${accData.username}`);
+      // Ensure shipperProfile relation is loaded for existing accounts
+      if (!account.shipperProfile) {
+        const reloadedAccount = await Account.findOne({
+          where: { id: account.id },
+          relations: ["shipperProfile"]
+        });
+        if (reloadedAccount) {
+          account = reloadedAccount;
+        }
+      }
     }
     accountsByRole.shipper.push(account);
   }
@@ -488,7 +498,7 @@ export async function seedOrders(
         status !== OrderStatus.CANCELLED &&
         shipperAccounts.length > 0
       ) {
-        const availableShippers = shipperAccounts.filter((s) => s.isAvailable);
+        const availableShippers = shipperAccounts.filter((s) => s.shipperProfile?.isAvailable);
         if (availableShippers.length > 0) {
           order.shipper =
             availableShippers[Math.floor(Math.random() * availableShippers.length)];

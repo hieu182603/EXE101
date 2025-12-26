@@ -23,3 +23,4 @@ export class ShipperProfile extends BaseEntity {
   @Column({ type: "date", nullable: true })
   lastOrderDate: Date; // Ngày đơn hàng cuối cùng
 }
+
