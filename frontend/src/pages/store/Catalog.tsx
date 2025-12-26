@@ -77,12 +77,12 @@ const CatalogPage: React.FC = () => {
   // Filter States initialized from URL if present
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  
+
   const [minRating, setMinRating] = useState<number | null>(null);
   const [availability, setAvailability] = useState<'all' | 'inStock' | 'outOfStock' | 'sale'>('all');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100000000]);
   const [sortBy, setSortBy] = useState('newest');
-  
+
   // UI States
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,7 +95,7 @@ const CatalogPage: React.FC = () => {
     const categoryParam = searchParams.get('category');
     const brandParam = searchParams.get('brand');
     const filterParam = searchParams.get('filter');
-    
+
     if (categoryParam) {
       setSelectedCategories([categoryParam]);
     } else {
@@ -230,10 +230,10 @@ const CatalogPage: React.FC = () => {
       newList = [...list, item];
     }
     setList(newList);
-    
+
     if (searchParams.get(paramKey)) {
-        searchParams.delete(paramKey);
-        setSearchParams(searchParams);
+      searchParams.delete(paramKey);
+      setSearchParams(searchParams);
     }
   };
 
@@ -250,7 +250,7 @@ const CatalogPage: React.FC = () => {
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>, isMin: boolean) => {
     const val = parseInt(e.target.value);
     const minGap = 5000000;
-    
+
     if (isMin) {
       const newMin = Math.min(val, priceRange[1] - minGap);
       setPriceRange([newMin, priceRange[1]]);
@@ -331,11 +331,11 @@ const CatalogPage: React.FC = () => {
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-3 border-t border-border-dark/50">
                   {categories.map((cat, i) => (
                     <label key={i} className="flex items-center gap-3 cursor-pointer group/item">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={selectedCategories.includes(cat)}
                         onChange={() => toggleFilter(cat, selectedCategories, setSelectedCategories, 'category')}
-                        className="w-4 h-4 rounded bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
+                        className="w-4 h-4 rounded bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark"
                       />
                       <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{cat}</span>
                     </label>
@@ -352,19 +352,19 @@ const CatalogPage: React.FC = () => {
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-3 border-t border-border-dark/50">
                   {brands.map((brand, i) => (
                     <label key={i} className="flex items-center gap-3 cursor-pointer group/item">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={selectedBrands.includes(brand)}
                         onChange={() => toggleFilter(brand, selectedBrands, setSelectedBrands, 'brand')}
-                        className="w-4 h-4 rounded bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
+                        className="w-4 h-4 rounded bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark"
                       />
                       <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{brand}</span>
                     </label>
                   ))}
                 </div>
               </details>
-              
-               {/* Status Filter */}
+
+              {/* Status Filter */}
               <details open className="group bg-surface-dark border border-border-dark rounded-2xl overflow-hidden">
                 <summary className="flex cursor-pointer items-center justify-between px-5 py-4 hover:bg-white/5 transition-colors list-none">
                   <span className="text-sm font-bold text-white">{t('catalog.filters.availability')}</span>
@@ -372,42 +372,42 @@ const CatalogPage: React.FC = () => {
                 </summary>
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-3 border-t border-border-dark/50">
                   <label className="flex items-center gap-3 cursor-pointer group/item">
-                    <input 
-                      type="radio" 
+                    <input
+                      type="radio"
                       name="availability"
                       checked={availability === 'all'}
                       onChange={() => setAvailability('all')}
-                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
+                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark"
                     />
                     <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.all')}</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group/item">
-                    <input 
-                      type="radio" 
+                    <input
+                      type="radio"
                       name="availability"
                       checked={availability === 'inStock'}
                       onChange={() => setAvailability('inStock')}
-                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
+                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark"
                     />
                     <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.inStock')}</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group/item">
-                    <input 
-                      type="radio" 
+                    <input
+                      type="radio"
                       name="availability"
                       checked={availability === 'outOfStock'}
                       onChange={() => setAvailability('outOfStock')}
-                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
+                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark"
                     />
                     <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.outOfStock')}</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer group/item">
-                    <input 
-                      type="radio" 
+                    <input
+                      type="radio"
                       name="availability"
                       checked={availability === 'sale'}
                       onChange={() => setAvailability('sale')}
-                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark" 
+                      className="w-4 h-4 rounded-full bg-background-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-background-dark"
                     />
                     <span className="text-sm text-slate-400 group-hover/item:text-white transition-colors">{t('catalog.availability.sale')}</span>
                   </label>
@@ -422,7 +422,7 @@ const CatalogPage: React.FC = () => {
                 </summary>
                 <div className="px-5 pb-5 pt-1 flex flex-col gap-2 border-t border-border-dark/50">
                   {[5, 4, 3].map((star) => (
-                    <button 
+                    <button
                       key={star}
                       onClick={() => setMinRating(minRating === star ? null : star)}
                       className={`flex items-center gap-2 p-2 rounded-xl border transition-all ${minRating === star ? 'border-primary bg-primary/5' : 'border-transparent hover:bg-white/5'}`}
@@ -445,21 +445,21 @@ const CatalogPage: React.FC = () => {
                   <span className="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform duration-300">expand_more</span>
                 </summary>
                 <div className="px-5 pb-6 pt-2 border-t border-border-dark/50">
-                   <div className="flex justify-between text-xs text-slate-500 font-bold mb-6">
+                  <div className="flex justify-between text-xs text-slate-500 font-bold mb-6">
                     <span>0đ</span>
                     <span>100trđ</span>
                   </div>
-                  
+
                   <div className="relative h-2 mb-6 w-full">
                     <div className="absolute top-0 left-0 w-full h-1.5 bg-background-dark border border-border-dark rounded-full"></div>
-                    <div 
+                    <div
                       className="absolute top-0 h-1.5 bg-primary rounded-full pointer-events-none"
                       style={{
                         left: `${(Math.min(priceRange[0], priceRange[1]) / 100000000) * 100}%`,
                         width: `${(Math.abs(priceRange[1] - priceRange[0]) / 100000000) * 100}%`
                       }}
                     ></div>
-                    <input 
+                    <input
                       type="range"
                       min="0"
                       max="100000000"
@@ -468,7 +468,7 @@ const CatalogPage: React.FC = () => {
                       onChange={(e) => handleSliderChange(e, true)}
                       className="absolute top-[-5px] left-0 w-full h-4 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-lg z-20"
                     />
-                    <input 
+                    <input
                       type="range"
                       min="0"
                       max="100000000"
@@ -497,10 +497,10 @@ const CatalogPage: React.FC = () => {
 
         {/* Product Grid */}
         <div className="flex-1 w-full">
-           <div className="flex flex-col-reverse sm:flex-row justify-between lg:justify-end items-center mb-6 gap-4">
-            
+          <div className="flex flex-col-reverse sm:flex-row justify-between lg:justify-end items-center mb-6 gap-4">
+
             {/* Mobile Filter Toggle */}
-            <button 
+            <button
               onClick={() => setShowMobileFilters(!showMobileFilters)}
               className="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-surface-dark border border-border-dark rounded-xl font-bold text-white text-xs hover:border-primary transition-all relative w-full sm:w-auto justify-center"
             >
@@ -517,14 +517,14 @@ const CatalogPage: React.FC = () => {
 
             {/* Sort & View Controls */}
             <div className="flex items-center gap-4 w-full sm:w-auto justify-end">
-                <div className="relative">
-                  <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="appearance-none bg-surface-dark border border-border-dark rounded-xl pl-4 pr-10 py-2.5 text-xs font-bold text-white focus:ring-1 focus:ring-primary outline-none cursor-pointer">
-                    <option value="newest">{t('catalog.sort.newest')}</option>
-                    <option value="price-low">{t('catalog.sort.priceLow')}</option>
-                    <option value="price-high">{t('catalog.sort.priceHigh')}</option>
-                  </select>
-                  <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
-                </div>
+              <div className="relative">
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="appearance-none bg-surface-dark border border-border-dark rounded-xl pl-4 pr-10 py-2.5 text-xs font-bold text-white focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+                  <option value="newest">{t('catalog.sort.newest')}</option>
+                  <option value="price-low">{t('catalog.sort.priceLow')}</option>
+                  <option value="price-high">{t('catalog.sort.priceHigh')}</option>
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
+              </div>
             </div>
           </div>
 
@@ -541,43 +541,43 @@ const CatalogPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
               {currentProducts.map((p) => {
                 return (
-                  <ProductCard 
-                    key={p.id} 
-                    id={p.id} 
-                    name={p.name} 
-                    price={`${p.price.toLocaleString()}₫`} 
-                    oldPrice={p.oldPrice ? `${p.oldPrice.toLocaleString()}₫` : undefined} 
+                  <ProductCard
+                    key={p.id}
+                    id={p.id}
+                    name={p.name}
+                    price={`${p.price.toLocaleString()}₫`}
+                    oldPrice={p.oldPrice ? `${p.oldPrice.toLocaleString()}₫` : undefined}
                     tag={
                       p.oldPrice && p.oldPrice > p.price
                         ? `-${Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}%`
                         : p.tag
-                    } 
-                    rating={p.rating} 
+                    }
+                    rating={p.rating}
                     imageUrl={p.imageUrl}
                   />
                 );
               })}
             </div>
           ) : (
-             <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="flex flex-col items-center justify-center py-20 text-center">
               <span className="material-symbols-outlined text-[64px] text-slate-700 mb-4">search_off</span>
               <h3 className="text-xl font-bold text-white mb-2">{t('catalog.noProducts.title')}</h3>
               <p className="text-slate-500">{t('catalog.noProducts.description')}</p>
               <button onClick={clearAllFilters} className="mt-6 px-6 py-2 bg-primary/10 text-primary border border-primary/20 rounded-xl font-bold hover:bg-primary hover:text-black transition-all">{t('catalog.noProducts.clearFilters')}</button>
             </div>
           )}
-          
+
           {totalPages > 1 && (
             <div className="mt-12 pt-8 border-t border-border-dark flex justify-end">
               <nav className="flex items-center gap-1.5">
-                <button 
-                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} 
-                  disabled={currentPage === 1} 
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
                   className="size-8 rounded-lg border border-border-dark text-slate-500 hover:text-white hover:border-primary transition-all flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-border-dark text-xs"
                 >
                   <span className="material-symbols-outlined text-sm">chevron_left</span>
                 </button>
-                
+
                 {paginationItems.map((item, idx) =>
                   item === 'ellipsis' ? (
                     <span
@@ -587,23 +587,22 @@ const CatalogPage: React.FC = () => {
                       ...
                     </span>
                   ) : (
-                    <button 
+                    <button
                       key={item}
                       onClick={() => setCurrentPage(item)}
-                      className={`size-8 rounded-lg font-bold text-xs flex items-center justify-center transition-all ${
-                        currentPage === item
-                        ? 'bg-primary text-black shadow-lg shadow-primary/30'
-                        : 'border border-border-dark text-slate-500 hover:text-white hover:border-primary'
-                      }`}
+                      className={`size-8 rounded-lg font-bold text-xs flex items-center justify-center transition-all ${currentPage === item
+                          ? 'bg-primary text-black shadow-lg shadow-primary/30'
+                          : 'border border-border-dark text-slate-500 hover:text-white hover:border-primary'
+                        }`}
                     >
                       {item}
                     </button>
                   )
                 )}
 
-                <button 
-                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))} 
-                  disabled={currentPage === totalPages} 
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  disabled={currentPage === totalPages}
                   className="size-8 rounded-lg border border-border-dark text-slate-500 hover:text-white hover:border-primary transition-all flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-border-dark text-xs"
                 >
                   <span className="material-symbols-outlined text-sm">chevron_right</span>

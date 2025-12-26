@@ -92,5 +92,18 @@ router.post("/orders/:id/confirm-delivery", Auth as any, async (req: any, res, n
   }
 });
 
+/**
+ * GET /api/orders/dashboard/stats
+ * Dashboard overview statistics
+ */
+router.get("/orders/dashboard/stats", Auth as any, async (req: any, res, next) => {
+  try {
+    const result = await orderController.getDashboardStats(req);
+    res.json(result);
+  } catch (error: any) {
+    next(error);
+  }
+});
+
 export default router;
 

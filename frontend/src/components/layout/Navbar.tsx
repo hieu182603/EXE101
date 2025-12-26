@@ -98,9 +98,12 @@ const Navbar: React.FC = () => {
             <span className="opacity-90">Email: support@techstore.vn</span>
           </div>
           <div className="flex gap-4 items-center">
-            {isAuthenticated() && (user?.role === 'admin' || user?.role === 'manager' || user?.role === 'staff') && (
-              <Link to="/admin" className="hover:underline opacity-90">Kênh người bán</Link>
-            )}
+            {isAuthenticated() && (() => {
+              const roleName = (typeof user?.role === 'object' ? user.role.name : user?.role)?.toLowerCase();
+              return roleName === 'admin' || roleName === 'manager' || roleName === 'staff';
+            })() && (
+                <Link to="/admin" className="hover:underline opacity-90">Kênh người bán</Link>
+              )}
           </div>
         </div>
       </div>
@@ -108,7 +111,7 @@ const Navbar: React.FC = () => {
       {/* 2. Main Navbar */}
       <header className="w-full border-b border-border-dark bg-background-dark/80 backdrop-blur-xl transition-colors duration-300">
         <div className="mx-auto flex h-16 sm:h-20 max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8 gap-4">
-          
+
           {/* Logo & Links */}
           <div className="flex items-center gap-8 md:gap-12">
             <Link to="/" className="flex items-center gap-2 text-primary group">
@@ -116,8 +119,8 @@ const Navbar: React.FC = () => {
                 <span className="material-symbols-outlined text-white text-[24px] font-black">bolt</span>
               </div>
               <div className="hidden lg:flex flex-col">
-                 <h1 className="text-xl font-black tracking-tighter text-text-main uppercase font-display leading-none">TechStore</h1>
-                 <span className="text-[9px] font-bold text-text-muted tracking-[0.3em] uppercase">Premium Gear</span>
+                <h1 className="text-xl font-black tracking-tighter text-text-main uppercase font-display leading-none">TechStore</h1>
+                <span className="text-[9px] font-bold text-text-muted tracking-[0.3em] uppercase">Premium Gear</span>
               </div>
             </Link>
 
@@ -130,12 +133,12 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Search Bar */}
-            <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md relative group">
-            <input 
+          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md relative group">
+            <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-11 pl-12 pr-4 rounded-full border border-border-dark bg-surface-dark text-text-main placeholder-text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none text-sm transition-all shadow-sm" 
-              placeholder={t('nav.searchPlaceholder')} 
+              className="w-full h-11 pl-12 pr-4 rounded-full border border-border-dark bg-surface-dark text-text-main placeholder-text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none text-sm transition-all shadow-sm"
+              placeholder={t('nav.searchPlaceholder')}
             />
             <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">
               <span className="material-symbols-outlined">search</span>
@@ -144,9 +147,9 @@ const Navbar: React.FC = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-3 sm:gap-5">
-            
+
             {/* Language Toggle */}
-            <button 
+            <button
               onClick={() => changeLanguage(currentLang === 'vi' ? 'en' : 'vi')}
               className="size-10 rounded-full border border-border-dark bg-surface-dark text-text-muted hover:text-primary hover:border-primary hover:bg-primary/5 flex items-center justify-center transition-all font-black text-[10px]"
               title={currentLang === 'vi' ? t('nav.language') : t('nav.language')}
@@ -183,8 +186,8 @@ const Navbar: React.FC = () => {
                   <div className="absolute right-0 mt-4 w-80 sm:w-96 bg-surface-dark border border-border-dark rounded-2xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50 ring-1 ring-black/5">
                     <div className="p-4 border-b border-border-dark flex justify-between items-center bg-surface-accent/50 backdrop-blur-sm">
                       <h4 className="font-bold text-text-main text-sm flex items-center gap-2">
-                          Thông báo
-                          {unreadCount > 0 && <span className="bg-primary/10 text-primary text-[10px] px-1.5 py-0.5 rounded-md">{unreadCount} mới</span>}
+                        Thông báo
+                        {unreadCount > 0 && <span className="bg-primary/10 text-primary text-[10px] px-1.5 py-0.5 rounded-md">{unreadCount} mới</span>}
                       </h4>
                       <button
                         onClick={markAllAsRead}
@@ -200,57 +203,56 @@ const Navbar: React.FC = () => {
                           className={`p-4 border-b border-border-dark/50 last:border-0 hover:bg-surface-accent transition-colors cursor-pointer flex gap-3 group ${n.unread ? 'bg-primary/[0.03]' : ''}`}
                           onClick={() => n.unread && markAsRead(n.id)}
                         >
-                           <div className={`size-10 rounded-full flex items-center justify-center shrink-0 border border-border-dark group-hover:border-transparent transition-all ${
-                            n.type === 'order' ? 'bg-blue-500/10 text-blue-500' :
+                          <div className={`size-10 rounded-full flex items-center justify-center shrink-0 border border-border-dark group-hover:border-transparent transition-all ${n.type === 'order' ? 'bg-blue-500/10 text-blue-500' :
                             n.type === 'promo' ? 'bg-primary/10 text-primary' :
-                            n.type === 'system' ? 'bg-slate-500/10 text-slate-500' :
-                            n.type === 'success' ? 'bg-emerald-500/10 text-emerald-400' :
-                            n.type === 'error' ? 'bg-red-500/10 text-red-400' :
-                            n.type === 'warning' ? 'bg-yellow-500/10 text-yellow-400' :
-                            'bg-blue-500/10 text-blue-400'
-                          }`}>
-                              <span className="material-symbols-outlined text-[18px]">
-                                {n.type === 'order' ? 'local_shipping' :
-                                 n.type === 'promo' ? 'local_offer' :
-                                 n.type === 'system' ? 'notifications' :
-                                 n.type === 'success' ? 'check_circle' :
-                                 n.type === 'error' ? 'error' :
-                                 n.type === 'warning' ? 'warning' :
-                                 'info'}
-                              </span>
-                           </div>
-                           <div className="flex-1">
-                              <div className="flex justify-between items-start mb-1">
-                                 <p className={`text-sm leading-tight pr-2 ${n.unread ? 'font-bold text-text-main' : 'font-medium text-text-muted'}`}>{n.title}</p>
-                                 {n.unread && <span className="size-2 rounded-full bg-primary shrink-0 mt-1 shadow-sm"></span>}
-                              </div>
-                              {n.description && (
-                                <p className="text-xs text-text-muted line-clamp-2 leading-relaxed mb-1.5">{n.description}</p>
-                              )}
-                              <p className="text-[10px] text-text-muted font-bold opacity-60 uppercase tracking-wide">
-                                {new Date(n.timestamp).toLocaleString('vi-VN', {
-                                  hour: '2-digit',
-                                  minute: '2-digit',
-                                  day: '2-digit',
-                                  month: '2-digit'
-                                })}
-                              </p>
-                           </div>
+                              n.type === 'system' ? 'bg-slate-500/10 text-slate-500' :
+                                n.type === 'success' ? 'bg-emerald-500/10 text-emerald-400' :
+                                  n.type === 'error' ? 'bg-red-500/10 text-red-400' :
+                                    n.type === 'warning' ? 'bg-yellow-500/10 text-yellow-400' :
+                                      'bg-blue-500/10 text-blue-400'
+                            }`}>
+                            <span className="material-symbols-outlined text-[18px]">
+                              {n.type === 'order' ? 'local_shipping' :
+                                n.type === 'promo' ? 'local_offer' :
+                                  n.type === 'system' ? 'notifications' :
+                                    n.type === 'success' ? 'check_circle' :
+                                      n.type === 'error' ? 'error' :
+                                        n.type === 'warning' ? 'warning' :
+                                          'info'}
+                            </span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-start mb-1">
+                              <p className={`text-sm leading-tight pr-2 ${n.unread ? 'font-bold text-text-main' : 'font-medium text-text-muted'}`}>{n.title}</p>
+                              {n.unread && <span className="size-2 rounded-full bg-primary shrink-0 mt-1 shadow-sm"></span>}
+                            </div>
+                            {n.description && (
+                              <p className="text-xs text-text-muted line-clamp-2 leading-relaxed mb-1.5">{n.description}</p>
+                            )}
+                            <p className="text-[10px] text-text-muted font-bold opacity-60 uppercase tracking-wide">
+                              {new Date(n.timestamp).toLocaleString('vi-VN', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                day: '2-digit',
+                                month: '2-digit'
+                              })}
+                            </p>
+                          </div>
                         </div>
                       )) : (
-                          <div className="py-10 text-center">
-                              <span className="material-symbols-outlined text-4xl text-text-muted/30 mb-2">notifications_off</span>
-                              <p className="text-xs text-text-muted">Chưa có thông báo nào</p>
-                          </div>
+                        <div className="py-10 text-center">
+                          <span className="material-symbols-outlined text-4xl text-text-muted/30 mb-2">notifications_off</span>
+                          <p className="text-xs text-text-muted">Chưa có thông báo nào</p>
+                        </div>
                       )}
                     </div>
                     <div className="p-2 border-t border-border-dark bg-background-dark/30 text-center">
                       <Link
-                          to="/profile"
-                          onClick={() => setShowNotifications(false)}
-                          className="block w-full py-1.5 text-[11px] font-bold text-text-muted hover:text-text-main hover:bg-surface-accent rounded-lg transition-all"
+                        to="/profile"
+                        onClick={() => setShowNotifications(false)}
+                        className="block w-full py-1.5 text-[11px] font-bold text-text-muted hover:text-text-main hover:bg-surface-accent rounded-lg transition-all"
                       >
-                          Xem tất cả thông báo
+                        Xem tất cả thông báo
                       </Link>
                     </div>
                   </div>
@@ -267,13 +269,13 @@ const Navbar: React.FC = () => {
                 </span>
               )}
             </Link>
-            
+
             <div className="h-8 w-px bg-border-dark hidden sm:block"></div>
-            
+
             {/* User Profile */}
             {isAuthenticated() && user ? (
               <div className="relative" ref={menuRef}>
-                <button 
+                <button
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
                   className="flex items-center gap-3 rounded-full hover:bg-surface-accent pr-1 transition-all group"
                 >
@@ -303,24 +305,24 @@ const Navbar: React.FC = () => {
                       <p className="text-sm font-bold text-text-main">{user.name || user.username || 'User'}</p>
                       <p className="text-xs text-text-muted truncate">{user.email || user.phone || ''}</p>
                     </div>
-                    <Link 
-                      to="/profile" 
+                    <Link
+                      to="/profile"
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-background-dark hover:text-text-main transition-all"
                       onClick={() => setShowProfileMenu(false)}
                     >
                       <span className="material-symbols-outlined text-[20px]">person</span>
                       {t('profile.menu.profile')}
                     </Link>
-                    <Link 
-                      to="/history" 
+                    <Link
+                      to="/history"
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-background-dark hover:text-text-main transition-all"
                       onClick={() => setShowProfileMenu(false)}
                     >
                       <span className="material-symbols-outlined text-[20px]">receipt_long</span>
                       {t('profile.menu.orders')}
                     </Link>
-                    <Link 
-                      to="/wishlist" 
+                    <Link
+                      to="/wishlist"
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-background-dark hover:text-text-main transition-all"
                       onClick={() => setShowProfileMenu(false)}
                     >
@@ -328,7 +330,7 @@ const Navbar: React.FC = () => {
                       {t('profile.menu.wishlist')}
                     </Link>
                     <div className="h-px bg-border-dark my-2"></div>
-                    <button 
+                    <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-red-500 hover:bg-red-500/10 transition-all"
                     >
@@ -339,7 +341,7 @@ const Navbar: React.FC = () => {
                 )}
               </div>
             ) : (
-              <Link 
+              <Link
                 to="/login"
                 className="flex items-center gap-2 px-4 py-2 rounded-full border border-border-dark bg-surface-dark text-text-muted hover:text-primary hover:border-primary hover:bg-primary/5 transition-all text-sm font-bold"
               >

@@ -5,6 +5,9 @@ import { CreateProductDto, UpdateProductDto } from "./dtos/product.dto";
 import { Auth } from "@/middlewares/auth.middleware";
 import { CheckAbility } from "@/middlewares/rbac/permission.decorator";
 import { Product } from "./product.entity";
+import { getRepository } from "typeorm";
+import { Order } from "@/order/order.entity";
+import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 
 @Service()
 @Controller("/products")
@@ -365,6 +368,236 @@ export class ProductController {
                 error: error.message
             };
         }
+    }
+
+    /**
+     * Get product performance analytics
+     * GET /api/products/analytics/performance?startDate=...&endDate=...&limit=10
+     */
+    @Get("/analytics/performance")
+    @UseBefore(Auth)
+    async getProductPerformanceAnalytics(
+        @Req() req: any,
+        @QueryParam("startDate") startDateStr: string,
+        @QueryParam("endDate") endDateStr: string,
+        @QueryParam("limit") limit: number = 10
+    ) {
+        const user = req.user as AccountDetailsDto;
+
+        // Only allow admin, manager, staff
+        if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
+            return {
+                success: false,
+                message: "Access denied to product analytics"
+            };
+        }
+
+        try {
+            if (!startDateStr || !endDateStr) {
+                return {
+                    success: false,
+                    message: "startDate and endDate are required"
+                };
+            }
+
+            const startDate = new Date(startDateStr);
+            const endDate = new Date(endDateStr);
+
+            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                return {
+                    success: false,
+                    message: "Invalid date format"
+                };
+            }
+
+            const analytics = await this.generateProductPerformanceAnalytics(startDate, endDate, limit);
+
+            return {
+                success: true,
+                message: "Product performance analytics retrieved successfully",
+                data: analytics
+            };
+        } catch (error: any) {
+            console.error("Error getting product performance analytics:", error);
+            return {
+                success: false,
+                message: "Failed to retrieve product performance analytics",
+                error: error.message
+            };
+        }
+    }
+
+    /**
+     * Get product sales trends over time
+     * GET /api/products/analytics/sales-trends?startDate=...&endDate=...&period=month
+     */
+    @Get("/analytics/sales-trends")
+    @UseBefore(Auth)
+    async getProductSalesTrends(
+        @Req() req: any,
+        @QueryParam("startDate") startDateStr: string,
+        @QueryParam("endDate") endDateStr: string,
+        @QueryParam("period") period: 'day' | 'month' | 'year' = 'month'
+    ) {
+        const user = req.user as AccountDetailsDto;
+
+        // Only allow admin, manager, staff
+        if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
+            return {
+                success: false,
+                message: "Access denied to product sales trends"
+            };
+        }
+
+        try {
+            if (!startDateStr || !endDateStr) {
+                return {
+                    success: false,
+                    message: "startDate and endDate are required"
+                };
+            }
+
+            const startDate = new Date(startDateStr);
+            const endDate = new Date(endDateStr);
+
+            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                return {
+                    success: false,
+                    message: "Invalid date format"
+                };
+            }
+
+            const trends = await this.generateProductSalesTrends(startDate, endDate, period);
+
+            return {
+                success: true,
+                message: "Product sales trends retrieved successfully",
+                data: trends
+            };
+        } catch (error: any) {
+            console.error("Error getting product sales trends:", error);
+            return {
+                success: false,
+                message: "Failed to retrieve product sales trends",
+                error: error.message
+            };
+        }
+    }
+
+    // Helper methods for analytics
+    private isAdmin(user: AccountDetailsDto): boolean {
+        return user.role?.name?.toLowerCase().includes('admin') || false;
+    }
+
+    private isManager(user: AccountDetailsDto): boolean {
+        return user.role?.name?.toLowerCase().includes('manager') || false;
+    }
+
+    private isStaff(user: AccountDetailsDto): boolean {
+        return user.role?.name?.toLowerCase().includes('staff') || false;
+    }
+
+    private async generateProductPerformanceAnalytics(
+        startDate: Date,
+        endDate: Date,
+        limit: number
+    ): Promise<any[]> {
+        // Query product performance based on order details
+        const result = await getRepository(Order)
+            .createQueryBuilder("order")
+            .leftJoin("order.orderDetails", "orderDetails")
+            .leftJoin("orderDetails.product", "product")
+            .select([
+                "product.id as productId",
+                "product.name as productName",
+                "product.price as productPrice",
+                "product.stockQuantity as stockQuantity",
+                "SUM(orderDetails.quantity) as totalSold",
+                "SUM(orderDetails.quantity * orderDetails.price) as totalRevenue",
+                "AVG(orderDetails.price) as averageSellingPrice",
+                "COUNT(DISTINCT order.id) as orderCount"
+            ])
+            .where("order.createdAt BETWEEN :startDate AND :endDate", {
+                startDate,
+                endDate,
+            })
+            .andWhere("order.status != :status", { status: "cancelled" })
+            .groupBy("product.id")
+            .orderBy("totalSold", "DESC")
+            .limit(limit)
+            .getRawMany();
+
+        return result.map(row => ({
+            productId: row.productId,
+            productName: row.productName,
+            productPrice: parseFloat(row.productPrice) || 0,
+            stockQuantity: parseInt(row.stockQuantity) || 0,
+            totalSold: parseInt(row.totalSold) || 0,
+            totalRevenue: parseFloat(row.totalRevenue) || 0,
+            averageSellingPrice: parseFloat(row.averageSellingPrice) || 0,
+            orderCount: parseInt(row.orderCount) || 0,
+            performanceScore: this.calculatePerformanceScore(row),
+        }));
+    }
+
+    private async generateProductSalesTrends(
+        startDate: Date,
+        endDate: Date,
+        period: 'day' | 'month' | 'year'
+    ): Promise<{ date: string; totalSold: number; totalRevenue: number; ordersCount: number }[]> {
+        // Query product sales trends
+        let dateFormat: string;
+        let groupBy: string;
+
+        if (period === 'day') {
+            dateFormat = "DATE(order.createdAt)";
+            groupBy = "DATE(order.createdAt)";
+        } else if (period === 'month') {
+            dateFormat = "DATE_FORMAT(order.createdAt, '%Y-%m')";
+            groupBy = "DATE_FORMAT(order.createdAt, '%Y-%m')";
+        } else {
+            dateFormat = "YEAR(order.createdAt)";
+            groupBy = "YEAR(order.createdAt)";
+        }
+
+        const result = await getRepository(Order)
+            .createQueryBuilder("order")
+            .leftJoin("order.orderDetails", "orderDetails")
+            .select([
+                `${dateFormat} as date`,
+                "SUM(orderDetails.quantity) as totalSold",
+                "SUM(orderDetails.quantity * orderDetails.price) as totalRevenue",
+                "COUNT(DISTINCT order.id) as ordersCount"
+            ])
+            .where("order.createdAt BETWEEN :startDate AND :endDate", {
+                startDate,
+                endDate,
+            })
+            .andWhere("order.status != :status", { status: "cancelled" })
+            .groupBy(groupBy)
+            .orderBy("date", "ASC")
+            .getRawMany();
+
+        return result.map(row => ({
+            date: row.date,
+            totalSold: parseInt(row.totalSold) || 0,
+            totalRevenue: parseFloat(row.totalRevenue) || 0,
+            ordersCount: parseInt(row.ordersCount) || 0,
+        }));
+    }
+
+    private calculatePerformanceScore(row: any): number {
+        const totalSold = parseInt(row.totalSold) || 0;
+        const totalRevenue = parseFloat(row.totalRevenue) || 0;
+        const orderCount = parseInt(row.orderCount) || 0;
+
+        // Simple performance score calculation
+        // Weight: 40% sales volume, 40% revenue, 20% order frequency
+        const salesScore = Math.min(totalSold / 100, 1) * 40; // Max score for 100+ units
+        const revenueScore = Math.min(totalRevenue / 10000, 1) * 40; // Max score for $10k+ revenue
+        const orderScore = Math.min(orderCount / 10, 1) * 20; // Max score for 10+ orders
+
+        return Math.round(salesScore + revenueScore + orderScore);
     }
 
     // @Post("/add-products")

@@ -64,7 +64,7 @@ const ProductManagement: React.FC = () => {
           id: p.id,
           name: p.name,
           category: p.category?.name || 'Unknown',
-          brand: p.category?.name || 'Unknown', // Use category as brand for now
+          brand: (p as any).brand || p.category?.name || 'Unknown',
           price: p.price,
           originalPrice: undefined, // Backend may not have this
           stock: p.stock,
@@ -104,7 +104,7 @@ const ProductManagement: React.FC = () => {
           id: p.id,
           name: p.name,
           category: p.category?.name || 'Unknown',
-          brand: p.category?.name || 'Unknown',
+          brand: (p as any).brand || p.category?.name || 'Unknown',
           price: p.price,
           originalPrice: undefined,
           stock: p.stock,

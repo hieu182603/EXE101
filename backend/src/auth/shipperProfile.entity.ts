@@ -24,3 +24,8 @@ export class ShipperProfile extends BaseEntity {
   lastOrderDate: Date; // Ngày đơn hàng cuối cùng
 }
 
+
+
+
+
+

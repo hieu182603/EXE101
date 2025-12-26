@@ -6,7 +6,7 @@ import Modal from '@components/ui/Modal';
 import Button from '@components/ui/Button';
 import Badge from '@components/ui/Badge';
 import Pagination from '@components/ui/Pagination';
-import { AdminOutletContext } from '@layouts/AdminLayout';
+import type { AdminOutletContext } from '@layouts/AdminLayout';
 import { orderService } from '@services/orderService';
 import { useToast } from '@contexts/ToastContext';
 import { useTranslation } from '../../hooks/useTranslation';

@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(12 * 60 * 60 + 45 * 60); // Mock countdown
   const [activeTab, setActiveTab] = useState<'new' | 'best'>('new');
-  
+
   // Product states
   const [flashSaleProducts, setFlashSaleProducts] = useState<ProductDisplay[]>([]);
   const [newProducts, setNewProducts] = useState<ProductDisplay[]>([]);
@@ -34,10 +34,10 @@ const HomePage: React.FC = () => {
     const price = product.price.toLocaleString('vi-VN') + '₫';
     let oldPrice: string | undefined;
     let tag: string | undefined;
-    
+
     // Check if product has discount (you may need to add originalPrice field to Product type)
     // For now, we'll use a simple heuristic or leave it empty
-    
+
     return {
       id: product.id,
       name: product.name,
@@ -53,11 +53,11 @@ const HomePage: React.FC = () => {
     const loadProducts = async () => {
       try {
         setLoading(true);
-        
+
         // Load flash sale (top selling) products
         const topSelling = await productService.getTopSellingProducts(5);
         setFlashSaleProducts(topSelling.map(transformProduct));
-        
+
         // Load new products
         const newProductsData = await productService.getNewProducts(12);
         // Combine laptops, pcs, accessories
@@ -67,7 +67,7 @@ const HomePage: React.FC = () => {
           ...(newProductsData.accessories || [])
         ].slice(0, 5);
         setNewProducts(allNew.map(transformProduct));
-        
+
         // Load laptop products with fallbacks by category name
         const laptopCategoryNames = [
           'Laptop',
@@ -120,11 +120,11 @@ const HomePage: React.FC = () => {
     const s = seconds % 60;
     return (
       <div className="flex items-center gap-2 text-red-500 font-mono text-xl font-bold">
-         <span className="bg-[#1a0505] border border-red-900/50 px-2 py-1 rounded">{h.toString().padStart(2, '0')}</span>
-         <span>:</span>
-         <span className="bg-[#1a0505] border border-red-900/50 px-2 py-1 rounded">{m.toString().padStart(2, '0')}</span>
-         <span>:</span>
-         <span className="bg-[#1a0505] border border-red-900/50 px-2 py-1 rounded">{s.toString().padStart(2, '0')}</span>
+        <span className="bg-[#1a0505] border border-red-900/50 px-2 py-1 rounded">{h.toString().padStart(2, '0')}</span>
+        <span>:</span>
+        <span className="bg-[#1a0505] border border-red-900/50 px-2 py-1 rounded">{m.toString().padStart(2, '0')}</span>
+        <span>:</span>
+        <span className="bg-[#1a0505] border border-red-900/50 px-2 py-1 rounded">{s.toString().padStart(2, '0')}</span>
       </div>
     );
   };
@@ -142,20 +142,20 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="flex flex-col bg-background-dark min-h-screen">
-      
+
       {/* 1. Hero Section */}
       <section className="pt-6 pb-12 px-4">
         <div className="mx-auto max-w-[1440px]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-auto lg:h-[480px]">
             {/* Main Banner Slider */}
-            <div 
+            <div
               onClick={() => navigate('/catalog')}
               className="lg:col-span-8 relative rounded-2xl overflow-hidden group border border-border-dark cursor-pointer h-[400px] lg:h-full shadow-2xl"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=1600" 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-90" 
-                alt="Main Banner" 
+              <img
+                src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=1600"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-90"
+                alt="Main Banner"
               />
               {/* Gradient: Black to Transparent */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8 sm:p-12">
@@ -168,8 +168,8 @@ const HomePage: React.FC = () => {
                 <p className="text-slate-300 text-lg mb-6 max-w-lg hidden sm:block">
                   {t('home.hero.subtitle')}
                 </p>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="w-fit bg-white !text-black border-none hover:bg-red-600 hover:!text-white transition-all shadow-xl"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -183,25 +183,25 @@ const HomePage: React.FC = () => {
 
             {/* Side Banners */}
             <div className="lg:col-span-4 flex flex-col gap-4 h-full">
-              <div 
+              <div
                 onClick={() => navigate('/catalog')}
                 className="flex-1 relative rounded-2xl overflow-hidden group border border-border-dark cursor-pointer min-h-[200px]"
               >
-                 <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 1" />
-                 <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/80 p-6 flex flex-col justify-center">
-                    <h3 className="text-2xl font-black text-white uppercase italic">{t('home.sideBanner.esport')}</h3>
-                    <p className="text-sm text-red-500 font-bold">{t('home.sideBanner.esportSub')}</p>
-                 </div>
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 1" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/80 p-6 flex flex-col justify-center">
+                  <h3 className="text-2xl font-black text-white uppercase italic">{t('home.sideBanner.esport')}</h3>
+                  <p className="text-sm text-red-500 font-bold">{t('home.sideBanner.esportSub')}</p>
+                </div>
               </div>
-              <div 
+              <div
                 onClick={() => navigate('/quote')}
                 className="flex-1 relative rounded-2xl overflow-hidden group border border-border-dark cursor-pointer min-h-[200px]"
               >
-                 <img src="https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 2" />
-                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/80 p-6 flex flex-col justify-center text-right items-end">
-                    <h3 className="text-2xl font-black text-white uppercase italic">{t('home.sideBanner.build')}</h3>
-                    <p className="text-sm text-red-500 font-bold">{t('home.sideBanner.buildSub')}</p>
-                 </div>
+                <img src="https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" alt="Sub Banner 2" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/80 p-6 flex flex-col justify-center text-right items-end">
+                  <h3 className="text-2xl font-black text-white uppercase italic">{t('home.sideBanner.build')}</h3>
+                  <p className="text-sm text-red-500 font-bold">{t('home.sideBanner.buildSub')}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -212,7 +212,7 @@ const HomePage: React.FC = () => {
       <section className="pb-12 px-4 mt-16 lg:mt-20">
         <div className="mx-auto max-w-[1440px]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
+            {[
               { icon: 'local_shipping', titleKey: 'home.features.freeShipping.title', subKey: 'home.features.freeShipping.subtitle' },
               { icon: 'verified_user', titleKey: 'home.features.warranty.title', subKey: 'home.features.warranty.subtitle' },
               { icon: 'assignment_return', titleKey: 'home.features.return.title', subKey: 'home.features.return.subtitle' },
@@ -235,23 +235,23 @@ const HomePage: React.FC = () => {
         <div className="mx-auto max-w-[1440px]">
           {/* Main Container - Dark Red Gradient */}
           <div className="bg-[#2a0a0a] border border-red-900/40 rounded-3xl p-6 sm:p-10 relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-            
+
             {/* Header Area */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10 relative z-10">
-               <div className="flex flex-wrap items-center gap-6">
-                 <h2 className="text-4xl font-black text-white italic tracking-tighter flex items-center gap-3 drop-shadow-md">
-                    <span className="material-symbols-outlined text-red-500 text-4xl animate-pulse">local_fire_department</span>
-                    {t('home.flashSale.title')}
-                 </h2>
-                 <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest pt-1">{t('home.flashSale.endsIn')}</span>
-                    {formatTime(timeLeft)}
-                 </div>
-               </div>
-               {/* UPDATED: Link points to filtered catalog */}
-               <Link to="/catalog?filter=flash-sale" className="text-sm font-bold text-white hover:text-red-500 flex items-center gap-1 transition-colors group">
-                  {t('home.flashSale.viewAll')} <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
-               </Link>
+              <div className="flex flex-wrap items-center gap-6">
+                <h2 className="text-4xl font-black text-white italic tracking-tighter flex items-center gap-3 drop-shadow-md">
+                  <span className="material-symbols-outlined text-red-500 text-4xl animate-pulse">local_fire_department</span>
+                  {t('home.flashSale.title')}
+                </h2>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest pt-1">{t('home.flashSale.endsIn')}</span>
+                  {formatTime(timeLeft)}
+                </div>
+              </div>
+              {/* UPDATED: Link points to filtered catalog */}
+              <Link to="/catalog?filter=flash-sale" className="text-sm font-bold text-white hover:text-red-500 flex items-center gap-1 transition-colors group">
+                {t('home.flashSale.viewAll')} <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </Link>
             </div>
 
             {/* Products Row - using the new Card Style */}
@@ -265,7 +265,7 @@ const HomePage: React.FC = () => {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 relative z-10">
                 {flashSaleProducts.map((p) => (
                   <div key={p.id} className="h-full">
-                    <ProductCard 
+                    <ProductCard
                       id={p.id}
                       name={p.name}
                       price={p.price}
@@ -289,19 +289,19 @@ const HomePage: React.FC = () => {
       {/* 3. Categories Grid */}
       <section className="py-12 px-4 bg-[#0a0a0a] border-y border-white/5 mb-12 relative overflow-hidden">
         <div className="mx-auto max-w-[1440px] relative z-10">
-           <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
-             <span className="material-symbols-outlined text-red-500">category</span> {t('home.categories.title')}
-           </h3>
-           <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
-              {categories.map((cat, i) => (
-                <Link to="/catalog" key={i} className="flex flex-col items-center gap-3 group cursor-pointer">
-                  <div className="size-20 rounded-2xl bg-[#151515] border border-white/10 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-all shadow-lg">
-                    <span className="material-symbols-outlined text-3xl text-zinc-500 group-hover:text-white transition-colors">{cat.icon}</span>
-                  </div>
-                  <span className="text-xs font-bold text-zinc-500 group-hover:text-white text-center transition-colors uppercase">{t(cat.nameKey)}</span>
-                </Link>
-              ))}
-           </div>
+          <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
+            <span className="material-symbols-outlined text-red-500">category</span> {t('home.categories.title')}
+          </h3>
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
+            {categories.map((cat, i) => (
+              <Link to="/catalog" key={i} className="flex flex-col items-center gap-3 group cursor-pointer">
+                <div className="size-20 rounded-2xl bg-[#151515] border border-white/10 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-all shadow-lg">
+                  <span className="material-symbols-outlined text-3xl text-zinc-500 group-hover:text-white transition-colors">{cat.icon}</span>
+                </div>
+                <span className="text-xs font-bold text-zinc-500 group-hover:text-white text-center transition-colors uppercase">{t(cat.nameKey)}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -309,32 +309,30 @@ const HomePage: React.FC = () => {
       <section className="px-4 pb-12">
         <div className="mx-auto max-w-[1440px]">
           <div className="flex items-center justify-between mb-6 border-b border-border-dark pb-4">
-             <h3 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-2">
-               <span className="material-symbols-outlined text-primary">new_releases</span>
-               {t('home.newArrivals.title')}
-             </h3>
-             <div className="flex gap-2">
-                <button 
-                  onClick={() => setActiveTab('new')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all ${
-                    activeTab === 'new' 
-                    ? 'bg-red-600 text-white shadow-red-600/30' 
+            <h3 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary">new_releases</span>
+              {t('home.newArrivals.title')}
+            </h3>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setActiveTab('new')}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all ${activeTab === 'new'
+                    ? 'bg-red-600 text-white shadow-red-600/30'
                     : 'bg-surface-dark border border-border-dark text-slate-400 hover:text-white hover:border-white'
                   }`}
-                >
-                  {t('home.newArrivals.latest')}
-                </button>
-                <button 
-                  onClick={() => setActiveTab('best')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all ${
-                    activeTab === 'best' 
-                    ? 'bg-red-600 text-white shadow-red-600/30' 
+              >
+                {t('home.newArrivals.latest')}
+              </button>
+              <button
+                onClick={() => setActiveTab('best')}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all ${activeTab === 'best'
+                    ? 'bg-red-600 text-white shadow-red-600/30'
                     : 'bg-surface-dark border border-border-dark text-slate-400 hover:text-white hover:border-white'
                   }`}
-                >
-                  {t('home.newArrivals.bestSelling')}
-                </button>
-             </div>
+              >
+                {t('home.newArrivals.bestSelling')}
+              </button>
+            </div>
           </div>
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 sm:gap-6">
@@ -345,7 +343,7 @@ const HomePage: React.FC = () => {
           ) : newProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 sm:gap-6">
               {newProducts.map((p) => (
-                <ProductCard 
+                <ProductCard
                   key={p.id}
                   id={p.id}
                   name={p.name}
@@ -367,26 +365,26 @@ const HomePage: React.FC = () => {
       {/* 5. Banner Strip - UPDATED */}
       <section className="px-4 pb-12">
         <div className="mx-auto max-w-[1440px]">
-           <div 
+          <div
             onClick={() => navigate('/catalog')}
             className="relative h-64 rounded-[32px] overflow-hidden bg-black border border-white/10 group cursor-pointer shadow-2xl flex flex-col items-center justify-center text-center"
-           >
-              
-              {/* Promo Label */}
-                 <div className="absolute top-6 left-8 flex items-center gap-2 opacity-70">
-                 <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" className="w-5 h-5 invert" alt="Promo" />
-                 <span className="text-white font-bold text-xs tracking-widest uppercase">{t('home.banner.promo')}</span>
-              </div>
+          >
 
-              {/* Content */}
-              <div className="relative z-10 px-4">
-                 <h3 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-tighter">{t('home.banner.title')}</h3>
-                 <p className="text-slate-400 font-medium mb-8 text-sm sm:text-base">{t('home.banner.subtitle')}</p>
-                 <button className="px-12 py-3.5 rounded-2xl border border-white text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
-                   {t('home.banner.viewCombo')}
-                 </button>
-              </div>
-           </div>
+            {/* Promo Label */}
+            <div className="absolute top-6 left-8 flex items-center gap-2 opacity-70">
+              <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" className="w-5 h-5 invert" alt="Promo" />
+              <span className="text-white font-bold text-xs tracking-widest uppercase">{t('home.banner.promo')}</span>
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 px-4">
+              <h3 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-tighter">{t('home.banner.title')}</h3>
+              <p className="text-slate-400 font-medium mb-8 text-sm sm:text-base">{t('home.banner.subtitle')}</p>
+              <button className="px-12 py-3.5 rounded-2xl border border-white text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
+                {t('home.banner.viewCombo')}
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -394,11 +392,11 @@ const HomePage: React.FC = () => {
       <section className="px-4 pb-20">
         <div className="mx-auto max-w-[1440px]">
           <div className="flex items-center justify-between mb-6 border-b border-border-dark pb-4">
-             <h3 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-2">
-               <span className="material-symbols-outlined text-red-400">laptop_chromebook</span>
-               {t('home.laptops.title')}
-             </h3>
-             <Link to="/catalog" className="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest">{t('home.laptops.viewAll')}</Link>
+            <h3 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-2">
+              <span className="material-symbols-outlined text-red-400">laptop_chromebook</span>
+              {t('home.laptops.title')}
+            </h3>
+            <Link to="/catalog" className="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest">{t('home.laptops.viewAll')}</Link>
           </div>
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 sm:gap-6">
@@ -409,7 +407,7 @@ const HomePage: React.FC = () => {
           ) : laptopProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4 sm:gap-6">
               {laptopProducts.map((p) => (
-                <ProductCard 
+                <ProductCard
                   key={p.id}
                   id={p.id}
                   name={p.name}
@@ -426,19 +424,19 @@ const HomePage: React.FC = () => {
               <p>Chưa có sản phẩm laptop</p>
             </div>
           )}
-          
+
           <div className="mt-12 text-center">
-             <Link to="/catalog">
+            <Link to="/catalog">
               <Button
-                 variant="outline"
-                 size="lg"
-                 className="w-full sm:w-auto px-16 border-border-dark text-slate-400 hover:text-white hover:border-white hover:bg-white/5"
-               >
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto px-16 border-border-dark text-slate-400 hover:text-white hover:border-white hover:bg-white/5"
+              >
                 {totalProducts > 0
                   ? t('home.laptops.viewMore', { count: Math.max(totalProducts - laptopProducts.length, 0) })
                   : t('home.laptops.viewAll')}
-               </Button>
-             </Link>
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

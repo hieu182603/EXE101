@@ -205,7 +205,8 @@ class ProductService {
   // Admin methods
   async getAllProductsIncludingOutOfStock(): Promise<Product[]> {
     try {
-      const response = await api.get("/products/admin/all");
+      // Backend exposes the admin/all-including-out-of-stock route
+      const response = await api.get("/products/all-including-out-of-stock");
       if (
         response.data &&
         response.data.data &&

@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '@contexts/AuthContext';
 
 export type DateRangeOption = 'all' | 'today' | 'week' | 'month';
 
@@ -25,6 +26,8 @@ const AdminLayout: React.FC = () => {
   // Refs for click outside
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -80,6 +83,8 @@ const AdminLayout: React.FC = () => {
 
   const navItems = [
     { name: 'Tổng Quan', path: '/admin', icon: 'dashboard' },
+    { name: 'Phân tích', path: '/admin/analytics', icon: 'analytics' },
+    { name: 'Báo cáo', path: '/admin/reports', icon: 'description' },
     { name: 'Sản phẩm', path: '/admin/products', icon: 'inventory_2' },
     { name: 'Đơn hàng', path: '/admin/orders', icon: 'shopping_cart' },
     { name: 'Khách hàng', path: '/admin/customers', icon: 'group' },

@@ -573,6 +573,31 @@
     "levelUp": "Nâng cấp setup",
     "premiumGear": "Thiết bị cao cấp"
   }
+  ,
+  "admin": {
+    "products": {
+      "title": "Sản phẩm",
+      "subtitle": "Quản lý sản phẩm",
+      "addProduct": "Thêm sản phẩm",
+      "searchPlaceholder": "Tìm sản phẩm...",
+      "noProductsMatch": "Không có sản phẩm phù hợp",
+      "addModalTitle": "Thêm sản phẩm",
+      "editModalTitle": "Chỉnh sửa sản phẩm",
+      "saveProduct": "Lưu sản phẩm",
+      "saveChanges": "Lưu thay đổi",
+      "addSuccess": "Thêm sản phẩm thành công",
+      "deleteSuccess": "Xóa sản phẩm thành công",
+      "deleteFailed": "Xóa sản phẩm thất bại",
+      "table": {
+        "name": "Tên",
+        "brand": "Thương hiệu",
+        "price": "Giá",
+        "stock": "Kho",
+        "status": "Trạng thái",
+        "actions": "Thao tác"
+      }
+    }
+  }
 }
 
 
