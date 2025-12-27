@@ -11,6 +11,7 @@ import {
 import { Service } from "typedi";
 import { PaymentService } from "./payment.service";
 import { Auth } from "@/middlewares/auth.middleware";
+import { HttpException } from "@/exceptions/http-exceptions";
 import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { JwtService } from "@/jwt/jwt.service";
 import { UpdatePaymentStatusDto } from "./dtos/payment.dto";
@@ -26,6 +27,10 @@ export class PaymentController {
   @Post("/update-payment-status")
   async updatePaymentStatus(@Body() body: UpdatePaymentStatusDto) {
     await this.paymentService.updatePaymentStatus(body.orderId, body.status, body.method);
+    return {
+      success: true,
+      message: "Payment status updated successfully"
+    };
   }
 
   /**
@@ -63,11 +68,7 @@ export class PaymentController {
         data: paymentStatus
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to get payment status",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to get payment status");
     }
   }
 

@@ -1,9 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, QueryParam, UseBefore } from "routing-controllers";
+import { Body, Controller, Delete, Get, Param, Post, Put, QueryParam, UseBefore, Req } from "routing-controllers";
 import { Service } from "typedi";
 import { ShipperService } from "./shipper.services";
 import { CreateShipperDto, UpdateShipperDto } from "./dtos/shipper.dtos";
 import { OrderService } from "../order/order.service";
 import { Auth } from "../middlewares/auth.middleware";
+import { Order } from "../order/order.entity";
+import { AccountDetailsDto } from "../auth/dtos/account.schema";
+import { DbConnection } from "@/database/dbConnection";
+import { HttpException } from "@/exceptions/http-exceptions";
 
 @Service()
 @Controller("/shippers")
@@ -23,11 +27,7 @@ export class ShipperController {
         message: "Shipper created successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to create shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to create shipper");
     }
   }
 
@@ -41,11 +41,7 @@ export class ShipperController {
         message: "Shippers retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve shippers",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve shippers");
     }
   }
 
@@ -59,11 +55,7 @@ export class ShipperController {
         message: "Available shippers retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve available shippers",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve available shippers");
     }
   }
 
@@ -117,11 +109,7 @@ export class ShipperController {
         message: "Statistics retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve statistics",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve statistics");
     }
   }
 
@@ -135,11 +123,7 @@ export class ShipperController {
         message: "Shipper retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve shipper");
     }
   }
 
@@ -156,11 +140,7 @@ export class ShipperController {
         message: "Shipper updated successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to update shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to update shipper");
     }
   }
 
@@ -173,11 +153,7 @@ export class ShipperController {
         message: "Shipper deleted successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to delete shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to delete shipper");
     }
   }
 
@@ -213,7 +189,7 @@ export class ShipperController {
         message: "Orders retrieved successfully"
       };
     } catch (error: any) {
-      throw error; // Let error handler deal with it
+      throw new HttpException(500, error?.message || "Failed to retrieve orders for shipper");
     }
   }
 
@@ -237,11 +213,7 @@ export class ShipperController {
         message: "Order status updated successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to update order status",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to update order status");
     }
   }
 
@@ -265,11 +237,7 @@ export class ShipperController {
         message: "Order confirmed successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to confirm order",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to confirm order");
     }
   }
 
@@ -333,11 +301,230 @@ export class ShipperController {
         }
       };
     } catch (error: any) {
+      throw new HttpException(500, error?.message || "Failed to export shippers");
+    }
+  }
+
+  /**
+   * Get shipper performance analytics
+   * GET /api/shippers/analytics/performance?startDate=...&endDate=...&limit=10
+   */
+  @Get("/analytics/performance")
+  @UseBefore(Auth)
+  async getShipperPerformanceAnalytics(
+    @Req() req: any,
+    @QueryParam("startDate") startDateStr: string,
+    @QueryParam("endDate") endDateStr: string,
+    @QueryParam("limit") limit: number = 10
+  ) {
+    const user = req.user as AccountDetailsDto;
+
+    // Only allow admin, manager, staff
+    if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
+      throw new HttpException(401, "Access denied to shipper analytics");
+    }
+
+    try {
+      if (!startDateStr || !endDateStr) {
+        throw new HttpException(400, "startDate and endDate are required");
+      }
+
+      const startDate = new Date(startDateStr);
+      const endDate = new Date(endDateStr);
+
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        throw new HttpException(400, "Invalid date format");
+      }
+
+      const analytics = await this.generateShipperPerformanceAnalytics(startDate, endDate, limit);
+
+      return {
+        success: true,
+        message: "Shipper performance analytics retrieved successfully",
+        data: analytics
+      };
+    } catch (error: any) {
+      console.error("Error getting shipper performance analytics:", error);
+      throw new HttpException(500, error?.message || "Failed to retrieve shipper performance analytics");
+    }
+  }
+
+  /**
+   * Get shipper delivery trends over time
+   * GET /api/shippers/analytics/delivery-trends?startDate=...&endDate=...&period=month
+   */
+  @Get("/analytics/delivery-trends")
+  @UseBefore(Auth)
+  async getShipperDeliveryTrends(
+    @Req() req: any,
+    @QueryParam("startDate") startDateStr: string,
+    @QueryParam("endDate") endDateStr: string,
+    @QueryParam("period") period: 'day' | 'month' | 'year' = 'month'
+  ) {
+    const user = req.user as AccountDetailsDto;
+
+    // Only allow admin, manager, staff
+    if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
+      throw new HttpException(401, "Access denied to shipper delivery trends");
+    }
+
+    try {
+      if (!startDateStr || !endDateStr) {
+        throw new HttpException(400, "startDate and endDate are required");
+      }
+
+      const startDate = new Date(startDateStr);
+      const endDate = new Date(endDateStr);
+
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        throw new HttpException(400, "Invalid date format");
+      }
+
+      const trends = await this.generateShipperDeliveryTrends(startDate, endDate, period);
+
+      return {
+        success: true,
+        message: "Shipper delivery trends retrieved successfully",
+        data: trends
+      };
+    } catch (error: any) {
+      console.error("Error getting shipper delivery trends:", error);
       return {
         success: false,
-        message: "Failed to export shippers",
-        error: error.message || "Unknown error"
+        message: "Failed to retrieve shipper delivery trends",
+        error: error.message
       };
     }
+  }
+
+  // Helper methods for analytics
+  private isAdmin(user: AccountDetailsDto): boolean {
+    return user.role?.name?.toLowerCase().includes('admin') || false;
+  }
+
+  private isManager(user: AccountDetailsDto): boolean {
+    return user.role?.name?.toLowerCase().includes('manager') || false;
+  }
+
+  private isStaff(user: AccountDetailsDto): boolean {
+    return user.role?.name?.toLowerCase().includes('staff') || false;
+  }
+
+  private async generateShipperPerformanceAnalytics(
+    startDate: Date,
+    endDate: Date,
+    limit: number
+  ): Promise<any[]> {
+    // Query shipper performance based on delivered orders
+    const result = await DbConnection.appDataSource.getRepository(Order)
+      .createQueryBuilder("order")
+      .leftJoin("order.shipper", "shipper")
+      .select([
+        "shipper.id as shipperId",
+        "shipper.name as shipperName",
+        "shipper.phone as shipperPhone",
+        "COUNT(order.id) as totalOrders",
+        "COUNT(CASE WHEN order.status = 'delivered' THEN 1 END) as deliveredOrders",
+        "COUNT(CASE WHEN order.status = 'shipped' THEN 1 END) as shippedOrders",
+        "SUM(order.totalAmount) as totalRevenue",
+        "AVG(order.totalAmount) as averageOrderValue",
+        "MIN(order.createdAt) as firstDeliveryDate",
+        "MAX(order.createdAt) as lastDeliveryDate"
+      ])
+      .where("order.createdAt BETWEEN :startDate AND :endDate", {
+        startDate,
+        endDate,
+      })
+      .andWhere("order.shipperId IS NOT NULL")
+      .groupBy("shipper.id")
+      .orderBy("totalOrders", "DESC")
+      .limit(limit)
+      .getRawMany();
+
+    return result.map(row => {
+      const totalOrders = parseInt(row.totalOrders) || 0;
+      const deliveredOrders = parseInt(row.deliveredOrders) || 0;
+      const deliveryRate = totalOrders > 0 ? (deliveredOrders / totalOrders) * 100 : 0;
+
+      return {
+        shipperId: row.shipperId,
+        shipperName: row.shipperName,
+        shipperPhone: row.shipperPhone,
+        totalOrders,
+        deliveredOrders,
+        shippedOrders: parseInt(row.shippedOrders) || 0,
+        deliveryRate: Math.round(deliveryRate * 100) / 100, // Round to 2 decimal places
+        totalRevenue: parseFloat(row.totalRevenue) || 0,
+        averageOrderValue: parseFloat(row.averageOrderValue) || 0,
+        firstDeliveryDate: row.firstDeliveryDate,
+        lastDeliveryDate: row.lastDeliveryDate,
+        performanceScore: this.calculateShipperPerformanceScore(row),
+      };
+    });
+  }
+
+  private async generateShipperDeliveryTrends(
+    startDate: Date,
+    endDate: Date,
+    period: 'day' | 'month' | 'year'
+  ): Promise<{ date: string; totalOrders: number; deliveredOrders: number; deliveryRate: number }[]> {
+    // Query shipper delivery trends
+    let dateFormat: string;
+    let groupBy: string;
+
+    if (period === 'day') {
+      dateFormat = "DATE(order.createdAt)";
+      groupBy = "DATE(order.createdAt)";
+    } else if (period === 'month') {
+      dateFormat = "TO_CHAR(order.createdAt, 'YYYY-MM')";
+      groupBy = "TO_CHAR(order.createdAt, 'YYYY-MM')";
+    } else {
+      dateFormat = "EXTRACT(YEAR FROM order.createdAt)";
+      groupBy = "EXTRACT(YEAR FROM order.createdAt)";
+    }
+
+    const result = await DbConnection.appDataSource.getRepository(Order)
+      .createQueryBuilder("order")
+      .select([
+        `${dateFormat} as date`,
+        "COUNT(order.id) as totalOrders",
+        "COUNT(CASE WHEN order.status = 'delivered' THEN 1 END) as deliveredOrders"
+      ])
+      .where("order.createdAt BETWEEN :startDate AND :endDate", {
+        startDate,
+        endDate,
+      })
+      .andWhere("order.shipperId IS NOT NULL")
+      .groupBy(groupBy)
+      .orderBy("date", "ASC")
+      .getRawMany();
+
+    return result.map(row => {
+      const totalOrders = parseInt(row.totalOrders) || 0;
+      const deliveredOrders = parseInt(row.deliveredOrders) || 0;
+      const deliveryRate = totalOrders > 0 ? (deliveredOrders / totalOrders) * 100 : 0;
+
+      return {
+        date: row.date,
+        totalOrders,
+        deliveredOrders,
+        deliveryRate: Math.round(deliveryRate * 100) / 100,
+      };
+    });
+  }
+
+  private calculateShipperPerformanceScore(row: any): number {
+    const totalOrders = parseInt(row.totalOrders) || 0;
+    const deliveredOrders = parseInt(row.deliveredOrders) || 0;
+    const deliveryRate = totalOrders > 0 ? (deliveredOrders / totalOrders) * 100 : 0;
+    const totalRevenue = parseFloat(row.totalRevenue) || 0;
+
+    // Performance score calculation
+    // Weight: 50% delivery rate, 30% total orders, 20% revenue
+    const deliveryScore = Math.min(deliveryRate / 100, 1) * 50; // Max score for 100% delivery rate
+    const orderScore = Math.min(totalOrders / 50, 1) * 30; // Max score for 50+ orders
+    const revenueScore = Math.min(totalRevenue / 50000, 1) * 20; // Max score for $50k+ revenue
+
+    return Math.round(deliveryScore + orderScore + revenueScore);
   }
 }

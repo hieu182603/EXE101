@@ -94,12 +94,22 @@ export const orderService = {
     }
   },
 
-  async getOrders(params = { limit: 10000, page: 1 }) {
-    // Đặt limit rất cao để lấy tất cả đơn hàng
+  async getOrders(params: {
+    limit?: number;
+    page?: number;
+    status?: string;
+  } = {}) {
+    // Use reasonable default with proper pagination
+    const defaultParams = {
+      limit: params.limit || 50,  // Reasonable default
+      page: params.page || 1,
+      ...params
+    };
+
     try {
       // Build query parameters
       const queryParams = new URLSearchParams();
-      Object.entries(params).forEach(([key, value]) => {
+      Object.entries(defaultParams).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
           const strValue = String(value);
           if (strValue !== "") {

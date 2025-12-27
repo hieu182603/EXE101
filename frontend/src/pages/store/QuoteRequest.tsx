@@ -47,7 +47,7 @@ const QuoteRequest: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   const CATEGORIES = useMemo(() => getCategories(t), [t]);
-  
+
   // Form State
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
@@ -69,7 +69,7 @@ const QuoteRequest: React.FC = () => {
           categoryInfo.categoryName,
           500
         );
-        
+
         // Transform Product[] to ProductPart[]
         const transformedProducts: ProductPart[] = productsData.map((p: Product) => ({
           id: p.id,
@@ -78,7 +78,7 @@ const QuoteRequest: React.FC = () => {
           category: activeCategory,
           image: p.images?.[0]?.url || p.url || 'https://picsum.photos/200/200'
         }));
-        
+
         setProducts(transformedProducts);
       } catch (error) {
         console.error('Error loading products:', error);
@@ -93,7 +93,7 @@ const QuoteRequest: React.FC = () => {
 
   // Filter Products
   const filteredProducts = useMemo(() => {
-    return products.filter(p => 
+    return products.filter(p =>
       p.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [products, searchTerm]);
@@ -139,7 +139,7 @@ const QuoteRequest: React.FC = () => {
     try {
       // Calculate total amount
       const totalAmount = quoteItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      
+
       // Option 1: Use RFQ service to find compatible builds
       // This will find builds that match the selected components
       const buildFilter = {
@@ -160,7 +160,7 @@ const QuoteRequest: React.FC = () => {
 
       // Get compatible builds
       await rfqService.getBuilds(buildFilter);
-      
+
       // For now, just show success message
       // In the future, you might want to show the compatible builds or send email
       showSuccess(t('quote.success.submitMessage', {
@@ -169,7 +169,7 @@ const QuoteRequest: React.FC = () => {
         name: customerInfo.name,
         phone: customerInfo.phone
       }));
-      
+
       // Reset form
       setQuoteItems([]);
       setCustomerInfo({ name: '', email: '', phone: '', note: '' });
@@ -184,30 +184,29 @@ const QuoteRequest: React.FC = () => {
       {/* Header Banner */}
       <div className="bg-surface-dark border-b border-border-dark py-10 px-4 rounded-b-[32px] shadow-lg shadow-black/40 mb-10">
         <div className="container mx-auto max-w-[1440px]">
-           <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">{t('quote.title')}</h1>
-           <p className="text-slate-400 max-w-2xl">
-             {t('quote.subtitle')}
-           </p>
+          <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">{t('quote.title')}</h1>
+          <p className="text-slate-400 max-w-2xl">
+            {t('quote.subtitle')}
+          </p>
         </div>
       </div>
 
       <div className="container mx-auto max-w-[1440px] px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
-          
+
           {/* LEFT: Product Selector (Catalog) */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            
+
             {/* 1. Category Tabs */}
             <div className="flex overflow-x-auto gap-2 pb-2 custom-scrollbar snap-x">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-xl border font-bold text-sm whitespace-nowrap transition-all snap-start ${
-                    activeCategory === cat.id
+                  className={`flex items-center gap-2 px-4 py-3 rounded-xl border font-bold text-sm whitespace-nowrap transition-all snap-start ${activeCategory === cat.id
                       ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
                       : 'bg-surface-dark text-slate-400 border-border-dark hover:text-white hover:border-slate-500'
-                  }`}
+                    }`}
                 >
                   <span className="material-symbols-outlined text-[18px]">{cat.icon}</span>
                   {cat.label}
@@ -235,23 +234,23 @@ const QuoteRequest: React.FC = () => {
               ) : filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {filteredProducts.map((product) => (
-                  <div key={product.id} className="group flex gap-4 p-4 rounded-2xl border border-border-dark bg-background-dark/50 hover:border-primary/50 hover:bg-background-dark transition-all">
-                    <div className="size-20 rounded-xl bg-surface-dark border border-border-dark flex items-center justify-center shrink-0 overflow-hidden">
-                       <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                    <div className="flex flex-col justify-between flex-1">
-                      <div>
-                        <div className="flex justify-between items-start">
-                           <Badge variant="neutral">{product.category}</Badge>
+                    <div key={product.id} className="group flex gap-4 p-4 rounded-2xl border border-border-dark bg-background-dark/50 hover:border-primary/50 hover:bg-background-dark transition-all">
+                      <div className="size-20 rounded-xl bg-surface-dark border border-border-dark flex items-center justify-center shrink-0 overflow-hidden">
+                        <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      <div className="flex flex-col justify-between flex-1">
+                        <div>
+                          <div className="flex justify-between items-start">
+                            <Badge variant="neutral">{product.category}</Badge>
+                          </div>
+                          <h4 className="font-bold text-white text-sm line-clamp-2 mt-2 group-hover:text-primary transition-colors">{product.name}</h4>
                         </div>
-                        <h4 className="font-bold text-white text-sm line-clamp-2 mt-2 group-hover:text-primary transition-colors">{product.name}</h4>
-                      </div>
-                      <div className="flex items-center justify-between mt-3">
-                        <span className="font-bold text-white">{product.price.toLocaleString()}đ</span>
-                        <Button size="sm" variant="secondary" icon="add" onClick={() => addToQuote(product)} className="h-8">
-                           {t('quote.addButton')}
-                        </Button>
-                      </div>
+                        <div className="flex items-center justify-between mt-3">
+                          <span className="font-bold text-white">{product.price.toLocaleString()}đ</span>
+                          <Button size="sm" variant="secondary" icon="add" onClick={() => addToQuote(product)} className="h-8">
+                            {t('quote.addButton')}
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -270,18 +269,18 @@ const QuoteRequest: React.FC = () => {
 
           {/* RIGHT: Quote Summary & Form */}
           <div className="lg:col-span-4 flex flex-col gap-6">
-            
+
             {/* Sticky Container */}
             <div className="sticky top-24 space-y-6">
-              
+
               {/* Selected Items List */}
               <div className="bg-surface-dark border border-border-dark rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[500px]">
                 <div className="p-5 border-b border-border-dark bg-surface-accent/20 flex justify-between items-center">
-                   <h3 className="font-bold text-white flex items-center gap-2">
-                     <span className="material-symbols-outlined text-primary">list_alt</span>
-                     {t('quote.selectedTitle')}
-                   </h3>
-                   <Badge variant="primary" dot>{t('quote.selectedCount', { count: quoteItems.length })}</Badge>
+                  <h3 className="font-bold text-white flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary">list_alt</span>
+                    {t('quote.selectedTitle')}
+                  </h3>
+                  <Badge variant="primary" dot>{t('quote.selectedCount', { count: quoteItems.length })}</Badge>
                 </div>
 
                 <div className="flex-1 overflow-y-auto custom-scrollbar p-2">
@@ -289,88 +288,88 @@ const QuoteRequest: React.FC = () => {
                     <div className="space-y-2">
                       {quoteItems.map((item) => (
                         <div key={item.id} className="flex gap-3 p-3 rounded-xl bg-background-dark/50 border border-border-dark group">
-                           <div className="size-12 rounded-lg bg-surface-dark border border-border-dark shrink-0 overflow-hidden">
-                              <img src={item.image} className="w-full h-full object-cover" />
-                           </div>
-                           <div className="flex-1 min-w-0">
-                              <div className="flex justify-between items-start gap-2">
-                                <p className="text-xs font-bold text-white line-clamp-2 leading-tight">{item.name}</p>
-                                <button onClick={() => removeFromQuote(item.id)} className="text-slate-500 hover:text-red-500 transition-colors">
-                                  <span className="material-symbols-outlined text-[16px]">close</span>
-                                </button>
+                          <div className="size-12 rounded-lg bg-surface-dark border border-border-dark shrink-0 overflow-hidden">
+                            <img src={item.image} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex justify-between items-start gap-2">
+                              <p className="text-xs font-bold text-white line-clamp-2 leading-tight">{item.name}</p>
+                              <button onClick={() => removeFromQuote(item.id)} className="text-slate-500 hover:text-red-500 transition-colors">
+                                <span className="material-symbols-outlined text-[16px]">close</span>
+                              </button>
+                            </div>
+                            <div className="flex justify-between items-end mt-2">
+                              <p className="text-xs font-bold text-primary">{item.price.toLocaleString()}đ</p>
+                              <div className="flex items-center gap-2 bg-surface-dark rounded-lg px-1 border border-border-dark">
+                                <button onClick={() => updateQty(item.id, -1)} className="size-5 flex items-center justify-center text-slate-400 hover:text-white"><span className="material-symbols-outlined text-[14px]">remove</span></button>
+                                <span className="text-[10px] font-bold text-white w-4 text-center">{item.qty}</span>
+                                <button onClick={() => updateQty(item.id, 1)} className="size-5 flex items-center justify-center text-slate-400 hover:text-white"><span className="material-symbols-outlined text-[14px]">add</span></button>
                               </div>
-                              <div className="flex justify-between items-end mt-2">
-                                <p className="text-xs font-bold text-primary">{item.price.toLocaleString()}đ</p>
-                                <div className="flex items-center gap-2 bg-surface-dark rounded-lg px-1 border border-border-dark">
-                                   <button onClick={() => updateQty(item.id, -1)} className="size-5 flex items-center justify-center text-slate-400 hover:text-white"><span className="material-symbols-outlined text-[14px]">remove</span></button>
-                                   <span className="text-[10px] font-bold text-white w-4 text-center">{item.qty}</span>
-                                   <button onClick={() => updateQty(item.id, 1)} className="size-5 flex items-center justify-center text-slate-400 hover:text-white"><span className="material-symbols-outlined text-[14px]">add</span></button>
-                                </div>
-                              </div>
-                           </div>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
                   ) : (
                     <div className="h-40 flex flex-col items-center justify-center text-slate-500 gap-2">
-                       <span className="material-symbols-outlined text-4xl opacity-50">add_circle_outline</span>
-                       <p className="text-xs">{t('quote.emptySelection')}</p>
+                      <span className="material-symbols-outlined text-4xl opacity-50">add_circle_outline</span>
+                      <p className="text-xs">{t('quote.emptySelection')}</p>
                     </div>
                   )}
                 </div>
 
                 <div className="p-5 border-t border-border-dark bg-surface-accent/10">
-                   <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-bold text-slate-400">{t('quote.totalLabel')}</span>
-                      <span className="text-xl font-black text-white">{totalPrice.toLocaleString()}đ</span>
-                   </div>
-                   <p className="text-[10px] text-slate-500 text-right italic">{t('quote.totalNote')}</p>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-sm font-bold text-slate-400">{t('quote.totalLabel')}</span>
+                    <span className="text-xl font-black text-white">{totalPrice.toLocaleString()}đ</span>
+                  </div>
+                  <p className="text-[10px] text-slate-500 text-right italic">{t('quote.totalNote')}</p>
                 </div>
               </div>
 
               {/* Contact Form */}
               <div className="bg-surface-dark border border-border-dark rounded-3xl p-6 shadow-2xl">
-                 <h3 className="font-bold text-white mb-4 flex items-center gap-2 text-sm uppercase tracking-widest">
-                   <span className="material-symbols-outlined text-primary text-lg">send</span>
-                   {t('quote.form.title')}
-                 </h3>
-                 <form onSubmit={handleSubmit} className="space-y-4">
+                <h3 className="font-bold text-white mb-4 flex items-center gap-2 text-sm uppercase tracking-widest">
+                  <span className="material-symbols-outlined text-primary text-lg">send</span>
+                  {t('quote.form.title')}
+                </h3>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <Input
+                    placeholder={t('quote.form.namePlaceholder')}
+                    value={customerInfo.name}
+                    onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
+                    className="bg-background-dark text-sm h-10"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
                     <Input
-                      placeholder={t('quote.form.namePlaceholder')}
-                      value={customerInfo.name}
-                      onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
+                      placeholder={t('quote.form.phonePlaceholder')}
+                      value={customerInfo.phone}
+                      onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
                       className="bg-background-dark text-sm h-10"
                     />
-                    <div className="grid grid-cols-2 gap-3">
-                      <Input
-                        placeholder={t('quote.form.phonePlaceholder')}
-                        value={customerInfo.phone}
-                        onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
-                        className="bg-background-dark text-sm h-10"
-                      />
-                      <Input
-                        placeholder={t('quote.form.emailPlaceholder')}
-                        value={customerInfo.email}
-                        onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})}
-                        className="bg-background-dark text-sm h-10"
-                      />
-                    </div>
-                    <Textarea
-                      placeholder={t('quote.form.notePlaceholder')}
-                      value={customerInfo.note}
-                      onChange={(e) => setCustomerInfo({...customerInfo, note: e.target.value})}
-                      className="bg-background-dark text-sm min-h-[80px]"
+                    <Input
+                      placeholder={t('quote.form.emailPlaceholder')}
+                      value={customerInfo.email}
+                      onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
+                      className="bg-background-dark text-sm h-10"
                     />
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      className="w-full bg-gradient-to-r from-primary to-red-700 hover:to-red-600 shadow-lg shadow-red-900/30"
-                      size="lg"
-                      icon="rocket_launch"
-                    >
-                      {t('quote.form.submitButton')}
-                    </Button>
-                 </form>
+                  </div>
+                  <Textarea
+                    placeholder={t('quote.form.notePlaceholder')}
+                    value={customerInfo.note}
+                    onChange={(e) => setCustomerInfo({ ...customerInfo, note: e.target.value })}
+                    className="bg-background-dark text-sm min-h-[80px]"
+                  />
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-full bg-gradient-to-r from-primary to-red-700 hover:to-red-600 shadow-lg shadow-red-900/30"
+                    size="lg"
+                    icon="rocket_launch"
+                  >
+                    {t('quote.form.submitButton')}
+                  </Button>
+                </form>
               </div>
 
             </div>

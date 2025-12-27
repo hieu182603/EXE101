@@ -1,6 +1,7 @@
 import App from './app';
 import { createServer } from "http";
 import { initializeSocket } from "./config/socket.config";
+import { DbConnection } from './database/dbConnection';
 
 const app = new App();
 const server = createServer(app.getServer());
@@ -15,6 +16,19 @@ async function start() {
 
     const port = parseInt(process.env.PORT || '3000');
     const host = process.env.HOST || '0.0.0.0';
+
+    // Ensure database connection established before accepting requests
+    try {
+      const ds = await DbConnection.createConnection();
+      if (!ds) {
+        throw new Error('Database connection could not be established');
+      }
+      console.log('✅ Database connection ready (server will start)');
+    } catch (dbError) {
+      console.error('❌ Failed to initialize database connection:', dbError);
+      // Fail fast in development so the developer can fix DB config
+      process.exit(1);
+    }
 
     // Initialize Socket.io
     try {

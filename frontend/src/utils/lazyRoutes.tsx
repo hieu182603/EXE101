@@ -33,6 +33,8 @@ export const LazyForgotPassword = lazy(() => import('@pages/auth/ForgotPassword'
 
 // Admin Pages - Lazy loaded (heavy components)
 export const LazyAdminDashboard = lazy(() => import('@pages/admin/Dashboard'));
+export const LazyAdminAnalytics = lazy(() => import('@pages/admin/Analytics'));
+export const LazyAdminReports = lazy(() => import('@pages/admin/Reports'));
 export const LazyProductManagement = lazy(() => import('@pages/admin/Products'));
 export const LazyOrderManagement = lazy(() => import('@pages/admin/Orders'));
 export const LazyCustomerManagement = lazy(() => import('@pages/admin/Customers'));

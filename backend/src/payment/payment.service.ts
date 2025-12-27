@@ -7,7 +7,7 @@ import {
   PaymentStatusDto,
 } from "./dtos/payment.dto";
 import { OrderStatus } from "@/order/dtos/update-order.dto";
-import { CartService } from "@/Cart/cart.service";
+import { CartService } from "@/cart/cart.service";
 
 @Service()
 export class PaymentService {
@@ -118,7 +118,13 @@ export class PaymentService {
           payment.method = "Card";
         }
 
-        payment.amount = parseFloat(amount) / 100; // Convert from VND (divide by 100)
+        // VNPay returns amount multiplied by 100, so we divide to get actual VND
+        const actualAmount = parseFloat(amount) / 100;
+        // Validate amount
+        if (isNaN(actualAmount) || actualAmount <= 0) {
+          throw new Error('Invalid payment amount');
+        }
+        payment.amount = actualAmount;
         payment.status = status;
         await transactionalEntityManager.save(payment);
 

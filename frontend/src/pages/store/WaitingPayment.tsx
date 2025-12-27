@@ -8,7 +8,7 @@ const WaitingPayment: React.FC = () => {
   const [searchParams] = useSearchParams();
   const { showInfo } = useToast();
   const orderId = searchParams.get('orderId') || searchParams.get('id');
-  
+
   const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState<any>(null);
@@ -20,7 +20,7 @@ const WaitingPayment: React.FC = () => {
         setLoading(false);
         return;
       }
-      
+
       try {
         setLoading(true);
         const response = await orderService.getOrderById(orderId);
@@ -55,7 +55,7 @@ const WaitingPayment: React.FC = () => {
         <div className="lg:col-span-7 flex flex-col gap-8">
           <div className="bg-surface-dark rounded-3xl border border-border-dark p-10 shadow-2xl relative overflow-hidden text-center">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60"></div>
-            
+
             <div className="size-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 text-primary animate-pulse">
               <span className="material-symbols-outlined text-[48px]">hourglass_top</span>
             </div>
@@ -83,20 +83,20 @@ const WaitingPayment: React.FC = () => {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={handlePayment}
               className="relative w-full py-5 bg-gradient-to-r from-primary to-primary-dark text-black font-black text-xl rounded-2xl shadow-[0_0_30px_rgba(19,203,236,0.3)] transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group"
             >
               <span>Chuyển đến cổng VNPay</span>
               <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
             </button>
-            
+
             <Link to="/cart" className="mt-8 inline-flex items-center gap-2 text-slate-500 hover:text-white transition-all font-bold">
               <span className="material-symbols-outlined text-sm">arrow_back</span>
               Quay lại giỏ hàng
             </Link>
           </div>
-          
+
           <div className="flex justify-center gap-10 opacity-30 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700 cursor-default">
             <div className="h-10 w-20 bg-contain bg-no-repeat bg-center" style={{ backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg')` }}></div>
             <div className="h-10 w-20 bg-contain bg-no-repeat bg-center" style={{ backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg')` }}></div>
@@ -122,9 +122,9 @@ const WaitingPayment: React.FC = () => {
                   {(order.orderDetails || []).map((detail: any, index: number) => (
                     <div key={detail.id || index} className="flex gap-4 pb-4 border-b border-border-dark last:border-0">
                       <div className="size-16 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center shrink-0 overflow-hidden">
-                        <img 
-                          src={detail.product?.images?.[0]?.url || detail.product?.url || 'https://picsum.photos/200/200'} 
-                          alt={detail.product?.name || 'Product'} 
+                        <img
+                          src={detail.product?.images?.[0]?.url || detail.product?.url || 'https://picsum.photos/200/200'}
+                          alt={detail.product?.name || 'Product'}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -135,7 +135,7 @@ const WaitingPayment: React.FC = () => {
                       </div>
                     </div>
                   ))}
-                  
+
                   {/* Order Summary */}
                   <div className="pt-4 border-t border-border-dark space-y-3">
                     <div className="flex justify-between text-sm">
@@ -161,12 +161,12 @@ const WaitingPayment: React.FC = () => {
             </div>
           </div>
 
-          <div 
+          <div
             onClick={handlePayment}
             className="bg-[#1a2c30] rounded-3xl border border-border-dark p-6 flex items-center gap-6 group hover:border-primary/40 transition-all cursor-pointer"
           >
             <div className="bg-white p-2 rounded-xl shrink-0">
-               <span className="material-symbols-outlined text-black text-4xl">qr_code_2</span>
+              <span className="material-symbols-outlined text-black text-4xl">qr_code_2</span>
             </div>
             <div>
               <h4 className="font-bold text-white mb-1">Thanh toán nhanh qua QR</h4>

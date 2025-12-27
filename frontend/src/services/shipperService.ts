@@ -114,97 +114,43 @@ export const shipperService = {
   },
 
   // New methods for automatic shipper assignment system
-  async updateWorkingZone(shipperId: string, workingZones: string[]): Promise<ApiResponse<IShipper>> {
-    try {
-      const response = await api.put<ApiResponse<IShipper>>(`/api/order-assignment/working-zone/${shipperId}`, {
-        workingZones
-      });
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Update working zone error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  },
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async updateWorkingZone(shipperId: string, workingZones: string[]): Promise<ApiResponse<IShipper>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // },
 
-  async updateAvailability(shipperId: string, isAvailable: boolean): Promise<ApiResponse<IShipper>> {
-    try {
-      const response = await api.put<ApiResponse<IShipper>>(`/shipping/shippers/${shipperId}/availability`, {
-        isAvailable
-      });
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Update availability error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  },
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async updateAvailability(shipperId: string, isAvailable: boolean): Promise<ApiResponse<IShipper>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // },
 
-  async updatePriority(shipperId: string, priority: number): Promise<ApiResponse<IShipper>> {
-    try {
-      const response = await api.put<ApiResponse<IShipper>>(`/shipping/shippers/${shipperId}/priority`, {
-        priority
-      });
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Update priority error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  },
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async updatePriority(shipperId: string, priority: number): Promise<ApiResponse<IShipper>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // },
 
-  async getShippingStatistics(): Promise<ApiResponse<ShippingStatistics>> {
-    try {
-      const response = await api.get<ApiResponse<ShippingStatistics>>('/shipping/statistics');
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Get shipping statistics error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  },
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async getShippingStatistics(): Promise<ApiResponse<ShippingStatistics>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // },
 
-  async getShippingConfiguration(): Promise<ApiResponse<ShippingConfiguration>> {
-    try {
-      const response = await api.get<ApiResponse<ShippingConfiguration>>('/shipping/configuration');
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Get shipping configuration error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  },
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async getShippingConfiguration(): Promise<ApiResponse<ShippingConfiguration>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // },
 
-  async triggerManualAssignment(): Promise<ApiResponse<AssignmentResult>> {
-    try {
-      const response = await api.post<ApiResponse<AssignmentResult>>('/shipping/auto-assign');
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Trigger manual assignment error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  },
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async triggerManualAssignment(): Promise<ApiResponse<AssignmentResult>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // },
 
-  async resetDailyOrderCounts(): Promise<ApiResponse<AssignmentResult>> {
-    try {
-      const response = await api.post<ApiResponse<AssignmentResult>>('/shipping/reset-daily-counts');
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Reset daily order counts error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  },
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async resetDailyOrderCounts(): Promise<ApiResponse<AssignmentResult>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // },
 
-  async getAvailableZones(): Promise<ApiResponse<AvailableZones>> {
-    try {
-      const response = await api.get<ApiResponse<AvailableZones>>('/api/order-assignment/available-zones');
-      return response.data;
-    } catch (error) {
-      const apiError = error as ApiError;
-      console.error('Get available zones error:', apiError.response?.data?.message || apiError.message);
-      throw error;
-    }
-  }
+  // TEMPORARILY DISABLED - Backend endpoint not implemented
+  // async getAvailableZones(): Promise<ApiResponse<AvailableZones>> {
+  //   throw new Error('Feature not yet implemented on backend');
+  // }
 }; 

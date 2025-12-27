@@ -1,15 +1,15 @@
 import api from "./apiInterceptor";
 import type { Product, Category, ApiResponse } from "../types/product";
+import { parseApiResponse, unwrapData } from "@/utils/apiHelpers";
+import { logger } from "@/utils/logger";
 
 class ProductService {
   async getAllProducts(): Promise<Product[]> {
     try {
-      const response = await api.get<ApiResponse<Product[]>>("/products");
-      if (response.data?.data?.products) return response.data.data.products;
-      if (response.data?.products) return response.data.products;
-      return [];
+      const response = await api.get("/products");
+      return unwrapData(response, 'products') || [];
     } catch (error) {
-      console.error("Error fetching all products:", error);
+      logger.error("Error fetching all products:", error);
       return [];
     }
   }
@@ -23,7 +23,7 @@ class ProductService {
       if (response.data?.data?.products) return response.data.data.products;
       return [];
     } catch (error) {
-      console.error("Error fetching products by category:", error);
+      logger.error("Error fetching products by category:", error);
       return [];
     }
   }
@@ -37,48 +37,27 @@ class ProductService {
       if (response.data?.products) return response.data.products;
       return [];
     } catch (error) {
-      console.error("Error fetching products by category name:", error);
+      logger.error("Error fetching products by category name:", error);
       return [];
     }
   }
 
   async getCategories(): Promise<Category[]> {
     try {
-      const response = await api.get<ApiResponse<Category[]>>(
-        "/products/categories/all"
-      );
-      console.log("Categories API response:", response.data);
-
-      // Check for the correct response structure
-      if (
-        response.data &&
-        response.data.data &&
-        response.data.data.categories
-      ) {
-        return response.data.data.categories;
-      }
-      // Fallback: try different response structure
-      if (response.data && response.data.categories) {
-        return response.data.categories;
-      }
-      if (response.data && Array.isArray(response.data)) {
-        return response.data;
-      }
-      return [];
+      const response = await api.get("/products/categories/all");
+      return unwrapData(response, 'categories') || [];
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      logger.error("Error fetching categories:", error);
       return [];
     }
   }
 
   async getProductById(id: string): Promise<Product | null> {
     try {
-      const response = await api.get<ApiResponse<Product>>(`/products/${id}`);
-      if (response.data?.data?.product) return response.data.data.product;
-      if (response.data?.product) return response.data.product;
-      return null;
+      const response = await api.get(`/products/${id}`);
+      return unwrapData(response, 'product') || null;
     } catch (error) {
-      console.error("Error fetching product:", error);
+      logger.error("Error fetching product:", error);
       return null;
     }
   }
@@ -97,7 +76,7 @@ class ProductService {
       }
       return null;
     } catch (error) {
-      console.error("Error fetching product by name:", error);
+      logger.error("Error fetching product by name:", error);
       return null;
     }
   }
@@ -117,7 +96,7 @@ class ProductService {
       if (response.data?.products) return response.data.products as any;
       return { laptops: [], pcs: [], accessories: [] };
     } catch (error) {
-      console.error("Error fetching new products:", error);
+      logger.error("Error fetching new products:", error);
       return { laptops: [], pcs: [], accessories: [] };
     }
   }
@@ -131,7 +110,7 @@ class ProductService {
       if (response.data?.products) return response.data.products;
       return [];
     } catch (error) {
-      console.error("Error fetching top selling products:", error);
+      logger.error("Error fetching top selling products:", error);
       return [];
     }
   }
@@ -146,7 +125,7 @@ class ProductService {
       }
       return [];
     } catch (error) {
-      console.error("Error searching products:", error);
+      logger.error("Error searching products:", error);
       // Fallback: search locally if API fails
       try {
         const allProducts = await this.getAllProducts();
@@ -160,7 +139,7 @@ class ProductService {
             (product.description || "").toLowerCase().includes(keywordLower)
         );
       } catch (fallbackError) {
-        console.error("Fallback search also failed:", fallbackError);
+        logger.error("Fallback search also failed:", fallbackError);
         return [];
       }
     }
@@ -178,7 +157,7 @@ class ProductService {
       if (response.data?.products) return response.data.products;
       return [];
     } catch (error) {
-      console.error(`Error fetching products by type ${type}:`, error);
+      logger.error(`Error fetching products by type ${type}:`, error);
       return [];
     }
   }
@@ -197,7 +176,7 @@ class ProductService {
       }
       return [];
     } catch (error) {
-      console.error("Error fetching products by multiple categories:", error);
+      logger.error("Error fetching products by multiple categories:", error);
       return [];
     }
   }
@@ -205,7 +184,8 @@ class ProductService {
   // Admin methods
   async getAllProductsIncludingOutOfStock(): Promise<Product[]> {
     try {
-      const response = await api.get("/products/admin/all");
+      // Backend exposes the admin/all-including-out-of-stock route
+      const response = await api.get("/products/all-including-out-of-stock");
       if (
         response.data &&
         response.data.data &&
@@ -215,7 +195,7 @@ class ProductService {
       }
       return [];
     } catch (error) {
-      console.error(
+      logger.error(
         "Error fetching all products including out of stock:",
         error
       );
@@ -233,7 +213,7 @@ class ProductService {
       }
       return [];
     } catch (error) {
-      console.error("Error fetching out of stock products:", error);
+      logger.error("Error fetching out of stock products:", error);
       return [];
     }
   }
@@ -252,7 +232,7 @@ class ProductService {
       }
       return null;
     } catch (error) {
-      console.error("Error updating product:", error);
+      logger.error("Error updating product:", error);
       return null;
     }
   }
@@ -263,7 +243,7 @@ class ProductService {
       // Chấp nhận status 200, 201, 204 là thành công
       return [200, 201, 204].includes(response.status);
     } catch (error) {
-      console.error('Error removing product:', error);
+      logger.error('Error removing product:', error);
       return false;
     }
   }
@@ -276,7 +256,7 @@ class ProductService {
       }
       return null;
     } catch (error) {
-      console.error("Error creating product:", error);
+      logger.error("Error creating product:", error);
       return null;
     }
   }

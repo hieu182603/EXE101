@@ -71,8 +71,8 @@ const ProductDetail: React.FC = () => {
 
     try {
       await addToCart(product.id, qty);
-    setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 2000);
+      setIsAdded(true);
+      setTimeout(() => setIsAdded(false), 2000);
     } catch (error) {
       // Error is handled by CartContext
       console.error('Failed to add product to cart:', error);
@@ -81,7 +81,7 @@ const ProductDetail: React.FC = () => {
 
   const handleSubmitReview = () => {
     if (!userComment.trim()) return;
-    
+
     const newReview: Review = {
       id: Date.now(),
       user: 'Alex User', // Mock logged in user
@@ -107,41 +107,40 @@ const ProductDetail: React.FC = () => {
       <div className="flex flex-col lg:flex-row gap-12 mb-20">
         {/* Gallery */}
         <div className="flex-1 space-y-4">
-          <div 
+          <div
             ref={imageRef}
             className="group relative aspect-square rounded-3xl bg-surface-dark border border-border-dark overflow-hidden flex items-center justify-center cursor-zoom-in"
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsZooming(true)}
             onMouseLeave={() => setIsZooming(false)}
           >
-             {mainImage ? (
-              <img 
-                  src={mainImage} 
-                  className="w-full h-full object-contain transition-transform duration-300 ease-out pointer-events-none" 
-                  style={{ 
-                    transform: isZooming ? 'scale(2.5)' : 'scale(1)',
-                    transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
-                  }}
-                  alt="Product" 
-               />
-             ) : (
+            {mainImage ? (
+              <img
+                src={mainImage}
+                className="w-full h-full object-contain transition-transform duration-300 ease-out pointer-events-none"
+                style={{
+                  transform: isZooming ? 'scale(2.5)' : 'scale(1)',
+                  transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
+                }}
+                alt="Product"
+              />
+            ) : (
               <div className="text-slate-500">{t('product.loadingImage', { defaultValue: 'Đang tải ảnh...' })}</div>
-             )}
-             {!isZooming && mainImage && (
-               <div className="absolute bottom-6 right-6 bg-black/40 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 flex items-center gap-2 pointer-events-none">
-                 <span className="material-symbols-outlined text-primary text-sm">zoom_in</span>
-                 <span className="text-[10px] font-bold text-white uppercase tracking-wider">{t('product.hoverToZoom', { defaultValue: 'Hover to zoom' })}</span>
-               </div>
-             )}
+            )}
+            {!isZooming && mainImage && (
+              <div className="absolute bottom-6 right-6 bg-black/40 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 flex items-center gap-2 pointer-events-none">
+                <span className="material-symbols-outlined text-primary text-sm">zoom_in</span>
+                <span className="text-[10px] font-bold text-white uppercase tracking-wider">{t('product.hoverToZoom', { defaultValue: 'Hover to zoom' })}</span>
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-4 gap-4">
             {thumbnails.map((img, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 onClick={() => setMainImage(img)}
-                className={`aspect-square rounded-2xl bg-surface-dark border overflow-hidden cursor-pointer transition-all p-3 flex items-center justify-center ${
-                  mainImage === img ? 'border-primary ring-2 ring-primary/20 bg-primary/5' : 'border-border-dark hover:border-slate-500'
-                }`}
+                className={`aspect-square rounded-2xl bg-surface-dark border overflow-hidden cursor-pointer transition-all p-3 flex items-center justify-center ${mainImage === img ? 'border-primary ring-2 ring-primary/20 bg-primary/5' : 'border-border-dark hover:border-slate-500'
+                  }`}
               >
                 <img src={img} className="w-full h-full object-contain" alt="Thumbnail" />
               </div>
@@ -189,37 +188,35 @@ const ProductDetail: React.FC = () => {
                 <span className="material-symbols-outlined">add</span>
               </button>
             </div>
-            <button 
+            <button
               onClick={handleAddToCart}
               disabled={product ? activeOperations.has(`add-${product.id}`) : false}
-              className={`flex-1 h-14 font-black rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-95 group ${
-                isAdded 
-                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' 
-                : (product && activeOperations.has(`add-${product.id}`))
-                ? 'bg-gray-500 text-white cursor-not-allowed'
-                : 'bg-primary text-black hover:shadow-[0_0_30px_rgba(239,68,68,0.3)]'
-              }`}
+              className={`flex-1 h-14 font-black rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-95 group ${isAdded
+                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                  : (product && activeOperations.has(`add-${product.id}`))
+                    ? 'bg-gray-500 text-white cursor-not-allowed'
+                    : 'bg-primary text-black hover:shadow-[0_0_30px_rgba(239,68,68,0.3)]'
+                }`}
             >
               {product && activeOperations.has(`add-${product.id}`) ? (
                 <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
               ) : (
-              <span className={`material-symbols-outlined ${!isAdded && 'group-hover:rotate-12'} transition-transform`}>
-                {isAdded ? 'check_circle' : 'shopping_cart'}
-              </span>
+                <span className={`material-symbols-outlined ${!isAdded && 'group-hover:rotate-12'} transition-transform`}>
+                  {isAdded ? 'check_circle' : 'shopping_cart'}
+                </span>
               )}
               {product && activeOperations.has(`add-${product.id}`)
                 ? t('product.adding', { defaultValue: 'ĐANG THÊM...' })
                 : isAdded
-                ? t('product.added', { defaultValue: 'ĐÃ THÊM VÀO GIỎ' })
-                : t('product.addToCart', { defaultValue: 'THÊM VÀO GIỎ HÀNG' })}
+                  ? t('product.added', { defaultValue: 'ĐÃ THÊM VÀO GIỎ' })
+                  : t('product.addToCart', { defaultValue: 'THÊM VÀO GIỎ HÀNG' })}
             </button>
-            <button 
+            <button
               onClick={() => setIsFavorite(!isFavorite)}
-              className={`size-14 rounded-2xl border flex items-center justify-center transition-all active:scale-90 bg-surface-dark/50 ${
-                isFavorite 
-                ? 'border-red-500 text-red-500 bg-red-500/10' 
-                : 'border-border-dark text-slate-500 hover:text-red-500 hover:border-red-500/50'
-              }`}
+              className={`size-14 rounded-2xl border flex items-center justify-center transition-all active:scale-90 bg-surface-dark/50 ${isFavorite
+                  ? 'border-red-500 text-red-500 bg-red-500/10'
+                  : 'border-border-dark text-slate-500 hover:text-red-500 hover:border-red-500/50'
+                }`}
             >
               <span className={`material-symbols-outlined ${isFavorite ? 'fill' : ''}`}>favorite</span>
             </button>
@@ -234,12 +231,11 @@ const ProductDetail: React.FC = () => {
             { id: 'specs', label: 'Thông số kỹ thuật' },
             { id: 'reviews', label: `Đánh giá (${reviews.length})` }
           ].map((tab) => (
-            <button 
+            <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-8 py-4 text-sm font-bold uppercase tracking-widest transition-all relative ${
-                activeTab === tab.id ? 'text-primary' : 'text-slate-500 hover:text-slate-300'
-              }`}
+              className={`px-8 py-4 text-sm font-bold uppercase tracking-widest transition-all relative ${activeTab === tab.id ? 'text-primary' : 'text-slate-500 hover:text-slate-300'
+                }`}
             >
               {tab.label}
               {activeTab === tab.id && <div className="absolute bottom-0 left-0 w-full h-1 bg-primary shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>}
@@ -262,7 +258,7 @@ const ProductDetail: React.FC = () => {
               </table>
             </div>
           )}
-          
+
           {activeTab === 'reviews' && (
             <div className="space-y-12">
               {/* Review Summary */}
@@ -289,76 +285,76 @@ const ProductDetail: React.FC = () => {
 
               {/* Add Review Form */}
               <div className="bg-surface-accent/20 p-6 rounded-2xl border border-border-dark/50">
-                  <h4 className="text-lg font-bold text-white mb-4">{t('product.review.writeTitle', { defaultValue: 'Viết đánh giá của bạn' })}</h4>
-                  <div className="flex gap-4 items-start">
-                      <div className="size-12 rounded-full overflow-hidden border border-border-dark shrink-0 hidden sm:block">
-                          <img src="https://picsum.photos/200/200?random=user" alt="User" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 space-y-4">
-                          <div className="flex items-center gap-1">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                  <button 
-                                    key={star} 
-                                    type="button"
-                                    onClick={() => setUserRating(star)}
-                                    className="focus:outline-none transition-transform hover:scale-110 active:scale-95"
-                                  >
-                                      <span className={`material-symbols-outlined text-2xl ${star <= userRating ? 'text-yellow-400 fill' : 'text-slate-600'}`}>star</span>
-                                  </button>
-                              ))}
-                              <span className="ml-2 text-sm text-slate-400 font-medium">
-                                {userRating === 5 ? 'Tuyệt vời' : userRating === 4 ? 'Rất tốt' : userRating === 3 ? 'Bình thường' : 'Tệ'}
-                              </span>
-                          </div>
-                          
-                          <div className="relative">
-                            <textarea 
-                                value={userComment}
-                                onChange={(e) => setUserComment(e.target.value)}
-                                placeholder={t('product.review.placeholder', { defaultValue: 'Chia sẻ cảm nhận của bạn về sản phẩm này...' })} 
-                                className="w-full bg-background-dark border border-border-dark rounded-xl p-4 text-white text-sm focus:ring-1 focus:ring-primary outline-none min-h-[100px] placeholder:text-slate-600"
-                            ></textarea>
-                          </div>
-                          
-                          <div className="flex justify-end">
-                              <Button onClick={handleSubmitReview} disabled={!userComment.trim()} variant="primary" size="sm">
-                                  {t('product.review.submit', { defaultValue: 'Gửi đánh giá' })}
-                              </Button>
-                          </div>
-                      </div>
+                <h4 className="text-lg font-bold text-white mb-4">{t('product.review.writeTitle', { defaultValue: 'Viết đánh giá của bạn' })}</h4>
+                <div className="flex gap-4 items-start">
+                  <div className="size-12 rounded-full overflow-hidden border border-border-dark shrink-0 hidden sm:block">
+                    <img src="https://picsum.photos/200/200?random=user" alt="User" className="w-full h-full object-cover" />
                   </div>
+                  <div className="flex-1 space-y-4">
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setUserRating(star)}
+                          className="focus:outline-none transition-transform hover:scale-110 active:scale-95"
+                        >
+                          <span className={`material-symbols-outlined text-2xl ${star <= userRating ? 'text-yellow-400 fill' : 'text-slate-600'}`}>star</span>
+                        </button>
+                      ))}
+                      <span className="ml-2 text-sm text-slate-400 font-medium">
+                        {userRating === 5 ? 'Tuyệt vời' : userRating === 4 ? 'Rất tốt' : userRating === 3 ? 'Bình thường' : 'Tệ'}
+                      </span>
+                    </div>
+
+                    <div className="relative">
+                      <textarea
+                        value={userComment}
+                        onChange={(e) => setUserComment(e.target.value)}
+                        placeholder={t('product.review.placeholder', { defaultValue: 'Chia sẻ cảm nhận của bạn về sản phẩm này...' })}
+                        className="w-full bg-background-dark border border-border-dark rounded-xl p-4 text-white text-sm focus:ring-1 focus:ring-primary outline-none min-h-[100px] placeholder:text-slate-600"
+                      ></textarea>
+                    </div>
+
+                    <div className="flex justify-end">
+                      <Button onClick={handleSubmitReview} disabled={!userComment.trim()} variant="primary" size="sm">
+                        {t('product.review.submit', { defaultValue: 'Gửi đánh giá' })}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Reviews List */}
               <div className="space-y-6">
-                 {reviews.map((review) => (
-                   <div key={review.id} className="border-b border-border-dark/30 pb-6 last:border-0 last:pb-0">
-                      <div className="flex items-start gap-4">
-                          <div className="size-10 rounded-full overflow-hidden border border-border-dark shrink-0">
-                              <img src={review.avatar} alt={review.user} className="w-full h-full object-cover" />
-                          </div>
-                          <div className="flex-1 space-y-2">
-                              <div className="flex justify-between items-start">
-                                  <div>
-                                      <h5 className="font-bold text-white text-sm">{review.user}</h5>
-                                      <div className="flex items-center gap-2 mt-0.5">
-                                          <div className="flex text-yellow-400">
-                                              {[...Array(5)].map((_, i) => (
-                                                  <span key={i} className={`material-symbols-outlined text-[12px] ${i < review.rating ? 'fill' : 'text-slate-700'}`}>star</span>
-                                              ))}
-                                          </div>
-                                          <span className="text-[10px] text-slate-500">• {review.date}</span>
-                                      </div>
-                                  </div>
-                                  {review.user === 'Alex User' && (
-                                     <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-bold">Của bạn</span>
-                                  )}
-                              </div>
-                              <p className="text-slate-300 text-sm leading-relaxed">{review.comment}</p>
-                          </div>
+                {reviews.map((review) => (
+                  <div key={review.id} className="border-b border-border-dark/30 pb-6 last:border-0 last:pb-0">
+                    <div className="flex items-start gap-4">
+                      <div className="size-10 rounded-full overflow-hidden border border-border-dark shrink-0">
+                        <img src={review.avatar} alt={review.user} className="w-full h-full object-cover" />
                       </div>
-                   </div>
-                 ))}
+                      <div className="flex-1 space-y-2">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h5 className="font-bold text-white text-sm">{review.user}</h5>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <div className="flex text-yellow-400">
+                                {[...Array(5)].map((_, i) => (
+                                  <span key={i} className={`material-symbols-outlined text-[12px] ${i < review.rating ? 'fill' : 'text-slate-700'}`}>star</span>
+                                ))}
+                              </div>
+                              <span className="text-[10px] text-slate-500">• {review.date}</span>
+                            </div>
+                          </div>
+                          {review.user === 'Alex User' && (
+                            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-bold">Của bạn</span>
+                          )}
+                        </div>
+                        <p className="text-slate-300 text-sm leading-relaxed">{review.comment}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -373,17 +369,17 @@ const ProductDetail: React.FC = () => {
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {relatedProducts.map((p, i) => (
-            <ProductCard 
-                  key={p.id}
-                  id={p.id}
-                  name={p.name}
-                  price={`${p.price.toLocaleString('vi-VN')}₫`}
-                  imageUrl={p.images?.[0]?.url}
+            <ProductCard
+              key={p.id}
+              id={p.id}
+              name={p.name}
+              price={`${p.price.toLocaleString('vi-VN')}₫`}
+              imageUrl={p.images?.[0]?.url}
             />
           ))}
-              {relatedProducts.length === 0 && (
-                <div className="text-slate-500 text-sm col-span-full">{t('product.noRelated', { defaultValue: 'Chưa có sản phẩm liên quan.' })}</div>
-              )}
+          {relatedProducts.length === 0 && (
+            <div className="text-slate-500 text-sm col-span-full">{t('product.noRelated', { defaultValue: 'Chưa có sản phẩm liên quan.' })}</div>
+          )}
         </div>
       </div>
     </div>

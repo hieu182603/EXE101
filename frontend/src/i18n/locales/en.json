@@ -573,6 +573,31 @@
     "levelUp": "Level Up",
     "premiumGear": "Premium Gear"
   }
+  ,
+  "admin": {
+    "products": {
+      "title": "Products",
+      "subtitle": "Manage products",
+      "addProduct": "Add Product",
+      "searchPlaceholder": "Search products...",
+      "noProductsMatch": "No products match",
+      "addModalTitle": "Add Product",
+      "editModalTitle": "Edit Product",
+      "saveProduct": "Save Product",
+      "saveChanges": "Save Changes",
+      "addSuccess": "Product added",
+      "deleteSuccess": "Product deleted",
+      "deleteFailed": "Failed to delete product",
+      "table": {
+        "name": "Name",
+        "brand": "Brand",
+        "price": "Price",
+        "stock": "Stock",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    }
+  }
 }
 
 

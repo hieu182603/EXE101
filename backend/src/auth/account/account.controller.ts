@@ -264,4 +264,39 @@ export class AccountController {
     const account = await this.accountService.updateAdmin(username, body);
     return account;
   }
+
+  @Post("/verify-login")
+  async verifyLogin(
+    @BodyParam("username") username: string,
+    @BodyParam("otp") otp: string,
+    @Res() res: Response
+  ) {
+    // Legacy method - should return 501 but keeping for backwards compatibility
+    // Client should use /account/login instead
+    const account = await this.accountService.findAccountByUsername(username);
+    const identifier = account.email || account.phone;
+    if (!identifier) {
+      throw new ValidationException("Account does not have email or phone to verify OTP");
+    }
+
+    const verified = await this.otpService.verifyOtp(identifier, otp);
+    if (!verified) {
+      throw new ValidationException("OTP is wrong or expired");
+    }
+
+    const tokens = await this.accountService.login({
+      identifier: username,
+      password: "", // OTP login doesn't need password
+    });
+
+    res.cookie("refreshToken", tokens.newRefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
+    });
+
+    return tokens.accessToken;
+  }
 }

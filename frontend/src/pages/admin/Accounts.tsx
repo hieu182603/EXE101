@@ -43,7 +43,14 @@ const AccountManagement: React.FC = () => {
         setLoading(true);
         const response = await accountService.getAllAccounts();
         const accountsData = response.data || [];
-        
+
+        // Ensure accountsData is an array
+        if (!Array.isArray(accountsData)) {
+          console.error('Accounts data is not an array:', accountsData);
+          setAccounts([]);
+          return;
+        }
+
         // Transform backend accounts to display format
         const transformedAccounts: Account[] = accountsData.map((a: any) => ({
           id: a.id,
@@ -53,7 +60,7 @@ const AccountManagement: React.FC = () => {
           status: a.isRegistered ? 'Active' as const : 'Inactive' as const,
           lastLogin: a.lastLogin || 'N/A'
         }));
-        
+
         setAccounts(transformedAccounts);
       } catch (error) {
         console.error('Error loading accounts:', error);

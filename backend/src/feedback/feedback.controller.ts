@@ -15,7 +15,11 @@ export class FeedbackController {
 
   @Get()
   async getAll() {
-    return await this.feedbackService.getAllFeedbacks();
+    const result = await this.feedbackService.getAllFeedbacks();
+    return {
+      success: true,
+      data: result,
+    };
   }
 
   @Get("/paginated")
@@ -23,12 +27,20 @@ export class FeedbackController {
     @QueryParam("page") page: number = 1,
     @QueryParam("pageSize") pageSize: number = 10
   ) {
-    return await this.feedbackService.getFeedbacksPaginated(page, pageSize);
+    const result = await this.feedbackService.getFeedbacksPaginated(page, pageSize);
+    return {
+      success: true,
+      data: result,
+    };
   }
 
   @Get("/product/:productId")
   async getFeedbacksByProduct(@Param("productId") productId: string) {
-    return await this.feedbackService.getFeedbacksByProduct(productId);
+    const result = await this.feedbackService.getFeedbacksByProduct(productId);
+    return {
+      success: true,
+      data: result,
+    };
   }
 
   @Get("/export")
@@ -59,18 +71,16 @@ export class FeedbackController {
 
   @Get(":id")
   async getOne(@Param("id") id: string) {
-    return await this.feedbackService.getFeedbackById(id);
+    const result = await this.feedbackService.getFeedbackById(id);
+    return {
+      success: true,
+      data: result,
+    };
   }
 
   @Delete(":id")
   @OnUndefined(204)
   async delete(@Param("id") id: string) {
     await this.feedbackService.deleteFeedback(id);
-  }
-
-  @Post("/test-notification")
-  async sendTestNotification() {
-    this.socketService.sendTestNotification();
-    return { success: true, message: "Test notification sent" };
   }
 } 

@@ -109,9 +109,7 @@ api.interceptors.response.use(
           detail: { message: "Session expired. Please login again." },
         })
       );
-      if (!window.location.pathname.includes("/login")) {
-        window.location.href = "/login";
-      }
+      // Let AuthContext decide how to handle navigation on unauthorized
       return Promise.reject(error);
     }
     // For login requests, just reject and let the login page handle the error

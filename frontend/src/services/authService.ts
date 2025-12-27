@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import api from './apiInterceptor';
+import { logger } from '@/utils/logger';
 
 // Extend window interface for debugging
 declare global {
@@ -63,44 +64,27 @@ interface VerifyRegisterResponse {
 // ================================
 // UTILITY FUNCTIONS
 // ================================
-const formatPhoneNumber = (phone: string): string => {
-    // Remove all non-digits
-    let phoneNumber = phone.replace(/\D/g, '');
-    
-    // Remove leading 0 or 84 if present (for backward compatibility)
-    if (phoneNumber.startsWith('0')) {
-        phoneNumber = phoneNumber.substring(1);
-    } else if (phoneNumber.startsWith('84')) {
-        phoneNumber = phoneNumber.substring(2);
-    }
-    
-    // Validate length - should be exactly 9 digits
-    if (phoneNumber.length !== 9) {
-        throw new Error('Invalid phone number format. Must be exactly 9 digits');
-    }
-    
-    
-    return '+84' + phoneNumber;
-};
+const formatPhoneNumber = (
+  phone: string,
+  format: 'international' | 'local' = 'international'
+): string => {
+  // Remove all non-digits
+  let phoneNumber = phone.replace(/\D/g, '');
 
-const formatPhoneNumber2 = (phone: string): string => {
-    // Remove all non-digits
-    let phoneNumber = phone.replace(/\D/g, '');
-    
-    // Remove leading 0 or 84 if present (for backward compatibility)
-    if (phoneNumber.startsWith('0')) {
-        phoneNumber = phoneNumber.substring(1);
-    } else if (phoneNumber.startsWith('84')) {
-        phoneNumber = phoneNumber.substring(2);
-    }
-    
-    // Validate length - should be exactly 9 digits
-    if (phoneNumber.length !== 9) {
-        throw new Error('Invalid phone number format. Must be exactly 9 digits');
-    }
-    
-    
-    return '0' + phoneNumber;
+  // Normalize
+  if (phoneNumber.startsWith('0')) {
+    phoneNumber = phoneNumber.substring(1);
+  } else if (phoneNumber.startsWith('84')) {
+    phoneNumber = phoneNumber.substring(2);
+  }
+
+  // Validate
+  if (phoneNumber.length !== 9) {
+    throw new Error('Invalid phone number format. Must be exactly 9 digits');
+  }
+
+  // Return requested format
+  return format === 'international' ? '+84' + phoneNumber : '0' + phoneNumber;
 };
 
 
@@ -217,10 +201,11 @@ export const authService = {
                     // Try to create minimal user object from registration data
                     const minimalUser = {
                         username: verifyData.username,
-                        phone: verifyData.phone,
+                        email: verifyData.email,
                         role: 'customer',
                         isRegistered: true
                     };
+                    // Phone will be populated when getUserProfile() succeeds
                     localStorage.setItem('user', JSON.stringify(minimalUser));
                     
                     // Still trigger auth context update with minimal data
@@ -243,13 +228,13 @@ export const authService = {
                 // New JSON format - success
                 return await handleSuccessResponse(response.data.data);
             } else {
-                console.error('❌ JSON error response format:', response.data);
+                logger.error('❌ JSON error response format:', response.data);
                 // New JSON format - error
                 throw new Error(response.data?.message || 'Verification failed');
             }
         } catch (error: unknown) {
             const axiosError = error as AxiosError;
-            console.error('❌ OTP verification error details:', {
+            logger.error('❌ OTP verification error details:', {
                 status: axiosError.response?.status,
                 statusText: axiosError.response?.statusText,
                 data: axiosError.response?.data,
@@ -517,7 +502,7 @@ export const authService = {
             console.warn(`getUsernameByPhone: Endpoint not implemented in backend for phone: ${phone}`);
             return null;
         } catch (error) {
-            console.error('Error getting username by phone:', error);
+            logger.error('Error getting username by phone:', error);
             return null;
         }
     },
@@ -553,7 +538,10 @@ export const authService = {
         };
         
         return authState;
-    }
+    },
+
+    // Utility functions for testing
+    formatPhoneNumber
 };
 
 /**

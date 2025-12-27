@@ -3,13 +3,14 @@ import { Category } from "@/product/categories/category.entity";
 import { Role } from "@/role/role.entity";
 import { Account } from "@/auth/account/account.entity";
 import { ShipperProfile } from "@/auth/shipperProfile.entity";
-import { Cart } from "@/Cart/cart.entity";
-import { CartItem } from "@/Cart/cartItem.entity";
+import { Cart } from "@/cart/cart.entity";
+import { CartItem } from "@/cart/cartItem.entity";
 import { Order } from "@/order/order.entity";
 import { OrderDetail } from "@/order/orderDetail.entity";
 import { OrderStatus } from "@/order/dtos/update-order.dto";
 import { Feedback } from "@/feedback/feedback.entity";
 import { RFQ } from "@/rfq/rfq.entity";
+import { Invoice, InvoiceStatus } from "@/payment/invoice.entity";
 import * as bcrypt from "bcrypt";
 
 const SALT_ROUNDS = 10;
@@ -232,6 +233,38 @@ export async function seedAccounts(roles: Record<string, Role>): Promise<Record<
       console.log(`ℹ️  Customer account already exists: ${accData.username}`);
     }
     accountsByRole.customer.push(account);
+  }
+
+  // Generate additional customers up to 100 total customers
+  const existingCount = accountsByRole.customer.length;
+  const targetCustomers = 100;
+  const additionalNeeded = Math.max(0, targetCustomers - existingCount);
+  if (additionalNeeded > 0) {
+    console.log(`ℹ️  Creating ${additionalNeeded} additional customer accounts to reach ${targetCustomers}`);
+    const firstNames = ["Nguyễn", "Trần", "Lê", "Phạm", "Hoàng", "Vũ", "Đỗ", "Bùi", "Lý", "Hồ"];
+    const lastNames = ["Văn A","Thị B","Văn C","Thị D","Văn E","Thị F","Văn G","Thị H","Văn I","Thị K"];
+    for (let i = 1; i <= additionalNeeded; i++) {
+      const idx = existingCount + i;
+      const username = `customer${idx}`;
+      let account = await Account.findOne({ where: { username } });
+      if (!account) {
+        account = new Account();
+        account.username = username;
+        account.password = await hashPassword("Customer123!@#");
+        account.phone = `09423${(45678 + idx).toString().slice(-6)}`;
+        account.email = `customer${idx}@example.com`;
+        const fn = firstNames[Math.floor(Math.random()*firstNames.length)];
+        const ln = lastNames[Math.floor(Math.random()*lastNames.length)];
+        account.name = `${fn} ${ln} ${idx}`;
+        account.isRegistered = true;
+        account.role = roles.customer;
+        await account.save();
+        console.log(`✅ Created customer account: ${username}`);
+      } else {
+        console.log(`ℹ️  Customer account already exists: ${username}`);
+      }
+      accountsByRole.customer.push(account);
+    }
   }
 
   // Shipper accounts
@@ -549,6 +582,96 @@ export async function seedOrders(
 }
 
 /**
+ * Create additional orders until reaching targetTotal. Orders dates distributed across last 4 months.
+ */
+export async function seedAdditionalOrders(
+  customerAccounts: Account[],
+  shipperAccounts: Account[],
+  existingOrdersCount: number,
+  targetTotal: number = 50
+): Promise<Order[]> {
+  const createdOrders: Order[] = [];
+  const allProducts = await Product.find({ where: { isActive: true } });
+  if (allProducts.length === 0) {
+    console.log("⚠️  No products found. Please seed products first.");
+    return [];
+  }
+  const products = allProducts.slice(0, Math.min(30, allProducts.length));
+
+  while (existingOrdersCount + createdOrders.length < targetTotal) {
+    const customer = customerAccounts[Math.floor(Math.random() * customerAccounts.length)];
+    const statusOptions = [
+      OrderStatus.PENDING,
+      OrderStatus.ASSIGNED,
+      OrderStatus.CONFIRMED,
+      OrderStatus.SHIPPING,
+      OrderStatus.DELIVERED
+    ];
+    const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+
+    // Spread orderDate across last 120 days (~4 months)
+    const orderDate = new Date();
+    orderDate.setDate(orderDate.getDate() - Math.floor(Math.random() * 120));
+
+    const order = new Order();
+    order.customer = customer;
+    order.orderDate = orderDate;
+    order.status = status;
+    order.shippingAddress = "Địa chỉ mẫu";
+    order.paymentMethod = Math.random() > 0.5 ? "VNPay" : "COD";
+    order.requireInvoice = true;
+
+    // Assign shipper randomly if available and status allows
+    if (shipperAccounts.length > 0 && status !== OrderStatus.PENDING) {
+      const availableShippers = shipperAccounts.filter((s) => s.shipperProfile?.isAvailable);
+      if (availableShippers.length > 0) {
+        order.shipper = availableShippers[Math.floor(Math.random() * availableShippers.length)];
+      }
+    }
+
+    // create order details
+    const orderDetailCount = Math.floor(Math.random() * 4) + 1; // 1-4 items
+    const shuffledProducts = [...products].sort(() => Math.random() - 0.5);
+    const selectedProducts = shuffledProducts.slice(0, orderDetailCount);
+    let totalAmount = 0;
+    const orderDetails: OrderDetail[] = [];
+    for (const product of selectedProducts) {
+      const quantity = Math.floor(Math.random() * 3) + 1;
+      const price = parseFloat(product.price.toString());
+      totalAmount += price * quantity;
+      const od = new OrderDetail();
+      od.product = product;
+      od.quantity = quantity;
+      od.price = price;
+      orderDetails.push(od);
+    }
+
+    order.totalAmount = totalAmount;
+    await order.save();
+    for (const od of orderDetails) {
+      od.order = order;
+      await od.save();
+    }
+
+    // create invoice
+    const invoice = new Invoice();
+    invoice.order = order;
+    invoice.invoiceNumber = `INV${Date.now().toString().slice(-6)}${Math.floor(Math.random()*1000)}`;
+    invoice.totalAmount = order.totalAmount;
+    invoice.paymentMethod = order.paymentMethod;
+    invoice.status = InvoiceStatus.PAID;
+    invoice.paidAt = new Date(orderDate.getTime() + 24 * 60 * 60 * 1000); // paid next day
+    invoice.notes = `Seeded invoice for order ${order.id}`;
+    await invoice.save();
+
+    createdOrders.push(order);
+    console.log(`✅ Created additional order ${order.id.substring(0,8)} for ${customer.username}`);
+  }
+
+  return createdOrders;
+}
+
+/**
  * Tạo feedbacks từ customers về products
  */
 export async function seedFeedbacks(
@@ -607,6 +730,81 @@ export async function seedFeedbacks(
     } else {
       console.log(`ℹ️  Customer ${customer.username} already has ${existingFeedbacksCount} feedbacks, skipping...`);
     }
+  }
+
+  return feedbacks;
+}
+
+/**
+ * Create up to totalFeedbacks feedbacks, distributing across products and ensuring 3-5 feedbacks per product where possible.
+ */
+export async function seedFeedbacksDistributed(
+  customerAccounts: Account[],
+  products: Product[],
+  totalFeedbacks: number = 50,
+  minPerProduct: number = 3,
+  maxPerProduct: number = 5
+): Promise<Feedback[]> {
+  const feedbacks: Feedback[] = [];
+  if (products.length === 0) {
+    console.log("⚠️  No products found for feedback seeding.");
+    return [];
+  }
+  if (customerAccounts.length === 0) {
+    console.log("⚠️  No customers found for feedback seeding.");
+    return [];
+  }
+
+  const feedbackContents = [
+    "Sản phẩm rất tốt, đúng như mô tả!",
+    "Giao hàng nhanh, đóng gói cẩn thận.",
+    "Sản phẩm chất lượng tốt, giá cả hợp lý.",
+    "Hài lòng với sản phẩm, sẽ mua lại.",
+    "Đúng với kỳ vọng, recommend!",
+    "Sản phẩm ổn, nhưng có thể tốt hơn.",
+    "Giá hơi cao nhưng chất lượng tốt.",
+    "Phục vụ tốt, sản phẩm đúng như hình.",
+  ];
+
+  let created = 0;
+  // Iterate products and create between min and max feedbacks, stop when reaching totalFeedbacks
+  for (const product of products) {
+    if (created >= totalFeedbacks) break;
+    const perProduct = Math.min(maxPerProduct, Math.max(minPerProduct, Math.floor(Math.random() * (maxPerProduct - minPerProduct + 1)) + minPerProduct));
+    for (let i = 0; i < perProduct && created < totalFeedbacks; i++) {
+      const customer = customerAccounts[Math.floor(Math.random() * customerAccounts.length)];
+      // Skip if customer already left feedback for this product
+      const existing = await Feedback.findOne({
+        where: { account: { id: customer.id }, product: { id: product.id } },
+      });
+      if (existing) continue;
+      const fb = new Feedback();
+      fb.account = customer;
+      fb.product = product;
+      fb.content = feedbackContents[Math.floor(Math.random() * feedbackContents.length)];
+      await fb.save();
+      feedbacks.push(fb);
+      created++;
+      console.log(`✅ Created feedback for product ${product.name} by ${customer.username}`);
+    }
+  }
+
+  // If still haven't reached total, create random feedbacks across products
+  while (created < totalFeedbacks) {
+    const product = products[Math.floor(Math.random() * products.length)];
+    const customer = customerAccounts[Math.floor(Math.random() * customerAccounts.length)];
+    const existing = await Feedback.findOne({
+      where: { account: { id: customer.id }, product: { id: product.id } },
+    });
+    if (existing) continue;
+    const fb = new Feedback();
+    fb.account = customer;
+    fb.product = product;
+    fb.content = feedbackContents[Math.floor(Math.random() * feedbackContents.length)];
+    await fb.save();
+    feedbacks.push(fb);
+    created++;
+    console.log(`✅ Created feedback for product ${product.name} by ${customer.username}`);
   }
 
   return feedbacks;
@@ -721,6 +919,29 @@ export async function seedAllData(): Promise<void> {
       console.log(`✅ Orders seeded successfully (${orders.length} orders)\n`);
     }
 
+    // Ensure we have at least 50 orders total; create additional orders if needed (dates spread over last 4 months)
+    if (orders.length < 50) {
+      const additional = await seedAdditionalOrders(accountsByRole.customer, accountsByRole.shipper, orders.length, 50);
+      orders.push(...additional);
+      console.log(`✅ Total orders after additional seeding: ${orders.length}`);
+    }
+
+    // Create invoices for orders that don't have them yet (so revenue/invoice data exists)
+    for (const order of orders) {
+      const existingInvoice = await Invoice.findOne({ where: { order: { id: order.id } } });
+      if (!existingInvoice) {
+        const invoice = new Invoice();
+        invoice.order = order;
+        invoice.invoiceNumber = `INV${Date.now().toString().slice(-6)}${Math.floor(Math.random()*1000)}`;
+        invoice.totalAmount = order.totalAmount || 0;
+        invoice.paymentMethod = order.paymentMethod || 'COD';
+        invoice.status = InvoiceStatus.PAID;
+        invoice.paidAt = order.orderDate ? new Date(order.orderDate.getTime() + 24*60*60*1000) : new Date();
+        invoice.notes = `Auto-created invoice for seeded order ${order.id}`;
+        await invoice.save();
+      }
+    }
+
     // 6. Seed feedbacks
     console.log("💬 Step 6: Seeding feedbacks...");
     const productsForFeedback = await Product.find({ where: { isActive: true }, take: 50 });
@@ -728,7 +949,7 @@ export async function seedAllData(): Promise<void> {
     if (productsForFeedback.length === 0) {
       console.log("⚠️  Warning: No products found for feedbacks. Check if products exist.\n");
     } else {
-      feedbacks = await seedFeedbacks(accountsByRole.customer, productsForFeedback);
+      feedbacks = await seedFeedbacksDistributed(accountsByRole.customer, productsForFeedback, 50, 3, 5);
       console.log(`✅ Feedbacks seeded successfully (${feedbacks.length} feedbacks)\n`);
     }
 

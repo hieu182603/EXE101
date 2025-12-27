@@ -10,17 +10,6 @@ import type { Product } from '@/types/product';
 import { useToast } from '@contexts/ToastContext';
 import { useTranslation } from '../../hooks/useTranslation';
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  brand: string;
-  price: number;
-  originalPrice?: number;
-  stock: number;
-  image: string;
-}
-
 const PLACEHOLDER_IMAGE = "https://placehold.co/400x300/1e293b/64748b?text=No+Image";
 const ITEMS_PER_PAGE = 5;
 
@@ -64,7 +53,7 @@ const ProductManagement: React.FC = () => {
           id: p.id,
           name: p.name,
           category: p.category?.name || 'Unknown',
-          brand: p.category?.name || 'Unknown', // Use category as brand for now
+          brand: (p as any).brand || p.category?.name || 'Unknown',
           price: p.price,
           originalPrice: undefined, // Backend may not have this
           stock: p.stock,
@@ -104,7 +93,7 @@ const ProductManagement: React.FC = () => {
           id: p.id,
           name: p.name,
           category: p.category?.name || 'Unknown',
-          brand: p.category?.name || 'Unknown',
+          brand: (p as any).brand || p.category?.name || 'Unknown',
           price: p.price,
           originalPrice: undefined,
           stock: p.stock,

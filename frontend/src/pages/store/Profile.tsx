@@ -24,7 +24,7 @@ const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { showSuccess, showError } = useToast();
-  
+
   // State quản lý chế độ chỉnh sửa thông tin chung
   const [isEditing, setIsEditing] = useState(false);
 
@@ -65,16 +65,16 @@ const ProfilePage: React.FC = () => {
     const loadUserData = async () => {
       try {
         setLoading(true);
-        
+
         // Load user profile
         const userProfile = await authService.getUserProfile();
         const userData = userProfile.data || userProfile;
-        
+
         if (userData) {
           setUser({
             name: userData.name || userData.username || 'User',
             memberId: `#${userData.id?.substring(0, 5) || '00000'}`,
-            joinDate: userData.createdAt 
+            joinDate: userData.createdAt
               ? new Date(userData.createdAt).toLocaleDateString('vi-VN')
               : 'N/A',
             email: userData.email || '',
@@ -111,9 +111,9 @@ const ProfilePage: React.FC = () => {
     date: new Date(order.orderDate).toLocaleDateString('vi-VN'),
     total: `${(order.totalAmount || 0).toLocaleString('vi-VN')}₫`,
     status: order.status,
-    variant: order.status === 'DELIVERED' ? 'success' as const : 
-             order.status === 'CANCELLED' ? 'danger' as const :
-             order.status === 'SHIPPING' ? 'warning' as const : 'info' as const
+    variant: order.status === 'DELIVERED' ? 'success' as const :
+      order.status === 'CANCELLED' ? 'danger' as const :
+        order.status === 'SHIPPING' ? 'warning' as const : 'info' as const
   }));
 
   const handleLogout = () => {
@@ -198,7 +198,7 @@ const ProfilePage: React.FC = () => {
 
     if (editingAddress) {
       // Cập nhật
-      updatedAddresses = updatedAddresses.map(a => 
+      updatedAddresses = updatedAddresses.map(a =>
         a.id === editingAddress.id ? { ...addressForm, id: editingAddress.id } as Address : a
       );
     } else {
@@ -220,12 +220,12 @@ const ProfilePage: React.FC = () => {
     if (confirm(t('profile.validation.deleteConfirm'))) {
       const addrToDelete = addresses.find(a => a.id === id);
       const remaining = addresses.filter(a => a.id !== id);
-      
+
       // Nếu xóa địa chỉ mặc định, set địa chỉ đầu tiên còn lại làm mặc định
       if (addrToDelete?.isDefault && remaining.length > 0) {
         remaining[0].isDefault = true;
       }
-      
+
       setAddresses(remaining);
     }
   };
@@ -241,28 +241,28 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-12 max-w-[1000px]">
       <div className="bg-surface-dark border border-border-dark rounded-3xl overflow-hidden shadow-2xl">
-        
+
         {/* Banner Background */}
         <div className="h-40 bg-gradient-to-r from-primary/30 via-primary/5 to-transparent relative">
           <div className="absolute -bottom-12 left-8 group">
-            <div 
+            <div
               className="size-28 rounded-3xl bg-surface-dark border-4 border-surface-dark overflow-hidden shadow-2xl relative cursor-pointer"
               onClick={handleAvatarClick}
             >
-               <img src={user.avatar} className="w-full h-full object-cover" alt="Avatar" />
-               
-               {/* Overlay Camera Icon */}
-               <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="material-symbols-outlined text-white text-3xl">photo_camera</span>
-               </div>
+              <img src={user.avatar} className="w-full h-full object-cover" alt="Avatar" />
+
+              {/* Overlay Camera Icon */}
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="material-symbols-outlined text-white text-3xl">photo_camera</span>
+              </div>
             </div>
             {/* Hidden Input File */}
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              className="hidden" 
-              accept="image/*" 
-              onChange={handleAvatarChange} 
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept="image/*"
+              onChange={handleAvatarChange}
             />
           </div>
         </div>
@@ -273,12 +273,12 @@ const ProfilePage: React.FC = () => {
             <div className="w-full md:w-auto">
               {isEditing ? (
                 <div className="mb-2">
-                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">{t('profile.labels.displayName')}</label>
-                   <input 
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">{t('profile.labels.displayName')}</label>
+                  <input
                     value={tempUser.name}
                     onChange={(e) => handleChange('name', e.target.value)}
                     className="text-2xl font-black text-white bg-background-dark border border-primary rounded-lg px-3 py-1 w-full md:w-[300px] outline-none"
-                   />
+                  />
                 </div>
               ) : (
                 <h1 className="text-3xl font-black text-white tracking-tight">{user.name}</h1>
@@ -311,7 +311,7 @@ const ProfilePage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Left Column: Personal Info & Membership */}
             <div className="space-y-10">
-              
+
               {/* Personal Info */}
               <div className="space-y-6">
                 <h3 className="font-black text-white uppercase text-[10px] tracking-[0.2em] border-b border-border-dark pb-2">{t('profile.personalInfo')}</h3>
@@ -359,7 +359,7 @@ const ProfilePage: React.FC = () => {
 
             {/* Right Column: Address Book & Orders */}
             <div className="space-y-10">
-              
+
               {/* Address Book Section */}
               <div className="space-y-6">
                 <div className="flex justify-between items-center border-b border-border-dark pb-2">
@@ -368,22 +368,22 @@ const ProfilePage: React.FC = () => {
                     <span className="material-symbols-outlined text-sm">add</span> {t('profile.actions.addAddress')}
                   </button>
                 </div>
-                
+
                 <div className="space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar pr-1">
                   {addresses.map((addr) => (
                     <div key={addr.id} className={`p-4 rounded-xl border ${addr.isDefault ? 'bg-primary/5 border-primary/50' : 'bg-background-dark/30 border-border-dark'} hover:bg-background-dark transition-all group relative`}>
                       <div className="flex justify-between items-start mb-1">
-                         <div className="flex items-center gap-2">
-                           <span className="font-bold text-white text-sm">{addr.label}</span>
-                           {addr.isDefault && <Badge variant="primary">{t('profile.membership.default')}</Badge>}
-                         </div>
-                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            {!addr.isDefault && (
-                                <button onClick={() => setDefaultAddress(addr.id)} className="text-[10px] font-bold text-slate-400 hover:text-white" title={t('profile.actions.setAsDefault')}>{t('profile.membership.default')}</button>
-                            )}
-                            <button onClick={() => openAddressModal(addr)} className="text-blue-400 hover:text-blue-300"><span className="material-symbols-outlined text-[16px]">edit</span></button>
-                            <button onClick={() => deleteAddress(addr.id)} className="text-red-400 hover:text-red-300"><span className="material-symbols-outlined text-[16px]">delete</span></button>
-                         </div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-white text-sm">{addr.label}</span>
+                          {addr.isDefault && <Badge variant="primary">{t('profile.membership.default')}</Badge>}
+                        </div>
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {!addr.isDefault && (
+                            <button onClick={() => setDefaultAddress(addr.id)} className="text-[10px] font-bold text-slate-400 hover:text-white" title={t('profile.actions.setAsDefault')}>{t('profile.membership.default')}</button>
+                          )}
+                          <button onClick={() => openAddressModal(addr)} className="text-blue-400 hover:text-blue-300"><span className="material-symbols-outlined text-[16px]">edit</span></button>
+                          <button onClick={() => deleteAddress(addr.id)} className="text-red-400 hover:text-red-300"><span className="material-symbols-outlined text-[16px]">delete</span></button>
+                        </div>
                       </div>
                       <p className="text-xs text-slate-300 font-bold mb-0.5">{addr.recipientName} <span className="text-slate-500 font-normal">| {addr.phone}</span></p>
                       <p className="text-xs text-slate-400 line-clamp-2">{addr.detail}</p>
@@ -413,18 +413,18 @@ const ProfilePage: React.FC = () => {
                     </div>
                   ) : recentOrdersDisplay.length > 0 ? (
                     recentOrdersDisplay.map((order) => (
-                    <Link key={order.id} to="/history" className="flex items-center justify-between p-4 bg-background-dark/30 border border-border-dark rounded-xl hover:border-primary/40 hover:bg-white/5 transition-all group">
-                      <div className="flex items-center gap-3">
-                        <div className="size-10 rounded-lg bg-surface-dark border border-border-dark flex items-center justify-center text-slate-500">
-                          <span className="material-symbols-outlined text-[20px]">shopping_bag</span>
+                      <Link key={order.id} to="/history" className="flex items-center justify-between p-4 bg-background-dark/30 border border-border-dark rounded-xl hover:border-primary/40 hover:bg-white/5 transition-all group">
+                        <div className="flex items-center gap-3">
+                          <div className="size-10 rounded-lg bg-surface-dark border border-border-dark flex items-center justify-center text-slate-500">
+                            <span className="material-symbols-outlined text-[20px]">shopping_bag</span>
+                          </div>
+                          <div>
+                            <p className="font-bold text-white text-sm group-hover:text-primary transition-colors">{order.id}</p>
+                            <p className="text-[10px] text-slate-500 font-bold uppercase">{order.date}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-bold text-white text-sm group-hover:text-primary transition-colors">{order.id}</p>
-                          <p className="text-[10px] text-slate-500 font-bold uppercase">{order.date}</p>
-                        </div>
-                      </div>
-                      <Badge variant={order.variant}>{order.status}</Badge>
-                    </Link>
+                        <Badge variant={order.variant}>{order.status}</Badge>
+                      </Link>
                     ))
                   ) : (
                     <div className="text-center py-8 text-slate-500">
@@ -457,30 +457,30 @@ const ProfilePage: React.FC = () => {
             <Input
               label={t('profile.labels.addressLabel')}
               value={addressForm.label || ''}
-              onChange={(e) => setAddressForm({...addressForm, label: e.target.value})}
+              onChange={(e) => setAddressForm({ ...addressForm, label: e.target.value })}
             />
-             <Input
+            <Input
               label={t('profile.labels.recipientPhone')}
               value={addressForm.phone || ''}
-              onChange={(e) => setAddressForm({...addressForm, phone: e.target.value})}
+              onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
             />
           </div>
           <Input
             label={t('profile.labels.recipientName')}
             value={addressForm.recipientName || ''}
-            onChange={(e) => setAddressForm({...addressForm, recipientName: e.target.value})}
+            onChange={(e) => setAddressForm({ ...addressForm, recipientName: e.target.value })}
           />
           <Textarea
             label={t('profile.labels.addressDetail')}
             value={addressForm.detail || ''}
-            onChange={(e) => setAddressForm({...addressForm, detail: e.target.value})}
+            onChange={(e) => setAddressForm({ ...addressForm, detail: e.target.value })}
             className="min-h-[100px]"
           />
           <label className="flex items-center gap-3 cursor-pointer group w-fit">
             <input
               type="checkbox"
               checked={addressForm.isDefault || false}
-              onChange={(e) => setAddressForm({...addressForm, isDefault: e.target.checked})}
+              onChange={(e) => setAddressForm({ ...addressForm, isDefault: e.target.checked })}
               className="size-4 rounded bg-background-dark border-border-dark text-primary focus:ring-primary cursor-pointer"
             />
             <span className="text-sm text-slate-400 group-hover:text-white transition-colors">{t('profile.labels.setDefault')}</span>
@@ -501,54 +501,54 @@ const ProfilePage: React.FC = () => {
         }
       >
         <div className="space-y-5">
-           <Input
-              label={t('profile.labels.currentPassword')}
-              type="password"
-              placeholder={t('profile.placeholders.currentPassword')}
-              value={passwordForm.currentPassword}
-              onChange={(e) => setPasswordForm({...passwordForm, currentPassword: e.target.value})}
-           />
+          <Input
+            label={t('profile.labels.currentPassword')}
+            type="password"
+            placeholder={t('profile.placeholders.currentPassword')}
+            value={passwordForm.currentPassword}
+            onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+          />
 
-           <div className="space-y-2">
-             <Input
-                label={t('profile.labels.newPassword')}
-                type="password"
-                placeholder={t('profile.placeholders.newPassword')}
-                value={passwordForm.newPassword}
-                onChange={(e) => setPasswordForm({...passwordForm, newPassword: e.target.value})}
-             />
-             
-             {/* Visual Validation for New Password */}
-             <div className={`transition-all duration-300 overflow-hidden ${showValidation ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="flex gap-1 mb-2 px-1">
-                    {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className={`h-0.5 flex-1 rounded-full transition-colors duration-300 ${i <= strengthScore ? 'bg-emerald-500' : 'bg-slate-700'}`}></div>
-                    ))}
-                </div>
-                <div className="flex justify-between px-1 mb-1 flex-wrap gap-y-1">
-                    <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasLength ? 'text-emerald-500' : 'text-slate-500'}`}>
-                        <span className="material-symbols-outlined text-[10px]">{hasLength ? 'check' : 'circle'}</span> {t('profile.validation.passwordLength')}
-                    </span>
-                    <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasLower ? 'text-emerald-500' : 'text-slate-500'}`}>
-                        <span className="material-symbols-outlined text-[10px]">{hasLower ? 'check' : 'circle'}</span> {t('profile.validation.passwordLower')}
-                    </span>
-                    <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasUpper ? 'text-emerald-500' : 'text-slate-500'}`}>
-                        <span className="material-symbols-outlined text-[10px]">{hasUpper ? 'check' : 'circle'}</span> {t('profile.validation.passwordUpper')}
-                    </span>
-                    <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasNumber ? 'text-emerald-500' : 'text-slate-500'}`}>
-                        <span className="material-symbols-outlined text-[10px]">{hasNumber ? 'check' : 'circle'}</span> {t('profile.validation.passwordNumber')}
-                    </span>
-                </div>
-             </div>
-           </div>
-
-           <Input
-              label={t('profile.labels.confirmPassword')}
+          <div className="space-y-2">
+            <Input
+              label={t('profile.labels.newPassword')}
               type="password"
-              placeholder={t('profile.placeholders.confirmPassword')}
-              value={passwordForm.confirmPassword}
-              onChange={(e) => setPasswordForm({...passwordForm, confirmPassword: e.target.value})}
-           />
+              placeholder={t('profile.placeholders.newPassword')}
+              value={passwordForm.newPassword}
+              onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+            />
+
+            {/* Visual Validation for New Password */}
+            <div className={`transition-all duration-300 overflow-hidden ${showValidation ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="flex gap-1 mb-2 px-1">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className={`h-0.5 flex-1 rounded-full transition-colors duration-300 ${i <= strengthScore ? 'bg-emerald-500' : 'bg-slate-700'}`}></div>
+                ))}
+              </div>
+              <div className="flex justify-between px-1 mb-1 flex-wrap gap-y-1">
+                <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasLength ? 'text-emerald-500' : 'text-slate-500'}`}>
+                  <span className="material-symbols-outlined text-[10px]">{hasLength ? 'check' : 'circle'}</span> {t('profile.validation.passwordLength')}
+                </span>
+                <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasLower ? 'text-emerald-500' : 'text-slate-500'}`}>
+                  <span className="material-symbols-outlined text-[10px]">{hasLower ? 'check' : 'circle'}</span> {t('profile.validation.passwordLower')}
+                </span>
+                <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasUpper ? 'text-emerald-500' : 'text-slate-500'}`}>
+                  <span className="material-symbols-outlined text-[10px]">{hasUpper ? 'check' : 'circle'}</span> {t('profile.validation.passwordUpper')}
+                </span>
+                <span className={`text-[9px] flex items-center gap-1 transition-colors ${hasNumber ? 'text-emerald-500' : 'text-slate-500'}`}>
+                  <span className="material-symbols-outlined text-[10px]">{hasNumber ? 'check' : 'circle'}</span> {t('profile.validation.passwordNumber')}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <Input
+            label={t('profile.labels.confirmPassword')}
+            type="password"
+            placeholder={t('profile.placeholders.confirmPassword')}
+            value={passwordForm.confirmPassword}
+            onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+          />
         </div>
       </Modal>
 

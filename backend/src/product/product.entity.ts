@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, JoinColumn } from "typeorm";
 import { NamedEntity } from "@/common/NamedEntity";
-import { CartItem } from "@/Cart/cartItem.entity";
+import { CartItem } from "@/cart/cartItem.entity";
 import { OrderDetail } from "@/order/orderDetail.entity";
 import { Category } from "./categories/category.entity";
 import { Image } from "@/image/image.entity";
@@ -29,7 +29,8 @@ export class Product extends NamedEntity {
     @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.product)
     orderDetails: OrderDetail[];
 
-    @ManyToOne(() => Category, (category) => category.products)
+    @ManyToOne(() => Category, (category) => category.products, { nullable: true })
+    @JoinColumn({ name: 'category_id' })
     category: Category;
 
     @OneToMany(() => Image, (image) => image.product)

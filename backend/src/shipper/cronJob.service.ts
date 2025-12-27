@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import * as cron from "node-cron";
 import { OrderAssignmentService } from "./orderAssignment.service";
 import { OrderService } from "@/order/order.service";
+import { NotificationService } from "@/notification/notification.service";
 
 @Service()
 export class CronJobService {
@@ -9,7 +10,8 @@ export class CronJobService {
 
   constructor(
     private readonly orderAssignmentService: OrderAssignmentService,
-    private readonly orderService: OrderService
+    private readonly orderService: OrderService,
+    private readonly notificationService: NotificationService
   ) {}
 
   /**
@@ -18,6 +20,7 @@ export class CronJobService {
   initializeCronJobs(): void {
     this.scheduleDailyOrderCountReset();
     this.scheduleAutoAssignment();
+    this.scheduleExpiredNotificationsCleanup();
   }
 
   /**
@@ -80,8 +83,9 @@ export class CronJobService {
    * Lấy trạng thái của tất cả cron jobs
    */
   getCronJobsStatus(): { name: string; status: string }[] {
+    const jobNames = ["Daily Order Count Reset", "Auto Assignment", "Expired Notifications Cleanup"];
     return this.cronJobs.map((job, index) => ({
-      name: index === 0 ? "Daily Order Count Reset" : "Auto Assignment",
+      name: jobNames[index] || `Job ${index + 1}`,
       status: job.getStatus() as string
     }));
   }
@@ -103,14 +107,47 @@ export class CronJobService {
   async runAutoAssignmentNow(): Promise<void> {
     try {
       const unassignedOrders = await this.orderService.getUnassignedOrders();
-      
+
       if (unassignedOrders.length === 0) {
         return;
       }
 
       const results = await this.orderAssignmentService.assignMultipleOrders(unassignedOrders);
       const successCount = results.filter(r => r.success).length;
-      
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Lên lịch cleanup expired notifications
+   * Chạy lúc 02:00 mỗi ngày
+   */
+  private scheduleExpiredNotificationsCleanup(): void {
+    const task = cron.schedule("0 2 * * *", async () => {
+      try {
+        const deletedCount = await this.notificationService.cleanupExpiredNotifications();
+        if (deletedCount > 0) {
+          console.log(`Cleaned up ${deletedCount} expired notifications`);
+        }
+      } catch (error) {
+        console.error("Error cleaning up expired notifications:", error);
+      }
+    }, {
+      timezone: "Asia/Ho_Chi_Minh"
+    });
+
+    this.cronJobs.push(task);
+  }
+
+  /**
+   * Chạy cleanup expired notifications ngay lập tức (cho testing)
+   */
+  async runExpiredNotificationsCleanupNow(): Promise<void> {
+    try {
+      const deletedCount = await this.notificationService.cleanupExpiredNotifications();
+      console.log(`Cleaned up ${deletedCount} expired notifications`);
     } catch (error) {
       throw error;
     }

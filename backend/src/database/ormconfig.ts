@@ -11,7 +11,9 @@ export default {
 
   database: process.env.DB_NAME,
 
-  synchronize: process.env.DB_SYNCHRONIZE || true,
+  // Use strict boolean check for DB_SYNCHRONIZE to avoid "false" string truthiness.
+  // Default: false unless explicitly set to 'true'
+  synchronize: process.env.DB_SYNCHRONIZE === "true",
 
   extra: {
     timezone: "+07:00",

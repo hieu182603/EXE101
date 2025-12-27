@@ -439,6 +439,26 @@ export class AccountService {
         "You do not have permission to update admin account."
       );
 
+    // Validate username uniqueness
+    if (request.username && request.username !== account.username) {
+      const existingAccount = await Account.findOne({
+        where: { username: request.username }
+      });
+      if (existingAccount) {
+        throw new UsernameAlreadyExistedException("Username already exists");
+      }
+    }
+
+    // Validate phone uniqueness
+    if (request.phone && request.phone !== account.phone) {
+      const existingAccount = await Account.findOne({
+        where: { phone: request.phone }
+      });
+      if (existingAccount) {
+        throw new PhoneAlreadyExistedException("Phone already exists");
+      }
+    }
+
     let roleChanged = false;
     if (request.username) account.username = request.username;
     if (request.phone) account.phone = request.phone;

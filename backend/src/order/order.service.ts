@@ -1,16 +1,21 @@
 import { Service, Container } from 'typedi';
 import { Order } from './order.entity';
 import { OrderDetail } from './orderDetail.entity';
-import { CartService } from '@/Cart/cart.service';
+import { CartService } from '@/cart/cart.service';
 import { Product } from '@/product/product.entity';
 import { Account } from '@/auth/account/account.entity';
 import { CreateOrderDto } from './dtos/create-order.dto';
 import { OrderStatus, UpdateOrderDto } from './dtos/update-order.dto';
 import { EntityNotFoundException } from '@/exceptions/http-exceptions';
 import { DbConnection } from '@/database/dbConnection';
-import { Cart } from '@/Cart/cart.entity';
+import { Cart } from '@/cart/cart.entity';
+import { CartItem } from '@/cart/cartItem.entity';
 import { InvoiceService } from '@/payment/invoice.service';
 import { Invoice, InvoiceStatus } from '@/payment/invoice.entity';
+
+// Constants for pagination limits
+const DEFAULT_MAX_LIMIT = 100;
+const ADMIN_MAX_LIMIT = 1000;
 
 // Định nghĩa type cho filter options để dùng lại và đồng bộ controller-service
 export interface OrderFilterOptions {
@@ -84,8 +89,8 @@ export class OrderService {
 
             // Step 2: Get cart WITHIN transaction
             const cart = await transactionalEntityManager.findOne(Cart, {
-                where: { account: { id: account.id } },
-                relations: ['cartItems', 'cartItems.product', 'cartItems.product.category', 'account']
+                where: { customer: { id: account.id } },
+                relations: ['items', 'items.product', 'items.product.category', 'customer']
             });
 
             if (!cart) {
@@ -93,14 +98,14 @@ export class OrderService {
             }
             
             // Step 3: Check cart is not empty
-            if (!cart.cartItems || cart.cartItems.length === 0) {
+            if (!cart.items || cart.items.length === 0) {
                 throw new Error('Cart is empty. Please add products before placing order.');
             }
 
             // Step 4: Validate each product in cart
             const invalidItems = [];
             
-            for (const cartItem of cart.cartItems) {
+            for (const cartItem of cart.items) {
                 if (!cartItem.product.isActive) {
                     invalidItems.push(`${cartItem.product.name} (no longer active)`);
                 }
@@ -114,7 +119,7 @@ export class OrderService {
             }
 
             // Step 5: Validate product prices and lock products
-            const productIds = cart.cartItems.map(item => item.product.id);
+            const productIds = cart.items.map((item: CartItem) => item.product.id);
             const products = await transactionalEntityManager
                 .createQueryBuilder(Product, 'product')
                 .setLock('pessimistic_write')
@@ -124,7 +129,7 @@ export class OrderService {
             const priceChanges = [];
             const stockIssues = [];
 
-            for (const cartItem of cart.cartItems) {
+            for (const cartItem of cart.items) {
                 const latestProduct = products.find(p => p.id === cartItem.product.id);
                 if (!latestProduct) {
                     throw new Error(`Product ${cartItem.product.name} does not exist`);
@@ -161,7 +166,7 @@ export class OrderService {
             // Step 6: Create order entity
             const currentDateTime = new Date(); // Use single timestamp for consistency
             const order = new Order();
-            order.customer = cart.account;
+            order.customer = cart.customer;
             order.orderDate = currentDateTime;
             order.status = OrderStatus.PENDING;
             order.totalAmount = cart.totalAmount;
@@ -175,7 +180,7 @@ export class OrderService {
             // Step 7: Create order details and update stock
             let orderDetailCount = 0;
             
-            for (const cartItem of cart.cartItems) {
+            for (const cartItem of cart.items) {
                 const product = products.find(p => p.id === cartItem.product.id)!;
 
                 const orderDetail = new OrderDetail();
@@ -196,8 +201,8 @@ export class OrderService {
             }
 
             // Step 8: Clear cart WITHIN transaction
-            if (cart.cartItems && cart.cartItems.length > 0) {
-                await transactionalEntityManager.remove(cart.cartItems);
+            if (cart.items && cart.items.length > 0) {
+                await transactionalEntityManager.remove(cart.items);
             }
             cart.totalAmount = 0;
             await transactionalEntityManager.save(cart);
@@ -471,7 +476,7 @@ export class OrderService {
     async getOrdersByUsername(
         username: string,
         page: number = 1,
-        limit: number = 10000 // Đặt limit rất cao để lấy tất cả đơn hàng
+        limit: number = ADMIN_MAX_LIMIT // Đặt limit rất cao để lấy tất cả đơn hàng
     ): Promise<{ orders: Order[]; total: number }> {
         const offset = (page - 1) * limit;
         
@@ -538,19 +543,7 @@ export class OrderService {
             if (newStatus === OrderStatus.CANCELLED && 
                 [OrderStatus.PENDING, OrderStatus.ASSIGNED, OrderStatus.CONFIRMED, OrderStatus.SHIPPING, OrderStatus.EXTERNAL].includes(oldStatus)) {
                 
-                for (const orderDetail of order.orderDetails) {
-                    const product = await transactionalEntityManager.findOne(Product, {
-                        where: { id: orderDetail.product.id },
-                        lock: { mode: 'pessimistic_write' }
-                    });
-                    
-                    if (product) {
-                        const oldStock = product.stock;
-                        product.stock += orderDetail.quantity;
-                        await transactionalEntityManager.save(product);
-                        
-                    }
-                }
+                await this.restoreStockOnCancellation(order.orderDetails, transactionalEntityManager);
             }
 
             // Update order status
@@ -683,19 +676,7 @@ export class OrderService {
             if (newStatus === OrderStatus.CANCELLED && 
                 [OrderStatus.PENDING, OrderStatus.ASSIGNED, OrderStatus.CONFIRMED, OrderStatus.SHIPPING, OrderStatus.EXTERNAL].includes(currentStatus)) {
                 
-                for (const orderDetail of order.orderDetails) {
-                    const product = await transactionalEntityManager.findOne(Product, {
-                        where: { id: orderDetail.product.id },
-                        lock: { mode: 'pessimistic_write' }
-                    });
-                    
-                    if (product) {
-                        const oldStock = product.stock;
-                        product.stock += orderDetail.quantity;
-                        await transactionalEntityManager.save(product);
-                        
-                    }
-                }
+                await this.restoreStockOnCancellation(order.orderDetails, transactionalEntityManager);
             }
 
             // Update order status
@@ -842,6 +823,23 @@ export class OrderService {
             }
         } catch (error) {
             // Không throw error để tránh ảnh hưởng đến quy trình chính
+        }
+    }
+
+    private async restoreStockOnCancellation(
+        orderDetails: OrderDetail[],
+        transactionalEntityManager: any
+    ): Promise<void> {
+        for (const orderDetail of orderDetails) {
+            const product = await transactionalEntityManager.findOne(Product, {
+                where: { id: orderDetail.product.id },
+                lock: { mode: 'pessimistic_write' }
+            });
+
+            if (product && product.name?.toLowerCase() !== "build") {
+                product.stock += orderDetail.quantity;
+                await transactionalEntityManager.save(product);
+            }
         }
     }
 } 

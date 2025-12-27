@@ -12,14 +12,14 @@ export class DbConnection {
   public static async createConnection() {
     try {
       this.appDataSource = new DataSource(config);
-      await this.appDataSource.initialize().catch((error) => {
-        console.log(error);
-      });
+      // Initialize and throw on failure so caller can handle it (fail-fast)
+      await this.appDataSource.initialize();
       await this.appDataSource.query("SET timezone = '+07:00'");
+      console.log("✅ Database connection established successfully.");
       return this.appDataSource;
     } catch (err) {
-      console.log(err);
+      console.error("❌ Failed to create database connection:", err);
+      throw err;
     }
-    return null;
   }
 }

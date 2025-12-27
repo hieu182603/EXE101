@@ -26,6 +26,8 @@ import {
   LazyRegisterPage,
   LazyForgotPassword,
   LazyAdminDashboard,
+  LazyAdminAnalytics,
+  LazyAdminReports,
   LazyProductManagement,
   LazyOrderManagement,
   LazyCustomerManagement,
@@ -45,14 +47,23 @@ function ProtectedRoute({
   children: React.ReactNode;
   requireAdmin?: boolean;
 }) {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
+
+  // Wait for auth to initialize (refresh user data)
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#0f0c29]">
+        <div className="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }
 
   if (requireAdmin && user) {
-    const roleName = typeof user.role === 'object' ? user.role.name : user.role;
+    const roleName = (typeof user.role === 'object' ? user.role.name : user.role)?.toLowerCase();
     const isAdmin = roleName === 'admin' || roleName === 'manager' || roleName === 'staff';
 
     if (!isAdmin) {
@@ -71,46 +82,48 @@ const App: React.FC = () => {
           <AuthProvider>
             <CartProvider>
               <Routes>
-            {/* User Store Routes */}
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<SuspenseWrapper><LazyHomePage /></SuspenseWrapper>} />
-              <Route path="/catalog" element={<SuspenseWrapper><LazyCatalogPage /></SuspenseWrapper>} />
-              <Route path="/product/:id" element={<SuspenseWrapper><LazyProductDetail /></SuspenseWrapper>} />
-              <Route path="/cart" element={<SuspenseWrapper><LazyCartPage /></SuspenseWrapper>} />
-              <Route path="/checkout" element={<SuspenseWrapper><LazyCheckoutPage /></SuspenseWrapper>} />
-              <Route path="/waiting-payment" element={<SuspenseWrapper><LazyWaitingPayment /></SuspenseWrapper>} />
-              <Route path="/profile" element={<ProtectedRoute><SuspenseWrapper><LazyProfilePage /></SuspenseWrapper></ProtectedRoute>} />
-              <Route path="/history" element={<ProtectedRoute><SuspenseWrapper><LazyOrderHistory /></SuspenseWrapper></ProtectedRoute>} />
-              <Route path="/tracking/:id" element={<ProtectedRoute><SuspenseWrapper><LazyTrackingPage /></SuspenseWrapper></ProtectedRoute>} />
-              <Route path="/quote" element={<SuspenseWrapper><LazyQuoteRequest /></SuspenseWrapper>} />
-              <Route path="/wishlist" element={<SuspenseWrapper><LazyWishlistPage /></SuspenseWrapper>} />
-              <Route path="/policy" element={<SuspenseWrapper><LazyPolicyPage /></SuspenseWrapper>} />
-            </Route>
+                {/* User Store Routes */}
+                <Route element={<MainLayout />}>
+                  <Route path="/" element={<SuspenseWrapper><LazyHomePage /></SuspenseWrapper>} />
+                  <Route path="/catalog" element={<SuspenseWrapper><LazyCatalogPage /></SuspenseWrapper>} />
+                  <Route path="/product/:id" element={<SuspenseWrapper><LazyProductDetail /></SuspenseWrapper>} />
+                  <Route path="/cart" element={<SuspenseWrapper><LazyCartPage /></SuspenseWrapper>} />
+                  <Route path="/checkout" element={<SuspenseWrapper><LazyCheckoutPage /></SuspenseWrapper>} />
+                  <Route path="/waiting-payment" element={<SuspenseWrapper><LazyWaitingPayment /></SuspenseWrapper>} />
+                  <Route path="/profile" element={<ProtectedRoute><SuspenseWrapper><LazyProfilePage /></SuspenseWrapper></ProtectedRoute>} />
+                  <Route path="/history" element={<ProtectedRoute><SuspenseWrapper><LazyOrderHistory /></SuspenseWrapper></ProtectedRoute>} />
+                  <Route path="/tracking/:id" element={<ProtectedRoute><SuspenseWrapper><LazyTrackingPage /></SuspenseWrapper></ProtectedRoute>} />
+                  <Route path="/quote" element={<SuspenseWrapper><LazyQuoteRequest /></SuspenseWrapper>} />
+                  <Route path="/wishlist" element={<SuspenseWrapper><LazyWishlistPage /></SuspenseWrapper>} />
+                  <Route path="/policy" element={<SuspenseWrapper><LazyPolicyPage /></SuspenseWrapper>} />
+                </Route>
 
-            {/* Admin Routes */}
-            <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><AdminLayout /></ProtectedRoute>}>
-              <Route index element={<SuspenseWrapper><LazyAdminDashboard /></SuspenseWrapper>} />
-              <Route path="products" element={<SuspenseWrapper><LazyProductManagement /></SuspenseWrapper>} />
-              <Route path="orders" element={<SuspenseWrapper><LazyOrderManagement /></SuspenseWrapper>} />
-              <Route path="customers" element={<SuspenseWrapper><LazyCustomerManagement /></SuspenseWrapper>} />
-              <Route path="shippers" element={<SuspenseWrapper><LazyShipperManagement /></SuspenseWrapper>} />
-              <Route path="feedback" element={<SuspenseWrapper><LazyFeedbackManagement /></SuspenseWrapper>} />
-              <Route path="banners" element={<SuspenseWrapper><LazyBannersManagement /></SuspenseWrapper>} />
-              <Route path="accounts" element={<SuspenseWrapper><LazyAccountManagement /></SuspenseWrapper>} />
-            </Route>
+                {/* Admin Routes */}
+                <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><AdminLayout /></ProtectedRoute>}>
+                  <Route index element={<SuspenseWrapper><LazyAdminDashboard /></SuspenseWrapper>} />
+                  <Route path="analytics" element={<SuspenseWrapper><LazyAdminAnalytics /></SuspenseWrapper>} />
+                  <Route path="reports" element={<SuspenseWrapper><LazyAdminReports /></SuspenseWrapper>} />
+                  <Route path="products" element={<SuspenseWrapper><LazyProductManagement /></SuspenseWrapper>} />
+                  <Route path="orders" element={<SuspenseWrapper><LazyOrderManagement /></SuspenseWrapper>} />
+                  <Route path="customers" element={<SuspenseWrapper><LazyCustomerManagement /></SuspenseWrapper>} />
+                  <Route path="shippers" element={<SuspenseWrapper><LazyShipperManagement /></SuspenseWrapper>} />
+                  <Route path="feedback" element={<SuspenseWrapper><LazyFeedbackManagement /></SuspenseWrapper>} />
+                  <Route path="banners" element={<SuspenseWrapper><LazyBannersManagement /></SuspenseWrapper>} />
+                  <Route path="accounts" element={<SuspenseWrapper><LazyAccountManagement /></SuspenseWrapper>} />
+                </Route>
 
-            {/* Auth Routes */}
-            <Route path="/login" element={<SuspenseWrapper><LazyLoginPage /></SuspenseWrapper>} />
-            <Route path="/register" element={<SuspenseWrapper><LazyRegisterPage /></SuspenseWrapper>} />
-            <Route path="/forgot-password" element={<SuspenseWrapper><LazyForgotPassword /></SuspenseWrapper>} />
+                {/* Auth Routes */}
+                <Route path="/login" element={<SuspenseWrapper><LazyLoginPage /></SuspenseWrapper>} />
+                <Route path="/register" element={<SuspenseWrapper><LazyRegisterPage /></SuspenseWrapper>} />
+                <Route path="/forgot-password" element={<SuspenseWrapper><LazyForgotPassword /></SuspenseWrapper>} />
 
-            {/* Default */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </CartProvider>
-            </AuthProvider>
-          </NotificationProvider>
-        </ToastProvider>
+                {/* Default */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </CartProvider>
+          </AuthProvider>
+        </NotificationProvider>
+      </ToastProvider>
       <SocketStatus />
     </BrowserRouter>
   );
