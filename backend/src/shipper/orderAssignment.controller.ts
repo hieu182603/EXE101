@@ -4,6 +4,7 @@ import { OrderAssignmentService } from "./orderAssignment.service";
 import { Order } from "@/order/order.entity";
 import { OrderService } from "@/order/order.service";
 import { Admin, Auth } from "@/middlewares/auth.middleware";
+import { HttpException } from "@/exceptions/http-exceptions";
 import { Account } from "@/auth/account/account.entity";
 import { ShipperZone } from "./shipperZone.entity";
 
@@ -33,10 +34,7 @@ export class OrderAssignmentController {
       });
       
       if (!order) {
-        return {
-          success: false,
-          message: 'Order not found'
-        };
+        throw new HttpException(404, 'Order not found');
       }
       
       // Log các chi tiết về đơn hàng
@@ -60,13 +58,7 @@ export class OrderAssignmentController {
       };
     } catch (error) {
       console.error('[API] Error running assignment:', error);
-      return {
-        success: false,
-        message: `Error: ${(error as Error).message}`,
-        details: {
-          stack: (error as Error).stack
-        }
-      };
+      throw new HttpException(500, (error as Error).message || "Error running assignment");
     }
   }
   
@@ -103,10 +95,7 @@ export class OrderAssignmentController {
       };
     } catch (error) {
       console.error('[API] Error fetching shipper zones:', error);
-      return {
-        success: false,
-        message: `Error: ${(error as Error).message}`
-      };
+      throw new HttpException(500, (error as Error).message || "Error fetching shipper zones");
     }
   }
   
@@ -152,10 +141,7 @@ export class OrderAssignmentController {
       };
     } catch (error) {
       console.error('[API] Error fetching available zones:', error);
-      return {
-        success: false,
-        message: `Error: ${(error as Error).message}`
-      };
+      throw new HttpException(500, (error as Error).message || "Error fetching available zones");
     }
   }
   
@@ -176,11 +162,7 @@ export class OrderAssignmentController {
       // Phân tích địa chỉ đơn giản
       const addressParts = data.address.split(',').map(part => part.trim());
       if (addressParts.length < 2) {
-        return {
-          success: false,
-          message: 'Address should contain at least province and district separated by commas',
-          address: data.address
-        };
+        throw new HttpException(400, 'Address should contain at least province and district separated by commas');
       }
       
       // Lấy province từ phần cuối cùng
@@ -259,10 +241,7 @@ export class OrderAssignmentController {
       
     } catch (error) {
       console.error('[API] Error testing address matching:', error);
-      return {
-        success: false,
-        message: `Error: ${(error as Error).message}`
-      };
+      throw new HttpException(500, (error as Error).message || "Error testing address matching");
     }
   }
   
@@ -323,10 +302,7 @@ export class OrderAssignmentController {
       
       // Kiểm tra dữ liệu đầu vào
       if (!data.workingZones || !Array.isArray(data.workingZones)) {
-        return {
-          success: false,
-          message: 'Invalid input: workingZones must be an array'
-        };
+        throw new HttpException(400, 'Invalid input: workingZones must be an array');
       }
 
       // Gọi service để cập nhật vùng làm việc
@@ -339,10 +315,7 @@ export class OrderAssignmentController {
       });
       
       if (!shipper) {
-        return {
-          success: false,
-          message: 'Shipper not found after update'
-        };
+        throw new HttpException(404, 'Shipper not found after update');
       }
       
       // Lấy zones mới để trả về
@@ -368,10 +341,7 @@ export class OrderAssignmentController {
       
     } catch (error) {
       console.error('[API] Error updating working zones:', error);
-      return {
-        success: false,
-        message: `Error: ${(error as Error).message}`
-      };
+      throw new HttpException(500, (error as Error).message || "Error updating working zones");
     }
   }
 } 

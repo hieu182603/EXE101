@@ -89,6 +89,7 @@ const AdminLayout: React.FC = () => {
     { name: 'Đơn hàng', path: '/admin/orders', icon: 'shopping_cart' },
     { name: 'Khách hàng', path: '/admin/customers', icon: 'group' },
     { name: 'Shipper', path: '/admin/shippers', icon: 'local_shipping' },
+    { name: 'Banner', path: '/admin/banners', icon: 'image' },
     { name: 'Phản hồi', path: '/admin/feedback', icon: 'reviews' },
     { name: 'Tài khoản', path: '/admin/accounts', icon: 'manage_accounts' },
   ];

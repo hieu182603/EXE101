@@ -29,3 +29,11 @@ export class ShipperProfile extends BaseEntity {
 
 
 
+
+
+
+
+
+
+
+

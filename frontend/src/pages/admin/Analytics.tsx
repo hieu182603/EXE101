@@ -150,8 +150,9 @@ const AdminAnalytics: React.FC = () => {
                 </div>
               </div>
               <div className="h-[400px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={orderAnalytics?.data || []}>
+                {orderAnalytics?.data && orderAnalytics.data.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={orderAnalytics.data}>
                     <defs>
                       <linearGradient id="orderRevenue" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#DC2626" stopOpacity={0.3} />
@@ -192,7 +193,15 @@ const AdminAnalytics: React.FC = () => {
                       name="orders"
                     />
                   </AreaChart>
-                </ResponsiveContainer>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-slate-500">
+                    <div className="text-center">
+                      <span className="material-symbols-outlined text-4xl mb-2 opacity-50">analytics</span>
+                      <p className="text-sm">Chưa có dữ liệu xu hướng đơn hàng</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -202,8 +211,9 @@ const AdminAnalytics: React.FC = () => {
             <div className="bg-surface-dark border border-border-dark rounded-2xl p-6 shadow-sm">
               <h3 className="text-lg font-bold text-white mb-6">Trạng thái đơn hàng theo ngày</h3>
               <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={orderStatusTrends}>
+                {orderStatusTrends && orderStatusTrends.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={orderStatusTrends}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272A" />
                     <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#71717A', fontSize: 12 }} />
                     <YAxis hide />
@@ -218,7 +228,15 @@ const AdminAnalytics: React.FC = () => {
                     <Bar dataKey="pending" stackId="status" fill="#6B7280" name="Đang chờ" />
                     <Bar dataKey="cancelled" stackId="status" fill="#EF4444" name="Đã hủy" />
                   </BarChart>
-                </ResponsiveContainer>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-slate-500">
+                    <div className="text-center">
+                      <span className="material-symbols-outlined text-4xl mb-2 opacity-50">bar_chart</span>
+                      <p className="text-sm">Chưa có dữ liệu trạng thái đơn hàng</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

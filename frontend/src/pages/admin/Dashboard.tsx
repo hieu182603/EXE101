@@ -248,12 +248,13 @@ const AdminDashboard: React.FC = () => {
               </select>
             </div>
             <div className="h-[320px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={revenueStats?.data.map(item => ({
-                  name: item.date,
-                  revenue: item.revenue,
-                  orders: item.orders
-                })) || []}>
+              {revenueStats?.data && revenueStats.data.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={revenueStats.data.map(item => ({
+                    name: item.date,
+                    revenue: item.revenue,
+                    orders: item.orders
+                  }))}>
                   <defs>
                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#DC2626" stopOpacity={0.3} />
@@ -273,10 +274,18 @@ const AdminDashboard: React.FC = () => {
                     formatter={(value: number | undefined) => value !== undefined ? fmt(value) : ''}
                   />
                   <Legend iconType="circle" />
-                  <Area type="monotone" name="Doanh thu" dataKey="revenue" stroke="#DC2626" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
-                  <Area type="monotone" name="Đơn hàng" dataKey="orders" stroke="#10B981" strokeWidth={3} fillOpacity={1} fill="url(#colorOrd)" />
-                </AreaChart>
-              </ResponsiveContainer>
+                    <Area type="monotone" name="Doanh thu" dataKey="revenue" stroke="#DC2626" strokeWidth={3} fillOpacity={1} fill="url(#colorRev)" />
+                    <Area type="monotone" name="Đơn hàng" dataKey="orders" stroke="#10B981" strokeWidth={3} fillOpacity={1} fill="url(#colorOrd)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="flex items-center justify-center h-full text-slate-500">
+                  <div className="text-center">
+                    <span className="material-symbols-outlined text-4xl mb-2 opacity-50">analytics</span>
+                    <p className="text-sm">Chưa có dữ liệu để hiển thị</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -305,33 +314,42 @@ const AdminDashboard: React.FC = () => {
                 );
               })()}
 
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={Object.entries(dashboardStats?.orderStatusDistribution || {}).map(([status, count]) => ({
-                      name: status,
-                      value: count
-                    }))}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {Object.entries(dashboardStats?.orderStatusDistribution || {}).map(([, count], index) => {
-                      const colors = ['#ef4444', '#3b82f6', '#10b981', '#f97316', '#a855f7', '#06b6d4'];
-                      return <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />;
-                    })}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{ backgroundColor: '#18181B', border: '1px solid #27272A', borderRadius: '8px' }}
-                    itemStyle={{ color: '#fff' }}
-                    formatter={(value: number | undefined) => value !== undefined ? [`${value} đơn`, 'Số lượng'] : ['', '']}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+              {dashboardStats?.orderStatusDistribution && Object.keys(dashboardStats.orderStatusDistribution).length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={Object.entries(dashboardStats.orderStatusDistribution).map(([status, count]) => ({
+                        name: status,
+                        value: count
+                      }))}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                      stroke="none"
+                    >
+                      {Object.entries(dashboardStats.orderStatusDistribution).map(([, count], index) => {
+                        const colors = ['#ef4444', '#3b82f6', '#10b981', '#f97316', '#a855f7', '#06b6d4'];
+                        return <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />;
+                      })}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={{ backgroundColor: '#18181B', border: '1px solid #27272A', borderRadius: '8px' }}
+                      itemStyle={{ color: '#fff' }}
+                      formatter={(value: number | undefined) => value !== undefined ? [`${value} đơn`, 'Số lượng'] : ['', '']}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="flex items-center justify-center h-full text-slate-500">
+                  <div className="text-center">
+                    <span className="material-symbols-outlined text-4xl mb-2 opacity-50">pie_chart</span>
+                    <p className="text-sm">Chưa có dữ liệu trạng thái đơn hàng</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-4">

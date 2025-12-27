@@ -1,34 +1,34 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, QueryParam, Req, UseBefore } from "routing-controllers";
+import { getRepository } from "typeorm";
 import { Service } from "typedi";
 import { ProductService } from "./product.service";
 import { CreateProductDto, UpdateProductDto } from "./dtos/product.dto";
 import { Auth } from "@/middlewares/auth.middleware";
 import { CheckAbility } from "@/middlewares/rbac/permission.decorator";
 import { Product } from "./product.entity";
-import { getRepository } from "typeorm";
+import { DbConnection } from "@/database/dbConnection";
 import { Order } from "@/order/order.entity";
 import { AccountDetailsDto } from "@/auth/dtos/account.schema";
+import { HttpException } from "@/exceptions/http-exceptions";
 
 @Service()
 @Controller("/products")
 export class ProductController {
     constructor(
         private readonly productService: ProductService
-    ) {}
+    ) { }
 
     @Get("/")
     async getAllProducts() {
         try {
             const products = await this.productService.getAllProducts();
             return {
+                success: true,
                 message: "Products retrieved successfully",
-                products
+                data: products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve products",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve products");
         }
     }
 
@@ -43,10 +43,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve all products",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve all products");
         }
     }
 
@@ -59,10 +56,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve all products for admin",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve all products for admin");
         }
     }
 
@@ -77,10 +71,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve out of stock products",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve out of stock products");
         }
     }
 
@@ -93,10 +84,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve new products",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve new products");
         }
     }
 
@@ -109,10 +97,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve top selling products",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve top selling products");
         }
     }
 
@@ -125,10 +110,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve products by category",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve products by category");
         }
     }
 
@@ -158,9 +140,7 @@ export class ProductController {
     @Get("/search")
     async searchProducts(@QueryParam("q") keyword: string) {
         if (!keyword || keyword.trim() === "") {
-            return {
-                message: "Missing search keyword"
-            };
+            throw new HttpException(400, "Missing search keyword");
         }
         try {
             const products = await this.productService.searchProducts(keyword);
@@ -169,10 +149,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to search products",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to search products");
         }
     }
 
@@ -181,19 +158,14 @@ export class ProductController {
         try {
             const product = await this.productService.getProductById(id);
             if (!product) {
-                return {
-                    message: "Product not found"
-                };
+                throw new HttpException(404, "Product not found");
             }
             return {
                 message: "Product retrieved successfully",
                 product
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve product",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve product");
         }
     }
 
@@ -202,19 +174,14 @@ export class ProductController {
         try {
             const product = await this.productService.getProductByName(name);
             if (!product) {
-                return {
-                    message: "Product not found"
-                };
+                throw new HttpException(404, "Product not found");
             }
             return {
                 message: "Product retrieved successfully",
                 product
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve product",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve product");
         }
     }
 
@@ -229,10 +196,7 @@ export class ProductController {
                 product
             };
         } catch (error: any) {
-            return {
-                message: "Failed to create product",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to create product");
         }
     }
 
@@ -244,19 +208,14 @@ export class ProductController {
         try {
             const product = await this.productService.updateProduct(id, updateProductDto);
             if (!product) {
-                return {
-                    message: "Product not found"
-                };
+                throw new HttpException(404, "Product not found");
             }
             return {
                 message: "Product updated successfully",
                 product
             };
         } catch (error: any) {
-            return {
-                message: "Failed to update product",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to update product");
         }
     }
 
@@ -265,18 +224,13 @@ export class ProductController {
         try {
             const result = await this.productService.deleteProduct(id);
             if (!result) {
-                return {
-                    message: "Product not found"
-                };
+                throw new HttpException(404, "Product not found");
             }
             return {
                 message: "Product deleted successfully"
             };
         } catch (error: any) {
-            return {
-                message: "Failed to delete product",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to delete product");
         }
     }
 
@@ -324,11 +278,9 @@ export class ProductController {
         @QueryParam("limit") limit: number = 8
     ) {
         if (!categoryIds) {
-            return {
-                message: "Missing category IDs"
-            };
+            throw new HttpException(400, "Missing category IDs");
         }
-        
+
         try {
             const categoryIdArray = categoryIds.split(',').map(id => id.trim());
             const products = await this.productService.getProductsByMultipleCategories(categoryIdArray, limit);
@@ -337,10 +289,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve products by multiple categories",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve products by multiple categories");
         }
     }
 
@@ -351,11 +300,9 @@ export class ProductController {
         @QueryParam("limit") limit: number = 8
     ) {
         if (!['laptop', 'pc', 'accessories'].includes(type)) {
-            return {
-                message: "Invalid product type. Must be laptop, pc, or accessories"
-            };
+            throw new HttpException(400, "Invalid product type. Must be laptop, pc, or accessories");
         }
-        
+
         try {
             const products = await this.productService.getProductsByType(type as 'laptop' | 'pc' | 'accessories', limit);
             return {
@@ -363,10 +310,7 @@ export class ProductController {
                 products
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve products by type",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve products by type");
         }
     }
 
@@ -386,28 +330,19 @@ export class ProductController {
 
         // Only allow admin, manager, staff
         if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-            return {
-                success: false,
-                message: "Access denied to product analytics"
-            };
+            throw new HttpException(401, "Access denied to product analytics");
         }
 
         try {
             if (!startDateStr || !endDateStr) {
-                return {
-                    success: false,
-                    message: "startDate and endDate are required"
-                };
+                throw new HttpException(400, "startDate and endDate are required");
             }
 
             const startDate = new Date(startDateStr);
             const endDate = new Date(endDateStr);
 
             if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-                return {
-                    success: false,
-                    message: "Invalid date format"
-                };
+                throw new HttpException(400, "Invalid date format");
             }
 
             const analytics = await this.generateProductPerformanceAnalytics(startDate, endDate, limit);
@@ -419,11 +354,7 @@ export class ProductController {
             };
         } catch (error: any) {
             console.error("Error getting product performance analytics:", error);
-            return {
-                success: false,
-                message: "Failed to retrieve product performance analytics",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve product performance analytics");
         }
     }
 
@@ -443,28 +374,19 @@ export class ProductController {
 
         // Only allow admin, manager, staff
         if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-            return {
-                success: false,
-                message: "Access denied to product sales trends"
-            };
+            throw new HttpException(401, "Access denied to product sales trends");
         }
 
         try {
             if (!startDateStr || !endDateStr) {
-                return {
-                    success: false,
-                    message: "startDate and endDate are required"
-                };
+                throw new HttpException(400, "startDate and endDate are required");
             }
 
             const startDate = new Date(startDateStr);
             const endDate = new Date(endDateStr);
 
             if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-                return {
-                    success: false,
-                    message: "Invalid date format"
-                };
+                throw new HttpException(400, "Invalid date format");
             }
 
             const trends = await this.generateProductSalesTrends(startDate, endDate, period);
@@ -476,11 +398,7 @@ export class ProductController {
             };
         } catch (error: any) {
             console.error("Error getting product sales trends:", error);
-            return {
-                success: false,
-                message: "Failed to retrieve product sales trends",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve product sales trends");
         }
     }
 
@@ -527,7 +445,7 @@ export class ProductController {
             .limit(limit)
             .getRawMany();
 
-        return result.map(row => ({
+        return result.map((row: any) => ({
             productId: row.productId,
             productName: row.productName,
             productPrice: parseFloat(row.productPrice) || 0,
@@ -553,11 +471,11 @@ export class ProductController {
             dateFormat = "DATE(order.createdAt)";
             groupBy = "DATE(order.createdAt)";
         } else if (period === 'month') {
-            dateFormat = "DATE_FORMAT(order.createdAt, '%Y-%m')";
-            groupBy = "DATE_FORMAT(order.createdAt, '%Y-%m')";
+            dateFormat = "TO_CHAR(order.createdAt, 'YYYY-MM')";
+            groupBy = "TO_CHAR(order.createdAt, 'YYYY-MM')";
         } else {
-            dateFormat = "YEAR(order.createdAt)";
-            groupBy = "YEAR(order.createdAt)";
+            dateFormat = "EXTRACT(YEAR FROM order.createdAt)";
+            groupBy = "EXTRACT(YEAR FROM order.createdAt)";
         }
 
         const result = await getRepository(Order)
@@ -578,7 +496,7 @@ export class ProductController {
             .orderBy("date", "ASC")
             .getRawMany();
 
-        return result.map(row => ({
+        return result.map((row: any) => ({
             date: row.date,
             totalSold: parseInt(row.totalSold) || 0,
             totalRevenue: parseFloat(row.totalRevenue) || 0,
@@ -606,9 +524,9 @@ export class ProductController {
     // }
 }
 
-  
 
-  // @Post("/add-components")
-  // async addComponents() {
-  //   return await this.productService.addToComponents();
-  // }
+
+// @Post("/add-components")
+// async addComponents() {
+//   return await this.productService.addToComponents();
+// }

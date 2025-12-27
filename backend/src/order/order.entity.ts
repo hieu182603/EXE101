@@ -1,12 +1,16 @@
 import { Account } from "@/auth/account/account.entity";
 import { BaseEntity } from "@/common/BaseEntity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, Index } from "typeorm";
 import { OrderDetail } from "./orderDetail.entity";
 import { Payment } from "@/payment/payment.entity";
 import { Invoice } from "@/payment/invoice.entity";
 import { OrderStatus } from "./dtos/update-order.dto";
 
 @Entity('orders')
+@Index(['customer'])
+@Index(['shipper'])
+@Index(['status'])
+@Index(['orderDate'])
 export class Order extends BaseEntity {
   @ManyToOne(() => Account, (account) => account.customerOrders, { nullable: true })
   @JoinColumn({ name: 'customer_id' })

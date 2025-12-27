@@ -25,10 +25,11 @@ export class Account extends NamedEntity {
   password: string;
 
   @Column({ type: 'varchar', nullable: true })
+  @Index({ unique: true, where: "phone IS NOT NULL" })
   phone: string | null;
 
   @Column({ nullable: true })
-  @Index({ unique: true })
+  @Index({ unique: true, where: "email IS NOT NULL" })
   email: string;
 
   @Column({ nullable: false, default: false })

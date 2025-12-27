@@ -1,7 +1,7 @@
 import express from "express";
 import { Container } from "typedi";
 import swaggerUi from "swagger-ui-express";
-import { getMetadataArgsStorage } from "routing-controllers";
+import { getMetadataArgsStorage, useExpressServer, useContainer } from "routing-controllers";
 import { routingControllersToSpec } from "routing-controllers-openapi";
 import { DbConnection } from "@/database/dbConnection";
 import cors from "cors";
@@ -9,21 +9,26 @@ import { CronJobService } from "./shipper/cronJob.service";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 
 // Import routers
-import authRouter from "./auth/auth.router";
-import jwtRouter from "./jwt/jwt.router";
-import otpRouter from "./otp/otp.router";
-import roleRouter from "./role/role.router";
-import paymentRouter from "./payment/payment.router";
-import productRouter from "./product/product.router";
-import orderRouter from "./order/order.router";
-import cartRouter from "./Cart/cart.router";
-import customerRouter from "./customer/customer.router";
-import feedbackRouter from "./feedback/feedback.router";
-import imageRouter from "./image/image.router";
-import rfqRouter from "./rfq/rfq.router";
-import shipperRouter from "./shipper/shipper.router";
-import notificationRouter from "./notification/notification.router";
-import reportsRouter from "./reports/reports.router";
+// All routers migrated to routing-controllers
+
+// Import all controllers for routing-controllers
+import { AccountController } from "./auth/account/account.controller";
+// import { CartController } from "./cart/cart.controller";
+import { CustomerController } from "./customer/customer.controller";
+import { FeedbackController } from "./feedback/feedback.controller";
+import { InvoiceController } from "./payment/invoice.controller";
+import { JwtController } from "./jwt/jwt.controller";
+import { NotificationController } from "./notification/notification.controller";
+import { OrderController } from "./order/order.controller";
+import { OtpController } from "./otp/otp.controller";
+import { PaymentController } from "./payment/payment.controller";
+import { ProductController } from "./product/product.controller";
+import { ReportsController } from "./reports/reports.controller";
+import { RFQController } from "./rfq/rfq.controller";
+import { RoleController } from "./role/role.controller";
+import { ShipperController } from "./shipper/shipper.controller";
+import { OrderAssignmentController } from "./shipper/orderAssignment.controller";
+import { ImageController } from "./image/image.controller";
 
 export default class App {
   public app: express.Application;
@@ -114,22 +119,43 @@ export default class App {
   }
 
   private initializeRoutes() {
-    // Mount all routers
-    this.app.use("/api", authRouter);
-    this.app.use("/api", jwtRouter);
-    this.app.use("/api", otpRouter);
-    this.app.use("/api", roleRouter);
-    this.app.use("/api", paymentRouter);
-    this.app.use("/api", productRouter);
-    this.app.use("/api", orderRouter);
-    this.app.use("/api", cartRouter);
-    this.app.use("/api", customerRouter);
-    this.app.use("/api", feedbackRouter);
-    this.app.use("/api", imageRouter);
-    this.app.use("/api", rfqRouter);
-    this.app.use("/api", shipperRouter);
-    this.app.use("/api", notificationRouter);
-    this.app.use("/api", reportsRouter);
+    // Setup dependency injection container for routing-controllers
+    useContainer(Container);
+
+    // Setup routing-controllers with all controllers
+    useExpressServer(this.app, {
+      controllers: [
+        AccountController,
+        // CartController,
+        CustomerController,
+        FeedbackController,
+        ImageController,
+        InvoiceController,
+        JwtController,
+        NotificationController,
+        OrderController,
+        OtpController,
+        PaymentController,
+        ProductController,
+        ReportsController,
+        RFQController,
+        RoleController,
+        ShipperController,
+        OrderAssignmentController,
+      ],
+      routePrefix: "/api",
+      middlewares: [],
+      interceptors: [],
+      validation: {
+        skipMissingProperties: false,
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      },
+      defaultErrorHandler: false, // We'll use our custom error handler
+      classTransformer: true,
+    });
+
+    // All routers have been migrated to routing-controllers
 
     // Error handler middleware (must be last)
     this.app.use(errorHandler);
@@ -2248,6 +2274,136 @@ export default class App {
                         }
                       }
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      // Add image endpoints (implemented as express routes) to manual paths
+      manualPaths["/image/upload"] = {
+        post: {
+          summary: "Upload image",
+          tags: ["Image"],
+          requestBody: {
+            required: true,
+            content: {
+              "multipart/form-data": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    file: { type: "string", format: "binary" }
+                  },
+                  required: ["file"]
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: "Image uploaded successfully",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      id: { type: "string" },
+                      originalName: { type: "string" },
+                      url: { type: "string" },
+                      name: { type: "string" }
+                    }
+                  }
+                  ,example: {
+                    id: "a1b2c3d4-e5f6-7890-abcd-ef0123456789",
+                    originalName: "photo.jpg",
+                    url: "https://res.cloudinary.com/example/photo.jpg",
+                    name: "photo_2025.jpg"
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      manualPaths["/image/attach-to-product"] = {
+        post: {
+          summary: "Attach images to product",
+          tags: ["Image"],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    query: { type: "string" },
+                    imagesURLs: { type: "array", items: { type: "string" } }
+                  },
+                  required: ["query", "imagesURLs"]
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: "Images attached to product successfully",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                      product: { type: "object" }
+                    }
+                  }
+                  ,example: {
+                    message: "Images attached to product successfully",
+                    product: { id: "prod-uuid", name: "Example product", images: [{ url: "https://res.cloudinary.com/example/a.jpg" }] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      manualPaths["/image/attach-to-feedback"] = {
+        post: {
+          summary: "Attach images to feedback",
+          tags: ["Image"],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    query: { type: "string" },
+                    imagesURLs: { type: "array", items: { type: "string" } }
+                  },
+                  required: ["query", "imagesURLs"]
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: "Images attached to feedback successfully",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: { type: "string" },
+                      feedback: { type: "object" }
+                    }
+                  }
+                  ,example: {
+                    message: "Images attached to feedback successfully",
+                    feedback: { id: "fb-uuid", productId: "prod-uuid", images: [{ url: "https://res.cloudinary.com/example/a.jpg" }] }
                   }
                 }
               }

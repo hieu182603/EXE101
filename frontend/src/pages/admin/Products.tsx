@@ -10,17 +10,6 @@ import type { Product } from '@/types/product';
 import { useToast } from '@contexts/ToastContext';
 import { useTranslation } from '../../hooks/useTranslation';
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  brand: string;
-  price: number;
-  originalPrice?: number;
-  stock: number;
-  image: string;
-}
-
 const PLACEHOLDER_IMAGE = "https://placehold.co/400x300/1e293b/64748b?text=No+Image";
 const ITEMS_PER_PAGE = 5;
 

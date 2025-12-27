@@ -14,7 +14,7 @@ export class JwtController {
     const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
-      return res.status(401).json({ message: "Refresh token not provided" });
+      return res.status(401).json({ success: false, message: "Refresh token not provided" });
     }
 
     try {
@@ -28,17 +28,23 @@ export class JwtController {
         });
         return res
           .status(401)
-          .json({ message: "Invalid or expired refresh token" });
+          .json({ success: false, message: "Invalid or expired refresh token" });
       }
 
-      return newAccessToken;
+      return {
+        success: true,
+        message: "Token refreshed successfully",
+        data: {
+          accessToken: newAccessToken,
+        },
+      };
     } catch (error) {
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
       });
-      return res.status(401).json({ message: "Invalid refresh token" });
+      return res.status(401).json({ success: false, message: "Invalid refresh token" });
     }
   }
 
@@ -47,10 +53,18 @@ export class JwtController {
     token = token.startsWith('Bearer ') ? token.substring(7) : token;
     const result = this.jwtService.verifyAccessToken(token);
     if (!result) throw new HttpException(401, "Invalid access token");
-    return result;
+    return {
+      success: true,
+      message: "Token is valid",
+      data: result,
+    };
   }
 
 }
+
+
+
+
 
 
 

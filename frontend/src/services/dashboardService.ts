@@ -27,7 +27,7 @@ export class DashboardService {
     period: 'day' | 'month' | 'year' = 'month'
   ): Promise<RevenueStats> {
     try {
-      const response = await api.get('/orders/dashboard/revenue-stats', {
+      const response = await api.get('/orders/analytics/trends', {
         params: { startDate, endDate, period }
       });
       return response.data.data;

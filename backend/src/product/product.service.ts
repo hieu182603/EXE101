@@ -1150,7 +1150,7 @@ export class ProductService {
         }
 
         // 4. Xoá cartItem
-        const { CartItem } = await import("@/Cart/cartItem.entity");
+        const { CartItem } = await import("@/cart/cartItem.entity");
         try {
           await transactionalEntityManager.delete(CartItem, { product: { id } });
         } catch (err) {

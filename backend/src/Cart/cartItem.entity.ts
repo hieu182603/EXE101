@@ -1,16 +1,20 @@
-import { Column, Entity, ManyToOne } from "typeorm";
-import { Cart } from "./cart.entity";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { BaseEntity } from "@/common/BaseEntity";
 import { Product } from "@/product/product.entity";
 
-@Entity()
+@Entity("cart_items")
 export class CartItem extends BaseEntity {
-    @Column({ type: "int", nullable: false })
+    @ManyToOne("Cart", { nullable: false, onDelete: "CASCADE" })
+    @JoinColumn({ name: "cart_id" })
+    cart: any;
+
+    @ManyToOne(() => Product, { nullable: false })
+    @JoinColumn({ name: "product_id" })
+    product: Product;
+
+    @Column({ type: "int", default: 1 })
     quantity: number;
 
-    @ManyToOne(() => Cart, (cart) => cart.cartItems)
-    cart: Cart;
-
-    @ManyToOne(() => Product, (product) => product.cartItems)
-    product: Product;
+    @Column({ type: "decimal", precision: 10, scale: 2 })
+    price: number;
 }

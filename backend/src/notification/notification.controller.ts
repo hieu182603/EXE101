@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, QueryParam, Req, UseBe
 import { Service } from "typedi";
 import { NotificationService, CreateNotificationData, NotificationFilters } from "./notification.service";
 import { Auth } from "@/middlewares/auth.middleware";
+import { HttpException } from "@/exceptions/http-exceptions";
 import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { Notification } from "./notification.entity";
 
@@ -31,15 +32,12 @@ export class NotificationController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to notifications"
-      };
+      throw new HttpException(401, "Access denied to notifications");
     }
 
     try {
       const filters: NotificationFilters = {
-        recipientId: user.username,
+        recipientId: user.accountId,
       };
 
       if (status) filters.status = status as any;
@@ -64,11 +62,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error getting notifications:", error);
-      return {
-        success: false,
-        message: "Failed to retrieve notifications",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve notifications");
     }
   }
 
@@ -83,14 +77,11 @@ export class NotificationController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to notification stats"
-      };
+      throw new HttpException(401, "Access denied to notification stats");
     }
 
     try {
-      const stats = await this.notificationService.getNotificationStats(user.username);
+      const stats = await this.notificationService.getNotificationStats(user.accountId);
 
       return {
         success: true,
@@ -99,11 +90,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error getting notification stats:", error);
-      return {
-        success: false,
-        message: "Failed to retrieve notification statistics",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve notification statistics");
     }
   }
 
@@ -118,14 +105,11 @@ export class NotificationController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to unread count"
-      };
+      throw new HttpException(401, "Access denied to unread count");
     }
 
     try {
-      const count = await this.notificationService.getUnreadCount(user.username);
+      const count = await this.notificationService.getUnreadCount(user.accountId);
 
       return {
         success: true,
@@ -134,11 +118,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error getting unread count:", error);
-      return {
-        success: false,
-        message: "Failed to retrieve unread count",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve unread count");
     }
   }
 
@@ -153,20 +133,14 @@ export class NotificationController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to mark notification as read"
-      };
+      throw new HttpException(401, "Access denied to mark notification as read");
     }
 
     try {
-      const notification = await this.notificationService.markAsRead(notificationId, user.username);
+      const notification = await this.notificationService.markAsRead(notificationId, user.accountId);
 
       if (!notification) {
-        return {
-          success: false,
-          message: "Notification not found or access denied"
-        };
+        throw new HttpException(404, "Notification not found or access denied");
       }
 
       return {
@@ -176,11 +150,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error marking notification as read:", error);
-      return {
-        success: false,
-        message: "Failed to mark notification as read",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to mark notification as read");
     }
   }
 
@@ -195,23 +165,17 @@ export class NotificationController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to mark notifications as read"
-      };
+      throw new HttpException(401, "Access denied to mark notifications as read");
     }
 
     try {
       const { notificationIds } = body;
 
       if (!notificationIds || !Array.isArray(notificationIds) || notificationIds.length === 0) {
-        return {
-          success: false,
-          message: "notificationIds array is required and must not be empty"
-        };
+        throw new HttpException(400, "notificationIds array is required and must not be empty");
       }
 
-      const count = await this.notificationService.markMultipleAsRead(notificationIds, user.username);
+      const count = await this.notificationService.markMultipleAsRead(notificationIds, user.accountId);
 
       return {
         success: true,
@@ -220,11 +184,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error marking multiple notifications as read:", error);
-      return {
-        success: false,
-        message: "Failed to mark notifications as read",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to mark notifications as read");
     }
   }
 
@@ -239,20 +199,14 @@ export class NotificationController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to archive notification"
-      };
+      throw new HttpException(401, "Access denied to archive notification");
     }
 
     try {
-      const notification = await this.notificationService.archiveNotification(notificationId, user.username);
+      const notification = await this.notificationService.archiveNotification(notificationId, user.accountId);
 
       if (!notification) {
-        return {
-          success: false,
-          message: "Notification not found or access denied"
-        };
+        throw new HttpException(404, "Notification not found or access denied");
       }
 
       return {
@@ -262,11 +216,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error archiving notification:", error);
-      return {
-        success: false,
-        message: "Failed to archive notification",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to archive notification");
     }
   }
 
@@ -281,20 +231,14 @@ export class NotificationController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to delete notification"
-      };
+      throw new HttpException(401, "Access denied to delete notification");
     }
 
     try {
-      const deleted = await this.notificationService.deleteNotification(notificationId, user.username);
+      const deleted = await this.notificationService.deleteNotification(notificationId, user.accountId);
 
       if (!deleted) {
-        return {
-          success: false,
-          message: "Notification not found or access denied"
-        };
+        throw new HttpException(404, "Notification not found or access denied");
       }
 
       return {
@@ -303,11 +247,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error deleting notification:", error);
-      return {
-        success: false,
-        message: "Failed to delete notification",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to delete notification");
     }
   }
 
@@ -322,10 +262,7 @@ export class NotificationController {
 
     // Only allow admin
     if (!this.isAdmin(user)) {
-      return {
-        success: false,
-        message: "Access denied to create notifications"
-      };
+      throw new HttpException(401, "Access denied to create notifications");
     }
 
     try {
@@ -338,7 +275,7 @@ export class NotificationController {
       } else {
         const notification = await this.notificationService.createNotification({
           ...notificationData,
-          recipientId: recipientId || user.username
+          recipientId: recipientId || user.accountId
         });
         notifications = [notification];
       }
@@ -350,11 +287,7 @@ export class NotificationController {
       };
     } catch (error: any) {
       console.error("Error creating notification:", error);
-      return {
-        success: false,
-        message: "Failed to create notification",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to create notification");
     }
   }
 
@@ -371,5 +304,8 @@ export class NotificationController {
     return user.role?.name?.toLowerCase().includes('staff') || false;
   }
 }
+
+
+
 
 

@@ -7,13 +7,17 @@ import { Auth } from "@/middlewares/auth.middleware";
 import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { HttpException } from "@/exceptions/http-exceptions";
 import { JwtService } from "@/jwt/jwt.service";
-import { getRepository } from "typeorm";
+import { DbConnection } from "@/database/dbConnection";
 import { Order } from "./order.entity";
 import { Account } from "@/auth/account/account.entity";
 import { Product } from "@/product/product.entity";
 import { Invoice } from "@/payment/invoice.entity";
 import { Feedback } from "@/feedback/feedback.entity";
 import { ShipperProfile } from "@/auth/shipperProfile.entity";
+
+// Constants for pagination limits
+const DEFAULT_MAX_LIMIT = 100;
+const ADMIN_MAX_LIMIT = 1000;
 
 @Service()
 @Controller("/orders")
@@ -37,21 +41,13 @@ export class OrderController {
                 // User order: kiểm tra xác thực
                 const authHeader = req.headers.authorization || req.header('Authorization');
                 if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                    return {
-                        success: false,
-                        message: "Authentication required for user orders",
-                        error: "No valid authorization header provided"
-                    };
+                    throw new HttpException(401, "Authentication required for user orders");
                 }
                 // Extract token and verify
                 const token = authHeader.substring(7);
                 const decodedToken = this.jwtService.verifyAccessToken(token);
                 if (!decodedToken || !decodedToken.username) {
-                    return {
-                        success: false,
-                        message: "Invalid authentication token",
-                        error: "Token verification failed"
-                    };
+                    throw new HttpException(401, "Invalid authentication token");
                 }
                 order = await this.orderService.createOrder(decodedToken.username, createOrderDto);
             }
@@ -62,12 +58,8 @@ export class OrderController {
                 data: order
             };
         } catch (error: any) {
-            console.error('[Error] Order Creation Failed:', error.message);
-            return {
-                success: false,
-                message: "Order creation failed",
-                error: error.message
-            };
+            console.error('[Error] Order Creation Failed:', error?.message || error);
+            throw new HttpException(500, error?.message || "Order creation failed");
         }
     }
 
@@ -76,7 +68,7 @@ export class OrderController {
     async getOrders(
         @Req() req: any,
         @QueryParam("page") page: number = 1,
-        @QueryParam("limit") limit: number = 1000 // Đặt limit rất cao để lấy tất cả đơn hàng
+        @QueryParam("limit") limit: number = ADMIN_MAX_LIMIT // Đặt limit rất cao để lấy tất cả đơn hàng
     ) {
         const user = req.user as AccountDetailsDto;
         try {
@@ -96,10 +88,7 @@ export class OrderController {
                 }
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve orders",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve orders");
         }
     }
 
@@ -114,10 +103,7 @@ export class OrderController {
                 statistics
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve order statistics",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve order statistics");
         }
     }
 
@@ -158,10 +144,7 @@ export class OrderController {
                 }
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve orders",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve orders");
         }
     }
 
@@ -186,10 +169,7 @@ export class OrderController {
                 order
             };
         } catch (error: any) {
-            return {
-                message: "Failed to retrieve order",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve order");
         }
     }
 
@@ -212,10 +192,7 @@ export class OrderController {
                 order
             };
         } catch (error: any) {
-            return {
-                message: "Failed to update order status",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to update order status");
         }
     }
 
@@ -236,10 +213,7 @@ export class OrderController {
                 message: "Order deleted successfully"
             };
         } catch (error: any) {
-            return {
-                message: "Failed to delete order",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to delete order");
         }
     }
     
@@ -268,10 +242,7 @@ export class OrderController {
                 order
             };
         } catch (error: any) {
-            return {
-                message: "Failed to confirm order delivery",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to confirm order delivery");
         }
     }
 
@@ -321,11 +292,7 @@ export class OrderController {
             };
         } catch (error: any) {
             console.error("Error getting order analytics:", error);
-            return {
-                success: false,
-                message: "Failed to retrieve order analytics",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve order analytics");
         }
     }
 
@@ -367,11 +334,7 @@ export class OrderController {
             };
         } catch (error: any) {
             console.error("Error getting order status trends:", error);
-            return {
-                success: false,
-                message: "Failed to retrieve order status trends",
-                error: error.message
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve order status trends");
         }
     }
 
@@ -432,11 +395,7 @@ export class OrderController {
             };
         } catch (error: any) {
             console.error("Error getting dashboard stats:", error);
-            return {
-                success: false,
-                message: "Failed to retrieve dashboard statistics",
-                error: error.message,
-            };
+            throw new HttpException(500, error?.message || "Failed to retrieve dashboard statistics");
         }
     }
 
@@ -462,7 +421,8 @@ export class OrderController {
 
     // Dashboard statistics helper methods
     private async getTotalRevenue(): Promise<number> {
-        const result = await getRepository(Invoice)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        const result = await DbConnection.appDataSource.getRepository(Invoice)
             .createQueryBuilder("invoice")
             .select("SUM(invoice.totalAmount)", "total")
             .where("invoice.status = :status", { status: "paid" })
@@ -471,31 +431,37 @@ export class OrderController {
     }
 
     private async getTotalOrders(): Promise<number> {
-        return await getRepository(Order).count();
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        return await DbConnection.appDataSource.getRepository(Order).count();
     }
 
     private async getTotalCustomers(): Promise<number> {
-        return await getRepository(Account)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        return await DbConnection.appDataSource.getRepository(Account)
             .createQueryBuilder("account")
-            .leftJoin("account.roles", "role")
+            .leftJoin("account.role", "role")
             .where("role.name = :roleName", { roleName: "customer" })
             .getCount();
     }
 
     private async getTotalProducts(): Promise<number> {
-        return await getRepository(Product).count();
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        return await DbConnection.appDataSource.getRepository(Product).count();
     }
 
     private async getTotalShippers(): Promise<number> {
-        return await getRepository(ShipperProfile).count();
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        return await DbConnection.appDataSource.getRepository(ShipperProfile).count();
     }
 
     private async getTotalFeedbacks(): Promise<number> {
-        return await getRepository(Feedback).count();
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        return await DbConnection.appDataSource.getRepository(Feedback).count();
     }
 
     private async getRecentOrders(): Promise<any[]> {
-        const orders = await getRepository(Order)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        const orders = await DbConnection.appDataSource.getRepository(Order)
             .createQueryBuilder("order")
             .leftJoinAndSelect("order.customer", "customer")
             .leftJoinAndSelect("order.orderDetails", "orderDetails")
@@ -516,7 +482,8 @@ export class OrderController {
     }
 
     private async getTopSellingProducts(): Promise<any[]> {
-        const result = await getRepository(Order)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        const result = await DbConnection.appDataSource.getRepository(Order)
             .createQueryBuilder("order")
             .leftJoin("order.orderDetails", "orderDetails")
             .leftJoin("orderDetails.product", "product")
@@ -543,7 +510,8 @@ export class OrderController {
     }
 
     private async getOrderStatusDistribution(): Promise<{ [key: string]: number }> {
-        const result = await getRepository(Order)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        const result = await DbConnection.appDataSource.getRepository(Order)
             .createQueryBuilder("order")
             .select("order.status", "status")
             .addSelect("COUNT(*)", "count")
@@ -561,15 +529,16 @@ export class OrderController {
         const sixMonthsAgo = new Date();
         sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
-        const result = await getRepository(Invoice)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        const result = await DbConnection.appDataSource.getRepository(Invoice)
             .createQueryBuilder("invoice")
             .select([
-                "DATE_FORMAT(invoice.createdAt, '%Y-%m') as month",
+                "TO_CHAR(invoice.createdAt, 'YYYY-MM') as month",
                 "SUM(invoice.totalAmount) as revenue",
             ])
             .where("invoice.createdAt >= :sixMonthsAgo", { sixMonthsAgo })
             .andWhere("invoice.status = :status", { status: "paid" })
-            .groupBy("DATE_FORMAT(invoice.createdAt, '%Y-%m')")
+            .groupBy("TO_CHAR(invoice.createdAt, 'YYYY-MM')")
             .orderBy("month", "ASC")
             .getRawMany();
 
@@ -586,7 +555,8 @@ export class OrderController {
         period: 'day' | 'month' | 'year'
     ) {
         // Query orders trong khoảng thời gian
-        const orders = await getRepository(Order)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        const orders = await DbConnection.appDataSource.getRepository(Order)
             .createQueryBuilder("order")
             .where("order.createdAt BETWEEN :startDate AND :endDate", {
                 startDate,
@@ -686,7 +656,8 @@ export class OrderController {
         endDate: Date
     ): Promise<{ date: string; pending: number; confirmed: number; processing: number; shipped: number; delivered: number; cancelled: number }[]> {
         // Query orders theo ngày và status
-        const result = await getRepository(Order)
+        if (!DbConnection.appDataSource) throw new Error("Database not initialized");
+        const result = await DbConnection.appDataSource.getRepository(Order)
             .createQueryBuilder("order")
             .select([
                 "DATE(order.createdAt) as date",

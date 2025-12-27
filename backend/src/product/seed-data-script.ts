@@ -1,10 +1,10 @@
-import { Product } from "../src/product/product.entity";
-import { Category } from "../src/product/categories/category.entity";
+import { Product } from "@/product/product.entity";
+import { Category } from "@/product/categories/category.entity";
 import { Role } from "@/role/role.entity";
 import { Account } from "@/auth/account/account.entity";
 import { ShipperProfile } from "@/auth/shipperProfile.entity";
-import { Cart } from "@/Cart/cart.entity";
-import { CartItem } from "@/Cart/cartItem.entity";
+import { Cart } from "@/cart/cart.entity";
+import { CartItem } from "@/cart/cartItem.entity";
 import { Order } from "@/order/order.entity";
 import { OrderDetail } from "@/order/orderDetail.entity";
 import { OrderStatus } from "@/order/dtos/update-order.dto";

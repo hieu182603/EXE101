@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Button from '@components/ui/Button';
 import { orderService } from '@services/orderService';
-import { OrderStatus } from '@types/order';
+import { OrderStatus } from '@/types/order';
 
 const TrackingPage: React.FC = () => {
   const { id } = useParams();

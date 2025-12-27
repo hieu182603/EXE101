@@ -1,6 +1,7 @@
 import { Service } from "typedi";
 import { Container } from "typedi";
 import { NotificationService } from "./notification.service";
+import { NotificationType, NotificationPriority } from "./notification.entity";
 
 @Service()
 export class NotificationEventService {
@@ -69,15 +70,15 @@ export class NotificationEventService {
   // System Events
   async onSystemAlert(title: string, message: string, priority: 'low' | 'medium' | 'high' | 'urgent' = 'medium') {
     try {
-      const priorityMap = {
-        low: 'LOW' as const,
-        medium: 'MEDIUM' as const,
-        high: 'HIGH' as const,
-        urgent: 'URGENT' as const,
+      const priorityMap: Record<string, NotificationPriority> = {
+        low: NotificationPriority.LOW,
+        medium: NotificationPriority.MEDIUM,
+        high: NotificationPriority.HIGH,
+        urgent: NotificationPriority.URGENT,
       };
 
       await this.notificationService.createBroadcastNotification({
-        type: 'SYSTEM_ALERT',
+        type: NotificationType.SYSTEM_ALERT,
         priority: priorityMap[priority],
         title,
         message,
@@ -88,5 +89,9 @@ export class NotificationEventService {
     }
   }
 }
+
+
+
+
 
 

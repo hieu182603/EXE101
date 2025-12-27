@@ -4,9 +4,10 @@ import { ShipperService } from "./shipper.services";
 import { CreateShipperDto, UpdateShipperDto } from "./dtos/shipper.dtos";
 import { OrderService } from "../order/order.service";
 import { Auth } from "../middlewares/auth.middleware";
-import { getRepository } from "typeorm";
 import { Order } from "../order/order.entity";
 import { AccountDetailsDto } from "../auth/dtos/account.schema";
+import { DbConnection } from "@/database/dbConnection";
+import { HttpException } from "@/exceptions/http-exceptions";
 
 @Service()
 @Controller("/shippers")
@@ -26,11 +27,7 @@ export class ShipperController {
         message: "Shipper created successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to create shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to create shipper");
     }
   }
 
@@ -44,11 +41,7 @@ export class ShipperController {
         message: "Shippers retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve shippers",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve shippers");
     }
   }
 
@@ -62,11 +55,7 @@ export class ShipperController {
         message: "Available shippers retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve available shippers",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve available shippers");
     }
   }
 
@@ -120,11 +109,7 @@ export class ShipperController {
         message: "Statistics retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve statistics",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve statistics");
     }
   }
 
@@ -138,11 +123,7 @@ export class ShipperController {
         message: "Shipper retrieved successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to retrieve shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve shipper");
     }
   }
 
@@ -159,11 +140,7 @@ export class ShipperController {
         message: "Shipper updated successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to update shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to update shipper");
     }
   }
 
@@ -176,11 +153,7 @@ export class ShipperController {
         message: "Shipper deleted successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to delete shipper",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to delete shipper");
     }
   }
 
@@ -216,7 +189,7 @@ export class ShipperController {
         message: "Orders retrieved successfully"
       };
     } catch (error: any) {
-      throw error; // Let error handler deal with it
+      throw new HttpException(500, error?.message || "Failed to retrieve orders for shipper");
     }
   }
 
@@ -240,11 +213,7 @@ export class ShipperController {
         message: "Order status updated successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to update order status",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to update order status");
     }
   }
 
@@ -268,11 +237,7 @@ export class ShipperController {
         message: "Order confirmed successfully"
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to confirm order",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to confirm order");
     }
   }
 
@@ -336,11 +301,7 @@ export class ShipperController {
         }
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to export shippers",
-        error: error.message || "Unknown error"
-      };
+      throw new HttpException(500, error?.message || "Failed to export shippers");
     }
   }
 
@@ -360,28 +321,19 @@ export class ShipperController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to shipper analytics"
-      };
+      throw new HttpException(401, "Access denied to shipper analytics");
     }
 
     try {
       if (!startDateStr || !endDateStr) {
-        return {
-          success: false,
-          message: "startDate and endDate are required"
-        };
+        throw new HttpException(400, "startDate and endDate are required");
       }
 
       const startDate = new Date(startDateStr);
       const endDate = new Date(endDateStr);
 
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-        return {
-          success: false,
-          message: "Invalid date format"
-        };
+        throw new HttpException(400, "Invalid date format");
       }
 
       const analytics = await this.generateShipperPerformanceAnalytics(startDate, endDate, limit);
@@ -393,11 +345,7 @@ export class ShipperController {
       };
     } catch (error: any) {
       console.error("Error getting shipper performance analytics:", error);
-      return {
-        success: false,
-        message: "Failed to retrieve shipper performance analytics",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to retrieve shipper performance analytics");
     }
   }
 
@@ -417,28 +365,19 @@ export class ShipperController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to shipper delivery trends"
-      };
+      throw new HttpException(401, "Access denied to shipper delivery trends");
     }
 
     try {
       if (!startDateStr || !endDateStr) {
-        return {
-          success: false,
-          message: "startDate and endDate are required"
-        };
+        throw new HttpException(400, "startDate and endDate are required");
       }
 
       const startDate = new Date(startDateStr);
       const endDate = new Date(endDateStr);
 
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-        return {
-          success: false,
-          message: "Invalid date format"
-        };
+        throw new HttpException(400, "Invalid date format");
       }
 
       const trends = await this.generateShipperDeliveryTrends(startDate, endDate, period);
@@ -477,7 +416,7 @@ export class ShipperController {
     limit: number
   ): Promise<any[]> {
     // Query shipper performance based on delivered orders
-    const result = await getRepository(Order)
+    const result = await DbConnection.appDataSource.getRepository(Order)
       .createQueryBuilder("order")
       .leftJoin("order.shipper", "shipper")
       .select([
@@ -537,14 +476,14 @@ export class ShipperController {
       dateFormat = "DATE(order.createdAt)";
       groupBy = "DATE(order.createdAt)";
     } else if (period === 'month') {
-      dateFormat = "DATE_FORMAT(order.createdAt, '%Y-%m')";
-      groupBy = "DATE_FORMAT(order.createdAt, '%Y-%m')";
+      dateFormat = "TO_CHAR(order.createdAt, 'YYYY-MM')";
+      groupBy = "TO_CHAR(order.createdAt, 'YYYY-MM')";
     } else {
-      dateFormat = "YEAR(order.createdAt)";
-      groupBy = "YEAR(order.createdAt)";
+      dateFormat = "EXTRACT(YEAR FROM order.createdAt)";
+      groupBy = "EXTRACT(YEAR FROM order.createdAt)";
     }
 
-    const result = await getRepository(Order)
+    const result = await DbConnection.appDataSource.getRepository(Order)
       .createQueryBuilder("order")
       .select([
         `${dateFormat} as date`,

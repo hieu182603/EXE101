@@ -10,7 +10,12 @@ export class RFQController {
 
   @Post("/builds")
   async getBuilds(@Body() filter: BuildFilterDTO) {
-    return this.rfqService.getBuilds(filter); // returns { builds, count }
+    const result = await this.rfqService.getBuilds(filter);
+    return {
+      success: true,
+      message: "Builds retrieved successfully",
+      data: result
+    };
   }
 
   //   @Post("/run-buildmaker")

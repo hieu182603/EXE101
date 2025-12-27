@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { OrderStatus } from '@types/order';
+import { OrderStatus } from '@/types/order';
 import Modal from '@components/ui/Modal';
 import Button from '@components/ui/Button';
 import Badge from '@components/ui/Badge';

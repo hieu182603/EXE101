@@ -492,8 +492,8 @@ export class ReportsService {
       endDate = new Date();
     }
 
-    dateFormat = "DATE_FORMAT(order.createdAt, '%Y-%m')";
-    groupBy = "DATE_FORMAT(order.createdAt, '%Y-%m')";
+    dateFormat = "TO_CHAR(order.createdAt, 'YYYY-MM')";
+    groupBy = "TO_CHAR(order.createdAt, 'YYYY-MM')";
 
     const result = await this.orderRepository
       .createQueryBuilder("order")

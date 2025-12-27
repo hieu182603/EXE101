@@ -1,4 +1,4 @@
-import { EntityNotFoundException, NoFileUploadedException } from "@/exceptions/http-exceptions";
+import { EntityNotFoundException, NoFileUploadedException, BadRequestException } from "@/exceptions/http-exceptions";
 import { CloudinaryClient } from "@/utils/cloudinary/cloudinary";
 import { Service } from "typedi";
 import { Image } from "./image.entity";
@@ -12,6 +12,19 @@ export class ImageService {
 
   async uploadImage(file: Express.Multer.File) {
     if (!file) throw new NoFileUploadedException;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new BadRequestException('Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.');
+    }
+
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+      throw new BadRequestException('File size too large. Maximum size is 5MB.');
+    }
+
       const uploadedFile = await CloudinaryClient.getInstance().upload(file);
       const newImage = new Image();
       newImage.originalName = file.originalname;
@@ -21,21 +34,19 @@ export class ImageService {
       return newImage;
   }
 
-  async attachImagesToProduct(productId: string, imagesURL: string){
+  async attachImagesToProduct(productId: string, imagesURLs: string[]){
     const product = await Product.findOne({ where: { id: productId } });
     if (!product) throw new EntityNotFoundException("Product");
-    const imageURLs: string[] = imagesURL.split(",");
-    const images = await Image.find({ where: { url: In(imageURLs) } });
+    const images = await Image.find({ where: { url: In(imagesURLs) } });
     product.images = images;
     await product.save();
     return product;
   }
 
-  async attachImagesToFeedback(feedbackId: string, imagesURL: string){
+  async attachImagesToFeedback(feedbackId: string, imagesURLs: string[]){
     const feedback = await Feedback.findOne({ where: { id: feedbackId } });
     if (!feedback) throw new EntityNotFoundException("Feedback");
-    const imageURLs: string[] = imagesURL.split(",");
-    const images = await Image.find({ where: { url: In(imageURLs) } });
+    const images = await Image.find({ where: { url: In(imagesURLs) } });
     feedback.images = images;
     await feedback.save();
     return feedback;

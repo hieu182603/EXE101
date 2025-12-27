@@ -1,4 +1,5 @@
 import api from './apiInterceptor';
+import { validateApiResponse, extractData } from '@/utils/apiValidation';
 
 export interface CartItem {
     id: string;
@@ -44,49 +45,19 @@ interface Cart {
 export const cartService = {
 
 
-    async addToCart(productId: string, quantity: number): Promise<ApiResponse<Cart>> {
-        
-        try {
-            const response = await api.post('/cart/add', { 
-                productId: productId, 
-                quantity 
-            });
-    
-            
-            // Validate backend response structure
-            if (!response.data || typeof response.data.success !== 'boolean') {
-                throw new Error('Invalid response format from backend');
-            }
-            
-            return response.data;
-        } catch (error: unknown) {
-            const axiosError = error as { response?: { status?: number; data?: ApiResponse<Cart> }; message?: string };
-            console.error('❌ Add to cart failed:', {
-                error,
-                status: axiosError.response?.status,
-                backendMessage: axiosError.response?.data?.message,
-                backendError: axiosError.response?.data?.error
-            });
-            
-            // Re-throw with backend error message if available
-            if (axiosError.response?.data?.message) {
-                const backendError = new Error(axiosError.response.data.message);
-                (backendError as any).response = axiosError.response;
-                throw backendError;
-            }
-            
-            throw error;
-        }
+    async addToCart(productId: string, quantity: number) {
+        const response = await api.post('/cart/add', {
+            productId: productId,
+            quantity
+        });
+        validateApiResponse(response, 'addToCart');
+        return response.data;
     },
 
     async viewCart(): Promise<ApiResponse<Cart>> {
         try {
             const response = await api.get('/cart/view');
-            
-            // Validate backend response structure
-            if (!response.data || typeof response.data.success !== 'boolean') {
-                throw new Error('Invalid response format from backend');
-            }
+            validateApiResponse(response, 'viewCart');
             
             return response.data;
         } catch (error: unknown) {

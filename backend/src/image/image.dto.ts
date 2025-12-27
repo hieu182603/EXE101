@@ -1,9 +1,10 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsString, IsUUID } from "class-validator";
 
 export class AttachImageDto {
-    @IsString()
+    @IsUUID()
     query: string;
 
-    @IsString()
-    imagesURL: string;
+    @IsArray()
+    @IsString({ each: true })
+    imagesURLs: string[];
 }

@@ -69,7 +69,7 @@ export const Admin = (req: RequestWithUser, res: Response, next: NextFunction): 
     return next(new HttpException(403, "Forbidden"));
   }
   // Cho phép admin, manager, staff vào admin routes
-  if (!["admin", "manager", "staff"].includes(user.role.name)) {
+  if (!["admin", "manager", "staff"].includes(user.role.name.toLowerCase())) {
     return next(new HttpException(403, "Forbidden"));
   }
   return next();

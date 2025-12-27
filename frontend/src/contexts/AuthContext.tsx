@@ -141,6 +141,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
     }, []);
 
+    // Centralized logout navigation handler — listen for auth:logout and navigate
+    useEffect(() => {
+        const handleLogoutNav = (event: CustomEvent) => {
+            const redirectTo = event?.detail?.redirectTo || '/login';
+            // Ensure auth state cleared
+            clearAuthState();
+            // Only navigate if not already on the target
+            if (!window.location.pathname.includes(redirectTo)) {
+                window.location.href = redirectTo;
+            }
+        };
+
+        window.addEventListener('auth:logout', handleLogoutNav as EventListener);
+
+        return () => {
+            window.removeEventListener('auth:logout', handleLogoutNav as EventListener);
+        };
+    }, []);
+
     return (
         <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, clearAuthState, isLoading }}>
             {children}

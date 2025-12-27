@@ -1,5 +1,6 @@
 import { Service } from "typedi";
-import { Repository, getRepository, In, MoreThan, LessThan } from "typeorm";
+import { Repository, In, MoreThan, LessThan } from "typeorm";
+import { DbConnection } from "@/database/dbConnection";
 import { Notification, NotificationType, NotificationPriority, NotificationStatus } from "./notification.entity";
 import { Account } from "@/auth/account/account.entity";
 
@@ -27,11 +28,17 @@ export interface NotificationFilters {
 @Service()
 export class NotificationService {
   private get notificationRepository(): Repository<Notification> {
-    return getRepository(Notification);
+    if (!DbConnection.appDataSource) {
+      throw new Error("Database not initialized");
+    }
+    return DbConnection.appDataSource.getRepository(Notification);
   }
 
   private get accountRepository(): Repository<Account> {
-    return getRepository(Account);
+    if (!DbConnection.appDataSource) {
+      throw new Error("Database not initialized");
+    }
+    return DbConnection.appDataSource.getRepository(Account);
   }
 
   async createNotification(data: CreateNotificationData): Promise<Notification> {

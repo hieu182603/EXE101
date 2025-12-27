@@ -5,7 +5,7 @@ import { CreateCustomerDto, UpdateCustomerDto } from "./dtos/customer.dtos";
 import { EntityNotFoundException, BadRequestException } from "@/exceptions/http-exceptions";
 import * as bcrypt from 'bcrypt';
 import { DbConnection } from "@/database/dbConnection";
-import { Cart } from "@/Cart/cart.entity";
+import { Cart } from "@/cart/cart.entity";
 import { Feedback } from "@/feedback/feedback.entity";
 import { SMSNotification } from "@/notification/smsNotification.entity";
 import { Marketing } from "@/marketing/marketing.entity";
@@ -230,11 +230,11 @@ export class CustomerService {
 
         // Remove cart items first, then cart
         const cart = await cartRepo.findOne({
-          where: { account: { id: account.id } },
-          relations: ['cartItems']
+          where: { customer: { id: account.id } },
+          relations: ['items']
         });
-        if (cart && cart.cartItems) {
-          await transactionalEntityManager.remove(cart.cartItems);
+        if (cart && cart.items) {
+          await transactionalEntityManager.remove(cart.items);
           await transactionalEntityManager.remove(cart);
         }
 

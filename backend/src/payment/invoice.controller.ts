@@ -17,6 +17,7 @@ import { JwtService } from "@/jwt/jwt.service";
 import { Invoice } from "./invoice.entity";
 import { CheckAbility } from "@/middlewares/rbac/permission.decorator";
 import { getRepository, Between } from "typeorm";
+import { HttpException } from "@/exceptions/http-exceptions";
 
 @Service()
 @Controller("/invoices")
@@ -47,11 +48,7 @@ export class InvoiceController {
         data: invoice
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to create invoice",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to create invoice");
     }
   }
 
@@ -86,10 +83,7 @@ export class InvoiceController {
       const invoice = await this.invoiceService.getInvoiceByOrderId(orderId);
 
       if (!invoice) {
-        return {
-          success: false,
-          message: "Invoice not found"
-        };
+        throw new HttpException(404, "Invoice not found");
       }
 
       // Authorization logic
@@ -100,18 +94,12 @@ export class InvoiceController {
         const isAdminOrStaff = user.role?.name === 'admin' || user.role?.name === 'staff';
 
         if (!isOwner && !isAdminOrStaff) {
-          return {
-            success: false,
-            message: "Unauthorized access to invoice"
-          };
+          throw new HttpException(401, "Unauthorized access to invoice");
         }
       } else {
         // Guest user - can only access invoices for guest orders
         if (invoice.order.customer) {
-          return {
-            success: false,
-            message: "Cannot access user invoice as guest"
-          };
+          throw new HttpException(401, "Cannot access user invoice as guest");
         }
       }
 
@@ -120,11 +108,7 @@ export class InvoiceController {
         data: invoice
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to get invoice",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to get invoice");
     }
   }
 
@@ -159,10 +143,7 @@ export class InvoiceController {
       const invoice = await this.invoiceService.getInvoiceByNumber(invoiceNumber);
 
       if (!invoice) {
-        return {
-          success: false,
-          message: "Invoice not found"
-        };
+        throw new HttpException(404, "Invoice not found");
       }
 
       // Authorization logic
@@ -173,18 +154,12 @@ export class InvoiceController {
         const isAdminOrStaff = user.role?.name === 'admin' || user.role?.name === 'staff';
 
         if (!isOwner && !isAdminOrStaff) {
-          return {
-            success: false,
-            message: "Unauthorized access to invoice"
-          };
+          throw new HttpException(401, "Unauthorized access to invoice");
         }
       } else {
         // Guest user - can only access invoices for guest orders
         if (invoice.order.customer) {
-          return {
-            success: false,
-            message: "Cannot access user invoice as guest"
-          };
+          throw new HttpException(401, "Cannot access user invoice as guest");
         }
       }
 
@@ -193,11 +168,7 @@ export class InvoiceController {
         data: invoice
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to get invoice",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to get invoice");
     }
   }
 
@@ -231,11 +202,7 @@ export class InvoiceController {
         }
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to get invoices",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to get invoices");
     }
   }
 
@@ -256,11 +223,7 @@ export class InvoiceController {
         data: invoice
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to mark invoice as paid",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to mark invoice as paid");
     }
   }
 
@@ -286,11 +249,7 @@ export class InvoiceController {
         data: invoice
       };
     } catch (error: any) {
-      return {
-        success: false,
-        message: "Failed to cancel invoice",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to cancel invoice");
     }
 
   }

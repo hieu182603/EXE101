@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, QueryParam, Req, UseBefore, Res } f
 import { Service } from "typedi";
 import { ReportsService, ReportFilters } from "./reports.service";
 import { Auth } from "@/middlewares/auth.middleware";
+import { HttpException } from "@/exceptions/http-exceptions";
 import { AccountDetailsDto } from "@/auth/dtos/account.schema";
 import { Response } from "express";
 
@@ -27,10 +28,7 @@ export class ReportsController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to sales reports"
-      };
+      throw new HttpException(401, "Access denied to sales reports");
     }
 
     try {
@@ -50,11 +48,7 @@ export class ReportsController {
       };
     } catch (error: any) {
       console.error("Error generating sales report:", error);
-      return {
-        success: false,
-        message: "Failed to generate sales report",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to generate sales report");
     }
   }
 
@@ -125,10 +119,7 @@ export class ReportsController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to inventory reports"
-      };
+      throw new HttpException(401, "Access denied to inventory reports");
     }
 
     try {
@@ -141,11 +132,7 @@ export class ReportsController {
       };
     } catch (error: any) {
       console.error("Error generating inventory report:", error);
-      return {
-        success: false,
-        message: "Failed to generate inventory report",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to generate inventory report");
     }
   }
 
@@ -213,10 +200,7 @@ export class ReportsController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to customer reports"
-      };
+      throw new HttpException(401, "Access denied to customer reports");
     }
 
     try {
@@ -234,11 +218,7 @@ export class ReportsController {
       };
     } catch (error: any) {
       console.error("Error generating customer report:", error);
-      return {
-        success: false,
-        message: "Failed to generate customer report",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to generate customer report");
     }
   }
 
@@ -314,10 +294,7 @@ export class ReportsController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to shipper reports"
-      };
+      throw new HttpException(401, "Access denied to shipper reports");
     }
 
     try {
@@ -336,11 +313,7 @@ export class ReportsController {
       };
     } catch (error: any) {
       console.error("Error generating shipper report:", error);
-      return {
-        success: false,
-        message: "Failed to generate shipper report",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to generate shipper report");
     }
   }
 
@@ -355,10 +328,7 @@ export class ReportsController {
 
     // Only allow admin, manager, staff
     if (!this.isAdmin(user) && !this.isManager(user) && !this.isStaff(user)) {
-      return {
-        success: false,
-        message: "Access denied to reports summary"
-      };
+      throw new HttpException(401, "Access denied to reports summary");
     }
 
     try {
@@ -403,11 +373,7 @@ export class ReportsController {
       };
     } catch (error: any) {
       console.error("Error getting reports summary:", error);
-      return {
-        success: false,
-        message: "Failed to get reports summary",
-        error: error.message
-      };
+      throw new HttpException(500, error?.message || "Failed to get reports summary");
     }
   }
 
